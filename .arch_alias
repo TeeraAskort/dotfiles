@@ -1,0 +1,6 @@
+alias pac="sudo pacman"
+alias pacup="sudo pacman -Syu"
+alias pacr="sudo pacman -Rnc"
+alias pacc="sudo pacman -Rnc $(pacman -Qtdq)"
+alias paci="sudo pacman -S"
+alias pacs="sudo pacman -Ss"

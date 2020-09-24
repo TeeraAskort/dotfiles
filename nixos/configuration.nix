@@ -13,15 +13,6 @@ let
     exec -a "$0" "$@"
   '';
 in
-with pkgs;
-let
-  my-python-packages = python-packages: with python-packages; [
-    django
-    pylint
-    pylint-django
-  ];
-  python-with-my-packages = python3.withPackages my-python-packages;
-in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -76,12 +67,12 @@ in
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav zstd steam-run systembus-notify
     desmume ungoogled-chromium ffmpegthumbnailer noto-fonts-cjk tigervnc
-    jetbrains.idea-community android-studio nextcloud-client python-with-my-packages
+    jetbrains.idea-community android-studio nextcloud-client 
   ];
 
   programs.java = {
     enable = true;
-    package = pkgs.oraclejdk14;
+    package = pkgs.jdk11;
   };
 
   # Zsh shell
@@ -106,7 +97,6 @@ in
   system.autoUpgrade.enable = true;
 
   # Security
-  programs.firejail.enable = true;
   security.hideProcessInformation = true;
 
   # Undervolting the cpu
@@ -127,7 +117,7 @@ in
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    drivers = [ hplip ];
+    drivers = [ pkgs.hplip ];
   };
 
   # Enable sound.

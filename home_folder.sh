@@ -16,6 +16,7 @@ ln -s /home/link/Datos/Escritorio /home/link
 ln -s /home/link/Datos/Música /home/link
 ln -s /home/link/Datos/Imágenes /home/link
 ln -s /home/link/Datos/Torrent /home/link
+ln -s /home/link/Datos/Nextcloud /home/link
 
 wget https://someonewhocares.org/hosts/zero/hosts
 sudo cp /etc/hosts /etc/hosts.bak

@@ -37,16 +37,10 @@ in
     };
   };
 
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # Select internationalisation properties.
   i18n.defaultLocale = "es_ES.UTF-8";
   console.font = "Lat2-Terminus16";
   console.keyMap = "es";
-
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -54,9 +48,7 @@ in
   # Allow nonfree packages
   nixpkgs.config.allowUnfree = true;
 
-
   # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
     tilix gnome3.gnome-terminal firefox mpv rhythmbox gnome3.file-roller noto-fonts 
@@ -70,6 +62,7 @@ in
     jetbrains.idea-community android-studio nextcloud-client 
   ];
 
+  # Java configuration
   programs.java = {
     enable = true;
     package = pkgs.jdk11;
@@ -98,6 +91,9 @@ in
 
   # Security
   security.hideProcessInformation = true;
+
+  #Haveged daemon
+  services.haveged.enable = true;
 
   # Undervolting the cpu
   services.undervolt = {
@@ -191,12 +187,13 @@ in
   };
 
   # Nvidia PRIME render offload support
-  hardware.nvidia.prime.offload.enable = true;
-  hardware.nvidia.prime = {
-    # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
-    intelBusId = "PCI:0:2:0";
-    # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
-    nvidiaBusId = "PCI:1:0:0";
+  hardware.nvidia = {
+    powerManagement.enable = true;
+    prime = {
+      offload.enable = true;
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

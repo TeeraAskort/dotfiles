@@ -17,13 +17,6 @@ prime-select intel2
 # Installing intel-undervolt
 OneClickInstallCLI https://software.opensuse.org/ymp/hardware/openSUSE_Tumbleweed/intel-undervolt.ymp
 
-# Setting up intel-undervolt
-sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 0 'GPU' 0/undervolt 0 'GPU' -100/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
-systemctl enable intel-undervolt
-
-
 zypper refresh
 
 # Installing packages

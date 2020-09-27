@@ -1,9 +1,9 @@
 #!/bin/bash
 
-zypper in xf86-video-intel
-
 # Installing Nvidia drivers
 OneClickInstallCLI https://opensuse-community.org/nvidia_G05.ymp
+
+# Installing updated applications
 OneClickInstallCLI https://software.opensuse.org/ymp/shells/openSUSE_Leap_15.2/fish.ymp
 OneClickInstallCLI https://software.opensuse.org/ymp/editors/openSUSE_Leap_15.2/vim.ymp
 
@@ -19,7 +19,10 @@ zypper ar -cfp 99 https://download.opensuse.org/repositories/Emulators/openSUSE_
 zypper refresh
 
 # Installing packages
-zypper in chromium steam lutris papirus-icon-theme zsh tilix mpv rhythmbox dolphin-emu discord telegram-desktop flatpak retroarch code
+zypper in chromium steam lutris papirus-icon-theme zsh tilix mpv rhythmbox dolphin-emu discord telegram-desktop flatpak code nextcloud-client xf86-video-intel plata-theme
+
+# Enabling PRIME render offload
+prime-select intel2
 
 # Adjusting sound quality
 sed -i "s/; enable-lfe-remixing = no.*/enable-lfe-remixing = yes/" /etc/pulse/daemon.conf
@@ -38,5 +41,5 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install flathub com.mojang.Minecraft com.katawa_shoujo.KatawaShoujo
 
 # Installing prime offload launchers
-cp prime* /usr/bin
-chmod +x /usr/bin/prime*
+cp prime-run /usr/bin
+chmod +x /usr/bin/prime-run

@@ -9,18 +9,12 @@ zypper ar -cfp 99 http://download.opensuse.org/repositories/shells:/zsh-users:/z
 zypper addrepo https://download.opensuse.org/repositories/shells:zsh-users:zsh-autosuggestions/openSUSE_Tumbleweed/shells:zsh-users:zsh-autosuggestions.repo
 zypper ar -cfp 99 https://download.opensuse.org/repositories/Emulators/openSUSE_Tumbleweed/ emulators
 
-#Installing nvidia drivers
-OneClickInstallCLI https://www.opensuse-community.org/nvidia_G05.ymp
-
-prime-select intel2
-
-# Installing intel-undervolt
-OneClickInstallCLI https://software.opensuse.org/ymp/hardware/openSUSE_Tumbleweed/intel-undervolt.ymp
+prime-select intel
 
 zypper refresh
 
 # Installing packages
-zypper in chromium steam lutris metatheme-plata-common telegram-theme-plata papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions tilix mpv rhythmbox dolphin-emu discord telegram-desktop nextcloud-client flatpak gamemoded
+zypper in chromium steam lutris metatheme-plata-common telegram-theme-plata papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions tilix mpv rhythmbox dolphin-emu discord telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel
 
 # Adjusting sound quality
 sed -i "s/; enable-lfe-remixing = no.*/enable-lfe-remixing = yes/" /etc/pulse/daemon.conf

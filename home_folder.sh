@@ -38,11 +38,11 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
 
-mv .zshrc ~
-mv .general_alias ~
-mv .arch_alias ~ 
-mv .debian_alias ~
-mv .fedora_alias ~
-mv .vimrc ~
-mv .opensuse_alias ~
+cp .zshrc ~
+cp .general_alias ~
+cp .arch_alias ~ 
+cp .debian_alias ~
+cp .fedora_alias ~
+cp .vimrc ~
+cp .opensuse_alias ~
 

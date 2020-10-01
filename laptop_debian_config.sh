@@ -5,7 +5,7 @@ dpkg --add-architecture i386
 apt update
 
 #Installing basic packages
-apt install ffmpegthumbnailer mpv rhythmbox flatpak mednafen mednaffe dolphin-emu vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam chromium nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode
+apt install ffmpegthumbnailer mpv rhythmbox flatpak mednafen mednaffe dolphin-emu vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam chromium nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix
 
 #Installing lutris
 echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_10/ ./" | tee /etc/apt/sources.list.d/lutris.list

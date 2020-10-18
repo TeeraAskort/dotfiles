@@ -2,10 +2,10 @@
 
 sudo cryptsetup open /dev/sda1 encrypteddata
 mkdir /home/link/Datos
-sudo mount /dev/mapper/encrypteddata /home/link/Datos -o compress=zstd
+sudo mount /dev/mapper/encrypteddata /home/link/Datos 
 sudo cp /home/link/Datos/.keyfile /root/.keyfile
-echo "encrypteddata UUID=e5622fea-e408-4595-96b0-afc3ea362e64 /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
-echo "/dev/mapper/encrypteddata /home/link/Datos btrfs compress=zstd:3,defaults 0 0" | sudo tee -a /etc/fstab
+echo "encrypteddata UUID=20976b67-c796-47c9-90dd-62c1edc34258 /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
+echo "/dev/mapper/encrypteddata /home/link/Datos ext4 defaults 0 0" | sudo tee -a /etc/fstab
 
 rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent
 

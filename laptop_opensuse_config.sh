@@ -14,7 +14,10 @@ prime-select intel
 zypper refresh
 
 # Installing packages
-zypper in chromium steam lutris metatheme-plata-common telegram-theme-plata papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions tilix mpv rhythmbox dolphin-emu discord telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel
+zypper in chromium steam lutris metatheme-plata-common telegram-theme-plata papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions tilix mpv rhythmbox dolphin-emu discord telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel fish thermald
+
+# Enabling thermald service
+systemctl enable thermald
 
 # Adjusting sound quality
 sed -i "s/; enable-lfe-remixing = no.*/enable-lfe-remixing = yes/" /etc/pulse/daemon.conf

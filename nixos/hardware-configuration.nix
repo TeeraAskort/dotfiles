@@ -36,14 +36,13 @@
 
   fileSystems."/home/link/Datos" = {
     encrypted = {
-      blkDev = "/dev/disk/by-uuid/e5622fea-e408-4595-96b0-afc3ea362e64";
+      blkDev = "/dev/disk/by-uuid/20976b67-c796-47c9-90dd-62c1edc34258";
       enable = true;
       keyFile = "/mnt-root/.keyfile";
       label = "encrypteddata";
     };
     device = "/dev/mapper/encrypteddata";
-    fsType = "btrfs";
-    options = [ "compress=zstd:3" "rw" "relatime" ];
+    fsType = "ext4";
   };
 
   swapDevices =

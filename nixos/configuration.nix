@@ -57,8 +57,8 @@ in
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
     p7zip unzip unrar gnome3.gnome-calendar gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
-    gst_all_1.gst-vaapi gst_all_1.gst-libav zstd steam-run systembus-notify
-    desmume ungoogled-chromium ffmpegthumbnailer noto-fonts-cjk tigervnc
+    gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
+    desmume ungoogled-chromium ffmpegthumbnailer noto-fonts-cjk
     jetbrains.idea-community android-studio nextcloud-client 
   ];
 
@@ -107,8 +107,11 @@ in
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   # Steam dependencies
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+  hardware.opengl = {
+    enable = true;
+    driSupport32Bit = true;
+    extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+  };
 
   # Enable CUPS to print documents.
   services.printing = {
@@ -199,7 +202,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

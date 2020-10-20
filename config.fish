@@ -1,10 +1,5 @@
 #!/usr/bin/fish
 
-function fish_greeting
-	pfetch
-end
-
-
 ## Abbreviations
 
 # Bash like

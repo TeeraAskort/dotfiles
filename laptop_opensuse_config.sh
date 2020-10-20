@@ -1,7 +1,5 @@
 #!/bin/bash
 
-zypper in xf86-video-intel
-
 # Installing repos
 zypper ar -cfp 99 http://download.opensuse.org/repositories/games/openSUSE_Tumbleweed/ games
 zypper ar -cfp 99 http://download.opensuse.org/repositories/Emulators:/Wine/openSUSE_Tumbleweed/ wine
@@ -9,12 +7,10 @@ zypper ar -cfp 99 http://download.opensuse.org/repositories/shells:/zsh-users:/z
 zypper addrepo https://download.opensuse.org/repositories/shells:zsh-users:zsh-autosuggestions/openSUSE_Tumbleweed/shells:zsh-users:zsh-autosuggestions.repo
 zypper ar -cfp 99 https://download.opensuse.org/repositories/Emulators/openSUSE_Tumbleweed/ emulators
 
-prime-select intel
-
 zypper refresh
 
 # Installing packages
-zypper in chromium steam lutris metatheme-plata-common telegram-theme-plata papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions tilix mpv rhythmbox dolphin-emu discord telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel fish thermald
+zypper in chromium steam lutris metatheme-plata-common telegram-theme-plata papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions tilix mpv rhythmbox dolphin-emu discord telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel fish thermald xf86-video-intel
 
 # Enabling thermald service
 systemctl enable thermald

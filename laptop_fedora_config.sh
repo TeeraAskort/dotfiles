@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Add intel_idle.max_cstate=1 to grub and update
-awk '/GRUB_CMDLINE_LINUX/ { $(NF+1) = $NF; $(NF-1) = "intel_idle.max_cstate=1" } { print }' /etc/default/grub > /etc/default/grub 
+sed -ie 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 intel_idle.max_cstate=1"/' /etc/default/grub
 grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 
 # Add fastestmirror to dnf configuration

@@ -1,6 +1,6 @@
 alias pac="sudo pacman"
 alias pacup="sudo pacman -Syu"
 alias pacr="sudo pacman -Rnc"
-alias pacc="pacman -Qtdq | sudo pacman -Rns"
+alias pacar="pacman -Qtdq | sudo pacman -Rns"
 alias paci="sudo pacman -S"
 alias pacs="sudo pacman -Ss"

@@ -7,7 +7,7 @@ sudo pacman -S tilix mpv rhythmbox jdk11-openjdk dolphin-emu discord telegram-de
 sudo systemctl enable thermald tlp earlyoom apparmor
 
 # Add apparmor kernel paramenters
-sudo sed -ie 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 apparmor=1 lsm=lockdown,yama,apparmor"/' /etc/default/grub
+sudo sed -ie 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor"/' /etc/default/grub
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 # Adjusting sound quality

@@ -36,7 +36,7 @@ sed -i "s/block filesystems/block encrypt lvm2 filesystems/g" /etc/mkinitcpio.co
 mkinitcpio -P
 
 # Add kernel paramenters
-sed -ie 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cryptdevice=/dev/nvme0n1p2:luks:allow-discards root=/dev/lvm/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor"/' /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cryptdevice=\/dev\/nvme0n1p2:luks:allow-discards root=\/dev\/lvm\/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor"/' /etc/default/grub
 sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" /etc/default/grub
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -50,7 +50,7 @@ sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu
 
 # Installing drivers 
-pacman -S nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-
+pacman -S nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput
 
 # Installing services
 pacman -S networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
@@ -71,10 +71,17 @@ pacman -S zip unzip unrar p7zip lzop
 pacman -S vim nano pacman-contrib base-devel bash-completion usbutils lsof
 
 # Installing yay
-su - link -c "git clone https://aur.archlinux.org/yay.git"
-cd /home/link/yay
-su link -c "makepkg -si"
-rm -r /home/link/yay
+newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
+useradd -r -N -M -d /tmp/aurbuilder -s /usr/bin/nologin aurbuilder
+echo -e "$newpass\n$newpass\n" | passwd aurbuilder
+mkdir /tmp/aurbuilder
+chmod 777 /tmp/aurbuilder
+echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder
+echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
+cd /tmp/aurbuilder
+sudo -u aurbuilder git clone https://aur.archlinux.org/yay.git
+cd yay
+sudo -u aurbuilder makepkg -si
 
 # Install GNOME
 pacman -S gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer
@@ -101,7 +108,7 @@ pacman -S gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst
 pacman -S gimp gimp-help-es
 
 # Installing required packages
-pacman -S tilix mpv rhythmbox jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam intellij-idea-community-edition thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-l18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted wine wine-mono wine_gecko winetricks code noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack
+pacman -S tilix mpv rhythmbox jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam intellij-idea-community-edition thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted wine wine-mono wine_gecko winetricks code noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack
 
 # Enabling services
 systemctl enable thermald tlp earlyoom apparmor
@@ -117,7 +124,12 @@ sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /etc
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
 
 # Installing AUR packages
-su link -c "yay -S dxvk-bin aic94xx-firmware wd719x-firmware plata-theme-bin nerd-fonts-fantasque-sans-mono minecraft-launcher"
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware plata-theme-bin nerd-fonts-fantasque-sans-mono minecraft-launcher
+
+# Removing aurbuilder
+rm /etc/sudoers.d/aurbuilder
+userdel aurbuilder
+rm -r /tmp/aurbuilder
 
 # Configuring intel-undervolt
 sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /etc/intel-undervolt.conf
@@ -127,3 +139,7 @@ systemctl enable intel-undervolt
 
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+# Copying dotfiles folder to link
+cp -r /root/dotfiles /home/link
+chown -R link:users /home/link/dotfiles

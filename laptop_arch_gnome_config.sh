@@ -84,7 +84,7 @@ cd yay
 sudo -u aurbuilder makepkg -si
 
 # Install GNOME
-pacman -S gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer
+pacman -S gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell
 
 # Enabling GDM
 systemctl enable gdm
@@ -141,5 +141,5 @@ systemctl enable intel-undervolt
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Copying dotfiles folder to link
-cp -r /root/dotfiles /home/link
+cp -r /dotfiles /home/link
 chown -R link:users /home/link/dotfiles

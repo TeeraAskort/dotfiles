@@ -51,22 +51,8 @@ sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu
 
-# Enabling chaotic repo
-echo "[chaotic-aur]" | tee -a /etc/pacman.conf
-echo "Server = https://lonewolf.pedrohlc.com/$repo/$arch" | tee -a /etc/pacman.conf
-echo "Server = https://chaotic.tn.dedyn.io/$arch" | tee -a /etc/pacman.conf 
-echo "Server = http://chaotic.bangl.de/$repo/$arch" | tee -a /etc/pacman.conf
-pacman-key --keyserver hkp://keyserver.ubuntu.com -r 3056513887B78AEB 8A9E14A07010F7E3
-pacman-key --lsign-key 3056513887B78AEB
-pacman-key --lsign-key 8A9E14A07010F7E3
-pacman -Syu
-
-# Installing tkg kernel
-pacman -S linux-tkg-bmq 
-grub-mkconfig -o /boot/grub/grub.cfg
-
 # Installing drivers 
-pacman -S chaotic-nvidia-dkms-tkg chaotic-nvidia-utils-tkg lib32-chaotic-nvidia-utils-tkgaotic-nvidia-settings-tkg vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput
+pacman -S nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput
 
 # Installing services
 pacman -S networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs

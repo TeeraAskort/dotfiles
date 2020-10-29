@@ -141,5 +141,5 @@ systemctl enable intel-undervolt
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Copying dotfiles folder to link
-cp -r /dotfiles /home/link
+mv /dotfiles /home/link
 chown -R link:users /home/link/dotfiles

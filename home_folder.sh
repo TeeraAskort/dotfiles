@@ -51,3 +51,5 @@ cp .fedora_alias ~
 cp .vimrc ~
 cp .opensuse_alias ~
 
+git config --global user.name "Alderaeney"
+git config --global user.email "sariaaskort@tuta.io"

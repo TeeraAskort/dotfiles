@@ -43,6 +43,12 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
 
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+~/.emacs.d/bin/doom install
+
+cp init.el ~/.doom.d/init.el
+~/.emacs.d/bin/doom sync
+
 cp .zshrc ~
 cp .general_alias ~
 cp .arch_alias ~ 

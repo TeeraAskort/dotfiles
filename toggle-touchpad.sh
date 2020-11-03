@@ -1,11 +1,10 @@
-#!/bin/sh
-# Toggle touchpad status
-# Using libinput and xinput
+#!/bin/bash
 
-# Use xinput list and do a search for touchpads. Then get the first one and get its name.
-device="$(xinput list | grep -P '(?<= )[\w\s:]*(?i)(touchpad|synaptics)(?-i).*?(?=\s*id)' -o | head -n1)"
+read TPdevice <<< $( xinput | sed -nre '/TouchPad|Touchpad/s/.*id=([0-9]*).*/\1/p' )
+state=$( xinput list-props "$TPdevice" | grep "Device Enabled" | grep -o "[01]$" )
 
-# If it was activated disable it and if it wasn't disable it
-[[ "$(xinput list-props "$device" | grep -P ".*Device Enabled.*\K.(?=$)" -o)" == "1" ]] &&
-    xinput disable "$device" ||
-    xinput enable "$device"
+if [ "$state" -eq '1' ];then
+    xinput --disable "$TPdevice" && notify-send -i emblem-nowrite "Touchpad" "Disabled"
+else
+    xinput --enable "$TPdevice" && notify-send -i input-touchpad "Touchpad" "Enabled"
+fi

@@ -101,9 +101,6 @@ sed -i "s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-slick-greet
 # Enabling Lightdm
 systemctl enable lightdm
 
-# Removing unwanted xfce apps
-pacman -Rnc xfburn parole
-
 # Installing printing services
 pacman -S cups cups-pdf hplip ghostscript
 

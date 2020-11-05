@@ -91,17 +91,8 @@ sudo -u aurbuilder makepkg -si
 # Install XFCE
 pacman -S xfce4 xfce4-goodies blueberry pavucontrol playerctl gvfs ffmpegthumbnailer network-manager-applet lightdm ttf-droid ttf-dejavu
 
-# Installing lightdm-slick-greeter
-cd /tmp/aurbuilder
-sudo -u aurbuilder git clone https://aur.archlinux.org/lightdm-slick-greeter.git
-cd lightdm-slick-greeter
-sudo -u aurbuilder makepkg -si
-
-# Installing lightdm-settings
-cd /tmp/aurbuilder
-sudo -u aurbuilder git clone https://aur.archlinux.org/lightdm-settings.git
-cd lightdm-settings
-sudo -u aurbuilder makepkg -si
+# Installing lightdm-slick-greeter and lightdm-settings
+sudo -u aurbuilder yay -S lightdm-slick-greeter lightdm-settings
 
 # Change default lightdm greeter
 sed -i "s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-slick-greeter/g" /etc/lightdm/lightdm.conf

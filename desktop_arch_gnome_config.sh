@@ -29,18 +29,11 @@ echo "Enter link's password"
 passwd link
 
 # Sudo configuration
-pacman -S  --needed vim 
 EDITOR=vim visudo
-
-# Configuring mkinitcpio
-pacman -S  --needed lvm2
-sed -i "s/block filesystems/block encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
-mkinitcpio -P
 
 # Add kernel paramenters
 pacman -S  --needed grub efibootmgr
-sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cryptdevice=\/dev\/nvme0n1p2:luks:allow-discards root=\/dev\/lvm\/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor"/' /etc/default/grub
-sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 apparmor=1 lsm=lockdown,yama,apparmor"/' /etc/default/grub
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -56,13 +49,13 @@ pacman -Syu
 pacman -S  nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput
 
 # Installing services
-pacman -S  networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
+pacman -S  networkmanager openssh xdg-user-dirs haveged intel-ucode 
 
 # Enabling services
-systemctl enable NetworkManager haveged bluetooth
+systemctl enable NetworkManager haveged 
 
 # Installing sound libraries
-pacman -S  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
+pacman -S  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa
 
 # Installing filesystem libraries
 pacman -S  dosfstools ntfs-3g btrfs-progs exfat-utils gptfdisk autofs fuse2 fuse3 fuseiso sshfs
@@ -72,9 +65,6 @@ pacman -S  zip unzip unrar p7zip lzop
 
 # Installing generic tools
 pacman -S  vim nano pacman-contrib base-devel bash-completion usbutils lsof
-
-# Optimizing aur
-sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
 
 # Installing yay
 newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
@@ -89,17 +79,14 @@ sudo -u aurbuilder git clone https://aur.archlinux.org/yay.git
 cd yay
 sudo -u aurbuilder makepkg -si
 
-# Install XFCE
-pacman -S  mate mate-extra blueberry gvfs ffmpegthumbnailer network-manager-applet lightdm ttf-droid ttf-dejavu
+# Install GNOME
+pacman -S  gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell
 
-# Installing lightdm-slick-greeter
-sudo -u aurbuilder yay -S lightdm-settings lightdm-slick-greeter mate-tweak brisk-menu
+# Enabling GDM
+systemctl enable gdm
 
-# Change default lightdm greeter
-sed -i "s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-slick-greeter/g" /etc/lightdm/lightdm.conf
-
-# Enabling Lightdm
-systemctl enable lightdm
+# Removing unwanted GNOME apps
+pacman -Rnc gnome-music epiphany totem 
 
 # Installing printing services
 pacman -S  cups cups-pdf hplip ghostscript
@@ -117,10 +104,10 @@ pacman -S  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gs
 pacman -S  gimp gimp-help-es
 
 # Installing required packages
-pacman -S  tilix emacs mpv rhythmbox jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam intellij-idea-community-edition thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted code noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack
+pacman -S  tilix emacs mpv rhythmbox jdk11-openjdk dolphin-emu discord flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam earlyoom systembus-notify apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack
 
 # Enabling services
-systemctl enable thermald tlp earlyoom apparmor
+systemctl enable earlyoom apparmor
 
 # Adjusting sound quality
 sed -i "s/; enable-lfe-remixing = no.*/enable-lfe-remixing = yes/" /etc/pulse/daemon.conf
@@ -129,6 +116,9 @@ sed -i "s/; default-sample-format = s16le.*/default-sample-format = s24le/" /etc
 sed -i "s/; default-sample-rate = 44100.*/default-sample-rate = 192000/" /etc/pulse/daemon.conf
 sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /etc/pulse/daemon.conf
 
+# Optimizing aur
+sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
+
 # Installing AUR packages
 sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware plata-theme-bin nerd-fonts-fantasque-sans-mono minecraft-launcher
 
@@ -136,12 +126,6 @@ sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware plata-theme-
 rm /etc/sudoers.d/aurbuilder
 userdel aurbuilder
 rm -r /tmp/aurbuilder
-
-# Configuring intel-undervolt
-sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
-systemctl enable intel-undervolt
 
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

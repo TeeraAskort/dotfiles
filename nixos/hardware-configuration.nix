@@ -12,6 +12,7 @@
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.kernelParams = [ "intel_idle.max_cstate=1" ];
 
   boot.initrd.luks.devices."luks" = {
     device = "/dev/disk/by-uuid/cdda911a-9545-4226-88a6-87e95aa44a2a";

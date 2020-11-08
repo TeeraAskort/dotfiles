@@ -32,12 +32,12 @@ passwd link
 EDITOR=vim visudo
 
 # Configuring mkinitcpio
-pacman -S  --needed lvm2
+pacman -S --needed lvm2
 sed -i "s/block filesystems/block encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
 # Add kernel paramenters
-pacman -S  --needed grub efibootmgr
+pacman -S --needed grub efibootmgr
 sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cryptdevice=\/dev\/nvme0n1p2:luks:allow-discards root=\/dev\/lvm\/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor"/' /etc/default/grub
 sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" /etc/default/grub
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
@@ -85,14 +85,14 @@ sudo -u aurbuilder git clone https://aur.archlinux.org/yay.git
 cd yay
 sudo -u aurbuilder makepkg -si
 
-# Install GNOME
-pacman -S  gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell
+# Install Plasma
+pacman -S plasma ark dolphin dolphin-plugins elisa gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole
 
-# Enabling GDM
-systemctl enable gdm
+# Enabling SDDM
+systemctl enable sddm
 
-# Removing unwanted GNOME apps
-pacman -Rnc gnome-music epiphany totem 
+# Removing unwanted Plasma apps
+pacman -Rnc oxygen
 
 # Installing printing services
 pacman -S  cups cups-pdf hplip ghostscript
@@ -110,7 +110,7 @@ pacman -S  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gs
 pacman -S  gimp gimp-help-es
 
 # Installing required packages
-pacman -S  tilix emacs mpv rhythmbox jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam intellij-idea-community-edition thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack
+pacman -S emacs mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam intellij-idea-community-edition thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack
 
 # Enabling services
 systemctl enable thermald tlp earlyoom apparmor
@@ -126,10 +126,7 @@ sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /etc
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware plata-theme-bin nerd-fonts-fantasque-sans-mono minecraft-launcher switcheroo-control
-
-# Enable switcheroo-control
-systemctl enable switcheroo-control
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware plata-theme-bin nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

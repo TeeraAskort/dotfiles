@@ -86,7 +86,7 @@ cd yay
 sudo -u aurbuilder makepkg -si
 
 # Install Plasma
-pacman -S plasma ark dolphin dolphin-plugins elisa gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole
+pacman -S plasma ark dolphin dolphin-plugins elisa gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers
 
 # Enabling SDDM
 systemctl enable sddm

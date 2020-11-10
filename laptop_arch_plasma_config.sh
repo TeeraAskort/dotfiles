@@ -70,7 +70,7 @@ pacman -S  dosfstools ntfs-3g btrfs-progs exfat-utils gptfdisk autofs fuse2 fuse
 pacman -S  zip unzip unrar p7zip lzop
 
 # Installing generic tools
-pacman -S  vim nano pacman-contrib base-devel bash-completion usbutils lsof
+pacman -S  vim nano pacman-contrib base-devel bash-completion usbutils lsof man
 
 # Installing yay
 newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
@@ -86,7 +86,7 @@ cd yay
 sudo -u aurbuilder makepkg -si
 
 # Install Plasma
-pacman -S plasma ark dolphin dolphin-plugins elisa gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers
+pacman -S plasma ark dolphin dolphin-plugins elisa gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing kio-extras audiocd-kio 
 
 # Enabling SDDM
 systemctl enable sddm
@@ -110,7 +110,7 @@ pacman -S  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gs
 pacman -S  gimp gimp-help-es
 
 # Installing required packages
-pacman -S emacs mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam intellij-idea-community-edition thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin qbittorrent gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack
+pacman -S emacs mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam intellij-idea-community-edition thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin qbittorrent gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack gnome-keyring
 
 # Enabling services
 systemctl enable thermald tlp earlyoom apparmor

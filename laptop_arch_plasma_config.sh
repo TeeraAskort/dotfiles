@@ -126,7 +126,7 @@ sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /etc
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware plata-theme-bin nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

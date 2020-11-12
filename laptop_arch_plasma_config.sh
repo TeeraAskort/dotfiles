@@ -70,7 +70,7 @@ pacman -S  dosfstools ntfs-3g btrfs-progs exfat-utils gptfdisk autofs fuse2 fuse
 pacman -S  zip unzip unrar p7zip lzop
 
 # Installing generic tools
-pacman -S  vim nano pacman-contrib base-devel bash-completion usbutils lsof man
+pacman -S  vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils
 
 # Installing yay
 newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)

@@ -86,7 +86,7 @@ cd yay
 sudo -u aurbuilder makepkg -si
 
 # Install Plasma
-pacman -S plasma ark dolphin dolphin-plugins elisa gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing kio-extras audiocd-kio packagekit-qt5
+pacman -S plasma ark dolphin dolphin-plugins elisa gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing kio-extras audiocd-kio packagekit-qt5 gtk-engines-murrine
 
 # Enabling SDDM
 systemctl enable sddm
@@ -126,7 +126,7 @@ sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /etc
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio phpstorm
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

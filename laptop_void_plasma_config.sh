@@ -1,0 +1,127 @@
+#!/bin/bash
+
+# Installing parted
+xbps-install -S -y parted
+xbps-install -S -y parted
+
+# Partition drives
+parted /dev/nvme0n1 -- mklabel gpt
+parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
+parted /dev/nvme0n1 -- set 1 boot on
+parted /dev/nvme0n1 -- mkpart primary 512M 1024M
+parted /dev/nvme0n1 -- mkpart primary 1024M 100%
+
+# Encrypt drive
+cryptsetup luksFormat --type luks1 /dev/nvme0n1p3
+cryptsetup open /dev/nvme0n1p3 luks
+
+# Create LVM volume
+pvcreate /dev/mapper/luks
+vgcreate lvm /dev/mapper/luks
+lvcreate -L 16G -n swap lvm
+lvcreate -L 70G -n root lvm
+lvcreate -l 100%FREE -n home lvm
+
+# Format drives
+mkfs.xfs -L root -f /dev/lvm/root
+mkfs.xfs -L home -f /dev/lvm/home
+mkswap /dev/lvm/swap
+swapon /dev/lvm/swap
+mkfs.ext4 -t small /dev/nvme0n1p2
+mkfs.vfat -F32 /dev/nvme0n1p1
+
+# Mount drives
+mount /dev/lvm/root /mnt
+
+for dir in dev proc sys run; do mkdir -p /mnt/$dir ; mount --rbind /$dir /mnt/$dir ; mount --make-rslave /mnt/$dir ; done
+
+mkdir /mnt/boot /mnt/home
+mount /dev/lvm/home /mnt/home
+mount /dev/nvme0n1p2 /mnt/boot
+mkdir /mnt/boot/efi
+mount /dev/nvme0n1p1 /mnt/boot/efi
+
+# Install base system
+xbps-install -Sy -R https://alpha.de.repo.voidlinux.org/current -r /mnt base-system cryptsetup grub-x86_64-efi lvm2
+
+# Copy resolv.conf
+cp /etc/resolv.conf /mnt/etc/resolv.conf
+
+# Change root permissions
+chroot /mnt chown root:root /
+chroot /mnt chmod 755 /
+
+# Change root password
+echo "Changing root password"
+chroot /mnt passwd root
+
+# Setting hostname
+echo link-gl63-8rc > /mnt/etc/hostname
+
+# Setting locale
+echo "LANG=es_ES.UTF-8" > /mnt/etc/locale.conf
+sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /mnt/etc/default/libc-locales
+sed -i "s/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g" /mnt/etc/default/libc-locales
+echo "KEYMAP=es" > /mnt/etc/vconsole.conf
+
+# Reconfiguring locales
+chroot /mnt xbps-reconfigure -f glibc-locales
+
+# Setting up fstab
+echo "/dev/lvm/root / xfs defaults 0 0" >> /mnt/etc/fstab
+echo "/dev/lvm/home /home xfs defaults 0 0" >> /mnt/etc/fstab
+echo "/dev/lvm/swap swap swap defaults 0 0" >> /mnt/etc/fstab
+echo "/dev/nvme0n1p2 /boot ext4 defaults 0 0" >> /mnt/etc/fstab
+echo "/dev/nvme0n1p1 /boot/efi vfat defaults 0 0" >> /mnt/etc/fstab
+
+# Configuring grub
+echo "GRUB_ENABLE_CRYPTODISK=y" >> /mnt/etc/fstab
+
+cryptUUID=$(blkid -o value -s UUID /dev/nvme0n1p3)
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 rd.lvm.vg=lvm rd.luks.uuid=${cryptUUID} intel_idle.max_cstate=1 apparmor=1 security=apparmor"/' /mnt/etc/default/grub
+
+# Setting up volume.key
+dd bs=1 count=64 if=/dev/urandom of=/mnt/boot/volume.key
+cryptsetup luksAddKey /dev/nvme0n1p3 /mnt/boot/volume.key
+chroot /mnt chmod 000 /boot/volume.key
+chroot /mnt chmod -R g-rwx,o-rwx /boot
+echo "lvm /dev/nvme0n1p3 /boot/volume.key luks" >> /mnt/etc/crypttab
+echo "install_items+=\" /boot/volume.key /etc/crypttab \"" >> /mnt/etc/dracut.conf.d/10-crypt.conf
+
+# Installing grub
+chroot /mnt grub-install /dev/nvme0n1
+
+# Generating initramfs
+chroot /mnt xbps-reconfigure -fa
+
+# Installing basic utilities
+chroot /mnt xbps-install -S -y apparmor NetworkManager xorg kde5 kde5-baseapps void-repo-nonfree void-repo-multilib-nonfree bluez cups cups-filters hplip zsh zsh-autosuggestions zsh-syntax-highlighting emacs vim sudo bash-completion intel-ucode openssh zip unzip ntfs-3g pulseaudio btrfs-progs dosfstools exfat-utils sshfs p7zip lzop mpv elisa firefox firefox-i18n-es-ES hunspell-es_ES hunspell-en_US ark okular ffmpegthumbs spectacle gwenview yakuake kcm-wacomtablet xf86-input-wacom sddm-kcm kio kio-extras kio-gdrive kgpg kcalc dolphin dolphin-plugins kdeconnect filelight kpat gnome-mahjongg qbittorrent kcharselect gtk-engine-murrine cups-pdf libreoffice libreoffice-i18n-es gst-plugins-bad1 gst-plugins-base1 gst-plugins-good1 gst-plugins-ugly1 gimp openjdk11 intellij-idea-community-edition wine wine-mono wine-gecko winetricks protontricks intel-undervolt telegram-desktop thermald noto-fonts-cjk noto-fonts-emoji chromium  papirus-icon-theme tlp git earlyoom
+
+# Installing nonfree utilities
+chroot /mnt xbps-install -S -y unrar nvidia nvidia-libs-32bit steam chromium-widevine
+
+# Configure apparmor
+sed -i "s/#APPARMOR=disable/APPARMOR=enforce/g" /mnt/etc/default/apparmor
+
+# Enabling services
+chroot /mnt ln -s /etc/sv/dbus /etc/sv/NetworkManager /etc/sv/bluetooth /etc/sv/sddm /etc/sv/cups /etc/sv/elogind /etc/sv/thermald /etc/sv/tlp /etc/sv/earlyoom /etc/runit/runsvdir/default
+
+# Configure intel-undervolt
+sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /mnt/etc/intel-undervolt.conf
+sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /mnt/etc/intel-undervolt.conf
+sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /mnt/etc/intel-undervolt.conf
+
+# Configure pulseaudio
+sed -i "s/; enable-lfe-remixing = no.*/enable-lfe-remixing = yes/" /mnt/etc/pulse/daemon.conf
+sed -i "s/; lfe-crossover-freq = 0.*/lfe-crossover-freq = 20/" /mnt/etc/pulse/daemon.conf
+sed -i "s/; default-sample-format = s16le.*/default-sample-format = s24le/" /mnt/etc/pulse/daemon.conf
+sed -i "s/; default-sample-rate = 44100.*/default-sample-rate = 192000/" /mnt/etc/pulse/daemon.conf
+sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /mnt/etc/pulse/daemon.conf
+
+# Create link user
+chroot /mnt useradd -m -g users -G wheel,audio,video -s /usr/bin/zsh link
+echo "Enter link password"
+chroot /mnt passwd link
+
+# Edit sudoers
+chroot /mnt visudo

@@ -4,3 +4,7 @@ user_pref("layers.acceleration.force-enabled", true);
 user_pref("media.ffmpeg.vaapi-drm-display.enabled", true);
 user_pref("media.ffmpeg.vaapi.enabled", true);
 user_pref("privacy.firstparty.isolate", true);
+user_pref("browser.newtabpage.activity-stream.showSponsored", false);
+user_pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
+user_pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", false);
+user_pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSites", false);

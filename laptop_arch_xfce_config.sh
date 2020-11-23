@@ -132,7 +132,10 @@ sed -i "s/; default-sample-rate = 44100.*/default-sample-rate = 192000/" /etc/pu
 sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /etc/pulse/daemon.conf
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware plata-theme-bin nerd-fonts-fantasque-sans-mono minecraft-launcher nadroid-studio xorg-server-bug865
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware plata-theme-bin nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio 
+
+# Installing xorg for bug 865
+sudo -u aurbuilder yay --editmenu -S xorg-server-bug865
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

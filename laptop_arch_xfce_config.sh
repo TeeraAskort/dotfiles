@@ -139,7 +139,7 @@ cd /tmp/aurbuilder
 git clone https://aur.archlinux.org/xorg-server-bug865.git
 cd xorg-server-bug865
 sed -i "s/''//" PKGBUILD
-makepkg -si
+sudo -u aurbuilder makepkg -si
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

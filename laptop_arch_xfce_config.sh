@@ -119,7 +119,7 @@ pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-pl
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm  tilix emacs mpv rhythmbox jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam intellij-idea-community-edition thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted code noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack gnome-keyring lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse
+pacman -S --noconfirm  tilix emacs mpv rhythmbox jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted code noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack gnome-keyring lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse
 
 # Enabling services
 systemctl enable thermald tlp earlyoom apparmor
@@ -132,10 +132,14 @@ sed -i "s/; default-sample-rate = 44100.*/default-sample-rate = 192000/" /etc/pu
 sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /etc/pulse/daemon.conf
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware plata-theme-bin nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio 
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware plata-theme-bin nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio eclipse-jee
 
 # Installing xorg for bug 865
-sudo -u aurbuilder yay --editmenu -S xorg-server-bug865
+cd /tmp/aurbuilder
+git clone https://aur.archlinux.org/xorg-server-bug865.git
+cd xorg-server-bug865
+sed -i "s/''//" PKGBUILD
+makepkg -si
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

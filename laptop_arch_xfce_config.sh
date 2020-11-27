@@ -84,8 +84,8 @@ chmod 777 /tmp/aurbuilder
 echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder
 echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
 cd /tmp/aurbuilder
-sudo -u aurbuilder git clone https://aur.archlinux.org/yay.git
-cd yay
+sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
 sudo -u aurbuilder makepkg -si
 
 # Install XFCE

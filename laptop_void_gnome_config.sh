@@ -81,14 +81,6 @@ echo "GRUB_ENABLE_CRYPTODISK=y" >> /mnt/etc/fstab
 variable=$(blkid -o value -s UUID /dev/nvme0n1p3)
 sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 rd.lvm.vg=lvm rd.luks.uuid=$variable intel_idle.max_cstate=1 apparmor=1 security=apparmor\"/" /mnt/etc/default/grub
 
-# Setting up volume.key
-dd bs=1 count=64 if=/dev/urandom of=/mnt/boot/volume.key
-cryptsetup luksAddKey /dev/nvme0n1p3 /mnt/boot/volume.key
-chroot /mnt chmod 000 /boot/volume.key
-chroot /mnt chmod -R g-rwx,o-rwx /boot
-echo "lvm /dev/nvme0n1p3 /boot/volume.key luks" >> /mnt/etc/crypttab
-echo "install_items+=\" /boot/volume.key /etc/crypttab \"" >> /mnt/etc/dracut.conf.d/10-crypt.conf
-
 # Installing grub
 chroot /mnt grub-install /dev/nvme0n1
 

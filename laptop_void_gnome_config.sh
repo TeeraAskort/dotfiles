@@ -96,7 +96,7 @@ chroot /mnt grub-install /dev/nvme0n1
 chroot /mnt xbps-reconfigure -fa
 
 # Installing nonfree repos
-chroot /mnt xbps-install -S -y void-repo-nonfree void-repo-multilib-nonfree
+chroot /mnt xbps-install -S -y void-repo-nonfree void-repo-multilib-nonfree void-repo-multilib
 
 # Installing xorg
 chroot /mnt xbps-install -S -y xorg

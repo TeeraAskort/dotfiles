@@ -120,9 +120,6 @@ chroot /mnt xbps-install -S -y gnome evolution gnome-boxes gnome-calculator gnom
 # Enabling gdm
 chroot /mnt ln -s /etc/sv/gdm /etc/runit/runsvdir/default
 
-# Removing unwanted GNOME apps
-chroot /mnt xbps-remove -R epiphany gnome-music gnome-todo totem 
-
 # Installing office utilities
 chroot /mnt xbps-install -S -y libreoffice libreoffice-i18n-es hunspell-es_ES hunspell-en_US
 

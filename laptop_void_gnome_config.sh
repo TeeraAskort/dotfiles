@@ -123,7 +123,7 @@ chroot /mnt xbps-install -S -y pulseaudio alsa-utils alsa-plugins-pulseaudio gst
 chroot /mnt xbps-install -S -y vim nano bash-completion lsof man net-tools inetutils usbutils
 
 # Installing GNOME
-chroot /mnt xbps-install -S -y gnome gnome-apps gdm aisleriot gnome-mahjongg transmission-gtk gtk-engine-murrine ffmpegthumbnailer
+chroot /mnt xbps-install -S -y gnome evolution gnome-boxes gnome-calculator gnome-calendar gnome-characters gnome-clocks gnome-dictionary gnome-disk-utility gnome-documents gnome-font-viewer gnome-nettool gnome-photos gnome-screenshot gnome-system-monitor gnome-terminal simple-scan gdm aisleriot gnome-mahjongg transmission-gtk gtk-engine-murrine ffmpegthumbnailer
 
 # Enabling gdm
 chroot /mnt ln -s /etc/sv/gdm /etc/runit/runsvdir/default
@@ -157,7 +157,7 @@ sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /mnt
 
 # Create link user
 clear
-chroot /mnt useradd -m -g users -G wheel,audio,video -s /bin/bash link
+chroot /mnt useradd -m -g users -G wheel,audio,video,bluetooth -s /bin/bash link
 echo "Enter link password"
 chroot /mnt passwd link
 

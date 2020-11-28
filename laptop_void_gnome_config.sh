@@ -106,7 +106,7 @@ chroot /mnt xbps-install -S -y dosfstools exfat-utils fuse-sshfs ntfs-3g btrfs-p
 chroot /mnt xbps-install -S -y dbus bluez cups cups-filters hplip NetworkManager elogind tlp thermald earlyoom cups-pdf
 
 # Enabling services
-chroot /mnt ln -s /etc/sv/dbus /etc/sv/NetworkManager /etc/sv/bluetooth /etc/sv/cups /etc/sv/elogind /etc/sv/thermald /etc/sv/tlp /etc/sv/earlyoom /etc/runit/runsvdir/default
+chroot /mnt ln -s /etc/sv/dbus /etc/sv/NetworkManager /etc/sv/bluetoothd /etc/sv/cupsd /etc/sv/elogind /etc/sv/thermald /etc/sv/tlp /etc/sv/earlyoom /etc/runit/runsvdir/default
 
 # Installing sound libraries
 chroot /mnt xbps-install -S -y pulseaudio alsa-utils alsa-plugins-pulseaudio gst-plugins-bad1 gst-plugins-base1 gst-plugins-good1 gst-plugins-ugly1

@@ -78,8 +78,8 @@ echo "/dev/nvme0n1p1 /boot/efi vfat defaults 0 0" >> /mnt/etc/fstab
 # Configuring grub
 echo "GRUB_ENABLE_CRYPTODISK=y" >> /mnt/etc/fstab
 
-cryptUUID=$(blkid -o value -s UUID /dev/nvme0n1p3)
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 rd.lvm.vg=lvm rd.luks.uuid=${cryptUUID} intel_idle.max_cstate=1 apparmor=1 security=apparmor"/' /mnt/etc/default/grub
+variable=$(blkid -o value -s UUID /dev/nvme0n1p3)
+sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 rd.lvm.vg=lvm rd.luks.uuid=$variable intel_idle.max_cstate=1 apparmor=1 security=apparmor\"/" /mnt/etc/default/grub
 
 # Setting up volume.key
 dd bs=1 count=64 if=/dev/urandom of=/mnt/boot/volume.key
@@ -157,7 +157,7 @@ sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /mnt
 
 # Create link user
 clear
-chroot /mnt useradd -m -g users -G wheel,audio,video -s /usr/bin/zsh link
+chroot /mnt useradd -m -g users -G wheel,audio,video -s /bin/bash link
 echo "Enter link password"
 chroot /mnt passwd link
 

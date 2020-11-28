@@ -120,6 +120,9 @@ chroot /mnt xbps-install -S -y gnome evolution gnome-boxes gnome-calculator gnom
 # Enabling gdm
 chroot /mnt ln -s /etc/sv/gdm /etc/runit/runsvdir/default
 
+# Disable wayland
+sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /mnt/etc/gdm/custom.conf
+
 # Installing office utilities
 chroot /mnt xbps-install -S -y libreoffice libreoffice-i18n-es hunspell-es_ES hunspell-en_US
 
@@ -127,7 +130,7 @@ chroot /mnt xbps-install -S -y libreoffice libreoffice-i18n-es hunspell-es_ES hu
 chroot /mnt xbps-install -S -y gimp
 
 # Installing required packages
-chroot /mnt xbps-install -S -y apparmor zsh zsh-autosuggestions zsh-syntax-highlighting emacs firefox firefox-i18n-es-ES tilix openjdk11 wine wine-mono wine-gecko winetricks protontricks intel-undervolt telegram-desktop noto-fonts-cjk noto-fonts-emoji chromium  papirus-icon-theme steam chromium-widevine intel-ucode lutris nextcloud-client plata-theme dolphin-emu font-hack-ttf nerd-fonts flatpak xdg-desktop-portal-gtk MultiMC git freshplayerplugin libpulseaudio-32bit gnutls-32bit libldap-32bit libgpg-error-32bit sqlite-32bit 
+chroot /mnt xbps-install -S -y apparmor zsh zsh-autosuggestions zsh-syntax-highlighting emacs firefox firefox-i18n-es-ES tilix openjdk11 wine wine-mono wine-gecko winetricks protontricks intel-undervolt telegram-desktop noto-fonts-cjk noto-fonts-emoji chromium  papirus-icon-theme steam chromium-widevine intel-ucode lutris nextcloud-client plata-theme dolphin-emu font-hack-ttf nerd-fonts flatpak xdg-desktop-portal-gtk MultiMC git freshplayerplugin libpulseaudio-32bit gnutls-32bit libldap-32bit libgpg-error-32bit sqlite-32bit mpv rhythmbox
 
 # Configure apparmor
 sed -i "s/#APPARMOR=disable/APPARMOR=enforce/g" /mnt/etc/default/apparmor

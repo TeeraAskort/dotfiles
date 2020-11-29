@@ -52,6 +52,7 @@ chroot /mnt chown root:root /
 chroot /mnt chmod 755 /
 
 # Change root password
+clear
 echo "Changing root password"
 chroot /mnt passwd root
 
@@ -77,16 +78,8 @@ echo "/dev/nvme0n1p1 /boot/efi vfat defaults 0 0" >> /mnt/etc/fstab
 # Configuring grub
 echo "GRUB_ENABLE_CRYPTODISK=y" >> /mnt/etc/fstab
 
-cryptUUID=$(blkid -o value -s UUID /dev/nvme0n1p3)
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 rd.lvm.vg=lvm rd.luks.uuid=${cryptUUID} intel_idle.max_cstate=1 apparmor=1 security=apparmor"/' /mnt/etc/default/grub
-
-# Setting up volume.key
-dd bs=1 count=64 if=/dev/urandom of=/mnt/boot/volume.key
-cryptsetup luksAddKey /dev/nvme0n1p3 /mnt/boot/volume.key
-chroot /mnt chmod 000 /boot/volume.key
-chroot /mnt chmod -R g-rwx,o-rwx /boot
-echo "lvm /dev/nvme0n1p3 /boot/volume.key luks" >> /mnt/etc/crypttab
-echo "install_items+=\" /boot/volume.key /etc/crypttab \"" >> /mnt/etc/dracut.conf.d/10-crypt.conf
+variable=$(blkid -o value -s UUID /dev/nvme0n1p3)
+sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 rd.lvm.vg=lvm rd.luks.uuid=$variable intel_idle.max_cstate=1 apparmor=1 security=apparmor\"/" /mnt/etc/default/grub
 
 # Installing grub
 chroot /mnt grub-install /dev/nvme0n1
@@ -94,17 +87,50 @@ chroot /mnt grub-install /dev/nvme0n1
 # Generating initramfs
 chroot /mnt xbps-reconfigure -fa
 
-# Installing basic utilities
-chroot /mnt xbps-install -S -y apparmor NetworkManager xorg kde5 kde5-baseapps void-repo-nonfree void-repo-multilib-nonfree bluez cups cups-filters hplip zsh zsh-autosuggestions zsh-syntax-highlighting emacs vim sudo bash-completion openssh zip unzip ntfs-3g pulseaudio btrfs-progs dosfstools exfat-utils fuse-sshfs p7zip lzop mpv elisa firefox firefox-i18n-es-ES hunspell-es_ES hunspell-en_US ark okular ffmpegthumbs spectacle gwenview yakuake kcm-wacomtablet xf86-input-wacom sddm-kcm kio kio-extras kio-gdrive kgpg kcalc dolphin dolphin-plugins kdeconnect filelight kpat gnome-mahjongg qbittorrent kcharselect gtk-engine-murrine cups-pdf libreoffice libreoffice-i18n-es gst-plugins-bad1 gst-plugins-base1 gst-plugins-good1 gst-plugins-ugly1 gimp openjdk11 wine wine-mono wine-gecko winetricks protontricks intel-undervolt telegram-desktop thermald noto-fonts-cjk noto-fonts-emoji chromium  papirus-icon-theme tlp git earlyoom
+# Installing nonfree repos
+chroot /mnt xbps-install -S -y void-repo-nonfree void-repo-multilib-nonfree void-repo-multilib
 
-# Installing nonfree utilities
-chroot /mnt xbps-install -S -y unrar nvidia nvidia-libs-32bit steam chromium-widevine intel-ucode
+# Installing xorg
+chroot /mnt xbps-install -S -y xorg
+
+# Installing drivers
+chroot /mnt xbps-install -S -y nvidia nvidia-libs-32bit mesa-vulkan-intel mesa-vulkan-intel-32bit xf86-video-intel xf86-input-wacom
+
+# Installing basic utilities
+chroot /mnt xbps-install -S -y unrar unzip zip p7zip lzop
+
+# Installing filesystem libraries
+chroot /mnt xbps-install -S -y dosfstools exfat-utils fuse-sshfs ntfs-3g btrfs-progs xfsprogs
+
+# Installing services
+chroot /mnt xbps-install -S -y dbus bluez cups cups-filters hplip NetworkManager elogind tlp thermald earlyoom cups-pdf
+
+# Enabling services
+chroot /mnt ln -s /etc/sv/dbus /etc/sv/NetworkManager /etc/sv/bluetoothd /etc/sv/cupsd /etc/sv/elogind /etc/sv/thermald /etc/sv/tlp /etc/sv/earlyoom /etc/runit/runsvdir/default
+
+# Installing sound libraries
+chroot /mnt xbps-install -S -y pulseaudio alsa-utils alsa-plugins-pulseaudio gst-plugins-bad1 gst-plugins-base1 gst-plugins-good1 gst-plugins-ugly1
+
+# Installing generic utilities
+chroot /mnt xbps-install -S -y vim nano bash-completion lsof man net-tools inetutils usbutils
+
+# Installing Plasma
+chroot /mnt xbps-install -S -y kde5 kde5-baseapps sddm ark dolphin-plugins elisa gwenview ffmpegthumbs filelight kdeconnect fuse-sshfs kdialog kio kio-extras kio-gdrive palapeli gnome-mahjongg kpat okular yakuake spectacle kcm-wacomtablet sddm-kcm kcalc kgpg kcharselect gtk-engine-murrine ksystemlog kdegraphics-thumbnailers
+
+# Enabling gdm
+chroot /mnt ln -s /etc/sv/sddm /etc/runit/runsvdir/default
+
+# Installing office utilities
+chroot /mnt xbps-install -S -y libreoffice libreoffice-i18n-es hunspell-es_ES hunspell-en_US
+
+# Installing gimp
+chroot /mnt xbps-install -S -y gimp
+
+# Installing required packages
+chroot /mnt xbps-install -S -y apparmor zsh zsh-autosuggestions zsh-syntax-highlighting emacs firefox firefox-i18n-es-ES openjdk11 wine wine-mono wine-gecko winetricks protontricks intel-undervolt telegram-desktop noto-fonts-cjk noto-fonts-emoji chromium  papirus-icon-theme steam chromium-widevine intel-ucode lutris nextcloud-client dolphin-emu font-hack-ttf nerd-fonts flatpak xdg-desktop-portal-gtk MultiMC git freshplayerplugin libpulseaudio-32bit gnutls-32bit libldap-32bit libgpg-error-32bit sqlite-32bit mpv rhythmbox
 
 # Configure apparmor
 sed -i "s/#APPARMOR=disable/APPARMOR=enforce/g" /mnt/etc/default/apparmor
-
-# Enabling services
-chroot /mnt ln -s /etc/sv/dbus /etc/sv/NetworkManager /etc/sv/bluetooth /etc/sv/sddm /etc/sv/cups /etc/sv/elogind /etc/sv/thermald /etc/sv/tlp /etc/sv/earlyoom /etc/runit/runsvdir/default
 
 # Configure intel-undervolt
 sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /mnt/etc/intel-undervolt.conf
@@ -120,9 +146,13 @@ sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /mnt
 
 # Create link user
 clear
-chroot /mnt useradd -m -g users -G wheel,audio,video -s /usr/bin/zsh link
+chroot /mnt useradd -m -g users -G wheel,audio,video,bluetooth -s /bin/bash link
 echo "Enter link password"
 chroot /mnt passwd link
 
 # Edit sudoers
 chroot /mnt visudo
+
+# Install flatpak packages 
+chroot /mnt flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+chroot /mnt flatpak install flathub com.discordapp.Discord

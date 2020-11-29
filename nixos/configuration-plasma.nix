@@ -65,8 +65,8 @@ in
     p7zip unzip unrar gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
-    desmume ungoogled-chromium ffmpegthumbnailer noto-fonts-cjk
-    jetbrains.idea-community android-studio nextcloud-client 
+    desmume chromium noto-fonts-cjk
+    android-studio nextcloud-client 
   ];
 
   # Java configuration
@@ -111,7 +111,7 @@ in
 
   # Flatpak support
   services.flatpak.enable = true;
-  xdg.portal.extraPortals = [ pkgsi.plasma5.xdg-desktop-portal-kde ];
+  xdg.portal.extraPortals = [ pkgs.plasma5.xdg-desktop-portal-kde ];
 
   # Steam dependencies
   hardware.opengl = {

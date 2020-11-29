@@ -76,7 +76,7 @@ echo "/dev/nvme0n1p2 /boot ext4 defaults 0 0" >> /mnt/etc/fstab
 echo "/dev/nvme0n1p1 /boot/efi vfat defaults 0 0" >> /mnt/etc/fstab
 
 # Configuring grub
-echo "GRUB_ENABLE_CRYPTODISK=y" >> /mnt/etc/fstab
+echo "GRUB_ENABLE_CRYPTODISK=y" >> /mnt/etc/default/grub
 
 variable=$(blkid -o value -s UUID /dev/nvme0n1p3)
 sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 rd.lvm.vg=lvm rd.luks.uuid=$variable intel_idle.max_cstate=1 apparmor=1 security=apparmor\"/" /mnt/etc/default/grub

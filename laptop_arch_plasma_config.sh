@@ -94,6 +94,9 @@ systemctl enable sddm
 # Removing unwanted Plasma apps
 pacman -Rnc oxygen
 
+# Adding environment variable to /etc/environment
+echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
+
 # Installing printing services
 pacman -S --noconfirm  cups cups-pdf hplip ghostscript
 

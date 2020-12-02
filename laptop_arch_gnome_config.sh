@@ -126,7 +126,14 @@ sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /etc
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher switcheroo-control android-studio 
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher switcheroo-control android-studio xampp
+
+# Install plata theme from git
+cd /tmp/aurbuilder
+git clone https://aur.archlinux.org/plata-theme.git
+cd plata-theme
+sed -i "s/source=(\"git+https://gitlab.com/tista500/plata-theme.git#tag=${pkgver}\")/source=(\"git+https://gitlab.com/tista500/plata-theme.git\")/g" PKGBUILD
+makepkg -si
 
 # Enable switcheroo-control
 systemctl enable switcheroo-control
@@ -144,6 +151,9 @@ systemctl enable intel-undervolt
 
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+# Cleaning orphans
+pacman -Qtdq | pacman -Rns -
 
 # Copying dotfiles folder to link
 mv /dotfiles /home/link

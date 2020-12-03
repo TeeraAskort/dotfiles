@@ -6,5 +6,10 @@ dbus-user.own org.mozilla.firefox.*
 dbus-user.own org.mpris.MediaPlayer2.firefox.*
 dbus-user.talk org.kde.JobViewServer
 dbus-user.talk org.kde.kuiserver
+dbus-user.talk org.kde.plasma.browser_integration.*
+dbus-user.talk org.kde.plasma.firefox_integration
 ignore dbus-user none
 dbus-user.talk org.freedesktop.portal.Desktop
+noblacklist ${HOME}/Imágenes
+whitelist ${HOME}/Imágenes
+

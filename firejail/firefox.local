@@ -7,4 +7,4 @@ dbus-user.own org.mpris.MediaPlayer2.firefox.*
 dbus-user.talk org.kde.JobViewServer
 dbus-user.talk org.kde.kuiserver
 ignore dbus-user none
-
+dbus-user.talk org.freedesktop.portal.Desktop

@@ -46,16 +46,16 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/cu
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom install
 
-cp init.el ~/.doom.d/init.el
+cp emacs/init.el ~/.doom.d/init.el
 ~/.emacs.d/bin/doom sync
 
-cp .zshrc ~
-cp .general_alias ~
-cp .arch_alias ~ 
-cp .debian_alias ~
-cp .fedora_alias ~
-cp .vimrc ~
-cp .opensuse_alias ~
+cp zsh/.zshrc ~
+cp zsh/.general_alias ~
+cp zsh/.arch_alias ~ 
+cp zsh/.debian_alias ~
+cp zsh/.fedora_alias ~
+cp dotfiles/.vimrc ~
+cp zsh/.opensuse_alias ~
 
 git config --global user.name "Alderaeney"
 git config --global user.email "sariaaskort@tuta.io"

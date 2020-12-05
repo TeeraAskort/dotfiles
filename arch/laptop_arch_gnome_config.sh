@@ -140,7 +140,7 @@ cd /tmp/aurbuilder
 git clone https://aur.archlinux.org/plata-theme.git
 cd plata-theme
 sed -i 's/source=("git+https://gitlab.com/tista500/plata-theme.git#tag=${pkgver}")/source=("git+https://gitlab.com/tista500/plata-theme.git")/g' PKGBUILD
-makepkg -si
+sudo -u aurbuilder makepkg -si
 
 # Enable switcheroo-control
 systemctl enable switcheroo-control

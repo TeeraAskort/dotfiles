@@ -44,25 +44,6 @@ sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
 sudo -u aurbuilder makepkg -si
 
-# Installing plymouth
-sudo -u aurbuilder yay -S gdm-plymouth
-
-# Making the arch logo appear in the plymouth
-cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
-
-# Configuring mkinitcpio
-pacman -S --noconfirm --needed lvm2
-sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
-sed -i "s/MODULES=()/MODULES=(i915)/g" /etc/mkinitcpio.conf
-mkinitcpio -P
-
-# Add kernel paramenters
-pacman -S --noconfirm --needed grub efibootmgr
-sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cryptdevice=\/dev\/nvme0n1p2:luks:allow-discards root=\/dev\/lvm\/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0"/' /etc/default/grub
-sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" /etc/default/grub
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
-grub-mkconfig -o /boot/grub/grub.cfg
-
 # Enabling colors in pacman
 sed -i "s/#Color/Color/g" /etc/pacman.conf
 
@@ -98,6 +79,25 @@ pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot 
 # Enabling GDM
 systemctl enable gdm
 
+# Installing plymouth
+sudo -u aurbuilder yay -S gdm-plymouth
+
+# Making the arch logo appear in the plymouth
+cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
+
+# Configuring mkinitcpio
+pacman -S --noconfirm --needed lvm2
+sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
+sed -i "s/MODULES=()/MODULES=(i915)/g" /etc/mkinitcpio.conf
+mkinitcpio -P
+
+# Add kernel paramenters
+pacman -S --noconfirm --needed grub efibootmgr
+sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cryptdevice=\/dev\/nvme0n1p2:luks:allow-discards root=\/dev\/lvm\/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0"/' /etc/default/grub
+sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" /etc/default/grub
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
+grub-mkconfig -o /boot/grub/grub.cfg
+
 # Removing unwanted GNOME apps
 pacman -Rnc gnome-music epiphany totem 
 
@@ -117,7 +117,7 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm tilix emacs mpv rhythmbox jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvisrt virt-manager
+pacman -S --noconfirm tilix emacs mpv rhythmbox jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt virt-manager
 
 # Enabling services
 systemctl enable thermald tlp earlyoom apparmor libvirtd

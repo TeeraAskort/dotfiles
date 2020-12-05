@@ -31,14 +31,34 @@ passwd link
 # Sudo configuration
 EDITOR=vim visudo
 
+# Installing yay
+newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
+useradd -r -N -M -d /tmp/aurbuilder -s /usr/bin/nologin aurbuilder
+echo -e "$newpass\n$newpass\n" | passwd aurbuilder
+mkdir /tmp/aurbuilder
+chmod 777 /tmp/aurbuilder
+echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder
+echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
+cd /tmp/aurbuilder
+sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
+sudo -u aurbuilder makepkg -si
+
+# Installing plymouth
+sudo -u aurbuilder yay -S gdm-plymouth
+
+# Making the arch logo appear in the plymouth
+cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
+
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
-sed -i "s/block filesystems/block encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
+sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
+sed -i "s/MODULES=()/MODULES=(i915)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
 # Add kernel paramenters
 pacman -S --noconfirm --needed grub efibootmgr
-sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cryptdevice=\/dev\/nvme0n1p2:luks:allow-discards root=\/dev\/lvm\/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor"/' /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cryptdevice=\/dev\/nvme0n1p2:luks:allow-discards root=\/dev\/lvm\/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0"/' /etc/default/grub
 sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" /etc/default/grub
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -71,19 +91,6 @@ pacman -S --noconfirm zip unzip unrar p7zip lzop
 
 # Installing generic tools
 pacman -S --noconfirm vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils
-
-# Installing yay
-newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
-useradd -r -N -M -d /tmp/aurbuilder -s /usr/bin/nologin aurbuilder
-echo -e "$newpass\n$newpass\n" | passwd aurbuilder
-mkdir /tmp/aurbuilder
-chmod 777 /tmp/aurbuilder
-echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder
-echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
-cd /tmp/aurbuilder
-sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
-cd yay-bin
-sudo -u aurbuilder makepkg -si
 
 # Install GNOME
 pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine
@@ -132,7 +139,7 @@ sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-f
 cd /tmp/aurbuilder
 git clone https://aur.archlinux.org/plata-theme.git
 cd plata-theme
-sed -i "s/source=(\"git+https://gitlab.com/tista500/plata-theme.git#tag=${pkgver}\")/source=(\"git+https://gitlab.com/tista500/plata-theme.git\")/g" PKGBUILD
+sed -i "s/source=(\"git+https://gitlab.com/tista500/plata-theme.git#tag=\${pkgver}\")/source=(\"git+https://gitlab.com/tista500/plata-theme.git\")/g" PKGBUILD
 makepkg -si
 
 # Enable switcheroo-control

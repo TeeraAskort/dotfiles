@@ -152,6 +152,9 @@ systemctl enable intel-undervolt
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
+# Cleaning orphans
+pacman -Qtdq | pacman -Rns -
+
 # Copying dotfiles folder to link
 mv /dotfiles /home/link
 chown -R link:users /home/link/dotfiles

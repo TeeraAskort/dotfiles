@@ -31,18 +31,6 @@ passwd link
 # Sudo configuration
 EDITOR=vim visudo
 
-# Configuring mkinitcpio
-pacman -S --noconfirm --needed lvm2
-sed -i "s/block filesystems/block encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
-mkinitcpio -P
-
-# Add kernel paramenters
-pacman -S --noconfirm --needed grub efibootmgr
-sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cryptdevice=\/dev\/nvme0n1p2:luks:allow-discards root=\/dev\/lvm\/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor"/' /etc/default/grub
-sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" /etc/default/grub
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
-grub-mkconfig -o /boot/grub/grub.cfg
-
 # Enabling colors in pacman
 sed -i "s/#Color/Color/g" /etc/pacman.conf
 
@@ -88,8 +76,27 @@ sudo -u aurbuilder makepkg -si
 # Install Plasma
 pacman -S --noconfirm plasma ark dolphin dolphin-plugins elisa gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing kio-extras audiocd-kio packagekit-qt5 gtk-engine-murrine
 
+# Installing plymouth
+sudo -u aurbuilder yay -S plymouth
+
+# Making the arch logo appear in the plymmouth
+cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
+
+# Configuring mkinitcpio
+pacman -S --noconfirm --needed lvm2
+sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
+sed -i "s/MODULES=()/MODULES=(i915)/g" /etc/mkinitcpio.conf
+mkinitcpio -P
+
+# Add kernel paramenters
+pacman -S --noconfirm --needed grub efibootmgr
+sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cryptdevice=\/dev\/nvme0n1p2:luks:allow-discards root=\/dev\/lvm\/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor"/' /etc/default/grub
+sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" /etc/default/grub
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
+grub-mkconfig -o /boot/grub/grub.cfg
+
 # Enabling SDDM
-systemctl enable sddm
+systemctl enable sddm-plymouth
 
 # Removing unwanted Plasma apps
 pacman -Rnc oxygen

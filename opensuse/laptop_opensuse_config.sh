@@ -19,7 +19,7 @@ if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	sudo OneClickInstallCLI https://www.opensuse-community.org/codecs-kde.ymp
 
 	# Installing packages
-	sudo zypper in chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions yakuake mpv elisa dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel fish thermald xf86-video-intel qbittorrent emacs
+	sudo zypper in chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions yakuake mpv elisa dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel fish thermald xf86-video-intel qbittorrent emacs kdeconnect-kde
 
 else
 
@@ -33,6 +33,19 @@ fi
 
 # Enabling thermald service
 sudo systemctl enable thermald
+
+# Removing double encryption password asking
+sudo touch /.root.key
+sudo chmod 600 /.root.key
+sudo dd if=/dev/urandom of=/.root.key bs=1024 count=1
+clear
+echo "Enter disk encryption password"
+sudo cryptsetup luksAddKey /dev/nvme0n1p2 /.root.key
+sudo sed -i "/^cr_nvme/ s/none/\/.root.key/g" /etc/crypttab
+echo -e 'install_items+=" /.root.key "' | sudo tee --append /etc/dracut.conf.d/99-root-key.conf > /dev/null
+echo "/boot/ root:root 700" | sudo tee -a /etc/permissions.local
+sudo chkstat --system --set
+sudo mkinitrd
 
 # Adjusting sound quality
 sudo sed -i "s/; enable-lfe-remixing = no.*/enable-lfe-remixing = yes/" /etc/pulse/daemon.conf

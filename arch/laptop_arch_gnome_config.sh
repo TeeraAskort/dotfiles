@@ -137,7 +137,7 @@ sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-f
 
 # Install plata theme from git
 cd /tmp/aurbuilder
-git clone https://aur.archlinux.org/plata-theme.git
+sudo -u aurbuilder git clone https://aur.archlinux.org/plata-theme.git
 cd plata-theme
 sed -i 's/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git#tag=${pkgver}")/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git")/g' PKGBUILD
 sudo -u aurbuilder makepkg -si

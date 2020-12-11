@@ -74,7 +74,7 @@ cd yay-bin
 sudo -u aurbuilder makepkg -si
 
 # Install Plasma
-pacman -S --noconfirm plasma ark dolphin dolphin-plugins elisa gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing kio-extras audiocd-kio packagekit-qt5 gtk-engine-murrine
+pacman -S --noconfirm plasma ark dolphin dolphin-plugins elisa gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing kio-extras audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager
 
 # Installing plymouth
 sudo -u aurbuilder yay -S plymouth

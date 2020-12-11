@@ -23,6 +23,10 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Enable plymouth
+  boot.plymouth.enable = true;
+
+  # Declare the hostname
   networking.hostName = "link-gl63-8rc"; # Define your hostname.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
@@ -98,6 +102,10 @@ in
 
   # Security
   security.hideProcessInformation = true;
+
+  # Enable apparmor
+  security.apparmor.enable = true;
+  services.dbus.apparmor = "enabled";
 
   #Haveged daemon
   services.haveged.enable = true;

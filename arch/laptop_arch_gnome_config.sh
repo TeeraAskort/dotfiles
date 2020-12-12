@@ -86,10 +86,10 @@ sudo -u aurbuilder yay -S gdm-plymouth
 # cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
 
 # Installing lone plymouth theme
-sudo -u aurbuilder yay -S plymouth-theme-lone-git
+sudo -u aurbuilder yay -S plymouth-theme-hexagon-2-git
 
 # Making lone theme default
-plymouth-set-default-theme -R lone
+plymouth-set-default-theme -R hexagon_2
 
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2

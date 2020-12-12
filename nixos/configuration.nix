@@ -58,8 +58,8 @@ in
     p7zip unzip unrar gnome3.gnome-calendar gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
-    desmume ungoogled-chromium ffmpegthumbnailer noto-fonts-cjk
-    jetbrains.idea-community android-studio nextcloud-client 
+    desmume chromium ffmpegthumbnailer noto-fonts-cjk
+    android-studio nextcloud-client 
   ];
 
   # Java configuration

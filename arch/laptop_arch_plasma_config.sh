@@ -80,7 +80,13 @@ pacman -S --noconfirm plasma ark dolphin dolphin-plugins elisa gwenview ffmpegth
 sudo -u aurbuilder yay -S plymouth
 
 # Making the arch logo appear in the plymmouth
-cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
+# cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
+
+# Installing lone plymouth theme
+sudo -u aurbuilder yay -S plymouth-theme-lone-git
+
+# Making lone theme default
+plymouth-set-default-theme -R lone
 
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2

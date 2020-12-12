@@ -83,7 +83,13 @@ systemctl enable gdm
 sudo -u aurbuilder yay -S gdm-plymouth
 
 # Making the arch logo appear in the plymouth
-cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
+# cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
+
+# Installing lone plymouth theme
+sudo -u aurbuilder yay -S plymouth-theme-lone-git
+
+# Making lone theme default
+plymouth-set-default-theme -R lone
 
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2

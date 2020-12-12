@@ -162,7 +162,8 @@ in
     displayManager = {
       gdm = {
         enable = true;
-        wayland = false;
+        wayland = true;
+        nvidiaWayland = true;
       };
     };
     desktopManager.gnome3.enable = true;

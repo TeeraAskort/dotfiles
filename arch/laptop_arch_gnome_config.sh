@@ -147,6 +147,23 @@ sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-f
 # Enable switcheroo-control
 systemctl enable switcheroo-control
 
+# Disable wayland
+sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+
+# Install plata-theme from git
+cd /home/link
+sudo -u link git clone https://aur.archlinux.org/plata-theme.git
+cd plata-theme
+sudo -u link sed -i 's/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git#tag=${pkgver}/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git")/g")' PKGBUILD
+clear
+echo "Installing plata-theme"
+sudo -u link makepkg -si
+
+# Install eclipse-jee with link's user
+clear
+echo "Installink eclipse-jee"
+sudo -u link yay -S eclipse-jee
+
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder
 userdel aurbuilder

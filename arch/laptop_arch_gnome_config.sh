@@ -79,6 +79,9 @@ pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot 
 # Enabling GDM
 systemctl enable gdm
 
+# Setting X11 keyboard layout
+setxkbmap es
+
 # Installing plymouth
 sudo -u aurbuilder yay -S gdm-plymouth
 

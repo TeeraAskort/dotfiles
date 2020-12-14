@@ -136,7 +136,7 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 
 # Install eclipse-jee with link's user
 clear
-echo "Installink eclipse-jee"
+echo "Installing eclipse-jee"
 sudo -u link yay -S eclipse-jee
 
 # Adjusting sound quality

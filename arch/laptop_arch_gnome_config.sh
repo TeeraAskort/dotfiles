@@ -161,7 +161,7 @@ sudo -u link makepkg -si
 
 # Install eclipse-jee with link's user
 clear
-echo "Installink eclipse-jee"
+echo "Installing eclipse-jee"
 sudo -u link yay -S eclipse-jee
 
 # Removing aurbuilder

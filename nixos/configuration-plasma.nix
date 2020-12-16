@@ -55,7 +55,7 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     plasma5.plasma-nm plasma5.plasma-vault plasma5.breeze-gtk plasma5.breeze-qt5 plasma5.sddm-kcm 
-    qbittorrent kdeApplications.kmahjongg kdeApplications.ark kdeApplications.kate kdeApplications.elisa
+    qbittorrent kdeApplications.kmahjongg kdeApplications.ark kdeApplications.kate strawberry
     kdeApplications.kcalc kdeApplications.okular kdeApplications.kdialog kdeApplications.yakuake
     kdeApplications.kdeconnect-kde gimp kdeApplications.dolphin kdeApplications.dolphin-plugins
     kdeApplications.kio-extras wacomtablet kdeApplications.konsole kdeApplications.kcharselect 

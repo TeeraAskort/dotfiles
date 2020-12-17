@@ -60,6 +60,13 @@ sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub
 # Installing flatpak apps
 flatpak install flathub com.mojang.Minecraft com.discordapp.Discord
 
+# Changing plymouth theme
+wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_2/hexagon_2.tar.gz
+tar xzvf hexagon_2.tar.gz
+sudo mv hexagon_2 /usr/share/plymouth/themes/
+sudo plymouth-set-default-theme -R hexagon_2
+rm hexagon_2.tar.gz
+
 # Installing prime offload launchers
 sudo cp ../dotfiles/prime-run /usr/bin
 sudo chmod +x /usr/bin/prime-run

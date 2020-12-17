@@ -7,7 +7,11 @@ sudo zypper ar -cfp 99 http://download.opensuse.org/repositories/shells:/zsh-use
 sudo zypper addrepo https://download.opensuse.org/repositories/shells:zsh-users:zsh-autosuggestions/openSUSE_Tumbleweed/shells:zsh-users:zsh-autosuggestions.repo
 sudo zypper ar -cfp 99 https://download.opensuse.org/repositories/Emulators/openSUSE_Tumbleweed/ emulators
 
+# Refreshing the repos
 sudo zypper refresh
+
+# Updating the system
+sudo zypper dup
 
 # Installing nvidia drivers
 sudo OneClickInstallCLI https://www.opensuse-community.org/nvidia_G05.ymp
@@ -37,6 +41,13 @@ fi
 # Enabling thermald service
 sudo systemctl enable thermald
 
+# Changing plymouth theme
+wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_2/hexagon_2.tar.gz
+tar xzvf hexagon_2.tar.gz
+sudo mv hexagon_2 /usr/share/plymouth/themes/
+sudo plymouth-set-default-theme -R hexagon_2
+rm hexagon_2.tar.gz
+
 # Removing double encryption password asking
 sudo touch /.root.key
 sudo chmod 600 /.root.key
@@ -62,13 +73,6 @@ sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub
 
 # Installing flatpak apps
 flatpak install flathub com.mojang.Minecraft com.discordapp.Discord
-
-# Changing plymouth theme
-wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_2/hexagon_2.tar.gz
-tar xzvf hexagon_2.tar.gz
-sudo mv hexagon_2 /usr/share/plymouth/themes/
-sudo plymouth-set-default-theme -R hexagon_2
-rm hexagon_2.tar.gz
 
 # Installing prime offload launchers
 sudo cp ../dotfiles/prime-run /usr/bin

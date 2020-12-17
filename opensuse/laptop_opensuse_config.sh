@@ -21,6 +21,9 @@ if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	# Installing packages
 	sudo zypper in chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions yakuake mpv strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel fish thermald xf86-video-intel qbittorrent emacs kdeconnect-kde
 
+	# Remove unwanted packages
+	sudo zypper rm git-gui kontact akregator kmail konversation kmines ksudoku kreversi kaddressbook korganizer
+
 else
 
 	# Installing codecs

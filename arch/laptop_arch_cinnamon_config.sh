@@ -1,3 +1,4 @@
+sed -i "s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-slick-greeter/g" /etc/lightdm/lightdm.conf
 #!/bin/bash
 
 # Configuring locales
@@ -31,6 +32,35 @@ passwd link
 # Sudo configuration
 EDITOR=vim visudo
 
+# Enabling colors in pacman
+sed -i "s/#Color/Color/g" /etc/pacman.conf
+
+# Enabling multilib repo
+sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
+sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
+pacman -Syu
+
+# Installing drivers 
+pacman -S --noconfirm  nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput
+
+# Installing services
+pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
+
+# Enabling services
+systemctl enable NetworkManager haveged bluetooth
+
+# Installing sound libraries
+pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
+
+# Installing filesystem libraries
+pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfat-utils gptfdisk autofs fuse2 fuse3 fuseiso sshfs
+
+# Installing compresion tools
+pacman -S --noconfirm  zip unzip unrar p7zip lzop
+
+# Installing generic tools
+pacman -S --noconfirm  vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils
+
 # Installing yay
 newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
 useradd -r -N -M -d /tmp/aurbuilder -s /usr/bin/nologin aurbuilder
@@ -44,48 +74,17 @@ sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
 sudo -u aurbuilder makepkg -si
 
-# Enabling colors in pacman
-sed -i "s/#Color/Color/g" /etc/pacman.conf
+# Install Plasma
+pacman -S --noconfirm cinnamon tilix blueberry lightdm system-config-printer rhythmbox aisleriot gtk-engine-murrine gnome-mahjongg xed eog xreader gthumb ffmpegthumbnailer 
 
-# Enabling multilib repo
-sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
-sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
-pacman -Syu
-
-# Installing drivers 
-pacman -S --noconfirm nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput
-
-# Installing services
-pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
-
-# Enabling services
-systemctl enable NetworkManager haveged bluetooth
-
-# Installing sound libraries
-pacman -S --noconfirm alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
-
-# Installing filesystem libraries
-pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfat-utils gptfdisk autofs fuse2 fuse3 fuseiso sshfs
-
-# Installing compresion tools
-pacman -S --noconfirm zip unzip unrar p7zip lzop
-
-# Installing generic tools
-pacman -S --noconfirm vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils
-
-# Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine
-
-# Enabling GDM
-systemctl enable gdm
-
-# Setting X11 keyboard layout
-setxkbmap es
+# Theming lightdm
+sudo -u aurbuilder yay -S lightdm-settings lightdm-slick-greeter
+sed -i "s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-slick-greeter/g" /etc/lightdm/lightdm.conf
 
 # Installing plymouth
-sudo -u aurbuilder yay -S gdm-plymouth
+sudo -u aurbuilder yay -S plymouth
 
-# Making the arch logo appear in the plymouth
+# Making the arch logo appear in the plymmouth
 # cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
 
 # Installing lone plymouth theme
@@ -107,29 +106,43 @@ sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" /etc/default/gru
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# Removing unwanted GNOME apps
-pacman -Rnc gnome-music epiphany totem 
+# Enabling Lightdm
+systemctl enable lightdm-plymouth
+
+# Removing unwanted Plasma apps
+pacman -Rnc oxygen
+
+# Setting X11 keyboard layout
+setxkbmap es
+
+# Adding environment variable to /etc/environment
+echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
 
 # Installing printing services
-pacman -S --noconfirm cups cups-pdf hplip ghostscript
+pacman -S --noconfirm  cups cups-pdf hplip ghostscript
 
 # Enabling cups service
 systemctl enable cups
 
 # Installing office utilities
-pacman -S --noconfirm libreoffice-fresh libreoffice-fresh-es hunspell-en_US hunspell-es_es mythes-en mythes-es hyphen-en hyphen-es
+pacman -S --noconfirm  libreoffice-fresh libreoffice-fresh-es hunspell-en_US hunspell-es_es mythes-en mythes-es hyphen-en hyphen-es
 
 # Installing multimedia codecs
-pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst-libav
+pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst-libav
 
 # Installing gimp
-pacman -S --noconfirm gimp gimp-help-es
+pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm tilix emacs mpv rhythmbox jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld vivaldi vivaldi-ffmpeg-codecs
+pacman -S --noconfirm emacs mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin qbittorrent gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack gnome-keyring lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt virt-manager nextcloud-client firewalld vivaldi vivaldi-ffmpeg-codecs
 
 # Enabling services
 systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
+
+# Install eclipse-jee with link's user
+clear
+echo "Installing eclipse-jee"
+sudo -u link yay -S eclipse-jee
 
 # Adjusting sound quality
 sed -i "s/; enable-lfe-remixing = no.*/enable-lfe-remixing = yes/" /etc/pulse/daemon.conf
@@ -142,27 +155,7 @@ sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /etc
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher switcheroo-control android-studio xampp vivaldi-widevine
-
-# Enable switcheroo-control
-systemctl enable switcheroo-control
-
-# Disable wayland
-sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
-
-# Install plata-theme from git
-cd /home/link
-sudo -u link git clone https://aur.archlinux.org/plata-theme.git
-cd plata-theme
-sudo -u link sed -i 's/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git#tag=${pkgver}")/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git")/g' PKGBUILD
-clear
-echo "Installing plata-theme"
-sudo -u link makepkg -si
-
-# Install eclipse-jee with link's user
-clear
-echo "Installing eclipse-jee"
-sudo -u link yay -S eclipse-jee
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio xampp vivaldi-widevine
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

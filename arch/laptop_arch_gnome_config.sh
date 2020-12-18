@@ -154,7 +154,7 @@ sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
 cd /home/link
 sudo -u link git clone https://aur.archlinux.org/plata-theme.git
 cd plata-theme
-sudo -u link sed -i 's/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git#tag=${pkgver}/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git")/g")' PKGBUILD
+sudo -u link sed -i 's/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git#tag=${pkgver}")/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git")/g' PKGBUILD
 clear
 echo "Installing plata-theme"
 sudo -u link makepkg -si

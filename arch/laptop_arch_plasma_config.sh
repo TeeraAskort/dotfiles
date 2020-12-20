@@ -108,7 +108,7 @@ systemctl enable sddm-plymouth
 pacman -Rnc oxygen
 
 # Setting X11 keyboard layout
-setxkbmap es
+sudo -u link setxkbmap es
 
 # Adding environment variable to /etc/environment
 echo "GTK_USE_PORTAL=1" | tee -a /etc/environment

@@ -75,7 +75,7 @@ cd yay-bin
 sudo -u aurbuilder makepkg -si
 
 # Install Plasma
-pacman -S --noconfirm cinnamon tilix blueberry lightdm system-config-printer rhythmbox aisleriot gtk-engine-murrine gnome-mahjongg xed eog xreader gthumb ffmpegthumbnailer gnome-terminal 
+pacman -S --noconfirm cinnamon tilix blueberry lightdm system-config-printer rhythmbox aisleriot gtk-engine-murrine gnome-mahjongg xed eog xreader gthumb ffmpegthumbnailer gnome-terminal cinnamon-translations
 
 # Theming lightdm
 sudo -u aurbuilder yay -S lightdm-settings lightdm-slick-greeter

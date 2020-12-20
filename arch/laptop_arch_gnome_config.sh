@@ -158,6 +158,8 @@ sudo -u link sed -i 's/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.
 clear
 echo "Installing plata-theme"
 sudo -u link makepkg -si
+cd ..
+rm -r plata-theme
 
 # Install eclipse-jee with link's user
 clear

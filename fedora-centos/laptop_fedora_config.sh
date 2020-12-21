@@ -40,14 +40,6 @@ dnf groupupdate core -y
 dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y
 dnf groupupdate sound-and-video -y
 
-#Edit /etc/pulse/daemon.conf for improved audio
-sed -i "s/; enable-lfe-remixing = no.*/enable-lfe-remixing = yes/" /etc/pulse/daemon.conf
-sed -i "s/; lfe-crossover-freq = 0.*/lfe-crossover-freq = 20/" /etc/pulse/daemon.conf
-sed -i "s/; default-sample-format = s16le.*/default-sample-format = s24le/" /etc/pulse/daemon.conf
-sed -i "s/; default-sample-rate = 44100.*/default-sample-rate = 192000/" /etc/pulse/daemon.conf
-sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /etc/pulse/daemon.conf
-pulseaudio -k
-
 #Install nvidia drivers with PRIME render offload
 dnf install -y xorg-x11-drv-nvidia akmod-nvidia
 dnf install -y xorg-x11-drv-nvidia-cuda #CUDA support

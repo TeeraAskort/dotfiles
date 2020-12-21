@@ -125,11 +125,23 @@ in
     enable = true;
 
     daemon.config = {
-      enable-lfe-remixing = "yes";
       lfe-crossover-freq = 20;
-      default-sample-format = "s24le";
+      default-sample-format = "float32le";
       default-sample-rate = 192000;
       alternate-sample-rate = 48000;
+      default-sample-channels = 2;
+      default-channel-map = "front-left,front-right";
+      default-fragments = 2;
+      default-fragment-size-msec = 125;
+      resample-method = "src-sinc-best-quality";
+      remixing-produce-lfe = "no";
+      remixing-consume-lfe = "no";
+      high-priority = "yes";
+      nice-level = -11;
+      realtime-scheduling = "yes";
+      realtime-priority = 9;
+      rlimit-rtprio = 9;
+      daemonize = "no";
     };
  
     # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.

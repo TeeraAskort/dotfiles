@@ -50,8 +50,8 @@ cp zsh/.debian_alias ~
 cp zsh/.fedora_alias ~
 cp dotfiles/.vimrc ~
 cp zsh/.opensuse_alias ~
-mkdir -p .config/pulse
-cp dotfiles/daemon.conf ~/.config/pulse
+mkdir -p ~/.config/pulse
+cp dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
 
 git config --global user.name "Alderaeney"

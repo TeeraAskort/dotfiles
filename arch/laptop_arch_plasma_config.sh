@@ -107,9 +107,6 @@ systemctl enable sddm-plymouth
 # Removing unwanted Plasma apps
 pacman -Rnc oxygen
 
-# Setting X11 keyboard layout
-sudo -u link setxkbmap es
-
 # Adding environment variable to /etc/environment
 echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
 

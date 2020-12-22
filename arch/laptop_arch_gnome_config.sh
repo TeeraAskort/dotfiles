@@ -74,7 +74,10 @@ pacman -S --noconfirm zip unzip unrar p7zip lzop
 pacman -S --noconfirm vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils
 
 # Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine
+pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine qt5ct
+
+# Set environment variable
+echo "QT_QPA_PLATFORMTHEME=qt5ct" | tee -a /etc/environment
 
 # Enabling GDM
 systemctl enable gdm

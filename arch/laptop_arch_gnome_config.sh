@@ -178,4 +178,4 @@ pacman -Qtdq | pacman -Rns -
 
 # Copying dotfiles folder to link
 mv /dotfiles /home/link
-chown -R link:users /home/link/dotfile | tee -a /etc/environments
+chown -R link:users /home/link/dotfiles

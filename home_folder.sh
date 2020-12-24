@@ -53,6 +53,8 @@ cp zsh/.opensuse_alias ~
 mkdir -p ~/.config/pulse
 cp dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
+
+sudo groupadd link
 cp -r dotfiles/key-mapper/ ~/.config/
 
 git config --global user.name "Alderaeney"

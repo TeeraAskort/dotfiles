@@ -132,7 +132,7 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher switcheroo-control android-studio xampp qt5-styleplugins key-mapper-git
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher switcheroo-control android-studio xampp qt5-styleplugins key-mapper-git mpv-mpris
 
 # Setting environment variable for QT5 theming
 echo "QT_QPA_PLATFORMTHEME=gtk2" | tee -a /etc/environment

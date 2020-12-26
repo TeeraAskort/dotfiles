@@ -23,7 +23,7 @@ if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	sudo OneClickInstallCLI https://www.opensuse-community.org/codecs-kde.ymp
 
 	# Installing packages
-	sudo zypper in chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions yakuake mpv strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel fish thermald xf86-video-intel qbittorrent emacs kdeconnect-kde plymouth-plugin-script
+	sudo zypper in chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions yakuake mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel fish thermald xf86-video-intel qbittorrent emacs kdeconnect-kde plymouth-plugin-script
 
 	# Remove unwanted packages
 	sudo zypper rm git-gui kontact akregator kmail konversation kmines ksudoku kreversi kaddressbook korganizer
@@ -60,6 +60,11 @@ echo -e 'install_items+=" /.root.key "' | sudo tee --append /etc/dracut.conf.d/9
 echo "/boot/ root:root 700" | sudo tee -a /etc/permissions.local
 sudo chkstat --system --set
 sudo mkinitrd
+
+# Install key-mapper
+git clone https://github.com/sezanzeb/key-mapper.git
+cd key-mapper && sudo python3 setup.py install
+sudo systemctl enable key-mapper
 
 # Adjusting sound quality
 sudo sed -i "s/; enable-lfe-remixing = no.*/enable-lfe-remixing = yes/" /etc/pulse/daemon.conf

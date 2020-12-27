@@ -20,3 +20,5 @@ user_pref("network.dns.disablePrefetch", true);
 user_pref("network.prefetch-next", false);
 user_pref("webgl.disabled", true);
 user_pref("dom.event.clipboardevents.enabled", false);
+user_pref("gfx.font_rendering.cleartype_params.rendering_mode", 5);
+user_pref("browser.display.auto_quality_min_font_size", 1);

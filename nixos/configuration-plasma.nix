@@ -6,12 +6,11 @@
 
 with import <nixpkgs> {};
 
-( let 
-    key-mapper = callPackage /etc/nixos/key-mapper/release.nix {
+let 
+    key-mapper = callPackage /mnt/etc/nixos/key-mapper/release.nix {
         buildPythonPackage = python38Packages.buildPythonPackage;
     };
-    in python38.withPackages (ps: [ key-mapper ])
-).env
+in
 
 let
   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
@@ -68,7 +67,7 @@ in
     kdeApplications.kdegraphics-thumbnailers kdeApplications.kgpg kdeApplications.ksystemlog
     kdeApplications.kdenetwork-filesharing gtk-engine-murrine
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode 
-    firefox mpv noto-fonts pip2nix
+    firefox mpv noto-fonts 
     nerdfonts noto-fonts-cjk noto-fonts-emoji papirus-icon-theme 
     nvidia-offload discord libreoffice-fresh
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
@@ -77,6 +76,7 @@ in
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
     desmume chromium
     android-studio nextcloud-client 
+    (python38.withPackages (ps: with ps; [ key-mapper ]))
   ];
 
   # Java configuration

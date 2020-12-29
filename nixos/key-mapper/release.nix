@@ -2,8 +2,9 @@
 
 buildPythonPackage rec {
     pname = "key-mapper-git";
+    version = "0.4.0";
     
-    src = pkgs.fetchFromGithub {
+    src = pkgs.fetchFromGitHub {
         owner = "sezanzeb";
         repo = "key-mapper";
         rev = "d457b5efbecd79d1ee6cfe3e1172f392731b829e";

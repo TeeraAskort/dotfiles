@@ -12,7 +12,7 @@
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams = [ "intel_idle.max_cstate=1" "rcutree.rcu_idle_gp_delay=1" ];
+  boot.kernelParams = [ "intel_idle.max_cstate=1" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.initrd.luks.devices."luks" = {

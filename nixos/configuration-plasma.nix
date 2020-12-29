@@ -23,9 +23,6 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Enable plymouth
-  boot.plymouth.enable = true;
-
   # Declare the hostname
   networking.hostName = "link-gl63-8rc"; # Define your hostname.
 
@@ -62,14 +59,14 @@ in
     kdeApplications.kdegraphics-thumbnailers kdeApplications.kgpg kdeApplications.ksystemlog
     kdeApplications.kdenetwork-filesharing gtk-engine-murrine
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode 
-    firefox mpv noto-fonts 
+    firefox mpv noto-fonts pip2nix
     nerdfonts noto-fonts-cjk noto-fonts-emoji papirus-icon-theme 
     nvidia-offload discord libreoffice-fresh
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
     p7zip unzip unrar gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
-    desmume chromium noto-fonts-cjk
+    desmume chromium
     android-studio nextcloud-client 
   ];
 
@@ -140,11 +137,23 @@ in
     enable = true;
 
     daemon.config = {
-      enable-lfe-remixing = "yes";
-      lfe-crossover-freq = 20;
-      default-sample-format = "s24le";
+      default-sample-format = "float32le";
       default-sample-rate = 192000;
       alternate-sample-rate = 48000;
+      default-sample-channels = 2;
+      default-channel-map = "front-left,front-right";
+      default-fragments = 2;
+      default-fragment-size-msec = 125;
+      resample-method = "src-sinc-best-quality";
+      remixing-produce-lfe = "no";
+      remixing-consume-lfe = "no";
+      high-priority = "yes";
+      nice-level = -11;
+      realtime-scheduling = "yes";
+      realtime-priority = 9;
+      rlimit-rtprio = 9;
+      daemonize = "no";
+      lfe-crossover-freq = 20;
     };
  
     # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
@@ -173,7 +182,7 @@ in
     # Use nvidia drivers
     videoDrivers = [ "nvidia" ];
 
-    # Gnome3 desktop configuration
+    # Plasma5 desktop configuration
     displayManager = {
       sddm = {
         enable = true;
@@ -212,7 +221,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "link" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

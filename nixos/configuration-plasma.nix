@@ -4,6 +4,15 @@
 
 { config, pkgs, ... }:
 
+with import <nixpkgs> {};
+
+( let 
+    key-mapper = callPackage /etc/nixos/key-mapper/release.nix {
+        buildPythonPackage = python38Packages.buildPythonPackage;
+    };
+    in python38.withPackages (ps: [ key-mapper ])
+).env
+
 let
   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
     export __NV_PRIME_RENDER_OFFLOAD=1

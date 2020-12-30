@@ -1,6 +1,6 @@
-{ lib, pkgs, buildPythonPackage }:
+{ lib, python39Packages }:
 
-buildPythonPackage rec {
+python39Packages.buildPythonApplication rec {
     pname = "key-mapper-git";
     version = "0.4.0";
     
@@ -11,6 +11,10 @@ buildPythonPackage rec {
         sha256 = "0732a86523ce22cd0146a58605f2141c17b6cca34b3a5632971f9539089e3e3e";
     };
     
+   buildInputs = with python39Packages; [ pydbus pygobject evdev ];
+
+   propagateBuildInputs = with python39Packages; [ pydbus pygobject evdev ];
+
     meta = with lib; {
         homepage = "https://github.com/sezanzeb/key-mapper";
         description = "Key mapping tool";

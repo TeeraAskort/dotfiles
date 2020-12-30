@@ -7,9 +7,7 @@
 with import <nixpkgs> {};
 
 let 
-    key-mapper = callPackage /mnt/etc/nixos/key-mapper/release.nix {
-        buildPythonPackage = python38Packages.buildPythonPackage;
-    };
+    key-mapper = callPackage /mnt/etc/nixos/key-mapper/release.nix { };
 in
 
 let
@@ -76,7 +74,7 @@ in
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
     desmume chromium
     android-studio nextcloud-client 
-    (python38.withPackages (ps: with ps; [ key-mapper ]))
+    key-mapper
   ];
 
   # Java configuration

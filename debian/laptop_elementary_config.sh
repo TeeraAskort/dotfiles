@@ -72,7 +72,7 @@ add-apt-repository ppa:cappelikan/ppa
 
 # Install required applications
 apt update
-apt install intel-microcode firefox flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox touchegg tlp
+apt install intel-microcode firefox flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox touchegg com.github.stsdc.monitor
 
 # Copying touchegg configuration
 user=$SUDO_USER
@@ -83,7 +83,8 @@ wget "https://steamcdn-a.akamaihd.net/client/installer/steam.deb"
 sudo apt install ./steam.deb
 
 # Install flatpak applications
-flatpak install flathub org.telegram.desktop com.discordapp.Discord
+io.elementary.sideload https://dl.flathub.org/repo/appstream/org.telegram.desktop.flatpakref
+io.elementary.sideload https://dl.flathub.org/repo/appstream/com.discordapp.Discord.flatpakref
 
 # Copying prime-run launcher
 cp ../dotfiles/prime-run /usr/bin
@@ -91,9 +92,6 @@ chmod +x /usr/bin/prime-run
 
 # Copying Xorg config
 cp ../dotfiles/xorg.conf /etc/X11
-
-# Setting nvidia profile to intel
-# prime-select intel
 
 # Removing orphans
 apt autoremove

@@ -72,16 +72,18 @@ add-apt-repository ppa:cappelikan/ppa
 
 # Install required applications
 apt update
-apt install intel-microcode firefox telegram-desktop flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox touchegg tlp
+apt install intel-microcode firefox flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox touchegg tlp
 
 # Copying touchegg configuration
 user=$SUDO_USER
 sudo -u $user mkdir -p ~/.config/touchegg && sudo -u $user cp -n /usr/share/touchegg/touchegg.conf ~/.config/touchegg/touchegg.conf
 
 # Install discord and steam from the website
-curl -L "https://discord.com/api/download?platform=linux&format=deb" > discord.deb
 wget "https://steamcdn-a.akamaihd.net/client/installer/steam.deb"
-sudo apt install ./discord.deb ./steam.deb
+sudo apt install ./steam.deb
+
+# Install flatpak applications
+flatpak install flathub org.telegram.desktop com.discordapp.Discord
 
 # Copying prime-run launcher
 cp ../dotfiles/prime-run /usr/bin

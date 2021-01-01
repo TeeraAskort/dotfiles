@@ -21,7 +21,7 @@ add-apt-repository ppa:graphics-drivers/ppa
 add-apt-repository ppa:kisak/kisak-mesa
 apt update
 apt full-upgrade
-ubuntu-driver install
+ubuntu-drivers install
 
 # Add vulkan support
 apt install mesa-vulkan-drivers mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
@@ -43,10 +43,18 @@ add-apt-repository ppa:nextcloud-devs/client
 apt update
 apt install nextcloud-client
 
-# Install wine
+# Add wine repository
 wget -nc https://dl.winehq.org/wine-builds/winehq.key
-sudo apt-key add winehq.key
+apt-key add winehq.key
 add-apt-repository "deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main"
+
+# Add faudio repository
+wget https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key
+apt-key add Release.key
+add-apt-repository 'deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/ ./'
+
+# Install wine-staging
+apt update
 apt install --install-recommends winehq-staging
 
 # Install key-mapper

@@ -29,6 +29,8 @@ apt install mesa-vulkan-drivers mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
 apt install indicator-application
 sed -i "s/OnlyShowIn=Unity;GNOME;/OnlyShowIn=Unity;GNOME;Pantheon;/g" /etc/xdg/autostart/indicator-application.desktop
 mv /etc/xdg/autostart/nm-applet.desktop /etc/xdg/autostart/nm-applet.old
+wget "http://ppa.launchpad.net/elementary-os/stable/ubuntu/pool/main/w/wingpanel-indicator-ayatana/wingpanel-indicator-ayatana_2.0.3+r27+pkg17~ubuntu0.4.1.1_amd64.deb"
+sudo dpkg -i wingpanel-indicator-ayatana_2.0.3+r27+pkg17~ubuntu0.4.1.1_amd64.deb
 
 # Install lutris
 add-apt-repository ppa:lutris-team/lutris
@@ -41,7 +43,7 @@ apt update
 apt install nextcloud-client
 
 # Install wine
-add-apt-repository "deb https://dl.winehq.org/wine-builds/ubuntu/ $(lsb_release -cs) main"
+add-apt-repository "deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main"
 apt install --install-recommends winehq-staging
 
 # Install key-mapper

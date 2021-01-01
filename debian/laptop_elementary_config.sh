@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configuring grub
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1 "/' /etc/default/grub
-update-grub
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1 nogpumanager"/' /etc/default/grub
+update-grub2
 
 # Enable 32bit support
 dpkg --add-architecture i386
@@ -53,8 +53,7 @@ apt install --install-recommends winehq-staging
 apt install git python3-setuptools
 git clone https://github.com/sezanzeb/key-mapper.git
 cd key-mapper && ./scripts/build.sh
-sudo dpkg -i ./dist/key-mapper-*.deb
-sudo apt -f install
+apt install ./dist/key-mapper-*.deb
 cd .. && rm -r key-mapper
 
 # Install required applications

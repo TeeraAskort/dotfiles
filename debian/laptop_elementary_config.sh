@@ -83,8 +83,8 @@ wget "https://steamcdn-a.akamaihd.net/client/installer/steam.deb"
 sudo apt install ./steam.deb
 
 # Install flatpak applications
-io.elementary.sideload https://dl.flathub.org/repo/appstream/org.telegram.desktop.flatpakref
-io.elementary.sideload https://dl.flathub.org/repo/appstream/com.discordapp.Discord.flatpakref
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub org.telegram.desktop com.discordapp.Discord
 
 # Copying prime-run launcher
 cp ../dotfiles/prime-run /usr/bin

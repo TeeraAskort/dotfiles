@@ -77,7 +77,11 @@ curl -fsSL https://download.opensuse.org/repositories/shells:zsh-users:zsh-autos
 
 # Install required applications
 apt update
-apt install intel-microcode firefox telegram-desktop flatpak zsh zsh-syntax-highlighting zsh-autosuggestions fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox
+apt install intel-microcode firefox telegram-desktop flatpak zsh zsh-syntax-highlighting zsh-autosuggestions fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox touchegg
+
+# Copying touchegg configuration
+user=$SUDO_USER
+sudo -u $user mkdir -p ~/.config/touchegg && sudo -u $user cp -n /usr/share/touchegg/touchegg.conf ~/.config/touchegg/touchegg.conf
 
 # Install discord and steam from the website
 wget https://discord.com/api/download?platform=linux&format=deb

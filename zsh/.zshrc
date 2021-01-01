@@ -111,6 +111,9 @@ export ARCHFLAGS="-arch x86_64"
 # Opensuse alias
 # source ~/.opensuse_alias
 
+# Elementary alias
+# source ~/.elementary_alias
+
 # General alias
 source ~/.general_alias
 

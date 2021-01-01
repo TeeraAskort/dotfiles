@@ -70,9 +70,19 @@ add-apt-repository ppa:papirus/papirus
 # Add mainline repo
 add-apt-repository ppa:cappelikan/ppa
 
+# Enable zsh-autosuggestions repo
+echo 'deb http://download.opensuse.org/repositories/shells:/zsh-users:/zsh-autosuggestions/xUbuntu_18.04/ /' | sudo tee /etc/apt/sources.list.d/shells:zsh-users:zsh-autosuggestions.list
+curl -fsSL https://download.opensuse.org/repositories/shells:zsh-users:zsh-autosuggestions/xUbuntu_18.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_zsh-users_zsh-autosuggestions.gpg > /dev/null
+
+
 # Install required applications
 apt update
-apt install intel-microcode firefox telegram-desktop flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox
+apt install intel-microcode firefox telegram-desktop flatpak zsh zsh-syntax-highlighting zsh-autosuggestions fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox
+
+# Install discord and steam from the website
+wget https://discord.com/api/download?platform=linux&format=deb
+wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb
+sudo apt install ./discord*.deb ./steam*.deb
 
 # Copying prime-run launcher
 cp ../dotfiles/prime-run /usr/bin

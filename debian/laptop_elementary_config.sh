@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuring grub
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1 "/'
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1 "/' /etc/default/grub
 update-grub
 
 # Enable 32bit support
@@ -21,7 +21,7 @@ add-apt-repository ppa:graphics-drivers/ppa
 add-apt-repository ppa:kisak/kisak-mesa
 apt update
 apt full-upgrade
-apt install nvidia-dkms-455
+ubuntu-driver install
 
 # Add vulkan support
 apt install mesa-vulkan-drivers mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
@@ -68,7 +68,7 @@ chmod +x /usr/bin/prime-run
 cp ../dotfiles/xorg.conf /etc/X11
 
 # Setting nvidia profile to intel
-prime-select intel
+# prime-select intel
 
 # Removing orphans
 apt autoremove

@@ -64,8 +64,15 @@ cd key-mapper && ./scripts/build.sh
 apt install ./dist/key-mapper-*.deb
 cd .. && rm -r key-mapper
 
+# Add strawberry repo
+add-apt-repository ppa:jonaski/strawberry
+
 # Install required applications
-apt install intel-microcode firefox telegram-desktop flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom
+apt update
+apt install intel-microcode firefox telegram-desktop flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom strawberry qt5-style-plugins
+
+# Overriding QT5 style theme
+echo "QT_QPA_PLATFORMTHEME=gtk2" | tee -a /etc/environment
 
 # Copying prime-run launcher
 cp ../dotfiles/prime-run /usr/bin

@@ -79,9 +79,9 @@ user=$SUDO_USER
 sudo -u $user mkdir -p ~/.config/touchegg && sudo -u $user cp -n /usr/share/touchegg/touchegg.conf ~/.config/touchegg/touchegg.conf
 
 # Install discord and steam from the website
-wget "https://discord.com/api/download?platform=linux&format=deb"
+curl -L "https://discord.com/api/download?platform=linux&format=deb" > discord.deb
 wget "https://steamcdn-a.akamaihd.net/client/installer/steam.deb"
-sudo apt install ./discord*.deb ./steam*.deb
+sudo apt install ./discord.deb ./steam.deb
 
 # Copying prime-run launcher
 cp ../dotfiles/prime-run /usr/bin

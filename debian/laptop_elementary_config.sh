@@ -72,7 +72,7 @@ add-apt-repository ppa:cappelikan/ppa
 
 # Install required applications
 apt update
-apt install intel-microcode firefox telegram-desktop flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox touchegg
+apt install intel-microcode firefox telegram-desktop flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox touchegg tlp
 
 # Copying touchegg configuration
 user=$SUDO_USER

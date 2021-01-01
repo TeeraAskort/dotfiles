@@ -21,6 +21,7 @@ add-apt-repository ppa:graphics-drivers/ppa
 add-apt-repository ppa:kisak/kisak-mesa
 apt update
 apt full-upgrade
+apt install nvidia-dkms-455
 
 # Add vulkan support
 apt install mesa-vulkan-drivers mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
@@ -43,6 +44,8 @@ apt update
 apt install nextcloud-client
 
 # Install wine
+wget -nc https://dl.winehq.org/wine-builds/winehq.key
+sudo apt-key add winehq.key
 add-apt-repository "deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main"
 apt install --install-recommends winehq-staging
 
@@ -50,7 +53,7 @@ apt install --install-recommends winehq-staging
 apt install git python3-setuptools
 git clone https://github.com/sezanzeb/key-mapper.git
 cd key-mapper && ./scripts/build.sh
-sudo dpkg -i ./dist/key-mapper-0.4.0.deb
+sudo dpkg -i ./dist/key-mapper-*.deb
 sudo apt -f install
 cd .. && rm -r key-mapper
 

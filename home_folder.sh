@@ -45,11 +45,12 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/cu
 
 cp zsh/.zshrc ~
 cp zsh/.general_alias ~
-cp zsh/.arch_alias ~ 
+cp zsh/.arch_alias ~
 cp zsh/.debian_alias ~
 cp zsh/.fedora_alias ~
 cp dotfiles/.vimrc ~
 cp zsh/.opensuse_alias ~
+cp zsh/.elementary_alias ~
 mkdir -p ~/.config/pulse
 cp dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k

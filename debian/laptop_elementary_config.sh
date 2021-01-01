@@ -64,9 +64,6 @@ cd key-mapper && ./scripts/build.sh
 apt install ./dist/key-mapper-*.deb
 cd .. && rm -r key-mapper
 
-# Add strawberry repo
-add-apt-repository ppa:jonaski/strawberry
-
 # Add papirus repo
 add-apt-repository ppa:papirus/papirus
 
@@ -75,10 +72,7 @@ add-apt-repository ppa:cappelikan/ppa
 
 # Install required applications
 apt update
-apt install intel-microcode firefox telegram-desktop flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom strawberry qt5-style-plugins papirus-icon-theme mainline
-
-# Overriding QT5 style theme
-echo "QT_QPA_PLATFORMTHEME=gtk2" | tee -a /etc/environment
+apt install intel-microcode firefox telegram-desktop flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox
 
 # Copying prime-run launcher
 cp ../dotfiles/prime-run /usr/bin

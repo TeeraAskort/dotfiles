@@ -32,6 +32,7 @@ sed -i "s/OnlyShowIn=Unity;GNOME;/OnlyShowIn=Unity;GNOME;Pantheon;/g" /etc/xdg/a
 mv /etc/xdg/autostart/nm-applet.desktop /etc/xdg/autostart/nm-applet.old
 wget "http://ppa.launchpad.net/elementary-os/stable/ubuntu/pool/main/w/wingpanel-indicator-ayatana/wingpanel-indicator-ayatana_2.0.3+r27+pkg17~ubuntu0.4.1.1_amd64.deb"
 sudo dpkg -i wingpanel-indicator-ayatana_2.0.3+r27+pkg17~ubuntu0.4.1.1_amd64.deb
+rm wingpanel*.deb
 
 # Install lutris
 add-apt-repository ppa:lutris-team/lutris
@@ -47,6 +48,7 @@ apt install nextcloud-client
 wget -nc https://dl.winehq.org/wine-builds/winehq.key
 apt-key add winehq.key
 add-apt-repository "deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main"
+rm winehq.key
 
 # Add faudio repository
 wget "https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key"
@@ -72,14 +74,14 @@ add-apt-repository ppa:cappelikan/ppa
 
 # Install required applications
 apt update
-apt install intel-microcode firefox flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox touchegg com.github.stsdc.monitor tlp
+apt install intel-microcode firefox flatpak zsh zsh-syntax-highlighting fonts-noto-cjk openjdk-11-jdk mpv transmission-gtk vim git thermald earlyoom papirus-icon-theme mainline rhythmbox com.github.stsdc.monitor tlp
 
 # Copying touchegg configuration
-user=$SUDO_USER
-sudo -u $user mkdir -p ~/.config/touchegg && sudo -u $user cp -n /usr/share/touchegg/touchegg.conf ~/.config/touchegg/touchegg.conf
+#user=$SUDO_USER
+#sudo -u $user mkdir -p ~/.config/touchegg && sudo -u $user cp -n /usr/share/touchegg/touchegg.conf ~/.config/touchegg/touchegg.conf
 
 # Install discord and steam from the website
-wget "https://steamcdn-a.akamaihd.net/client/installer/steam.deb"
+curl -L "https://steamcdn-a.akamaihd.net/client/installer/steam.deb" > steam.deb
 sudo apt install ./steam.deb
 
 # Install flatpak applications

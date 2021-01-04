@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Add intel_idle.max_cstate=1 to grub and update
-grubby --update-kernel=ALL --args=intel_idle.max_cstate=0
-grubby --update-kernel=ALL --args=processor.max_cstate=1
+grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
+# grubby --update-kernel=ALL --args=processor.max_cstate=1
 
 # Add fastestmirror to dnf configuration
 echo "fastestmirror=1" | tee -a /etc/dnf/dnf.conf

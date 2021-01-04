@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Sorting mirrors
-pacman -S pacman-contrib
-cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
-
 # Configuring locales
 sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen
 sed -i "s/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g" /etc/locale.gen
@@ -78,22 +73,19 @@ pacman -S --noconfirm zip unzip unrar p7zip lzop
 # Installing generic tools
 pacman -S --noconfirm vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils
 
-# Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine 
+# Install DDE
+pacman -S --noconfirm mate mate-extra blueberry gvfs ffmpegthumbnailer network-manager-applet lightdm ttf-droid ttf-dejavu gtk-engine-murrine
 
-# Enabling GDM
-systemctl enable gdm
+# Installing lightdm-slick-greeter and lightdm-settings
+sudo -u aurbuilder yay -S lightdm-settings lightdm-slick-greeter mate-tweak mate-menu plymouth plymouth-theme-hexagon-2-git
 
-# Installing plymouth
-sudo -u aurbuilder yay -S gdm-plymouth
+# Change default lightdm greeter
+sed -i "s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-slick-greeter/g" /etc/lightdm/lightdm.conf
 
-# Making the arch logo appear in the plymouth
-# cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
+# Enabling plymouth lightdm
+systemctl enable lightdm-plymouth
 
-# Installing lone plymouth theme
-sudo -u aurbuilder yay -S plymouth-theme-hexagon-2-git
-
-# Making lone theme default
+# Making hexagon_2 theme default
 plymouth-set-default-theme -R hexagon_2
 
 # Configuring mkinitcpio
@@ -108,9 +100,6 @@ sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 cryptdevice=\/dev\/
 sed -i "s/#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g" /etc/default/grub
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
-
-# Removing unwanted GNOME apps
-pacman -Rnc gnome-music epiphany totem 
 
 # Installing printing services
 pacman -S --noconfirm cups cups-pdf hplip ghostscript
@@ -137,27 +126,10 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher switcheroo-control android-studio xampp qt5-styleplugins key-mapper-git mpv-mpris
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio xampp key-mapper-git mpv-mpris
 
-# Setting environment variable for QT5 theming
-echo "QT_QPA_PLATFORMTHEME=gtk2" | tee -a /etc/environment
-
-# Enable switcheroo-control and key-mapper
-systemctl enable switcheroo-control key-mapper
-
-# Disable wayland
-sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
-
-# Install plata-theme from git
-cd /home/link
-sudo -u link git clone https://aur.archlinux.org/plata-theme.git
-cd plata-theme
-sudo -u link sed -i 's/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git#tag=${pkgver}")/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git")/g' PKGBUILD
-clear
-echo "Installing plata-theme"
-sudo -u link makepkg -si
-cd ..
-rm -r plata-theme
+# Enable key-mapper
+systemctl enable key-mapper
 
 # Install eclipse-jee with link's user
 clear

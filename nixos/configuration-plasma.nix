@@ -14,6 +14,10 @@ let
     export __VK_LAYER_NV_optimus=NVIDIA_only
     exec -a "$0" "$@"
   '';
+  blockedHosts = pkgs.fetchurl {
+    url = "https://someonewhocares.org/hosts/zero/hosts";
+    sha256 = "09hgyki7324vli9ldi2iz9l052d3hnmnbanm5cnn1l1hbf9n5vyx";
+  };
 in
 {
   imports =
@@ -38,6 +42,9 @@ in
       enp3s0.useDHCP = true;
       wlo1.useDHCP = true;
     };
+    extraHosts = ''
+      ${builtins.readFile blockedHosts}
+    '';
   };
 
   # Select internationalisation properties.

@@ -2,7 +2,7 @@
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
-# grubby --update-kernel=ALL --args=processor.max_cstate=1
+sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 
 # Add fastestmirror to dnf configuration
 echo "fastestmirror=1" | tee -a /etc/dnf/dnf.conf
@@ -27,7 +27,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 plata-theme fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts tlp nodejs npm code java-11-openjdk-devel aisleriot nextcloud-client nextcloud-client-nautilus thermald gnome-mahjongg plymouth-plugin-script
+dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 plata-theme fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts tlp nodejs npm code java-11-openjdk-devel aisleriot nextcloud-client nextcloud-client-nautilus thermald gnome-mahjongg python3-pip
 
 systemctl enable thermald
 
@@ -71,15 +71,11 @@ sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 
 systemctl enable tlp
 
-# Changing plymouth theme
-wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_2/hexagon_2.tar.gz
-tar xzvf hexagon_2.tar.gz
-sudo mv hexagon_2 /usr/share/plymouth/themes/
-sudo plymouth-set-default-theme -R hexagon_2
-rm hexagon_2.tar.gz
-
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
 flatpak install flathub com.discordapp.Discord
+
+# Installing key-mapper
+sudo pip install git+https://github.com/sezanzeb/key-mapper.git

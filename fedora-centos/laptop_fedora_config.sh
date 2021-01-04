@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Add intel_idle.max_cstate=1 to grub and update
-grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
-sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
-
 # Add fastestmirror to dnf configuration
 echo "fastestmirror=1" | tee -a /etc/dnf/dnf.conf
 
@@ -78,4 +74,8 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install flathub com.discordapp.Discord
 
 # Installing key-mapper
-sudo pip install git+https://github.com/sezanzeb/key-mapper.git
+pip install git+https://github.com/sezanzeb/key-mapper.git
+
+# Add intel_idle.max_cstate=1 to grub and update
+grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
+grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg

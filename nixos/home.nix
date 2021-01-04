@@ -9,6 +9,7 @@
 
 
   programs.firefox = {
+    enable = true;
     profiles = {
       myprofile = {
         settings = {
@@ -25,7 +26,6 @@
           "privacy.resistFingerprinting" = true;
           "privacy.trackingprotection.fingerprinting.enabled" = true;
           "privacy.trackingprotection.cryptomining.enabled" = true;
-          "privacy.firstparty.isolate" = true;
           "privacy.trackingprotection.enabled" = true;
           "geo.enabled" = false;
           "media.navigator.enabled" = false;
@@ -34,6 +34,7 @@
           "network.prefetch-next" = false;
           "webgl.disabled" = true;
           "dom.event.clipboardevents.enabled" = false;
+          "browser.shell.checkDefaultBrowser" = false;
         };
       };
     };

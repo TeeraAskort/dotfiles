@@ -76,7 +76,11 @@ in
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
     desmume chromium android-studio nextcloud-client 
+    eclipses.eclipse-java
   ];
+
+  # Firefox plasma browser integration
+  nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
 
   # Java configuration
   programs.java = {
@@ -124,7 +128,11 @@ in
 
   # Flatpak support
   services.flatpak.enable = true;
-  xdg.portal.extraPortals = [ pkgs.plasma5.xdg-desktop-portal-kde ];
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.plasma5.xdg-desktop-portal-kde ];
+    gtkUsePortal = true;
+  };
 
   # Steam dependencies
   hardware.opengl = {

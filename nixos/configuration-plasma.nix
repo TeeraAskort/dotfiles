@@ -6,10 +6,6 @@
 
 with import <nixpkgs> {};
 
-let 
-    key-mapper = callPackage /mnt/etc/nixos/key-mapper/release.nix { };
-in
-
 let
   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
     export __NV_PRIME_RENDER_OFFLOAD=1
@@ -65,16 +61,14 @@ in
     kdeApplications.kdegraphics-thumbnailers kdeApplications.kgpg kdeApplications.ksystemlog
     kdeApplications.kdenetwork-filesharing gtk-engine-murrine
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode 
-    firefox mpv noto-fonts 
-    nerdfonts noto-fonts-cjk noto-fonts-emoji papirus-icon-theme 
+    firefox mpv noto-fonts piper
+    noto-fonts-cjk noto-fonts-emoji papirus-icon-theme 
     nvidia-offload discord libreoffice-fresh
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
     p7zip unzip unrar gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
-    desmume chromium
-    android-studio nextcloud-client 
-    key-mapper
+    desmume chromium android-studio nextcloud-client 
   ];
 
   # Java configuration

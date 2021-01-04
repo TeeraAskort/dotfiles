@@ -55,7 +55,7 @@ EOF
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
 
 #Copying PRIME render offload launcher
-cp prime-run /usr/bin
+cp ../dotfiles/prime-run /usr/bin
 chmod +x /usr/bin/prime-run
 
 #Intel undervolt configuration

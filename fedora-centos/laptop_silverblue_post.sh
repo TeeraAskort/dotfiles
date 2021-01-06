@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Installing nvidia drivers
+rpm-ostree install akmod-nvidia xorg-x11-drv-nvidia xorg-x11-drv-nvidia-cuda
+
+# Appending kernel parameters for nvidia
+rpm-ostree kargs --append=rd.driver.blacklist=nouveau --append=modprobe.blacklist=nouveau
+
+# Installig required apps
+rpm-ostree install mozilla-openh264 gstreamer1-plugin-openh264 ffmpeg mpv lutris
+
+# Editing intel-undervolt config
+sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /etc/intel-undervolt.conf
+sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.conf
+sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
+

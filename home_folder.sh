@@ -18,6 +18,12 @@ ln -s /home/link/Datos/Imágenes /home/link
 ln -s /home/link/Datos/Torrent /home/link
 ln -s /home/link/Datos/Nextcloud /home/link
 
+xdg-user-dirs-update --set DESKTOP $HOME/Datos/Escritorio
+xdg-user-dirs-update --set DOCUMENTS $HOME/Datos/Documentos
+xdg-user-dirs-update --set DOWNLOAD $HOME/Datos/Descargas
+xdg-user-dirs-update --set MUSIC $HOME/Datos/Música
+xdg-user-dirs-update --set PICTURES $HOME/Datos/Imágenes
+
 wget https://someonewhocares.org/hosts/zero/hosts
 sudo cp /etc/hosts /etc/hosts.bak
 sudo mv hosts /etc/hosts

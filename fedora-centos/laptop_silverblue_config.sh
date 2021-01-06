@@ -22,7 +22,7 @@ flatpak install flathub org.telegram.desktop com.discordapp.Discord org.DolphinE
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 # Installing packages
-rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks tilix intel-undervolt strawberry fontconfig-font-replacements fontconfig-enhanced-defaults plata-theme openssl papirus-icon-theme
+rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks tilix intel-undervolt strawberry fontconfig-font-replacements fontconfig-enhanced-defaults plata-theme openssl papirus-icon-theme 
 
 # Adding intel_idle.max_cstate=1 kernel parameter
 rpm-ostree kargs --append=intel_idle.max_cstate=1

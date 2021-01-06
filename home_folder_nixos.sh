@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent
+sudo rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent
 
 ln -s /home/link/Datos/Descargas /home/link
 ln -s /home/link/Datos/Descargas /home/link/Downloads

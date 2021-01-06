@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Adding repos
+curl -L "https://copr.fedorainfracloud.org/coprs/dawid/better_fonts/repo/fedora-33/dawid-better_fonts-fedora-33.repo" > better_fonts.repo
+curl -L "https://copr.fedorainfracloud.org/coprs/pp3345/gnome-with-patches/repo/fedora-33/pp3345-gnome-with-patches-fedora-33.repo" > gnome-with-patches.repo
+curl -L "https://copr.fedorainfracloud.org/coprs/alderaeney/plata-theme-master/repo/fedora-33/alderaeney-plata-theme-master-fedora-33.repo" > plata-theme-master.repo
+cp better_fonts.repo gnome-with-patches.repo plata-theme-master.repo /etc/yum.repos.d/
+
 # Updating the system
 rpm-ostree upgrade
 
@@ -16,7 +22,7 @@ flatpak install flathub org.telegram.desktop com.discordapp.Discord org.DolphinE
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 # Installing packages
-rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks tilix intel-undervolt rhythmbox
+rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks tilix intel-undervolt rhythmbox fontconfig-font-replacements fontconfig-enhanced-defaults plata-theme
 
 # Adding intel_idle.max_cstate=1 kernel parameter
 rpm-ostree kargs --append=intel_idle.max_cstate=1

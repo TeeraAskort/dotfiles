@@ -3,7 +3,6 @@ user_pref("media.hardwaremediakeys.enabled", true);
 user_pref("layers.acceleration.force-enabled", true);
 user_pref("media.ffmpeg.vaapi-drm-display.enabled", true);
 user_pref("media.ffmpeg.vaapi.enabled", true);
-user_pref("privacy.firstparty.isolate", true);
 user_pref("browser.newtabpage.activity-stream.showSponsored", false);
 user_pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 user_pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", false);
@@ -22,3 +21,6 @@ user_pref("webgl.disabled", true);
 user_pref("dom.event.clipboardevents.enabled", false);
 user_pref("gfx.font_rendering.cleartype_params.rendering_mode", 5);
 user_pref("browser.display.auto_quality_min_font_size", 1);
+user_pref("toolkit.telemetry.enabled", false);
+user_pref("media.peerconnection.enabled", false);
+

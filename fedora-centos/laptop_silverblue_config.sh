@@ -18,7 +18,7 @@ flatpak remove org.gnome.Calculator org.gnome.Calendar org.gnome.Characters org.
 flatpak install flathub org.telegram.desktop com.discordapp.Discord org.DolphinEmu.dolphin-emu com.nextcloud.desktopclient.nextcloud com.transmissionbt.Transmission org.gnome.Calculator org.gnome.Calendar org.gnome.Characters org.gnome.Contacts org.gnome.Evince org.gnome.FileRoller org.gnome.Logs org.gnome.Maps org.gnome.Weather org.gnome.baobab org.gnome.clocks org.gnome.eog org.gnome.font-viewer org.gnome.gedit org.libreoffice.LibreOffice com.valvesoftware.Steam org.gnome.Aisleriot org.gnome.Mahjongg com.github.Eloston.UngoogledChromium org.freedesktop.Piper com.github.micahflee.torbrowser-launcher com.google.AndroidStudio com.vscodium.codium org.gnome.Evolution org.jdownloader.JDownloader org.gimp.GIMP io.lbry.lbry-app
 
 # Steam override
-sudo -u link flatpak --user --filesystem=/home/link/Datos/SteamLibrary com.valvesoftware.Steam
+sudo -u link flatpak override --user --filesystem=/home/link/Datos/SteamLibrary com.valvesoftware.Steam
 
 # Adding rpmfusion repos
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm

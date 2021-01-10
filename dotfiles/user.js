@@ -47,3 +47,5 @@ user_pref("geo.wifi.logging.enabled", false);
 user_pref("network.predictor.enabled", false);
 user_pref("toolkit.telemetry.server", );
 user_pref("extensions.pocket.enabled", false);
+user_pref("browser.newtabpage.activity-stream.telemetry", false);
+user_pref("browser.newtabpage.pinned", [{"url":"https://boards.4channel.org/g/","label":"/g/"},{"url":"http://foro.unionfansub.com/","label":"unionfansub"},{"url":"http://twitch.tv/","label":"twitch"},{"url":"https://www.4chan-x.net/","label":"4chan-x"}])

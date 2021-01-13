@@ -24,7 +24,7 @@ sudo -u link flatpak override --user --filesystem=/home/link/Datos/SteamLibrary 
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 # Installing packages
-rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks tilix intel-undervolt guayadeque guayadeque-langpack-es fontconfig-font-replacements fontconfig-enhanced-defaults openssl papirus-icon-theme net-tools libnsl plata-theme
+rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks tilix intel-undervolt strawberry fontconfig-font-replacements fontconfig-enhanced-defaults openssl papirus-icon-theme net-tools libnsl plata-theme
 
 # Adding intel_idle.max_cstate=1 kernel parameter
 rpm-ostree kargs --append=intel_idle.max_cstate=1

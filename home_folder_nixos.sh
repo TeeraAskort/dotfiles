@@ -26,3 +26,9 @@ echo "source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" | tee -a ~/.zs
 cp nixos/home.nix ~/.config/nixpkgs/home.nix
 
 home-manager switch
+
+mkdir -p ~/.config/mpv/shaders/
+curl -LO https://gist.githubusercontent.com/igv/36508af3ffc84410fe39761d6969be10/raw/ac09db2c0664150863e85d5a4f9f0106b6443a12/SSimDownscaler.glsl
+curl -LO https://gist.githubusercontent.com/igv/a015fc885d5c22e6891820ad89555637/raw/424a8deae7d5a142d0bbbf1552a686a0421644ad/KrigBilateral.glsl
+mv SSimDownscaler.glsl KrigBilateral.glsl ~/.config/mpv/shaders
+cp dotfiles/mpv.conf ~/.config/mpv/

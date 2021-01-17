@@ -37,3 +37,6 @@ cp dotfiles/mpv.conf ~/.config/mpv/
 
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher 
+
+mkdir ~/.fonts
+cd ~/.fonts && unzip ~/Descargas/FantasqueSansMono.zip

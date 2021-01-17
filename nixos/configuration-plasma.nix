@@ -210,7 +210,12 @@ in
       sddm = {
         enable = true;
         autoNumlock = true;
-        theme = "Breeze";
+        theme = "${(pkgs.fetchFromGitHub {
+    	  owner = "MarianArlt";
+    	  repo = "sddm-chili";
+    	  rev = "6516d50176c3b34df29003726ef9708813d06271";
+    	  sha256 = "17pkxpk4lfgm14yfwg6rw6zrkdpxilzv90s48s2hsicgl3vmyr3x";
+	})}";
       };
     };
     desktopManager.plasma5.enable = true;

@@ -54,6 +54,7 @@ cp zsh/.general_alias ~
 cp zsh/.arch_alias ~
 cp zsh/.debian_alias ~
 cp zsh/.fedora_alias ~
+cp zsh/.silverblue_alias ~
 cp dotfiles/.vimrc ~
 cp zsh/.opensuse_alias ~
 cp zsh/.elementary_alias ~

@@ -77,7 +77,7 @@ in
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
     desmume chromium android-studio nextcloud-client 
     eclipses.eclipse-java obs-studio thunderbird
-    mariadb-server dbeaver-ce 
+    mariadb dbeaver
   ];
 
   # Firefox plasma browser integration

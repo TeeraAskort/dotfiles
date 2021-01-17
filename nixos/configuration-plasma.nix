@@ -67,6 +67,7 @@ in
     kdeApplications.kio-extras wacomtablet kdeApplications.konsole kdeApplications.kcharselect 
     kdeApplications.kdegraphics-thumbnailers kdeApplications.kgpg kdeApplications.ksystemlog
     kdeApplications.kdenetwork-filesharing gtk-engine-murrine
+    plasma5.plasma-browser-integration
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode 
     firefox mpv noto-fonts piper
     noto-fonts-cjk noto-fonts-emoji papirus-icon-theme 
@@ -210,12 +211,12 @@ in
       sddm = {
         enable = true;
         autoNumlock = true;
-        theme = "${(pkgs.fetchFromGitHub {
-    	  owner = "MarianArlt";
-    	  repo = "sddm-chili";
-    	  rev = "6516d50176c3b34df29003726ef9708813d06271";
-    	  sha256 = "17pkxpk4lfgm14yfwg6rw6zrkdpxilzv90s48s2hsicgl3vmyr3x";
-	})}";
+#        theme = "${(pkgs.fetchFromGitHub {
+#    	  owner = "MarianArlt";
+#    	  repo = "sddm-chili";
+#    	  rev = "6516d50176c3b34df29003726ef9708813d06271";
+#    	  sha256 = "036fxsa7m8ymmp3p40z671z163y6fcsa9a641lrxdrw225ssq5f3";
+#	})}";
       };
     };
     desktopManager.plasma5.enable = true;

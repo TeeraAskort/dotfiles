@@ -16,7 +16,7 @@ let
   '';
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "09hgyki7324vli9ldi2iz9l052d3hnmnbanm5cnn1l1hbf9n5vyx";
+    sha256 = "19xv78bd5xmsyv9k56cvm3a764jyafsqpwk8m79ph6w2983akip9";
   };
 in
 {

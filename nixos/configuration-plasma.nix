@@ -76,7 +76,8 @@ in
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
     desmume chromium android-studio nextcloud-client 
-    eclipses.eclipse-java
+    eclipses.eclipse-java obs-studio thunderbird
+    mariadb-server dbeaver-ce 
   ];
 
   # Firefox plasma browser integration

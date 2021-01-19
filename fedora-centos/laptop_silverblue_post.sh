@@ -12,4 +12,7 @@ sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.con
 sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
 
 # Enable intel-undervolt
-systemctl enable intel-undervolt tlp
+systemctl enable intel-undervolt tlp tomcat
+
+# Add tomcat exception to firewall
+firewall-cmd --permanent --add-port=8080/tcp

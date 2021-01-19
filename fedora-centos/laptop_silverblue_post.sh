@@ -12,7 +12,7 @@ sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.con
 sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
 
 # Enable intel-undervolt
-systemctl enable intel-undervolt tlp tomcat
+systemctl enable intel-undervolt tlp 
 
 # Changing tlp config
 sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf

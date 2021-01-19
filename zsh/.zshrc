@@ -109,7 +109,7 @@ export ARCHFLAGS="-arch x86_64"
 # source ~/.fedora_alias
 
 # Silverblue alias
-source ~/.silverblue_alias
+# source ~/.silverblue_alias
 
 # Opensuse alias
 # source ~/.opensuse_alias

@@ -14,5 +14,16 @@ sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-u
 # Enable intel-undervolt
 systemctl enable intel-undervolt tlp tomcat
 
+# Changing tlp config
+sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
+sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
+
 # Add tomcat exception to firewall
 firewall-cmd --permanent --add-port=8080/tcp
+
+# Enable Dynamic Power Management
+cat > /etc/modprobe.d/nvidia.conf <<EOF
+# Enable DynamicPwerManagement
+# http://download.nvidia.com/XFree86/Linux-x86_64/435.17/README/dynamicpowermanagement.html
+options nvidia NVreg_DynamicPowerManagement=0x02
+EOF

@@ -50,4 +50,5 @@ plymouth-set-default-theme -R hexagon_2
 # Removing unused packages
 apt autoremove
 
-
+# Set qt theme to adwaita-dark
+echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment

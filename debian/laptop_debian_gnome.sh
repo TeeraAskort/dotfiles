@@ -5,7 +5,7 @@ dpkg --add-architecture i386
 apt update
 
 #Installing basic packages
-apt install ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser net-tools
+apt install ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser net-tools tlp tlp-rdw
 
 # Removing unwanted packages
 apt remove gnome-taquin tali gnome-tetravex four-in-a-row five-or-more lightsoff gnome-chess hoichess gnome-todo gnome-klotski hitori gnome-robots gnome-music gnome-nibbles gnome-mines quadrapassel swell-foop totem iagno gnome-sudoku rhythmbox
@@ -46,6 +46,10 @@ curl -LO "https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pa
 tar xzvf hexagon_2.tar.gz
 cp -r hexagon_2 /usr/share/plymouth/themes
 plymouth-set-default-theme -R hexagon_2
+
+# Changing tlp config
+sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
+sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 
 # Removing unused packages
 apt autoremove

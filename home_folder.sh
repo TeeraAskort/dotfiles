@@ -55,12 +55,15 @@ cp zsh/.arch_alias ~
 cp zsh/.debian_alias ~
 cp zsh/.fedora_alias ~
 cp zsh/.silverblue_alias ~
-cp dotfiles/.vimrc ~
 cp zsh/.opensuse_alias ~
 cp zsh/.elementary_alias ~
 mkdir -p ~/.config/pulse
 cp dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
+
+cp dotfiles/.vimrc ~
+mkdir -p ~/.config/nvim/
+cp dotfiles/.vimrc ~/.config/nvim/init.vim
 
 mkdir -p ~/.config/mpv/shaders/
 curl -LO https://gist.githubusercontent.com/igv/36508af3ffc84410fe39761d6969be10/raw/ac09db2c0664150863e85d5a4f9f0106b6443a12/SSimDownscaler.glsl

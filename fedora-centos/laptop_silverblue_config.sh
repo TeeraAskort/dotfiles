@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # Adding repos
-curl -L "https://copr.fedorainfracloud.org/coprs/alderaeney/plata-theme-master/repo/fedora-33/alderaeney-plata-theme-master-fedora-33.repo" > plata-theme-master.repo
 curl -L "https://copr.fedorainfracloud.org/coprs/dawid/better_fonts/repo/fedora-33/dawid-better_fonts-fedora-33.repo" > better_fonts.repo
-cp better_fonts.repo plata-theme-master.repo /etc/yum.repos.d/
+cp better_fonts.repo /etc/yum.repos.d/
 
 # Updating the system
 rpm-ostree upgrade
@@ -24,7 +23,7 @@ sudo -u link flatpak override --user --filesystem=/home/link/Datos/SteamLibrary 
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 # Installing packages
-rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks tilix intel-undervolt strawberry fontconfig-font-replacements fontconfig-enhanced-defaults openssl papirus-icon-theme net-tools libnsl tlp tlp-rdw 
+rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks tilix intel-undervolt strawberry fontconfig-font-replacements fontconfig-enhanced-defaults openssl papirus-icon-theme net-tools libnsl tlp tlp-rdw java-1.8.0-openjdk-devel
 
 # Adding intel_idle.max_cstate=1 kernel parameter
 rpm-ostree kargs --append=intel_idle.max_cstate=1

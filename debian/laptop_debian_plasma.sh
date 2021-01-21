@@ -5,7 +5,10 @@ dpkg --add-architecture i386
 apt update
 
 #Installing basic packages
-apt install ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser mate-menu slick-greeter lightdm-settings blueman mate-tweak qt5-style-plugins net-tools
+apt install ffmpegthumbs mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode yakuake thunderbird hyphen-en-us mythes-en-us sqlitebrowser qbittorrent kpat kmahjongg palapeli net-tools
+
+# Removing unwanted packages
+# apt remove gnome-taquin tali gnome-tetravex four-in-a-row five-or-more lightsoff gnome-chess hoichess gnome-todo gnome-klotski hitori gnome-robots gnome-music gnome-nibbles gnome-mines quadrapassel swell-foop totem iagno gnome-sudoku rhythmbox
 
 #Installing lutris
 echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_10/ ./" | tee /etc/apt/sources.list.d/lutris.list
@@ -22,9 +25,7 @@ apt update && apt install winehq-staging winetricks
 # Installing outsider packages
 curl -L "https://files.strawberrymusicplayer.org/strawberry_0.8.5-bullseye_amd64.deb" > strawberry.deb
 curl -L "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" > code.deb
-curl -L "http://ppa.launchpad.net/tista/plata-theme/ubuntu/pool/main/p/plata-theme/plata-theme_0.9.9-0ubuntu1~focal1_all.deb" > plata-theme.deb
-apt install ./strawberry.deb ./code.deb ./plata-theme.deb
-rm *.deb
+apt install ./strawberry.deb ./code.deb
 
 #Installing flatpak applications
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -48,6 +49,3 @@ plymouth-set-default-theme -R hexagon_2
 
 # Removing unused packages
 apt autoremove
-
-# Set qt theme to adwaita-dark
-echo "QT_QPA_PLATFORMTHEME=gtk2" | tee -a /etc/environment

@@ -4,12 +4,6 @@
 dpkg --add-architecture i386
 apt update
 
-# Adding deb-multimedia repo
-echo "deb https://www.deb-multimedia.org bullseye main non-free" | tee /etc/apt/sources.list.d/deb-multimedia.list
-apt-get update -oAcquire::AllowInsecureRepositories=true
-apt-get install deb-multimedia-keyring
-apt update && apt full-upgrade
-
 #Installing basic packages
 apt install ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser net-tools tlp tlp-rdw wget apt-transport-https gnupg python3-dev cmake nodejs npm
 

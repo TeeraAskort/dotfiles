@@ -70,6 +70,9 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 #Install flatpak applications
 flatpak install flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio
 
+# Setting default java -version to 1.8
+alternatives --config java
+
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
 #grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg

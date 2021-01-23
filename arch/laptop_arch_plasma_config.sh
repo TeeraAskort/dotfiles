@@ -55,7 +55,7 @@ pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulsea
 pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfat-utils gptfdisk autofs fuse2 fuse3 fuseiso sshfs
 
 # Installing compresion tools
-pacman -S --noconfirm  zip unzip unrar p7zip lzop
+pacman -S --noconfirm  zip unzip unrar p7zip lzop pigz pbzip2
 
 # Installing generic tools
 pacman -S --noconfirm  vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils
@@ -76,9 +76,13 @@ sudo -u aurbuilder makepkg -si
 # Optimizing aur
 cores=$(nproc)
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
-sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -z -3 -T0 -)/g" /etc/makepkg.conf
-sed -i "/^CFLAGS/ s/-march=x86-64 -mtune=generic/\/-march=native/g" /etc/makepkg.conf
-sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/\/-march=native/g" /etc/makepkg.conf
+sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -z - --threads=0)/g" /etc/makepkg.conf
+sed -i "s/COMPRESSZST=(zstd -c -z -q -)/COMPRESSZST=(zstd -c -z -q - --threads=0)/g" /etc/makepkg.conf
+sed -i "/^COMPRESSGZ/ s/gzip/pigz/g" /etc/makepkg.conf
+sed -i "/^COMPRESSBZ2/ s/bzip2/pbzip2/g" /etc/makepkg.conf
+sed -i "/^CFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.conf
+sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.conf
+sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install Plasma
 pacman -S --noconfirm plasma ark dolphin dolphin-plugins strawberry gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension 

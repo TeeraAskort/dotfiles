@@ -4,8 +4,29 @@
 dpkg --add-architecture i386
 apt update
 
+# Installing needed packages for getting the third party repos
+apt install curl wget apt-transport-https dirmngr
+
+# Adding third party repos 
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | tee /etc/apt/sources.list.d/vscode.list
+echo "deb [arch=i386,amd64] http://repo.steampowered.com/steam/ precise steam" | tee /etc/apt/sources.list.d/steam.list
+echo "deb [arch=amd64,i386] http://download.opensuse.org/repositories/home:/ivaradi/Debian_9.0/ /" | tee /etc/apt/sources.list.d/nextcloud-client.list
+echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
+
+# Importing third party repos keys
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+wget -q -O - http://download.opensuse.org/repositories/home:/ivaradi/Debian_9.0/Release.key | apt-key add -
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F24AEA9FB05498B7
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+
+# Updating the system
+apt update
+
+# Upgrading the system
+apt full-upgrade
+
 #Installing basic packages
-apt install ffmpegthumbs mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode yakuake thunderbird hyphen-en-us mythes-en-us sqlitebrowser qbittorrent kpat kmahjongg palapeli net-tools
+apt install ffmpegthumbs mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode yakuake thunderbird hyphen-en-us mythes-en-us sqlitebrowser qbittorrent kpat kmahjongg palapeli net-tools tlp tlp-rdw wget gnupg python3-dev cmake nodejs npm google-chrome-stable code
 
 # Removing unwanted packages
 apt remove konqueror akregator kmail dragonplayer juk k3b korganizer kaddressbook
@@ -22,10 +43,15 @@ apt-key add winehq.key
 echo "deb https://dl.winehq.org/wine-builds/debian/ $(lsb_release -cs) main" | tee -a /etc/apt/sources.list
 apt update && apt install winehq-staging winetricks
 
+# Install jdk8
+wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
+echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb buster main" | tee /etc/apt/sources.list.d/adoptopenjdk.list
+apt update
+apt install adoptopenjdk-8-hotspot
+
 # Installing outsider packages
 curl -L "https://files.strawberrymusicplayer.org/strawberry_0.8.5-bullseye_amd64.deb" > strawberry.deb
-curl -L "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" > code.deb
-apt install ./strawberry.deb ./code.deb
+apt install ./strawberry.deb 
 
 #Installing flatpak applications
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -46,6 +72,10 @@ curl -LO "https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pa
 tar xzvf hexagon_2.tar.gz
 cp -r hexagon_2 /usr/share/plymouth/themes
 plymouth-set-default-theme -R hexagon_2
+
+# Changing tlp config
+sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
+sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 
 # Removing unused packages
 apt autoremove

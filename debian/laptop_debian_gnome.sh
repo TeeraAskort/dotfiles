@@ -51,8 +51,7 @@ apt install adoptopenjdk-8-hotspot
 
 # Installing outsider packages
 curl -L "https://files.strawberrymusicplayer.org/strawberry_0.8.5-bullseye_amd64.deb" > strawberry.deb
-curl -L "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" > code.deb
-apt install ./strawberry.deb ./code.deb
+apt install ./strawberry.deb 
 
 #Installing flatpak applications
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

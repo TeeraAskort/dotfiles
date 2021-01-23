@@ -79,19 +79,13 @@ pacman -S --noconfirm zip unzip unrar p7zip lzop
 pacman -S --noconfirm vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils
 
 # Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine 
+pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution
 
 # Enabling GDM
 systemctl enable gdm
 
 # Installing plymouth
-sudo -u aurbuilder yay -S gdm-plymouth
-
-# Making the arch logo appear in the plymouth
-# cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
-
-# Installing lone plymouth theme
-sudo -u aurbuilder yay -S plymouth-theme-hexagon-2-git
+sudo -u aurbuilder yay -S gdm-plymouth plymouth-theme-hexagon-2-git
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -128,7 +122,7 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm tilix mpv strawberry jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld 
+pacman -S --noconfirm tilix mpv strawberry jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin transmission-gtk gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld obs-studio
 
 # Enabling services
 systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
@@ -137,27 +131,13 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher switcheroo-control android-studio xampp qt5-styleplugins key-mapper-git mpv-mpris
-
-# Setting environment variable for QT5 theming
-echo "QT_QPA_PLATFORMTHEME=gtk2" | tee -a /etc/environment
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher switcheroo-control android-studio xampp mpv-mpris lbry-app-bin
 
 # Enable switcheroo-control and key-mapper
-systemctl enable switcheroo-control key-mapper
+systemctl enable switcheroo-control 
 
 # Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
-
-# Install plata-theme from git
-cd /home/link
-sudo -u link git clone https://aur.archlinux.org/plata-theme.git
-cd plata-theme
-sudo -u link sed -i 's/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git#tag=${pkgver}")/source=("git+https:\/\/gitlab.com\/tista500\/plata-theme.git")/g' PKGBUILD
-clear
-echo "Installing plata-theme"
-sudo -u link makepkg -si
-cd ..
-rm -r plata-theme
 
 # Install eclipse-jee with link's user
 clear

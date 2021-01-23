@@ -26,7 +26,7 @@ if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	sudo zypper in chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions yakuake mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel fish thermald xf86-video-intel qbittorrent emacs kdeconnect-kde plymouth-plugin-script
 
 	# Remove unwanted packages
-	sudo zypper rm git-gui kontact akregator kmail konversation kmines ksudoku kreversi kaddressbook korganizer
+	sudo zypper rm git-gui akregator konversation kmines ksudoku kreversi 
 
 else
 
@@ -61,23 +61,11 @@ echo "/boot/ root:root 700" | sudo tee -a /etc/permissions.local
 sudo chkstat --system --set
 sudo mkinitrd
 
-# Install key-mapper
-git clone https://github.com/sezanzeb/key-mapper.git
-cd key-mapper && sudo python3 setup.py install
-sudo systemctl enable key-mapper
-
-# Adjusting sound quality
-sudo sed -i "s/; enable-lfe-remixing = no.*/enable-lfe-remixing = yes/" /etc/pulse/daemon.conf
-sudo sed -i "s/; lfe-crossover-freq = 0.*/lfe-crossover-freq = 20/" /etc/pulse/daemon.conf
-sudo sed -i "s/; default-sample-format = s16le.*/default-sample-format = s24le/" /etc/pulse/daemon.conf
-sudo sed -i "s/; default-sample-rate = 44100.*/default-sample-rate = 192000/" /etc/pulse/daemon.conf
-sudo sed -i "s/; alternate-sample-rate = 48000.*/alternate-sample-rate = 48000/" /etc/pulse/daemon.conf
-
 # Adding flathub repo 
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-flatpak install flathub com.mojang.Minecraft com.discordapp.Discord
+flatpak install flathub com.discordapp.Discord org.DolphinEmu.dolphin-emu com.github.micahflee.torbrowser-launcher io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.obsproject.Studio
 
 # Installing prime offload launchers
 sudo cp ../dotfiles/prime-run /usr/bin

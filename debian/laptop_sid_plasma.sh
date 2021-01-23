@@ -4,11 +4,17 @@
 dpkg --add-architecture i386
 apt update
 
-#Installing basic packages
-apt install ffmpegthumbs mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-8-jdk nextcloud-desktop thermald intel-microcode gamemode yakuake thunderbird hyphen-en-us mythes-en-us sqlitebrowser qbittorrent kpat kmahjongg palapeli net-tools tlp
+# Installing needed packages for getting the third party repos
+apt install curl wget apt-transport-https dirmngr 
 
-# Removing unwanted packages
-# apt remove gnome-taquin tali gnome-tetravex four-in-a-row five-or-more lightsoff gnome-chess hoichess gnome-todo gnome-klotski hitori gnome-robots gnome-music gnome-nibbles gnome-mines quadrapassel swell-foop totem iagno gnome-sudoku rhythmbox
+# Adding third party repos
+echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/chrome.list
+echo "deb [arch=i386,amd64] http://repo.steampowered.com/steam/ precise steam" | tee /etc/apt/sources.list.d/steam.list
+echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | tee /etc/apt/sources.list.d/code.list
+echo "deb [arch=i386] https://dl.winehq.org/wine-builds/debian/ sid main" | tee /etc/apt/sources.list.d/wine.list
+
+#Installing basic packages
+apt install ffmpegthumbs mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-8-jdk nextcloud-desktop thermald intel-microcode gamemode yakuake thunderbird hyphen-en-us mythes-en-us sqlitebrowser qbittorrent kpat kmahjongg palapeli net-tools tlp lp-rdw wget gnupg python3-dev cmake nodejs npm google-chrome-stable code
 
 #Installing lutris
 echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_10/ ./" | tee /etc/apt/sources.list.d/lutris.list
@@ -16,16 +22,9 @@ wget -q https://download.opensuse.org/repositories/home:/strycore/Debian_10/Rele
 apt-get update
 apt-get install lutris
 
-#Installing wine
-wget -nc https://dl.winehq.org/wine-builds/winehq.key
-apt-key add winehq.key
-echo "deb https://dl.winehq.org/wine-builds/debian/ sid main" | tee -a /etc/apt/sources.list
-apt update && apt install winehq-staging winetricks
-
 # Installing outsider packages
 curl -L "https://files.strawberrymusicplayer.org/strawberry_0.8.5-bullseye_amd64.deb" > strawberry.deb
-curl -L "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" > code.deb
-apt install ./strawberry.deb ./code.deb
+apt install ./strawberry.deb 
 
 #Installing flatpak applications
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

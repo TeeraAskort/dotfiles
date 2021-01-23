@@ -73,8 +73,15 @@ sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
 sudo -u aurbuilder makepkg -si
 
+# Optimizing aur
+cores=$(nproc)
+sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
+sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -z -3 -T0 -)/g" /etc/makepkg.conf
+sed -i "/^CFLAGS/ s/-march=x86-64 -mtune=generic/\/-march=native/g" /etc/makepkg.conf
+sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/\/-march=native/g" /etc/makepkg.conf
+
 # Install Plasma
-pacman -S --noconfirm plasma ark dolphin dolphin-plugins strawberry gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension kdepim akonadi kdepim-addons
+pacman -S --noconfirm plasma ark dolphin dolphin-plugins strawberry gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension 
 
 # Installing plymouth
 sudo -u aurbuilder yay -S plymouth plymouth-theme-hexagon-2-git
@@ -120,18 +127,19 @@ pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-pl
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin qbittorrent gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack gnome-keyring lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt virt-manager nextcloud-client firewalld obs-studio
+pacman -S --noconfirm mpv jdk8-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald tlp earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium pepper-flash flashplugin qbittorrent gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack gnome-keyring lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt virt-manager nextcloud-client firewalld obs-studio thunderbird thunderbird-i18n-es-es tlp tlp-rdw
 
 # Enabling services
-systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
+systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld tlp
+
+# Changing tlp config
+sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
+sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 
 # Install eclipse-jee with link's user
 clear
 echo "Installing eclipse-jee"
 sudo -u link yay -S eclipse-jee
-
-# Optimizing aur
-sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
 
 # Installing AUR packages
 sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio xampp key-mapper-git mpv-mpris lbry-app-bin

@@ -39,7 +39,7 @@ mount /dev/lvm/home /mnt/home
 mount /dev/nvme0n1p1 /mnt/boot
 
 # Install base system
-pacstrap /mnt base base-devel linux-firmware linux-hardened linux-hardened-headers lvm2 grub efibootmgr btrfs-progs vim git
+pacstrap /mnt base base-devel linux-firmware linux-hardened linux-hardened-headers lvm2 efibootmgr btrfs-progs vim git
 
 # Generate fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -47,4 +47,5 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Change location, clone the git repo and execute the installation script
 cd /mnt
 git clone https://SariaAskort@bitbucket.org/SariaAskort/dotfiles.git
-arch-chroot /mnt bash /dotfiles/arch/laptop_arch_plasma_config.sh
+arch-chroot /mnt bash /dotfiles/arch/laptop_arch_plasma.sh
+arch-chroot /mnt su - link

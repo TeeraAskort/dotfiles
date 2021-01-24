@@ -20,13 +20,19 @@ echo link-gl63-8rc > /etc/hostname
 # Root password
 clear
 echo "Enter root password"
-passwd
+until passwd
+do
+	echo "Enter the password correctly"
+done
 
 # Create user
 clear
 useradd -m -g users -G wheel -s /bin/bash link
 echo "Enter link's password"
-passwd link
+until passwd link
+do
+	echo "Enter the password correctly"
+done
 
 # Sudo configuration
 EDITOR=vim visudo

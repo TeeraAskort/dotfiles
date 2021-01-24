@@ -146,10 +146,7 @@ echo "Installing eclipse-jee"
 sudo -u link yay -S eclipse-jee
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio xampp key-mapper-git mpv-mpris lbry-app-bin
-
-# Enabling key-mapper
-systemctl enable key-mapper
+sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio xampp mpv-mpris lbry-app-bin
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

@@ -66,7 +66,7 @@ pacman -S --noconfirm  zip unzip unrar p7zip lzop pigz pbzip2
 # Installing generic tools
 pacman -S --noconfirm  vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils
 
-# Installing yay
+# Installing paru
 newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
 useradd -r -N -M -d /tmp/aurbuilder -s /usr/bin/nologin aurbuilder
 echo -e "$newpass\n$newpass\n" | passwd aurbuilder
@@ -75,8 +75,8 @@ chmod 777 /tmp/aurbuilder
 echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder
 echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
 cd /tmp/aurbuilder
-sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
-cd yay-bin
+sudo -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
+cd paru-bin
 sudo -u aurbuilder makepkg -si
 
 # Optimizing aur
@@ -94,7 +94,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution
 
 # Installing plymouth
-sudo -u aurbuilder yay -S gdm-plymouth plymouth-theme-hexagon-2-git
+sudo -u aurbuilder paru -S gdm-plymouth plymouth-theme-hexagon-2-git
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -161,10 +161,10 @@ sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 # Install eclipse-jee with link's user
 clear
 echo "Installing eclipse-jee"
-sudo -u link yay -S eclipse-jee
+sudo -u link paru -S eclipse-jee
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin
+sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

@@ -106,7 +106,7 @@ sed -i "s/MODULES=()/MODULES=(i915)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
 # Install and configure systemd-boot
-pacman -S --noconfirm --needed systemd-boot efibootmgr
+pacman -S --noconfirm --needed efibootmgr
 bootctl install
 mkdir -p /boot/loader/entries
 cat > /boot/loader/loader.conf <<EOF

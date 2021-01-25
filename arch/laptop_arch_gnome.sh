@@ -91,10 +91,10 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install Plasma
-pacman -S --noconfirm plasma ark dolphin dolphin-plugins strawberry gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension 
+pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution
 
 # Installing plymouth
-sudo -u aurbuilder yay -S plymouth plymouth-theme-hexagon-2-git
+sudo -u aurbuilder yay -S gdm-plymouth plymouth-theme-hexagon-2-git
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -131,13 +131,7 @@ EOF
 bootctl update
 
 # Enabling SDDM
-systemctl enable sddm-plymouth
-
-# Removing unwanted Plasma apps
-pacman -Rnc oxygen
-
-# Adding environment variable to /etc/environment
-echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
+systemctl enable gdm
 
 # Installing printing services
 pacman -S --noconfirm  cups cups-pdf hplip ghostscript
@@ -155,7 +149,7 @@ pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-pl
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk8-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium qbittorrent gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt virt-manager nextcloud-client firewalld obs-studio thunderbird thunderbird-i18n-es-es tlp tlp-rdw inetutils net-tools neovim nodejs npm
+pacman -S --noconfirm tilix mpv jdk8-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium transmission-gtk gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack gnome-keyring lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld obs-studio tlp tlp-rdw inetutils net-tools neovim nodejs npm
 
 # Enabling services
 systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld 

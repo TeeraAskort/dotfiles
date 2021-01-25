@@ -1,5 +1,7 @@
 #!/bin/bash
 
+directory=$(pwd)
+
 sudo cryptsetup open /dev/sda1 encrypteddata
 mkdir /home/link/Datos
 sudo mount /dev/mapper/encrypteddata /home/link/Datos 
@@ -49,32 +51,32 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
 
-cp zsh/.zshrc ~
-cp zsh/.general_alias ~
-cp zsh/.arch_alias ~
-cp zsh/.debian_alias ~
-cp zsh/.fedora_alias ~
-cp zsh/.silverblue_alias ~
-cp zsh/.opensuse_alias ~
-cp zsh/.elementary_alias ~
+cp $directory/zsh/.zshrc ~
+cp $directory/zsh/.general_alias ~
+cp $directory/zsh/.arch_alias ~
+cp $directory/zsh/.debian_alias ~
+cp $directory/zsh/.fedora_alias ~
+cp $directory/zsh/.silverblue_alias ~
+cp $directory/zsh/.opensuse_alias ~
+cp $directory/zsh/.elementary_alias ~
 mkdir -p ~/.config/pulse
-cp dotfiles/daemon.conf ~/.config/pulse/
+cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
 
-cp dotfiles/.vimrc ~
+cp $directory/dotfiles/.vimrc ~
 mkdir -p ~/.config/nvim/
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 vim +PlugInstall +q +q
 cd ~/.vim/plugged/youcompleteme 
 python install.py 
 
-cp dotfiles/chromium-flags.conf ~/.config
+cp $directory/dotfiles/chromium-flags.conf ~/.config
 
 mkdir -p ~/.config/mpv/shaders/
 curl -LO https://gist.githubusercontent.com/igv/36508af3ffc84410fe39761d6969be10/raw/ac09db2c0664150863e85d5a4f9f0106b6443a12/SSimDownscaler.glsl
 curl -LO https://gist.githubusercontent.com/igv/a015fc885d5c22e6891820ad89555637/raw/424a8deae7d5a142d0bbbf1552a686a0421644ad/KrigBilateral.glsl
 mv SSimDownscaler.glsl KrigBilateral.glsl ~/.config/mpv/shaders
-cp dotfiles/mpv.conf ~/.config/mpv/
+cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
 git config --global user.name "Alderaeney"
 git config --global user.email "sariaaskort@tuta.io"

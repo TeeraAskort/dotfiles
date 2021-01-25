@@ -76,3 +76,4 @@ cp dotfiles/mpv.conf ~/.config/mpv/
 
 git config --global user.name "Alderaeney"
 git config --global user.email "sariaaskort@tuta.io"
+git config --global init.defaultBranch master

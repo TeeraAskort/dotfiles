@@ -177,7 +177,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'metalelf0/supertab'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'valloric/youcompleteme'
+Plug 'ycm-core/youcompleteme'
 Plug 'scrooloose/syntastic'
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'

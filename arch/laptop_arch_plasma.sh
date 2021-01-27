@@ -175,7 +175,7 @@ echo "Installing eclipse-jee"
 sudo -u link paru -S eclipse-jee
 
 # Installing AUR packages
-sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin flat-remix-kde-git 
+sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin 
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

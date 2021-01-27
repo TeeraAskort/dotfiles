@@ -18,12 +18,17 @@ hwclock --systohc
 echo link-gl63-8rc > /etc/hostname
 
 # Root password
-clear
-echo "Enter root password"
-until passwd
-do
-	echo "Enter the password correctly"
-done
+#clear
+#echo "Enter root password"
+#until passwd
+#do
+#	echo "Enter the password correctly"
+#done
+
+# Restricting root login
+passwd --lock root
+sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
+sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su-l
 
 # Create user
 clear
@@ -170,7 +175,7 @@ echo "Installing eclipse-jee"
 sudo -u link paru -S eclipse-jee
 
 # Installing AUR packages
-sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin
+sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin flat-remix-kde-git flat-remix-gtk 
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

@@ -30,7 +30,7 @@ user_pref("browser.fixup.alternate.enabled", false);
 user_pref("browser.newtabpage.activity-stream.feeds.section.highlights", false);
 user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
 user_pref("browser.newtabpage.activity-stream.feeds.snippets", false);
-//user_pref("browser.newtabpage.activity-stream.feeds.topsites", false);
+user_pref("browser.newtabpage.activity-stream.feeds.topsites", false);
 user_pref("browser.search.suggest.enabled", false);
 user_pref("browser.sessionstore.warnOnQuit", false);
 user_pref("browser.uidensity", 1);

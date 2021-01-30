@@ -23,7 +23,11 @@ sudo -u link flatpak override --user --filesystem=/home/link/Datos/SteamLibrary 
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 # Installing packages
-rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks tilix intel-undervolt strawberry fontconfig-font-replacements fontconfig-enhanced-defaults openssl papirus-icon-theme net-tools libnsl tlp tlp-rdw java-1.8.0-openjdk-devel python-neovim cmake python3-devel nodejs npm gcc-c++
+rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks tilix intel-undervolt fontconfig-font-replacements fontconfig-enhanced-defaults openssl papirus-icon-theme net-tools libnsl tlp tlp-rdw java-1.8.0-openjdk-devel python-neovim cmake python3-devel nodejs npm gcc-c++
+
+# Installing strawberry from official packages
+curl -L "https://github.com/strawberrymusicplayer/strawberry/releases/download/0.8.5/strawberry-0.8.5-1.fc33.x86_64.rpm" > strawberry.rpm
+rpm-ostree install ./strawberry.rpm
 
 # Adding intel_idle.max_cstate=1 kernel parameter
 rpm-ostree kargs --append=intel_idle.max_cstate=1

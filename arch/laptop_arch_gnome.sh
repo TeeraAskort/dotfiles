@@ -188,6 +188,9 @@ systemctl enable intel-undervolt
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
+# Installing flatpak applications
+flatpak install flathub com.github.alecaddd.sequeler com.getpostman.Postman org.jdownloader.JDownloader
+
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 

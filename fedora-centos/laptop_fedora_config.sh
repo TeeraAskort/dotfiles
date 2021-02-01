@@ -29,7 +29,8 @@ dnf remove -y totem rhythmbox
 
 # Install the latest version of Strawberry
 curl -L "https://github.com/strawberrymusicplayer/strawberry/releases/download/0.8.5/strawberry-0.8.5-1.fc33.x86_64.rpm" > strawberry.rpm
-dnf in ./strawberry.rpm -y
+curl -L "https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm" > dbeaver.rpm
+dnf in ./strawberry.rpm ./dbeaver.rpm -y
 
 #Update Appstream data
 dnf groupupdate core -y

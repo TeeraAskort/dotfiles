@@ -29,8 +29,7 @@ dnf remove -y totem rhythmbox
 
 # Install the latest version of Strawberry
 curl -L "https://github.com/strawberrymusicplayer/strawberry/releases/download/0.8.5/strawberry-0.8.5-1.fc33.x86_64.rpm" > strawberry.rpm
-curl -L "https://dbeaver.io/files/dbeaver-ce-latest-stable.x86_64.rpm" > dbeaver.rpm
-dnf in ./strawberry.rpm ./dbeaver.rpm -y
+dnf in ./strawberry.rpm -y
 
 #Update Appstream data
 dnf groupupdate core -y
@@ -74,7 +73,7 @@ systemctl enable tlp
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman 
+flatpak install flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman io.dbeaver.DBeaverCommunity -y
 
 # Setting default java -version to 1.8
 alternatives --config java

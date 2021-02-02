@@ -84,6 +84,9 @@ sudo -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
 cd paru-bin
 sudo -u aurbuilder makepkg -si
 
+# Installing patched gtk-filepicker
+sudo -u aurbuilder paru -S gtk3-patched-filechooser-icon-view glib2-patched-thumbnailer
+
 # Optimizing aur
 cores=$(nproc)
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf

@@ -84,9 +84,6 @@ sudo -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
 cd paru-bin
 sudo -u aurbuilder makepkg -si
 
-# Installing patched gtk-filepicker
-sudo -u aurbuilder paru -S gtk3-patched-filechooser-icon-view glib2-patched-thumbnailer
-
 # Optimizing aur
 cores=$(nproc)
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf
@@ -97,6 +94,9 @@ sed -i "/^COMPRESSBZ2/ s/bzip2/pbzip2/g" /etc/makepkg.conf
 sed -i "/^CFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.conf
 sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.conf
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
+
+# Installing patched gtk-filepicker
+sudo -u aurbuilder paru -S gtk3-patched-filechooser-icon-view glib2-patched-thumbnailer
 
 # Install Plasma
 pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution

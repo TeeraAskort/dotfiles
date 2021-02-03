@@ -25,11 +25,7 @@ dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-synta
 systemctl enable thermald
 
 # Remove unused packages 
-dnf remove -y totem rhythmbox
-
-# Install the latest version of Strawberry
-curl -L "https://github.com/strawberrymusicplayer/strawberry/releases/download/0.8.5/strawberry-0.8.5-1.fc33.x86_64.rpm" > strawberry.rpm
-dnf in ./strawberry.rpm -y
+dnf remove -y totem 
 
 #Update Appstream data
 dnf groupupdate core -y

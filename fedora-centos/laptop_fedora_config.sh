@@ -81,6 +81,10 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 #Install flatpak applications
 flatpak install flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.IntelliJ-IDEA-Community org.eclipse.Java -y
 
+# Flatpak overrides
+flatpak override --filesystem=~/.themes
+flatpak override --filesystem=~/.fonts
+
 # Setting default java -version to 1.8
 alternatives --config java
 

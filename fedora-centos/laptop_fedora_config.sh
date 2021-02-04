@@ -16,11 +16,21 @@ dnf copr enable pp3345/gnome-with-patches -y
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
 
+# Install jdk 15
+cat <<'EOF' > /etc/yum.repos.d/adoptopenjdk.repo
+[AdoptOpenJDK]
+name=AdoptOpenJDK
+baseurl=http://adoptopenjdk.jfrog.io/adoptopenjdk/rpm/fedora/$releasever/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public
+EOF
+
 # Upgrade system
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-1.8.0-openjdk-devel aisleriot nextcloud-client nextcloud-client-nautilus thermald gnome-mahjongg piper evolution net-tools libnsl tlp python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser
+dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-1.8.0-openjdk-devel aisleriot nextcloud-client nextcloud-client-nautilus thermald gnome-mahjongg piper evolution net-tools libnsl tlp python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser adoptopenjdk-15-openj9
 
 systemctl enable thermald
 

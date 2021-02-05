@@ -1,6 +1,8 @@
 #!/bin/bash
 
-directory=$(pwd)
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
 
 sudo cryptsetup open /dev/sda1 encrypteddata
 mkdir /home/link/Datos
@@ -77,6 +79,17 @@ curl -LO https://gist.githubusercontent.com/igv/36508af3ffc84410fe39761d6969be10
 curl -LO https://gist.githubusercontent.com/igv/a015fc885d5c22e6891820ad89555637/raw/424a8deae7d5a142d0bbbf1552a686a0421644ad/KrigBilateral.glsl
 mv SSimDownscaler.glsl KrigBilateral.glsl ~/.config/mpv/shaders
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
+
+if [[ $XDG_CURRENT_DESKTOP = "GNOME" ]]; then
+	mkdir ~/.themes
+	cp ~/Documentos/theme.tar.xz ~/.themes && cd ~/.themes
+	tar xf theme.tar.xz 
+	rm theme.tar.xz
+fi
+
+mkdir ~/.fonts
+cd ~/.fonts
+unzip ~/Documentos/fonts.zip
 
 git config --global user.name "Alderaeney"
 git config --global user.email "sariaaskort@tuta.io"

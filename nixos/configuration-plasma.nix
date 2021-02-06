@@ -76,8 +76,8 @@ in
     p7zip unzip unrar gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
-    desmume chromium android-studio nextcloud-client 
-    eclipses.eclipse-java obs-studio thunderbird
+    desmume chromium android-studio bitwarden
+    jetbrains.idea-community obs-studio thunderbird
   ];
 
   # Firefox plasma browser integration
@@ -86,7 +86,21 @@ in
   # Java configuration
   programs.java = {
     enable = true;
-    package = pkgs.jdk8;
+    package = pkgs.jdk11;
+  };
+
+  # MariaDB config
+  services.mysql = {
+    enable = true;
+    package = pkgs.mariadb;
+    initialScript = pkgs.writeText "backend-initScript" ''
+      CREATE USER 'tiempodb'@'localhost' IDENTIFIED BY 'tiempodb';
+      CREATE USER 'alderchan'@'localhost' IDENTIFIED BY 'alderchan';
+      CREATE DATABASE 'tiempodb';
+      CREATE DATABASE 'alderchan';
+      GRANT ALL PRIVILEGES ON tiempodb.* TO 'tiempodb'@'localhost';
+      GRANT ALL PRIVILEGES ON alderchan.* TO 'alderchan'@'localhost';
+    ''
   };
 
   # Zsh shell

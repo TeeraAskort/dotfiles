@@ -125,10 +125,6 @@ source ~/.general_alias
 ## Gamemode exec variable
 export GAMEMODERUNEXEC=prime-run
 
-## Fedora env vars
-# export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
-# export PATH=$JAVA_HOME/bin:$HOME/bin:/usr/local/bin:$PATH
-
 ## Arch-linux
 # source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

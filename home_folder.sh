@@ -68,7 +68,7 @@ pulseaudio -k
 cp $directory/dotfiles/.vimrc ~
 mkdir -p ~/.config/nvim/
 ln -s ~/.vimrc ~/.config/nvim/init.vim
-vim +PlugInstall +q +q
+nvim +PlugInstall +q +q
 cd ~/.vim/plugged/youcompleteme 
 python install.py 
 
@@ -85,6 +85,20 @@ if [[ $XDG_CURRENT_DESKTOP = "GNOME" ]]; then
 	cp ~/Documentos/theme.tar.xz ~/.themes && cd ~/.themes
 	tar xf theme.tar.xz 
 	rm theme.tar.xz
+	count=$(ls | wc -l)
+	if [[ $count -eq 1 ]]; then
+		file=$(ls)
+		gsettings set org.gnome.desktop.interface gtk-theme "$file"
+		count=$(gnome-extensions list | grep user-theme | wc -l)
+		if [[ $count -eq 1 ]]; then
+			gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
+			gsettings set org.gnome.shell.extensions.user-theme name "$file"
+		fi
+	fi
+	count=$(ls /usr/share/icons/ | grep "Papirus" | wc -l)
+	if [[ $count -gt 0 ]]; then
+		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	fi
 fi
 
 mkdir ~/.fonts

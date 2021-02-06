@@ -79,6 +79,12 @@ flatpak override --filesystem=~/.fonts
 npm i -g @angular/cli
 ng analytics off
 
+# Installing XAMPP
+version="8.0.1"
+curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${version}-1-installer.run" > xampp.run
+chmod +x xampp.run
+./xampp.run --mode unattended --unattendedmodeui minimal
+
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
-#grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg<F11>
+#grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg

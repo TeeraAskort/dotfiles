@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+export PATH=$JAVA_HOME/bin:$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
   export ZSH="/home/link/.oh-my-zsh"
@@ -99,43 +100,43 @@ export ARCHFLAGS="-arch x86_64"
 
 # Alias
 
-# Arch alias
+## Arch alias
 # source ~/.arch_alias
 
-# Debian alias
+## Debian alias
 # source ~/.debian_alias
 
-# Fedora alias
+## Fedora alias
 # source ~/.fedora_alias
 
-# Silverblue alias
+## Silverblue alias
 # source ~/.silverblue_alias
 
-# Opensuse alias
+## Opensuse alias
 # source ~/.opensuse_alias
 
-# Elementary alias
+## Elementary alias
 # source ~/.elementary_alias
 
-# General alias
+## General alias
 source ~/.general_alias
 
-# /Alias
+## /Alias
 
-# Gamemode exec variable
+## Gamemode exec variable
 export GAMEMODERUNEXEC=prime-run
 
 
-# Arch-linux
+## Arch-linux
 # source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Fedora, Debian and OpenSUSE
+## Fedora, Debian and OpenSUSE
 # source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
 
-# Zsh autosuggestions
+## Zsh autosuggestions
 # source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# Autosuggestions arch 
+## Autosuggestions arch 
 # source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 #if [ $TILIX_ID ] || [ $VTE_VERSION ]; then

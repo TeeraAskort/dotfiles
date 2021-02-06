@@ -79,10 +79,6 @@ flatpak override --filesystem=~/.fonts
 npm i -g @angular/cli
 ng analytics off
 
-# Adding java environment variables
-echo 'JAVA_HOME=/usr/lib/jvm/java-11-openjdk' | tee -a /etc/environment
-echo 'PATH=$JAVA_HOME/bin:$PATH' | tee -a /etc/environment
-
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
 #grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg<F11>

@@ -89,6 +89,7 @@ if [[ $XDG_CURRENT_DESKTOP = "GNOME" ]]; then
 	if [[ $count -eq 1 ]]; then
 		file=$(ls)
 		gsettings set org.gnome.desktop.interface gtk-theme "$file"
+		gsettings set org.gnome.desktop.wm.preferences theme "$file"
 		count=$(gnome-extensions list | grep user-theme | wc -l)
 		if [[ $count -eq 1 ]]; then
 			gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com

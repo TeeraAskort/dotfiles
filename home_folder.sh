@@ -80,6 +80,28 @@ curl -LO https://gist.githubusercontent.com/igv/a015fc885d5c22e6891820ad89555637
 mv SSimDownscaler.glsl KrigBilateral.glsl ~/.config/mpv/shaders
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
+if [[ $XDG_CURRENT_DESKTOP = "GNOME" ]]; then
+	mkdir ~/.themes
+	cp ~/Documentos/theme.tar.xz ~/.themes && cd ~/.themes
+	tar xf theme.tar.xz 
+	rm theme.tar.xz
+	count=$(ls | wc -l)
+	if [[ $count -eq 1 ]]; then
+		file=$(ls)
+		gsettings set org.gnome.desktop.interface gtk-theme "$file"
+		gsettings set org.gnome.desktop.wm.preferences theme "$file"
+		count=$(gnome-extensions list | grep user-theme | wc -l)
+		if [[ $count -eq 1 ]]; then
+			gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
+			gsettings set org.gnome.shell.extensions.user-theme name "$file"
+		fi
+	fi
+	count=$(ls /usr/share/icons/ | grep "Papirus" | wc -l)
+	if [[ $count -gt 0 ]]; then
+		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	fi
+fi
+
 mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip

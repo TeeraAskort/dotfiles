@@ -176,7 +176,7 @@ sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-
 version="8.0.1"
 curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${version}-1-installer.run" > xampp.run
 chmod +x xampp.run
-./xampp.run --mode unattended
+./xampp.run --mode unattended --unattendedmodeui minimal
 
 # Installing angular globally
 npm i -g @angular/cli

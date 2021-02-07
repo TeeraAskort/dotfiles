@@ -1,5 +1,7 @@
 #!/bin/bash
 
+user=$SUDO_USER
+
 # Add fastestmirror to dnf configuration
 echo "fastestmirror=1" | tee -a /etc/dnf/dnf.conf
 
@@ -20,12 +22,12 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl tlp python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser maven 
+dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl tlp python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser maven gtk2-engines gtk-murrine-engine glib2-devel kvantum
 
 systemctl enable thermald
 
 # Remove unused packages 
-dnf remove -y totem 
+dnf remove -y totem rhythmbox
 
 #Update Appstream data
 dnf groupupdate core -y
@@ -65,6 +67,21 @@ sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 
 systemctl enable tlp
 
+# Installing strawberry
+version="0.8.5"
+curl -L "https://files.strawberrymusicplayer.org/strawberry-${version}-1.fc33.x86_64.rpm" > strawberry.rpm
+dnf in ./strawberry.rpm
+
+# Installing whitesur theme
+git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git && cd WhiteSur-gtk-theme
+./install.sh -d /usr/share/themes/ -t all -i fedora -g
+sudo -u $user gsettings set org.gnome.desktop.interface gtk-theme "WhiteSur-dark-solid-blue"
+sudo -u $user gsettings set org.gnome.desktop.wm.preferences theme "WhiteSur-dark-solid-blue"
+cd ..
+git clone https://github.com/vinceliuice/WhiteSur-kde.git && cd WhiteSur-kde
+./install.sh
+echo "QT_STYLE_OVERRIDE=kvantum" | tee -a /etc/environment
+
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
@@ -72,7 +89,7 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop -y
 
 # Flatpak overrides
-flatpak override --filesystem=~/.themes
+flatpak override --filesystem=/usr/share/themes
 flatpak override --filesystem=~/.fonts
 
 # Installing angular globally

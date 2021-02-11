@@ -78,6 +78,9 @@ flatpak override --filesystem=~/.themes
 flatpak override --filesystem=~/.fonts
 flatpak override --filesystem=/usr/lib/jvm com.jetbrains.IntelliJ-IDEA-Community
 
+# Add sysctl config
+echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.d/99-sysctl.conf
+
 # Installing angular globally
 npm i -g @angular/cli
 ng analytics off

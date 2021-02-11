@@ -170,7 +170,7 @@ sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLI
 sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 
 # Installing AUR packages
-sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin jdownloader2 postman-bin bitwarden-bin
+sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin jdownloader2 postman-bin bitwarden-bin spring-tool-suite
 
 # Installing XAMPP
 version="8.0.1"
@@ -198,6 +198,7 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns -

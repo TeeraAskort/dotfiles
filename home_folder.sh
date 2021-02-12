@@ -124,6 +124,18 @@ if [ -e /etc/pam.d/gdm-password ]; then
 	fi
 fi
 
+if [ -e /etc/pam.d/sddm ]; then
+	sudo sed -i "/auth.*substack.*password-auth/a auth required pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/sddm 
+fi
+
+if [ -e /etc/pam.d/kde ]; then
+	sudo sed -i "/auth.*substack.*password-auth/a auth sufficient pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/kde
+fi
+
+if [ -e /etc/pam.d/polkit-1 ]; then
+	sudo sed -i "/auth.*include.*system-auth/i auth sufficient pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/polkit-1
+fi
+
 mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip

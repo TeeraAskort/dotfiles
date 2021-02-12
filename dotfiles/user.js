@@ -48,3 +48,4 @@ user_pref("network.predictor.enabled", false);
 user_pref("toolkit.telemetry.server", );
 user_pref("extensions.pocket.enabled", false);
 user_pref("browser.newtabpage.activity-stream.telemetry", false);
+user_pref("mozilla.widget.use-argb-visuals", true);

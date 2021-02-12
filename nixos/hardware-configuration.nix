@@ -18,27 +18,28 @@
     "kernel.unprivileged_userns_clone" = 1;
   };
 
+  boot.initrd.luks.fido2Support = true;
+
   boot.initrd.luks.devices."luks" = {
-    device = "/dev/disk/by-uuid/cdda911a-9545-4226-88a6-87e95aa44a2a";
+    device = "/dev/disk/by-uuid/5aa4bd29-772f-4b7b-bc79-c8f6266ebce8";
     allowDiscards = true;
     preLVM = true;
-    fido2support = true;
-    fido2.credential = "changeme";
+    fido2.credential = "94d09f843ba8e889a32ec63747262d1d9acb07b8c78dd883844c9b003d0ebee9fd4e52dae2262619c1da2be7562ec9dd94888c71a9326fea70dfe16214b5ea8ec01459010000";
   };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/2c2b45f5-76ae-4040-aca7-1d62a23471e5";
-      fsType = "ext4";
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/A86B-B09A";
-      fsType = "vfat";
+    { device = "/dev/mapper/lvm-root";
+      fsType = "btrfs";
     };
 
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/fd585478-7049-4c80-9a5d-0242bb71a492";
-      fsType = "ext4";
+    { device = "/dev/mapper/lvm-home";
+      fsType = "btrfs";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/249E-5A45";
+      fsType = "vfat";
     };
 
   fileSystems."/home/link/Datos" = {
@@ -53,7 +54,7 @@
   };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/912fd6c5-820c-4e3e-8d62-722ff8bf12c7"; }
+    [ { device = "/dev/disk/by-uuid/37cbbf94-781f-4197-8af9-d4fa6fa2c6e3"; }
     ];
 
   nix.maxJobs = lib.mkDefault 12;

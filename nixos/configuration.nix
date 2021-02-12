@@ -14,7 +14,7 @@ let
   '';
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "19xv78bd5xmsyv9k56cvm3a764jyafsqpwk8m79ph6w2983akip9";
+    sha256 = "1wv2rp3qx59adrph4y0rhabqk62z892l7cimix6h1dhx6vjvqmqp";
   };
 in
 {
@@ -59,15 +59,15 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
-    gnome3.gnome-terminal firefox mpv srawberry gnome3.file-roller noto-fonts 
+    gnome3.gnome-terminal firefox mpv rhythmbox gnome3.file-roller noto-fonts 
     nerdfonts noto-fonts-cjk noto-fonts-emoji plata-theme papirus-icon-theme transmission-gtk
     gnome3.aisleriot nvidia-offload gnome3.gnome-tweaks discord libreoffice-fresh
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
     p7zip unzip unrar gnome3.gnome-calendar gst_all_1.gst-plugins-bad piper
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
-    desmume chromium ffmpegthumbnailer noto-fonts-cjk gnome3.evolution
-    android-studio nextcloud-client obs-studio mariadb-server dbeaver-ce
+    desmume chromium ffmpegthumbnailer noto-fonts-cjk evolution
+    android-studio nextcloud-client obs-studio 
     gtk-engine-murrine eclipses.eclipse-java bitwarden jetbrains.idea-community obs-studio
   ];
 
@@ -88,7 +88,7 @@ in
       CREATE DATABASE 'alderchan';
       GRANT ALL PRIVILEGES ON tiempodb.* TO 'tiempodb'@'localhost';
       GRANT ALL PRIVILEGES ON alderchan.* TO 'alderchan'@'localhost';
-    ''
+    '';
   };
 
   # Zsh shell

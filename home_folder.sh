@@ -115,8 +115,13 @@ pamu2fcfg -o pam://"${hostnm}" -i pam://"${hostnm}" -n >> ~/.config/Yubico/u2f_k
 sudo sed -i "2i auth            sufficient      pam_u2f.so origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/sudo
 if [ -e /etc/pam.d/gdm-password ]; then
 	sudo cp /etc/pam.d/gdm-password /etc/pam.d/gdm-password.bak
-	awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/gdm-password /etc/pam.d/gdm-password > gdm-password
-	sudo cp gdm-password /etc/pam.d/gdm-password
+	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/gdm-password /etc/pam.d/gdm-password > gdm-password
+	if diff /etc/pam.d/gdm-password.bak gdm-password ; then
+		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/gdm-password /etc/pam.d/gdm-password > gdm-password
+		sudo cp gdm-password /etc/pam.d/gdm-password
+	else
+		sudo cp gdm-password /etc/pam.d/gdm-password
+	fi
 fi
 
 mkdir ~/.fonts

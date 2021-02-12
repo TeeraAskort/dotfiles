@@ -160,7 +160,7 @@ pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-pl
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm tilix mpv jdk8-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium transmission-gtk gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld obs-studio tlp inetutils net-tools neovim nodejs npm python-pynvim cmake dbeaver
+pacman -S --noconfirm tilix mpv jdk8-openjdk dolphin-emu discord telegram-desktop flatpak code wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es chromium transmission-gtk gparted noto-fonts font-bh-ttf gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld obs-studio tlp inetutils net-tools neovim nodejs npm python-pynvim cmake dbeaver intellij-idea-community-edition pam-u2f libfido2
 
 # Enabling services
 systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld 
@@ -169,13 +169,18 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
 sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 
-# Install eclipse-jee with link's user
-clear
-echo "Installing eclipse-jee"
-sudo -u link paru -S eclipse-jee
+# Installing XAMPP
+version="8.0.1"
+curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${version}-1-installer.run" > xampp.run
+chmod +x xampp.run
+./xampp.run --mode unattended --unattendedmodeui minimal
+ 
+# Installing angular globally
+npm i -g @angular/cli
+ng analytics off
 
 # Installing AUR packages
-sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin jdownloader2 postman-bin 
+sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin jdownloader2 postman-bin bitwarden-bin spring-tool-suite 
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder
@@ -193,6 +198,7 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns -

@@ -22,6 +22,8 @@
     device = "/dev/disk/by-uuid/cdda911a-9545-4226-88a6-87e95aa44a2a";
     allowDiscards = true;
     preLVM = true;
+    fido2support = true;
+    fido2.credential = "changeme";
   };
 
   fileSystems."/" =

@@ -12,6 +12,10 @@ let
     export __VK_LAYER_NV_optimus=NVIDIA_only
     exec -a "$0" "$@"
   '';
+  blockedHosts = pkgs.fetchurl {
+    url = "https://someonewhocares.org/hosts/zero/hosts";
+    sha256 = "19xv78bd5xmsyv9k56cvm3a764jyafsqpwk8m79ph6w2983akip9";
+  };
 in
 {
   imports =
@@ -35,6 +39,10 @@ in
       enp3s0.useDHCP = true;
       wlo1.useDHCP = true;
     };
+    extraHosts = ''
+      ${builtins.readFile blockedHosts}
+    '';
+
   };
 
   # Select internationalisation properties.
@@ -60,13 +68,27 @@ in
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
     desmume chromium ffmpegthumbnailer noto-fonts-cjk gnome3.evolution
     android-studio nextcloud-client obs-studio mariadb-server dbeaver-ce
-    gtk-engine-murrine eclipses.eclipse-java
+    gtk-engine-murrine eclipses.eclipse-java bitwarden jetbrains.idea-community obs-studio
   ];
 
   # Java configuration
   programs.java = {
     enable = true;
     package = pkgs.jdk11;
+  };
+
+  # MariaDB config
+  services.mysql = {
+    enable = true;
+    package = pkgs.mariadb;
+    initialScript = pkgs.writeText "backend-initScript" ''
+      CREATE USER 'tiempodb'@'localhost' IDENTIFIED BY 'tiempodb';
+      CREATE USER 'alderchan'@'localhost' IDENTIFIED BY 'alderchan';
+      CREATE DATABASE 'tiempodb';
+      CREATE DATABASE 'alderchan';
+      GRANT ALL PRIVILEGES ON tiempodb.* TO 'tiempodb'@'localhost';
+      GRANT ALL PRIVILEGES ON alderchan.* TO 'alderchan'@'localhost';
+    ''
   };
 
   # Zsh shell
@@ -90,12 +112,13 @@ in
   # Automatic upgrades
   system.autoUpgrade.enable = true;
 
-  # Security
-  security.hideProcessInformation = true;
-
   # Enable apparmor
   security.apparmor.enable = true;
   services.dbus.apparmor = "enabled";
+
+  # PAM FIDO2 support
+  security.pam.u2f.enable = true;
+  security.pam.services.gdm.u2fAuth = true;
 
   #Haveged daemon
   services.haveged.enable = true;

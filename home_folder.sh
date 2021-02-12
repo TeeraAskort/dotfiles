@@ -112,7 +112,8 @@ pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" > ~/.config/Yubico/u2f_keys
 echo "Remove FIDO2 car and insert another, then press a key:"
 read -n 1
 pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" -n >> ~/.config/Yubico/u2f_keys
-sudo sed -i "2i auth            sufficient      pam_u2f.so origin=pam://$HOSTNAME appid=pam://$HOSTNAME" /etc/pam.d/sudo
+sudo sed -i "2i auth            sufficient      pam_u2f.so origin=pam://$hostnm appid=pam://$hostnm cue" /etc/pam.d/sudo
+sudo sed -i "/auth.*substack.*system-auth/a auth\tsufficient\tpam_u2f.so cue origin=pam://$hostnm appid=pam://$hostnm cue" /etc/pam.d/su
 if [ -e /etc/pam.d/gdm-password ]; then
 	sudo cp /etc/pam.d/gdm-password /etc/pam.d/gdm-password.bak
 	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/gdm-password /etc/pam.d/gdm-password > gdm-password

@@ -102,7 +102,7 @@ if [[ $XDG_CURRENT_DESKTOP = "GNOME" ]]; then
 	fi
 fi
 
-hostnm=$(hostname)
+hostnm=$(cat /etc/hostname)
 
 mkdir -p ~/.config/Yubico
 

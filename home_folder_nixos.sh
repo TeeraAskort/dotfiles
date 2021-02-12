@@ -35,3 +35,12 @@ git config --global init.defaultBranch master
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher 
 
+mkdir -p ~/.config/Yubico
+
+echo "Insert FIDO2 card and press a key:"
+read -n 1
+pamu2fcfg -o pam://"$HOSTNAME" -i pam://"$HOSTNAME" > ~/.config/Yubico/u2f_keys
+echo "Remove FIDO2 car and insert another, then press a key:"
+read -n 1
+pamu2fcfg -o pam://"$HOSTNAME" -i pam://"$HOSTNAME" -n >> ~/.config/Yubico/u2f_keys
+

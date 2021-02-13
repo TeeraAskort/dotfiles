@@ -1,8 +1,10 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# and in the NixOS manual (accessible by running â€˜nixos-helpâ€™).
 
 { config, pkgs, ... }:
+
+with import <nixpkgs> {};
 
 let
   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
@@ -27,6 +29,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Declare the hostname
   networking.hostName = "link-gl63-8rc"; # Define your hostname.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
@@ -42,7 +45,6 @@ in
     extraHosts = ''
       ${builtins.readFile blockedHosts}
     '';
-
   };
 
   # Select internationalisation properties.
@@ -58,18 +60,28 @@ in
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
-    gnome3.gnome-terminal firefox mpv rhythmbox gnome3.file-roller noto-fonts 
-    nerdfonts noto-fonts-cjk noto-fonts-emoji plata-theme papirus-icon-theme transmission-gtk
-    gnome3.aisleriot nvidia-offload gnome3.gnome-tweaks discord libreoffice-fresh
+    plasma-nm plasma-vault breeze-gtk breeze-qt5 sddm-kcm 
+    qbittorrent libsForQt5.kmahjongg libsForQt5.ark libsForQt5.kate strawberry
+    libsForQt5.kcalc libsForQt5.okular libsForQt5.kdialog libsForQt5.yakuake
+    libsForQt5.kdeconnect-kde gimp libsForQt5.dolphin libsForQt5.dolphin-plugins
+    libsForQt5.kio-extras wacomtablet libsForQt5.konsole libsForQt5.kcharselect 
+    libsForQt5.kdegraphics-thumbnailers libsForQt5.kgpg libsForQt5.ksystemlog
+    libsForQt5.kdenetwork-filesharing gtk-engine-murrine
+    plasma-browser-integration
+    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode 
+    firefox mpv noto-fonts piper
+    noto-fonts-cjk noto-fonts-emoji papirus-icon-theme 
+    nvidia-offload discord libreoffice-fresh
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
-    p7zip unzip unrar gnome3.gnome-calendar gst_all_1.gst-plugins-bad piper
+    p7zip unzip unrar gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
-    desmume chromium ffmpegthumbnailer noto-fonts-cjk evolution
-    android-studio nextcloud-client obs-studio libfido2
-    gtk-engine-murrine eclipses.eclipse-java bitwarden jetbrains.idea-community obs-studio
+    desmume chromium android-studio bitwarden nodejs nodePackages.npm
+    jetbrains.idea-community obs-studio thunderbird libfido2
   ];
+
+  # Firefox plasma browser integration
+  nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
 
   # Java configuration
   programs.java = {
@@ -112,13 +124,22 @@ in
   # Automatic upgrades
   system.autoUpgrade.enable = true;
 
-  # Enable apparmor
-  security.apparmor.enable = true;
-  services.dbus.apparmor = "enabled";
+  # Security
+  security.hideProcessInformation = true;
 
   # PAM FIDO2 support
   security.pam.u2f.enable = true;
-  security.pam.services.gdm.u2fAuth = true;
+  security.pam.services = {
+    sudo.u2fAuth = true;
+    su.u2fAuth = true;
+    sddm.u2fAuth = true;
+    kde.u2fAuth = true;
+    polkit-1.u2fAuth = true;
+  };
+
+  # Enable apparmor
+  security.apparmor.enable = true;
+  services.dbus.apparmor = "enabled";
 
   #Haveged daemon
   services.haveged.enable = true;
@@ -132,7 +153,11 @@ in
 
   # Flatpak support
   services.flatpak.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-kde ];
+    gtkUsePortal = true;
+  };
 
   # Steam dependencies
   hardware.opengl = {
@@ -153,7 +178,6 @@ in
     enable = true;
 
     daemon.config = {
-      lfe-crossover-freq = 20;
       default-sample-format = "float32le";
       default-sample-rate = 192000;
       alternate-sample-rate = 48000;
@@ -170,6 +194,7 @@ in
       realtime-priority = 9;
       rlimit-rtprio = 9;
       daemonize = "no";
+      lfe-crossover-freq = 20;
     };
  
     # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
@@ -198,22 +223,15 @@ in
     # Use nvidia drivers
     videoDrivers = [ "nvidia" ];
 
-    # Gnome3 desktop configuration
+    # Plasma5 desktop configuration
     displayManager = {
-      gdm = {
+      sddm = {
         enable = true;
-        wayland = false;
-        #nvidiaWayland = true;
+        autoNumlock = true;
       };
     };
-    desktopManager.gnome3.enable = true;
+    desktopManager.plasma5.enable = true;
   };
-
-  # Excluded gnome3 packages
-  environment.gnome3.excludePackages = 
-    [ pkgs.epiphany pkgs.gnome3.gnome-music
-      pkgs.gnome3.gnome-software pkgs.gnome3.totem
-    ];
 
   # TLP
   services.tlp = {
@@ -240,16 +258,16 @@ in
     };
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with â€˜passwdâ€™.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "link" ]; # Enable â€˜sudoâ€™ for the user.
     shell = pkgs.zsh;
   };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # on your system were taken. Itâ€˜s perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).

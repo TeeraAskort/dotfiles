@@ -29,7 +29,7 @@ git config --global user.name "Alderaeney"
 git config --global user.email "sariaaskort@tuta.io"
 git config --global init.defaultBranch master
 
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher 
 
 mkdir -p ~/.config/Yubico

@@ -22,7 +22,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl tlp python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg
+dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl tlp python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg clang cargo cryptsetup-devel
 
 systemctl enable thermald
 
@@ -66,6 +66,25 @@ sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLI
 sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 
 systemctl enable tlp
+
+# Installing fido2luks
+git clone https://github.com/shimunn/fido2luks.git && cd fido2luks
+cargo install -f --path . --root /usr
+cp dracut/96luks-2fa/fido2luks.conf /etc/
+clear 
+echo "Generating fido2luks credential, plug the correct FIDO2 device and press a button:"
+read -n 1
+echo "Press the FIDO2 button"
+echo FIDO2LUKS_CREDENTIAL_ID=$(fido2luks credential) >> /etc/fido2luks.conf
+set -a
+. /etc/fido2luks.conf
+fido2luks -i add-key /dev/disk/by-uuid/$(blkid -o value -s UUID /dev/nvme0n1p3)
+cd dracut
+make install
+grubby --update-kernel=ALL --args="rd.luks.2fa=$FIDO2LUKS_CREDENTIAL_ID:$(blkid -o value -s UUID /dev/nvme0n1p3)"
+mkdir /boot/fido2luks/
+cp /usr/bin/fido2luks /boot/fido2luks/
+cp /etc/fido2luks.conf /boot/fido2luks/
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

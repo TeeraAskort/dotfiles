@@ -4,8 +4,6 @@
 
 { config, pkgs, ... }:
 
-with import <nixpkgs> {};
-
 let
   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
     export __NV_PRIME_RENDER_OFFLOAD=1
@@ -29,7 +27,6 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Declare the hostname
   networking.hostName = "link-gl63-8rc"; # Define your hostname.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
@@ -45,6 +42,7 @@ in
     extraHosts = ''
       ${builtins.readFile blockedHosts}
     '';
+
   };
 
   # Select internationalisation properties.
@@ -60,28 +58,18 @@ in
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    plasma5.plasma-nm plasma5.plasma-vault plasma5.breeze-gtk plasma5.breeze-qt5 plasma5.sddm-kcm 
-    qbittorrent kdeApplications.kmahjongg kdeApplications.ark kdeApplications.kate strawberry
-    kdeApplications.kcalc kdeApplications.okular kdeApplications.kdialog kdeApplications.yakuake
-    kdeApplications.kdeconnect-kde gimp kdeApplications.dolphin kdeApplications.dolphin-plugins
-    kdeApplications.kio-extras wacomtablet kdeApplications.konsole kdeApplications.kcharselect 
-    kdeApplications.kdegraphics-thumbnailers kdeApplications.kgpg kdeApplications.ksystemlog
-    kdeApplications.kdenetwork-filesharing gtk-engine-murrine
-    plasma5.plasma-browser-integration
-    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode 
-    firefox mpv noto-fonts piper
-    noto-fonts-cjk noto-fonts-emoji papirus-icon-theme 
-    nvidia-offload discord libreoffice-fresh
+    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
+    gnome3.gnome-terminal firefox mpv rhythmbox gnome3.file-roller noto-fonts 
+    nerdfonts noto-fonts-cjk noto-fonts-emoji plata-theme papirus-icon-theme transmission-gtk
+    gnome3.aisleriot nvidia-offload gnome3.gnome-tweaks discord libreoffice-fresh
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
-    p7zip unzip unrar gst_all_1.gst-plugins-bad
+    p7zip unzip unrar gnome3.gnome-calendar gst_all_1.gst-plugins-bad piper
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
-    desmume chromium android-studio bitwarden nodejs nodePackages.npm
-    jetbrains.idea-community obs-studio thunderbird
+    desmume chromium ffmpegthumbnailer noto-fonts-cjk evolution
+    android-studio nextcloud-client obs-studio 
+    gtk-engine-murrine eclipses.eclipse-java bitwarden jetbrains.idea-community obs-studio
   ];
-
-  # Firefox plasma browser integration
-  nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
 
   # Java configuration
   programs.java = {
@@ -124,22 +112,13 @@ in
   # Automatic upgrades
   system.autoUpgrade.enable = true;
 
-  # Security
-  security.hideProcessInformation = true;
-
-  # PAM FIDO2 support
-  security.pam.u2f.enable = true;
-  security.pam.services = {
-    sudo.u2fAuth = true;
-    su.u2fAuth = true;
-    sddm.u2fAuth = true;
-    kde.u2fAuth = true;
-    polkit-1.u2fAuth = true;
-  };
-
   # Enable apparmor
   security.apparmor.enable = true;
   services.dbus.apparmor = "enabled";
+
+  # PAM FIDO2 support
+  security.pam.u2f.enable = true;
+  security.pam.services.gdm.u2fAuth = true;
 
   #Haveged daemon
   services.haveged.enable = true;
@@ -153,11 +132,7 @@ in
 
   # Flatpak support
   services.flatpak.enable = true;
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.plasma5.xdg-desktop-portal-kde ];
-    gtkUsePortal = true;
-  };
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   # Steam dependencies
   hardware.opengl = {
@@ -178,6 +153,7 @@ in
     enable = true;
 
     daemon.config = {
+      lfe-crossover-freq = 20;
       default-sample-format = "float32le";
       default-sample-rate = 192000;
       alternate-sample-rate = 48000;
@@ -194,7 +170,6 @@ in
       realtime-priority = 9;
       rlimit-rtprio = 9;
       daemonize = "no";
-      lfe-crossover-freq = 20;
     };
  
     # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
@@ -223,15 +198,22 @@ in
     # Use nvidia drivers
     videoDrivers = [ "nvidia" ];
 
-    # Plasma5 desktop configuration
+    # Gnome3 desktop configuration
     displayManager = {
-      sddm = {
+      gdm = {
         enable = true;
-        autoNumlock = true;
+        wayland = false;
+        #nvidiaWayland = true;
       };
     };
-    desktopManager.plasma5.enable = true;
+    desktopManager.gnome3.enable = true;
   };
+
+  # Excluded gnome3 packages
+  environment.gnome3.excludePackages = 
+    [ pkgs.epiphany pkgs.gnome3.gnome-music
+      pkgs.gnome3.gnome-software pkgs.gnome3.totem
+    ];
 
   # TLP
   services.tlp = {
@@ -261,7 +243,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" "link" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

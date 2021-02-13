@@ -22,9 +22,6 @@ curl -LO https://gist.githubusercontent.com/igv/a015fc885d5c22e6891820ad89555637
 mv SSimDownscaler.glsl KrigBilateral.glsl ~/.config/mpv/shaders
 cp dotfiles/mpv.conf ~/.config/mpv/
 
-firefox &
-cp dotfiles/user.js ~/.mozilla/firefox/*.default/
-
 mkdir ~/.fonts
 cd ~/.fonts && unzip ~/Descargas/FantasqueSansMono.zip
 

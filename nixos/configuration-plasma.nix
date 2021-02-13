@@ -93,14 +93,28 @@ in
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
-    initialScript = pkgs.writeText "backend-initScript" ''
-      CREATE USER 'tiempodb'@'localhost' IDENTIFIED BY 'tiempodb';
-      CREATE USER 'alderchan'@'localhost' IDENTIFIED BY 'alderchan';
-      CREATE DATABASE 'tiempodb';
-      CREATE DATABASE 'alderchan';
-      GRANT ALL PRIVILEGES ON tiempodb.* TO 'tiempodb'@'localhost';
-      GRANT ALL PRIVILEGES ON alderchan.* TO 'alderchan'@'localhost';
-    '';
+    initialDatabases = [
+      {
+        name = "tiempodb";
+      }
+      {
+        name = "alderboard";
+      }
+    ];
+    ensureUsers = [
+      {
+        name = "tiempodb";
+        ensurePermissions = {
+          "tiempodb.*" = "ALL PRIVILEGES";
+        };
+      }
+      {
+        name = "alderboard";
+        ensurrePermissions = {
+          "alderboard.*" = "ALL PRIVILEGES";
+        };
+      }
+    ];
   };
 
   # Zsh shell

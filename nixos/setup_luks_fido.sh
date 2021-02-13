@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 nix-env -iA nixos.fido2luks
 
 echo "Tap on your FIDO2 device"

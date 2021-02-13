@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"

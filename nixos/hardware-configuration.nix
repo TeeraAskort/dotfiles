@@ -21,10 +21,10 @@
   boot.initrd.luks.fido2Support = true;
 
   boot.initrd.luks.devices."luks" = {
-    device = "/dev/disk/by-uuid/5aa4bd29-772f-4b7b-bc79-c8f6266ebce8";
+    device = "/dev/disk/by-uuid/UUIDchangeme";
     allowDiscards = true;
     preLVM = true;
-    fido2.credential = "94d09f843ba8e889a32ec63747262d1d9acb07b8c78dd883844c9b003d0ebee9fd4e52dae2262619c1da2be7562ec9dd94888c71a9326fea70dfe16214b5ea8ec01459010000";
+    fido2.credential = "fidochangeme";
   };
 
   fileSystems."/" =

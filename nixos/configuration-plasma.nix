@@ -16,7 +16,7 @@ let
   '';
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "19xv78bd5xmsyv9k56cvm3a764jyafsqpwk8m79ph6w2983akip9";
+    sha256 = "changeme";
   };
 in
 {
@@ -76,7 +76,7 @@ in
     p7zip unzip unrar gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
-    desmume chromium android-studio bitwarden
+    desmume chromium android-studio bitwarden nodejs nodePackages.npm
     jetbrains.idea-community obs-studio thunderbird
   ];
 
@@ -100,7 +100,7 @@ in
       CREATE DATABASE 'alderchan';
       GRANT ALL PRIVILEGES ON tiempodb.* TO 'tiempodb'@'localhost';
       GRANT ALL PRIVILEGES ON alderchan.* TO 'alderchan'@'localhost';
-    ''
+    '';
   };
 
   # Zsh shell
@@ -126,6 +126,16 @@ in
 
   # Security
   security.hideProcessInformation = true;
+
+  # PAM FIDO2 support
+  security.pam.u2f.enable = true;
+  security.pam.services = {
+    sudo.u2fAuth = true;
+    su.u2fAuth = true;
+    sddm.u2fAuth = true;
+    kde.u2fAuth = true;
+    polkit-1.u2fAuth = true;
+  };
 
   # Enable apparmor
   security.apparmor.enable = true;
@@ -218,12 +228,6 @@ in
       sddm = {
         enable = true;
         autoNumlock = true;
-#        theme = "${(pkgs.fetchFromGitHub {
-#    	  owner = "MarianArlt";
-#    	  repo = "sddm-chili";
-#    	  rev = "6516d50176c3b34df29003726ef9708813d06271";
-#    	  sha256 = "036fxsa7m8ymmp3p40z671z163y6fcsa9a641lrxdrw225ssq5f3";
-#	})}";
       };
     };
     desktopManager.plasma5.enable = true;

@@ -39,8 +39,8 @@ mkdir -p ~/.config/Yubico
 
 echo "Insert FIDO2 card and press a key:"
 read -n 1
-pamu2fcfg -o pam://"$HOSTNAME" -i pam://"$HOSTNAME" > ~/.config/Yubico/u2f_keys
-echo "Remove FIDO2 car and insert another, then press a key:"
+pamu2fcfg -o pam://"$(hostname)" -i pam://"$(hostname)" > ~/.config/Yubico/u2f_keys
+echo "Remove FIDO2 card and insert another, then press a key:"
 read -n 1
-pamu2fcfg -o pam://"$HOSTNAME" -i pam://"$HOSTNAME" -n >> ~/.config/Yubico/u2f_keys
+pamu2fcfg -o pam://"$(hostname)" -i pam://"$(hostname)" -n >> ~/.config/Yubico/u2f_keys
 

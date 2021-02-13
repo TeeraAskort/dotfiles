@@ -48,10 +48,10 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	sha256=$(nix-prefetch-url https://someonewhocares.org/hosts/zero/hosts)
 
 	# Copy the respective configuration.nix
-	if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
+	if [ "$1" = "plasma" ] || [ "$1" = "kde" ]; then
 		sed -i "s/changeme/$sha256/g" $directory/configuration-plasma.nix
 		cp $directory/configuration-plasma.nix /mnt/etc/nixos/configuration.nix
-	elif [[ "$1" == "gnome" ]]; then
+	elif [ "$1" = "gnome" ]; then
 		sed -i "s/changeme/$sha256/g" $directory/configuration.nix
 		cp $directory/configuration.nix /mnt/etc/nixos/configuration.nix
 	fi

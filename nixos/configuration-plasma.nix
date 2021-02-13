@@ -16,7 +16,7 @@ let
   '';
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "changeme";
+    sha256 = "1wv2rp3qx59adrph4y0rhabqk62z892l7cimix6h1dhx6vjvqmqp";
   };
 in
 {
@@ -110,7 +110,7 @@ in
       }
       {
         name = "alderboard";
-        ensurrePermissions = {
+        ensurePermissions = {
           "alderboard.*" = "ALL PRIVILEGES";
         };
       }

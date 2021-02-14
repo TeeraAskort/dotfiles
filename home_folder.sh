@@ -141,6 +141,14 @@ mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip
 
+if [ -e /etc/os-release ]; then 
+	set -a
+	. /etc/os-release
+	if [ "$NAME" = "Arch Linux" ]; then
+		bash $directory/arch/setup_fido_luks.sh
+	fi
+fi
+
 git config --global user.name "Alderaeney"
 git config --global user.email "sariaaskort@tuta.io"
 git config --global init.defaultBranch master

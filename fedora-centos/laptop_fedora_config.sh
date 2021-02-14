@@ -61,6 +61,9 @@ git clone https://github.com/vinceliuice/WhiteSur-kde.git
 cd WhiteSur-kde
 ./install.sh
 
+# Removing installation dependencies
+dnf remove -y inkscape
+
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
 

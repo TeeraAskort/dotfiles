@@ -18,35 +18,35 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F24AEA9FB05498B7
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 
 # Updating the system
-apt update
+apt update -y
 
 # Upgrading the system
-apt full-upgrade
+apt full-upgrade -y
 
 #Installing basic packages
-apt install ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser net-tools tlp tlp-rdw wget apt-transport-https gnupg python3-dev cmake nodejs npm chromium code qt5-style-plugins gtk2-engines-murrine gtk2-engines-pixbuf sassc inkscape optipng libglib2.0-dev-bin libpam-u2f pamu2fcfg libfido2-1
+apt install -y ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser net-tools tlp tlp-rdw wget apt-transport-https gnupg python3-dev cmake nodejs npm chromium code qt5-style-plugins gtk2-engines-murrine gtk2-engines-pixbuf sassc inkscape optipng libglib2.0-dev-bin libpam-u2f pamu2fcfg libfido2-1
 
 # Removing unwanted packages
-apt remove gnome-taquin tali gnome-tetravex four-in-a-row five-or-more lightsoff gnome-chess hoichess gnome-todo gnome-klotski hitori gnome-robots gnome-music gnome-nibbles gnome-mines quadrapassel swell-foop totem iagno gnome-sudoku rhythmbox
+apt remove -y gnome-taquin tali gnome-tetravex four-in-a-row five-or-more lightsoff gnome-chess hoichess gnome-todo gnome-klotski hitori gnome-robots gnome-music gnome-nibbles gnome-mines quadrapassel swell-foop totem iagno gnome-sudoku rhythmbox
 
 #Installing lutris
 echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_10/ ./" | tee /etc/apt/sources.list.d/lutris.list
 wget -q https://download.opensuse.org/repositories/home:/strycore/Debian_10/Release.key -O- | apt-key add -
 apt-get update
-apt-get install lutris
+apt-get install -y lutris
 
 #Installing wine
 wget -nc https://dl.winehq.org/wine-builds/winehq.key
 apt-key add winehq.key
 echo "deb https://dl.winehq.org/wine-builds/debian/ $(lsb_release -cs) main" | tee -a /etc/apt/sources.list
-apt update && apt install winehq-staging winetricks
+apt update && apt install -y winehq-staging winetricks
 
 # Installing outsider packages
 version="0.2.16"
 curl -L "https://github.com/shimunn/fido2luks/releases/download/${version}/fido2luks_${version}_amd64.deb" > fido2luks.deb
 version="0.8.5"
 curl -L "https://files.strawberrymusicplayer.org/strawberry_${version}-bullseye_amd64.deb" > strawberry.deb
-apt install ./strawberry.deb 
+apt install -y ./strawberry.deb ./fido2luks.deb
 
 # Setup fido2luks
 clear && echo "Insert FIDO2 key and press a button: "
@@ -62,7 +62,7 @@ done
 
 #Installing flatpak applications
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub com.discordapp.Discord org.DolphinEmu.dolphin-emu com.github.micahflee.torbrowser-launcher io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.obsproject.Studio com.bitwarden.desktop com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community
+flatpak install -y flathub com.discordapp.Discord org.DolphinEmu.dolphin-emu com.github.micahflee.torbrowser-launcher io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.obsproject.Studio com.bitwarden.desktop com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community
 
 #Copying prime render offload launcher
 cp ../dotfiles/prime-run /usr/bin

@@ -173,7 +173,7 @@ sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin jdownloader2 postman-bin bitwarden-bin 
 
 # Installing XAMPP
-version="8.0.1"
+version="8.0.2"
 curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${version}-1-installer.run" > xampp.run
 chmod +x xampp.run
 ./xampp.run --mode unattended --unattendedmodeui minimal

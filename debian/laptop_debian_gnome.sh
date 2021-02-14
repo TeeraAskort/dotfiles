@@ -26,7 +26,7 @@ apt update
 apt full-upgrade
 
 #Installing basic packages
-apt install ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser net-tools tlp tlp-rdw wget apt-transport-https gnupg python3-dev cmake nodejs npm google-chrome-stable code
+apt install ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser net-tools tlp tlp-rdw wget apt-transport-https gnupg python3-dev cmake nodejs npm google-chrome-stable code qt5-style-plugins gtk2-engines-murrine gtk2-engines-pixbuf sassc inkscape optipng libglib2.0-dev-bin libpam-u2f pamu2fcfg libfido2-1
 
 # Removing unwanted packages
 apt remove gnome-taquin tali gnome-tetravex four-in-a-row five-or-more lightsoff gnome-chess hoichess gnome-todo gnome-klotski hitori gnome-robots gnome-music gnome-nibbles gnome-mines quadrapassel swell-foop totem iagno gnome-sudoku rhythmbox
@@ -43,26 +43,35 @@ apt-key add winehq.key
 echo "deb https://dl.winehq.org/wine-builds/debian/ $(lsb_release -cs) main" | tee -a /etc/apt/sources.list
 apt update && apt install winehq-staging winetricks
 
-# Install jdk8
-wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
-echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb buster main" | sudo tee /etc/apt/sources.list.d/adoptopenjdk.list
-apt update
-apt install adoptopenjdk-8-hotspot
-
 # Installing outsider packages
-curl -L "https://files.strawberrymusicplayer.org/strawberry_0.8.5-bullseye_amd64.deb" > strawberry.deb
+version="0.2.16"
+curl -L "https://github.com/shimunn/fido2luks/releases/download/${version}/fido2luks_${version}_amd64.deb" > fido2luks.deb
+version="0.8.5"
+curl -L "https://files.strawberrymusicplayer.org/strawberry_${version}-bullseye_amd64.deb" > strawberry.deb
 apt install ./strawberry.deb 
+
+# Setup fido2luks
+clear && echo "Insert FIDO2 key and press a button: "
+read -n 1
+echo "Press FIDO2 key"
+echo FIDO2LUKS_CREDENTIAL_ID=$(fido2luks credential [NAME]) >> /etc/fido2luks.conf
+set -a
+. /etc/fido2luks.conf
+until fido2luks -i add-key /dev/disk/by-uuid/$(blkid -o value -s UUID /dev/nvme0n1p3)
+do
+	echo "Failed to setup fido2 key onto luks device, retrying"
+done
 
 #Installing flatpak applications
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub com.discordapp.Discord org.DolphinEmu.dolphin-emu com.github.micahflee.torbrowser-launcher io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.obsproject.Studio
+flatpak install flathub com.discordapp.Discord org.DolphinEmu.dolphin-emu com.github.micahflee.torbrowser-launcher io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.obsproject.Studio com.bitwarden.desktop com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community
 
 #Copying prime render offload launcher
 cp ../dotfiles/prime-run /usr/bin
 chmod +x /usr/bin/prime-run
 
 # Adding intel_idle.max_cstate=1 to grub
-sed -i 's/GRUB_CMDLINE_LINUX="\(.*\)"/GRUB_CMDLINE_LINUX="\1 intel_idle.max_cstate=1"/' /etc/default/grub
+sed -i "s/GRUB_CMDLINE_LINUX=\"\(.*\)\"/GRUB_CMDLINE_LINUX=\"\1 intel_idle.max_cstate=1 rd.luks.2fa=${FIDO2LUKS_CREDENTIAL_ID}:$(blkid -s UUID -o value /dev/nvme0n1p3)\"/" /etc/default/grub
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub
 sed -i 's/#GRUB_GFXMODE=640x480/GRUB_GFXMODE=1920x1080x32/g' /etc/default/grub
 update-grub
@@ -73,6 +82,11 @@ tar xzvf hexagon_2.tar.gz
 cp -r hexagon_2 /usr/share/plymouth/themes
 plymouth-set-default-theme -R hexagon_2
 
+# Installing WhiteSur theme
+git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git && cd WhiteSur-gtk-theme
+./install.sh -d /usr/share/themes -i debian -g -c dark -o solid 
+flatpak override --filesystem=/usr/share/themes
+
 # Changing tlp config
 sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
 sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
@@ -81,4 +95,18 @@ sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 apt autoremove
 
 # Set qt theme to adwaita-dark
-echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
+echo "QT_QPA_PLATFORMTHEME=gtk2" | tee -a /etc/environment
+
+# Add sysctl config
+echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Installing angular globally
+npm i -g @angular/cli
+ng analytics off
+
+# Installing XAMPP
+version="8.0.1"
+curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${version}-1-installer.run" > xampp.run
+chmod +x xampp.run
+./xampp.run --mode unattended --unattendedmodeui minimal
+

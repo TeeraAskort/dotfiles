@@ -22,12 +22,12 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl tlp python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg clang cargo cryptsetup-devel
+dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl tlp python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg clang cargo cryptsetup-devel gtk-murrine-engine gtk2-engines sassc optipng inkscape glib2-devel
 
 systemctl enable thermald
 
 # Remove unused packages 
-dnf remove -y totem
+dnf remove -y totem rhythmbox
 
 #Update Appstream data
 dnf groupupdate core -y
@@ -46,6 +46,20 @@ cat > /etc/modprobe.d/nvidia.conf <<EOF
 # http://download.nvidia.com/XFree86/Linux-x86_64/435.17/README/dynamicpowermanagement.html
 options nvidia NVreg_DynamicPowerManagement=0x02
 EOF
+
+# Install strawberry player
+version=0.8.5
+curl -L "https://files.strawberrymusicplayer.org/strawberry-${version}-1.fc33.x86_64.rpm" > strawberry.rpm
+dnf in -y ./strawberry.rpm
+
+# Install WhiteSur theme
+git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git
+cd WhiteSur-gtk-theme
+./install.sh -d /usr/share/themes -c dark -o solid -g -i fedora
+cd ..
+git clone https://github.com/vinceliuice/WhiteSur-kde.git
+cd WhiteSur-kde
+./install.sh
 
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
@@ -67,30 +81,11 @@ sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
 
 systemctl enable tlp
 
-# Installing fido2luks
-git clone https://github.com/shimunn/fido2luks.git && cd fido2luks
-cargo install -f --path . --root /usr
-cp dracut/96luks-2fa/fido2luks.conf /etc/
-clear 
-echo "Generating fido2luks credential, plug the correct FIDO2 device and press a button:"
-read -n 1
-echo "Press the FIDO2 button"
-echo FIDO2LUKS_CREDENTIAL_ID=$(fido2luks credential) >> /etc/fido2luks.conf
-set -a
-. /etc/fido2luks.conf
-fido2luks -i add-key /dev/disk/by-uuid/$(blkid -o value -s UUID /dev/nvme0n1p3)
-cd dracut
-make install
-grubby --update-kernel=ALL --args="rd.luks.2fa=$FIDO2LUKS_CREDENTIAL_ID:$(blkid -o value -s UUID /dev/nvme0n1p3)"
-mkdir /boot/fido2luks/
-cp /usr/bin/fido2luks /boot/fido2luks/
-cp /etc/fido2luks.conf /boot/fido2luks/
-
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop -y
+flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop -y
 
 # Flatpak overrides
 flatpak override --filesystem=~/.themes

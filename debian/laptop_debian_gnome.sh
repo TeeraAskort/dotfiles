@@ -42,23 +42,9 @@ echo "deb https://dl.winehq.org/wine-builds/debian/ $(lsb_release -cs) main" | t
 apt update && apt install -y winehq-staging winetricks
 
 # Installing outsider packages
-version="0.2.16"
-curl -L "https://github.com/shimunn/fido2luks/releases/download/${version}/fido2luks_${version}_amd64.deb" > fido2luks.deb
 version="0.8.5"
 curl -L "https://files.strawberrymusicplayer.org/strawberry_${version}-bullseye_amd64.deb" > strawberry.deb
-apt install -y ./strawberry.deb ./fido2luks.deb
-
-# Setup fido2luks
-clear && echo "Insert FIDO2 key and press a button: "
-read -n 1
-echo "Press FIDO2 key"
-echo FIDO2LUKS_CREDENTIAL_ID=$(fido2luks credential [NAME]) >> /etc/fido2luks.conf
-set -a
-. /etc/fido2luks.conf
-until fido2luks -i add-key /dev/disk/by-uuid/$(blkid -o value -s UUID /dev/nvme0n1p3)
-do
-	echo "Failed to setup fido2 key onto luks device, retrying"
-done
+apt install -y ./strawberry.deb 
 
 #Installing flatpak applications
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

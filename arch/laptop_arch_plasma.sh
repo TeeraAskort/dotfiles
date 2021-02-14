@@ -174,7 +174,8 @@ sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-
 
 # Installing XAMPP
 version="8.0.2"
-curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${version}-1-installer.run" > xampp.run
+subver="0"
+curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${version}-${subver}-installer.run" > xampp.run
 chmod +x xampp.run
 ./xampp.run --mode unattended --unattendedmodeui minimal
 

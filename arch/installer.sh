@@ -55,8 +55,6 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	elif [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 		arch-chroot /mnt bash /dotfiles/arch/laptop_arch_plasma.sh
 	fi
-
-	arch-chroot /mnt su - link
 else
 	echo "Available options: "
 	echo "gnome - To install the gnome desktop"

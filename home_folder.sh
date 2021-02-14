@@ -126,28 +126,20 @@ if [ -e /etc/pam.d/gdm-password ]; then
 fi
 
 if [ -e /etc/pam.d/sddm ]; then
-	sudo sed -i "/auth.*substack.*password-auth/a auth required pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/sddm 
+	sudo sed -i "2i auth required pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/sddm 
 fi
 
 if [ -e /etc/pam.d/kde ]; then
-	sudo sed -i "/auth.*substack.*password-auth/a auth sufficient pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/kde
+	sudo sed -i "2i auth sufficient pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/kde
 fi
 
 if [ -e /etc/pam.d/polkit-1 ]; then
-	sudo sed -i "/auth.*include.*system-auth/i auth sufficient pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/polkit-1
+	sudo sed -i "2i auth sufficient pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/polkit-1
 fi
 
 mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip
-
-if [ -e /etc/os-release ]; then 
-	set -a
-	. /etc/os-release
-	if [ "$NAME" = "Arch Linux" ]; then
-		bash $directory/arch/setup_fido_luks.sh
-	fi
-fi
 
 git config --global user.name "Alderaeney"
 git config --global user.email "sariaaskort@tuta.io"

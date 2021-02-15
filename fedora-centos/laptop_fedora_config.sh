@@ -22,7 +22,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl tlp python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg clang cargo cryptsetup-devel gtk-murrine-engine gtk2-engines sassc optipng inkscape glib2-devel
+dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl tlp python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg clang cargo cryptsetup-devel gtk-murrine-engine gtk2-engines 
 
 systemctl enable thermald
 
@@ -51,15 +51,6 @@ EOF
 version=0.8.5
 curl -L "https://files.strawberrymusicplayer.org/strawberry-${version}-1.fc33.x86_64.rpm" > strawberry.rpm
 dnf in -y ./strawberry.rpm
-
-# Install WhiteSur theme
-git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git
-cd WhiteSur-gtk-theme
-./install.sh -d /usr/share/themes -c dark -o solid -i fedora
-cd ..
-git clone https://github.com/vinceliuice/WhiteSur-kde.git
-cd WhiteSur-kde
-./install.sh
 
 # Removing installation dependencies
 dnf remove -y inkscape

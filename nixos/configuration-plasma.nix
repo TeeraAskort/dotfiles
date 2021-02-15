@@ -61,11 +61,11 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     plasma-nm plasma-vault breeze-gtk breeze-qt5 sddm-kcm 
-    qbittorrent libsForQt5.kmahjongg libsForQt5.ark libsForQt5.kate strawberry
-    libsForQt5.kcalc libsForQt5.okular libsForQt5.kdialog libsForQt5.yakuake
-    libsForQt5.kdeconnect-kde gimp libsForQt5.dolphin libsForQt5.dolphin-plugins
-    libsForQt5.kio-extras wacomtablet libsForQt5.konsole libsForQt5.kcharselect 
-    libsForQt5.kdegraphics-thumbnailers libsForQt5.kgpg libsForQt5.ksystemlog
+    qbittorrent ark kate strawberry
+    kcalc okular kdialog yakuake
+    kdeconnect gimp dolphin libsForQt5.dolphin-plugins
+    libsForQt5.kio-extras wacomtablet konsole kcharselect 
+    libsForQt5.kdegraphics-thumbnailers kgpg ksystemlog
     libsForQt5.kdenetwork-filesharing gtk-engine-murrine
     plasma-browser-integration
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode 

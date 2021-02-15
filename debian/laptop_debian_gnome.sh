@@ -68,7 +68,7 @@ plymouth-set-default-theme -R hexagon_2
 
 # Installing WhiteSur theme
 git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git && cd WhiteSur-gtk-theme
-./install.sh -d /usr/share/themes -i debian -g -c dark -o solid 
+./install.sh -d /usr/share/themes -i debian -c dark -o solid 
 flatpak override --filesystem=/usr/share/themes
 
 # Changing tlp config

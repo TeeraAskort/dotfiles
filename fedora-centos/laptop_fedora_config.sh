@@ -55,7 +55,7 @@ dnf in -y ./strawberry.rpm
 # Install WhiteSur theme
 git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git
 cd WhiteSur-gtk-theme
-./install.sh -d /usr/share/themes -c dark -o solid -g -i fedora
+./install.sh -d /usr/share/themes -c dark -o solid -i fedora
 cd ..
 git clone https://github.com/vinceliuice/WhiteSur-kde.git
 cd WhiteSur-kde

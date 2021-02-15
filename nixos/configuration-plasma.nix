@@ -93,28 +93,6 @@ in
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
-    initialDatabases = [
-      {
-        name = "tiempodb";
-      }
-      {
-        name = "alderboard";
-      }
-    ];
-    ensureUsers = [
-      {
-        name = "tiempodb";
-        ensurePermissions = {
-          "tiempodb.*" = "ALL PRIVILEGES";
-        };
-      }
-      {
-        name = "alderboard";
-        ensurePermissions = {
-          "alderboard.*" = "ALL PRIVILEGES";
-        };
-      }
-    ];
   };
 
   # Zsh shell

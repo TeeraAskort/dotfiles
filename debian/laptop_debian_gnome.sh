@@ -24,7 +24,7 @@ apt update -y
 apt full-upgrade -y
 
 #Installing basic packages
-apt install -y ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser net-tools tlp tlp-rdw wget apt-transport-https gnupg python3-dev cmake nodejs npm chromium code qt5-style-plugins gtk2-engines-murrine gtk2-engines-pixbuf libpam-u2f pamu2fcfg libfido2-1
+apt install -y ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser net-tools tlp tlp-rdw wget apt-transport-https gnupg python3-dev cmake nodejs npm chromium code qt5-style-plugins gtk2-engines-murrine gtk2-engines-pixbuf sassc inkscape optipng libglib2.0-dev-bin libpam-u2f pamu2fcfg libfido2-1
 
 # Removing unwanted packages
 apt remove -y gnome-taquin tali gnome-tetravex four-in-a-row five-or-more lightsoff gnome-chess hoichess gnome-todo gnome-klotski hitori gnome-robots gnome-music gnome-nibbles gnome-mines quadrapassel swell-foop totem iagno gnome-sudoku rhythmbox
@@ -65,6 +65,11 @@ curl -LO "https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pa
 tar xzvf hexagon_2.tar.gz
 cp -r hexagon_2 /usr/share/plymouth/themes
 plymouth-set-default-theme -R hexagon_2
+
+# Installing WhiteSur theme
+git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git && cd WhiteSur-gtk-theme
+./install.sh -d /usr/share/themes -i debian -c dark -o solid 
+flatpak override --filesystem=/usr/share/themes
 
 # Changing tlp config
 sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf

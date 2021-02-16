@@ -59,7 +59,7 @@ in
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
     gnome3.gnome-terminal firefox mpv strawberry gnome3.file-roller noto-fonts 
     nerdfonts noto-fonts-cjk noto-fonts-emoji plata-theme papirus-icon-theme transmission-gtk
-    gnome3.aisleriot nvidia-offload gnome3.gnome-tweaks discord libreoffice-fresh
+    gnome3.aisleriot gnome3.gnome-tweaks discord libreoffice-fresh
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
     p7zip unzip unrar gnome3.gnome-calendar gst_all_1.gst-plugins-bad piper
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
@@ -194,9 +194,6 @@ in
 
     # Wacom tablet support
     wacom.enable = true;
-
-    # Use nvidia drivers
-    videoDrivers = [ "nvidia" ];
 
     # Gnome3 desktop configuration
     displayManager = {

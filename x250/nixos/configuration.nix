@@ -57,7 +57,7 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
-    gnome3.gnome-terminal firefox mpv strawberry gnome3.file-roller noto-fonts 
+    gnome3.gnome-terminal firefox-wayland mpv strawberry gnome3.file-roller noto-fonts 
     nerdfonts noto-fonts-cjk noto-fonts-emoji plata-theme papirus-icon-theme transmission-gtk
     gnome3.aisleriot gnome3.gnome-tweaks discord libreoffice-fresh
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
@@ -68,6 +68,12 @@ in
     android-studio nextcloud-client obs-studio libfido2
     gtk-engine-murrine bitwarden jetbrains.idea-community obs-studio
   ];
+
+  # Environment variables
+  environment.sessionVariables = {
+    MOZ_ENABLE_WAYLAND = "1";
+    XDG_SESSION_TYPE = "wayland";
+  };
 
   # Java configuration
   programs.java = {
@@ -177,6 +183,9 @@ in
     package = pkgs.pulseaudioFull;
     support32Bit = true;
   };
+
+  # Enable pipewire
+  services.pipewire.enable = true;
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;

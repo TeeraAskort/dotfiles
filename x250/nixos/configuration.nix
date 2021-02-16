@@ -126,8 +126,8 @@ in
   # Undervolting the cpu
   services.undervolt = {
     enable = true;
-    coreOffset = -100;
-    gpuOffset = -100;
+    coreOffset = -75;
+    gpuOffset = -75;
   };
 
   # Flatpak support

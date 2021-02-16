@@ -52,7 +52,7 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
-    gnome3.gnome-terminal firefox mpv rhythmbox gnome3.file-roller noto-fonts 
+    gnome3.gnome-terminal firefox mpv strawberry gnome3.file-roller noto-fonts 
     nerdfonts noto-fonts-cjk noto-fonts-emoji plata-theme papirus-icon-theme transmission-gtk
     gnome3.aisleriot nvidia-offload gnome3.gnome-tweaks discord libreoffice-fresh
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es

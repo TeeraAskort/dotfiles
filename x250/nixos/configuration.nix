@@ -65,7 +65,7 @@ in
     gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
     gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
     desmume chromium ffmpegthumbnailer noto-fonts-cjk 
-    android-studio nextcloud-client obs-studio libfido2
+    android-studio nextcloud-client obs-studio libfido2 pfetch
     gtk-engine-murrine bitwarden jetbrains.idea-community obs-studio
   ];
 

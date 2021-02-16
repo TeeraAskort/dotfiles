@@ -1,0 +1,4 @@
+alias gedit="flatpak run org.gnome.Gedit"
+alias eclipse="flatpak run org.eclipse.Java"
+alias studio="flatpak run com.google.AndroidStudio"
+alias code="flatpak run com.vscodium.codium"

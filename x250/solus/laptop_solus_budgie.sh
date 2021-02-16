@@ -4,7 +4,7 @@
 eopkg up
 
 ## Installing required applications
-eopkg it thermald intel-undervolt vim zsh zsh-autosuggestions zsh-syntax-highlighting tilix openjdk-11-devel telegram flatpak tlp transmission strawberry gimp pam-u2f libfido2 steam lutris wine wine-devel wine-32bit-devel winetricks piper gnome-mahjongg aisleriot nodejs neovim python-neovim cmake vscode python-devel g++ discord lbry-desktop 
+eopkg it thermald intel-undervolt vim zsh zsh-autosuggestions zsh-syntax-highlighting tilix openjdk-11-devel telegram flatpak tlp transmission strawberry gimp pam-u2f libfido2 steam lutris wine wine-devel wine-32bit winetricks piper gnome-mahjongg aisleriot nodejs neovim python-neovim cmake vscode python-devel g++ discord lbry-desktop 
 
 ## Enabling services
 systemctl enable tlp intel-undervolt thermald

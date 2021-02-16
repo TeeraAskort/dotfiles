@@ -49,6 +49,11 @@ in
   # Allow nonfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Package overrides
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
@@ -62,7 +67,6 @@ in
     desmume chromium ffmpegthumbnailer noto-fonts-cjk evolution
     android-studio nextcloud-client obs-studio libfido2
     gtk-engine-murrine bitwarden jetbrains.idea-community obs-studio
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   ];
 
   # Java configuration

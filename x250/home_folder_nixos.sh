@@ -16,14 +16,19 @@ git config --global user.email "sariaaskort@tuta.io"
 git config --global init.defaultBranch master
 
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher 
+flatpak install -y flathub io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader
 
 mkdir -p ~/.config/Yubico
 
 echo "Insert FIDO2 card and press a key:"
 read -n 1
-pamu2fcfg -o pam://"$(hostname)" -i pam://"$(hostname)" > ~/.config/Yubico/u2f_keys
+until pamu2fcfg -o pam://"$(hostname)" -i pam://"$(hostname)" > ~/.config/Yubico/u2f_keys
+do
+	echo "Something went wrong reading the FIDO2 card"
+done
 echo "Remove FIDO2 card and insert another, then press a key:"
 read -n 1
-pamu2fcfg -o pam://"$(hostname)" -i pam://"$(hostname)" -n >> ~/.config/Yubico/u2f_keys
-
+until pamu2fcfg -o pam://"$(hostname)" -i pam://"$(hostname)" -n >> ~/.config/Yubico/u2f_keys
+do
+	echo "Something went wrong reading the FIDO2 card"
+done

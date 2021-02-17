@@ -77,8 +77,10 @@ in
   };
 
   # QT5 Theming
-  qt5.platformTheme = "gnome";
-
+  qt5 = {
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
   # Java configuration
   programs.java = {
     enable = true;

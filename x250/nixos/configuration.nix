@@ -67,6 +67,7 @@ in
     desmume chromium ffmpegthumbnailer noto-fonts-cjk 
     android-studio nextcloud-client obs-studio libfido2 pfetch
     gtk-engine-murrine bitwarden jetbrains.idea-community obs-studio
+    nextcloud-client
     qgnomeplatform adwaita-qt
   ];
 

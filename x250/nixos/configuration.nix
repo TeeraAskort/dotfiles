@@ -216,7 +216,16 @@ in
         enable = true;
       };
     };
-    desktopManager.gnome3.enable = true;
+    desktopManager.gnome3 = {
+      enable = true;
+      extraGSettingsOverrides = ''
+        [org.gnome.desktop.interface]
+        gtk-theme = "adwaita-dark"
+
+        [org.gnome.desktop.wm.preferences]
+        theme = "adwaita-dark"
+      '';
+    };
   };
 
   # Excluded gnome3 packages

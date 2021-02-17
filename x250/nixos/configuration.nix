@@ -220,10 +220,11 @@ in
       enable = true;
       extraGSettingsOverrides = ''
         [org.gnome.desktop.interface]
-        gtk-theme = "adwaita-dark"
+        gtk-theme = "Adwaita-dark"
+        icon-theme = "Papirus-Dark"
 
         [org.gnome.desktop.wm.preferences]
-        theme = "adwaita-dark"
+        theme = "Adwaita-dark"
       '';
     };
   };

@@ -67,12 +67,14 @@ in
     desmume chromium ffmpegthumbnailer noto-fonts-cjk 
     android-studio nextcloud-client obs-studio libfido2 pfetch
     gtk-engine-murrine bitwarden jetbrains.idea-community obs-studio
+    qgnomeplatform
   ];
 
   # Environment variables
   environment.sessionVariables = {
     MOZ_ENABLE_WAYLAND = "1";
     XDG_SESSION_TYPE = "wayland";
+    QT_QPA_PLATFORMTHEME = "gnome";
   };
 
   # Java configuration

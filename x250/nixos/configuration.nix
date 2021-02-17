@@ -68,15 +68,18 @@ in
     android-studio nextcloud-client obs-studio libfido2 pfetch
     gtk-engine-murrine bitwarden jetbrains.idea-community obs-studio
     nextcloud-client
-    qgnomeplatform adwaita-qt
+    adwaita-qt
   ];
 
   # Environment variables
   environment.sessionVariables = {
     MOZ_ENABLE_WAYLAND = "1";
     XDG_SESSION_TYPE = "wayland";
-    QT_QPA_PLATFORMTHEME = "gnome";
+    QT_QPA_PLATFORM = "wayland";
   };
+
+  # QT5 Theming
+  qt5.platformTheme = "gnome";
 
   # Java configuration
   programs.java = {

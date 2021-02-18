@@ -166,7 +166,7 @@ pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop fla
 systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld 
 
 # Installing AUR packages
-sudo -u aurbuilder paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin jdownloader2 postman-bin bitwarden-bin 
+sudo -u link paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin jdownloader2 postman-bin bitwarden-bin 
 
 # Installing XAMPP
 version="8.0.2"
@@ -198,7 +198,7 @@ echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Cleaning orphans
-pacman -Qtdq | pacman -Rns -
+pacman -Qtdq | pacman -Rns --noconfirm -
 
 # Copying dotfiles folder to link
 mv /dotfiles /home/link

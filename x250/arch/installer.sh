@@ -48,9 +48,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	git clone https://SariaAskort@bitbucket.org/SariaAskort/dotfiles.git
 
 	if [[ "$1" == "gnome" ]]; then
-		arch-chroot /mnt bash /dotfiles/arch/laptop_arch_gnome.sh
+		arch-chroot /mnt bash /dotfiles/x250/arch/laptop_arch_gnome.sh
 	elif [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
-		arch-chroot /mnt bash /dotfiles/arch/laptop_arch_plasma.sh
+		arch-chroot /mnt bash /dotfiles/x250/arch/laptop_arch_plasma.sh
 	fi
 else
 	echo "Available options: "

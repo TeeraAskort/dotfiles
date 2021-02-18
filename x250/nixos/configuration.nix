@@ -61,14 +61,15 @@ in
     nerdfonts noto-fonts-cjk noto-fonts-emoji papirus-icon-theme transmission-gtk
     gnome3.aisleriot gnome3.gnome-tweaks discord libreoffice-fresh
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
-    p7zip unzip unrar gnome3.gnome-calendar gst_all_1.gst-plugins-bad piper
-    gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
-    gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
+    p7zip unzip unrar gnome3.gnome-calendar piper
+    steam-run systembus-notify
     desmume chromium ffmpegthumbnailer noto-fonts-cjk 
     android-studio nextcloud-client obs-studio libfido2 pfetch
     gtk-engine-murrine bitwarden jetbrains.idea-community obs-studio
-    nextcloud-client
-    adwaita-qt
+    nextcloud-client parallel
+    adwaita-qt ffmpeg-full
+    gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
+    gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
   ];
 
   # Environment variables

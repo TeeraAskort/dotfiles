@@ -89,15 +89,36 @@ if [ -e /etc/pam.d/gdm-password ]; then
 fi
 
 if [ -e /etc/pam.d/sddm ]; then
-	sudo sed -i "2i auth required pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/sddm
+	sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
+	if diff /etc/pam.d/sddm.bak sddm ; then
+		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
+		sudo cp sddm /etc/pam.d/sddm
+	else
+		sudo cp sddm /etc/pam.d/sddm
+	fi
 fi
 
 if [ -e /etc/pam.d/kde ]; then
-	sudo sed -i "2i auth required pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/kde
+	sudo cp /etc/pam.d/kde /etc/pam.d/kde.bak
+	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/kde /etc/pam.d/kde > kde
+	if diff /etc/pam.d/kde.bak kde ; then
+		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/kde /etc/pam.d/kde > kde
+		sudo cp kde /etc/pam.d/kde
+	else
+		sudo cp kde /etc/pam.d/kde
+	fi
 fi
 
 if [ -e /etc/pam.d/polkit-1 ]; then
-	sudo sed -i "2i auth required pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/polkit-1
+	sudo cp /etc/pam.d/polkit-1 /etc/pam.d/polkit-1.bak
+	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/polkit-1 /etc/pam.d/polkit-1 > polkit-1
+	if diff /etc/pam.d/polkit-1.bak polkit-1 ; then
+		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/polkit-1 /etc/pam.d/polkit-1 > polkit-1
+		sudo cp polkit-1 /etc/pam.d/polkit-1
+	else
+		sudo cp polkit-1 /etc/pam.d/polkit-1
+	fi
 fi
 
 ## Configuring git

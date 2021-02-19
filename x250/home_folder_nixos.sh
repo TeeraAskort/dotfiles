@@ -1,7 +1,21 @@
 #!/usr/bin/env bash
 
+sudo rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent
+
+ln -s /home/link/Datos/Descargas /home/link
+ln -s /home/link/Datos/Descargas /home/link/Downloads
+ln -s /home/link/Datos/Documentos /home/link
+ln -s /home/link/Datos/Escritorio /home/link
+ln -s /home/link/Datos/Música /home/link
+ln -s /home/link/Datos/Imágenes /home/link
+ln -s /home/link/Datos/Torrent /home/link
+ln -s /home/link/Datos/Nextcloud /home/link
+
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+mkdir ~/.fonts
+cd ~/.fonts && unzip ~/Documentos/fonts.zip
 
 cp dotfiles/.vimrc ~
 

@@ -70,6 +70,7 @@ in
     adwaita-qt ffmpeg-full
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
+    python39Packages.pynvim neovim cmake python39Full gcc gnumake
   ];
 
   # Environment variables

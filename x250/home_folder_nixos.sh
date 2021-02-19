@@ -21,7 +21,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 mkdir ~/.fonts
 cd ~/.fonts && unzip ~/Documentos/fonts.zip
 
-cp dotfiles/.vimrc ~
+cp $directory/dotfiles/.vimrc ~
 
 mkdir -p ~/.config/mpv/shaders/
 curl -LO https://gist.githubusercontent.com/igv/36508af3ffc84410fe39761d6969be10/raw/ac09db2c0664150863e85d5a4f9f0106b6443a12/SSimDownscaler.glsl

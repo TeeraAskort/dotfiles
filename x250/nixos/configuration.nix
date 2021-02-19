@@ -67,7 +67,7 @@ in
     android-studio nextcloud-client obs-studio libfido2 pfetch
     gtk-engine-murrine bitwarden jetbrains.idea-community obs-studio
     nextcloud-client parallel
-    adwaita-qt ffmpeg-full
+    adwaita-qt ffmpeg-full nodejs nodePackages.npm
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     python39Packages.pynvim neovim cmake python39Full gcc gnumake

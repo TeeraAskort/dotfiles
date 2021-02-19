@@ -37,6 +37,17 @@
       fsType = "vfat";
     };
 
+  fileSystems."/home/link/Datos" = {
+    encrypted = {
+      blkDev = "/dev/disk/by-uuid/e85c3b9c-e654-4328-ae80-a88d1660daf2";
+      enable = true;
+      keyFile = "/mnt-root/.keyfile";
+      label = "encrypteddata";
+    };
+    device = "/dev/mapper/encrypteddata";
+    fsType = "btrfs";
+  };
+
   swapDevices =
     [ { device = "/dev/disk/by-uuid/37cbbf94-781f-4197-8af9-d4fa6fa2c6e3"; }
     ];

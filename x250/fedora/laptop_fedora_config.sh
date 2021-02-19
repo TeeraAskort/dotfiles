@@ -22,12 +22,12 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg gtk-murrine-engine gtk2-engines sassc optipng inkscape glib2-devel
+dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg 
 
 systemctl enable thermald
 
 # Remove unused packages 
-dnf remove -y totem rhythmbox
+dnf remove -y totem
 
 #Update Appstream data
 dnf groupupdate core -y
@@ -35,24 +35,6 @@ dnf groupupdate core -y
 #Install multimedia codecs
 dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y
 dnf groupupdate sound-and-video -y
-
-# Install strawberry player
-version=0.8.5
-curl -L "https://files.strawberrymusicplayer.org/strawberry-${version}-1.fc33.x86_64.rpm" > strawberry.rpm
-dnf in -y ./strawberry.rpm
-
-# Install WhiteSur theme
-git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git
-cd WhiteSur-gtk-theme
-./install.sh -d /usr/share/themes -c dark -o solid -i fedora
-cd ..
-git clone https://github.com/vinceliuice/WhiteSur-kde.git
-cd WhiteSur-kde
-./install.sh
-rm -r WhiteSur*
-
-# Removing installation dependencies
-dnf remove -y inkscape
 
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
@@ -75,7 +57,7 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop 
 
 # Flatpak overrides
-flatpak override --filesystem=/usr/share/.themes
+flatpak override --filesystem=~/.themes
 flatpak override --filesystem=~/.fonts
 flatpak override --filesystem=/usr/lib/jvm com.jetbrains.IntelliJ-IDEA-Community
 
@@ -93,5 +75,3 @@ curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${
 chmod +x xampp.run
 ./xampp.run --mode unattended --unattendedmodeui minimal
 
-# Add intel_idle.max_cstate=1 to grub and update
-grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'

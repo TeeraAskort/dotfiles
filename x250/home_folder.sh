@@ -121,11 +121,39 @@ if [ -e /etc/pam.d/polkit-1 ]; then
 	fi
 fi
 
+## Installing theme for GNOME
+if [[ $XDG_CURRENT_DESKTOP = "GNOME" ]]; then
+        mkdir ~/.themes
+        cp ~/Documentos/theme.tar.xz ~/.themes && cd ~/.themes
+        tar xf theme.tar.xz
+        rm theme.tar.xz
+        count=$(ls | wc -l)
+        if [[ $count -eq 1 ]]; then
+                file=$(ls)
+                gsettings set org.gnome.desktop.interface gtk-theme "$file"
+                gsettings set org.gnome.desktop.wm.preferences theme "$file"
+                count=$(gnome-extensions list | grep user-theme | wc -l)
+                if [[ $count -eq 1 ]]; then
+                        gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
+                        gsettings set org.gnome.shell.extensions.user-theme name "$file"
+                fi
+        fi
+        count=$(ls /usr/share/icons/ | grep "Papirus" | wc -l)
+        if [[ $count -gt 0 ]]; then
+                gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+        fi
+fi
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "sariaaskort@tuta.io"
 git config --global init.defaultBranch master
 
 ## Changing user shell
-chsh -s /usr/bin/zsh
+if ! command -v chsh &> /dev/null
+then
+	sudo lchsh link
+else
+	chsh -s /usr/bin/zsh
+fi
 vim ~/.zshrc

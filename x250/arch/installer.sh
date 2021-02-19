@@ -2,20 +2,23 @@
 
 # Checking if arguments are passed
 if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
+
+        rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TS128GMTS430S | cut -d" " -f1)
+
 	# Create partitions
-	parted /dev/sda -- mklabel gpt
-	parted /dev/sda -- mkpart ESP fat32 1M 512M
-	parted /dev/sda -- mkpart primary 512M 100%
-	parted /dev/sda -- set 1 boot on
+	parted /dev/${rootDisk} -- mklabel gpt
+	parted /dev/${rootDisk} -- mkpart ESP fat32 1M 512M
+	parted /dev/${rootDisk} -- mkpart primary 512M 100%
+	parted /dev/${rootDisk} -- set 1 boot on
 
 	# Loop until cryptsetup succeeds formatting the partition
-	until cryptsetup luksFormat /dev/sda2
+	until cryptsetup luksFormat /dev/${rootDisk}2
 	do
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the partition
-	until cryptsetup open /dev/sda2 luks
+	until cryptsetup open /dev/${rootDisk}2 luks
 	do
 		echo "Cryptsetup failed, trying again"
 	done
@@ -28,14 +31,14 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 
 	# Format partitions
 	mkfs.btrfs -f -L root /dev/lvm/root
-	mkfs.vfat -F32 /dev/sda1
+	mkfs.vfat -F32 /dev/${rootDisk}1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
 
 	# Mount paritions
 	mount /dev/lvm/root /mnt
 	mkdir /mnt/boot
-	mount /dev/sda1 /mnt/boot
+	mount /dev/${rootDisk}1 /mnt/boot
 
 	# Install base system
 	pacstrap /mnt base base-devel linux-firmware linux-hardened linux-hardened-headers lvm2 efibootmgr btrfs-progs vim git

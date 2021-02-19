@@ -4,6 +4,38 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
+rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TS128GMTS430S | cut -d" " -f1)
+
+dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_MQ01ABD100 | cut -d" " -f1)
+
+## Configuring data disk
+sudo cryptsetup open /dev/${dataDisk}1 encrypteddata
+mkdir /home/link/Datos
+sudo mount /dev/mapper/encrypteddata /home/link/Datos
+sudo cp /home/link/Datos/.keyfile /root/.keyfile
+echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${dataDisk}1) /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
+echo "/dev/mapper/encrypteddata /home/link/Datos ext4 defaults 0 0" | sudo tee -a /etc/fstab
+
+## Removing home folders
+rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent
+
+## Linking home folders
+ln -s /home/link/Datos/Descargas /home/link
+ln -s /home/link/Datos/Descargas /home/link/Downloads
+ln -s /home/link/Datos/Documentos /home/link
+ln -s /home/link/Datos/Escritorio /home/link
+ln -s /home/link/Datos/Música /home/link
+ln -s /home/link/Datos/Imágenes /home/link
+ln -s /home/link/Datos/Torrent /home/link
+ln -s /home/link/Datos/Nextcloud /home/link
+
+## Overriding xdg-user-dirs
+xdg-user-dirs-update --set DESKTOP $HOME/Datos/Escritorio
+xdg-user-dirs-update --set DOCUMENTS $HOME/Datos/Documentos
+xdg-user-dirs-update --set DOWNLOAD $HOME/Datos/Descargas
+xdg-user-dirs-update --set MUSIC $HOME/Datos/Música
+xdg-user-dirs-update --set PICTURES $HOME/Datos/Imágenes
+
 ## Adding hosts based ads and trackers blocking
 wget https://someonewhocares.org/hosts/zero/hosts
 sudo cp /etc/hosts /etc/hosts.bak
@@ -16,9 +48,9 @@ git clone https://github.com/kitsunyan/intel-undervolt.git
 cd intel-undervolt && ./configure --enable-systemd && make && sudo make install
 cd .. && sudo rm -r intel-undervolt
 
-sudo sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /etc/intel-undervolt.conf
-sudo sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.conf
-sudo sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
+sudo sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -75/g" /etc/intel-undervolt.conf
+sudo sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf
+sudo sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-undervolt.conf
 sudo systemctl enable intel-undervolt
 
 ## Installing vim plugins

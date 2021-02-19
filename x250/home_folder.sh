@@ -153,6 +153,11 @@ if [ -e /etc/pam.d/polkit-1 ]; then
 	fi
 fi
 
+## Copy fonts
+mkdir ~/.fonts
+cd ~/.fonts
+unzip ~/Documentos/fonts.zip
+
 ## Installing theme for GNOME
 if [[ $XDG_CURRENT_DESKTOP = "GNOME" ]]; then
         mkdir ~/.themes

@@ -171,7 +171,7 @@ pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop fla
 systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld 
 
 # Installing AUR packages
-sudo -u link paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin jdownloader2 postman-bin bitwarden-bin 
+sudo -u link paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin jdownloader2 postman-bin bitwarden-bin kwin-scripts-parachute
 
 # Installing XAMPP
 version="8.0.2"

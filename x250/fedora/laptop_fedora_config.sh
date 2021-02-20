@@ -22,12 +22,12 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg 
+dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg strawberry gtk-murrine-engine gtk2-engines sassc optipng inkscape glib2-devel 
 
 systemctl enable thermald
 
 # Remove unused packages 
-dnf remove -y totem
+dnf remove -y totem rhythmbox
 
 #Update Appstream data
 dnf groupupdate core -y
@@ -35,6 +35,21 @@ dnf groupupdate core -y
 #Install multimedia codecs
 dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y
 dnf groupupdate sound-and-video -y
+
+#Install WhiteSur theme
+curl -L "https://api.github.com/repos/vinceliuice/WhiteSur-gtk-theme/tarball" > whitesur-gtk.tar.gz
+tar xzvf whitesur-gtk.tar.gz
+cd *WhiteSur-gtk-theme*
+sudo -u $user ./install.sh -n WhiteSur-dark -c dark -o standard -i normal 
+sudo -u $user gsettings set org.gnome.desktop.interface gtk-theme "WhiteSur-dark"
+sudo -u $user gsettings set org.gnome.desktop.wm.preferences theme "WhiteSur-dark"
+cd ../ && rm -r whitesur* *WhiteSur*
+git clone https://github.com/vinceliuice/WhiteSur-kde.git
+cd WhiteSur-kde
+sudo -u $user ./install.sh
+cd ../ && rm -r WhiteSur-kde
+
+dnf rm inkscape
 
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 

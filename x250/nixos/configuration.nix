@@ -197,7 +197,10 @@ in
   services.pipewire.enable = true;
 
   # Enable bluetooth
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    package = pkgs.bluezFull;
+  };
 
   # Xserver configuration
   services.xserver = {

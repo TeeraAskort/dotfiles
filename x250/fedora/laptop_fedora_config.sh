@@ -41,7 +41,7 @@ repoURL=$(curl -L "https://api.github.com/repos/vinceliuice/WhiteSur-gtk-theme/r
 curl -L "$repoURL" > whitesur-gtk.tar.gz
 tar xzvf whitesur-gtk.tar.gz
 cd *WhiteSur-gtk-theme*
-sudo -u $user ./install.sh -n WhiteSur-dark -c dark -o standard -i normal 
+sudo -u $user ./install.sh -a standard -c dark -o standard -i normal 
 sudo -u $user gsettings set org.gnome.desktop.interface gtk-theme "WhiteSur-dark"
 sudo -u $user gsettings set org.gnome.desktop.wm.preferences theme "WhiteSur-dark"
 cd ../ && rm -r whitesur* *WhiteSur*
@@ -50,7 +50,7 @@ cd WhiteSur-kde
 sudo -u $user ./install.sh
 cd ../ && rm -r WhiteSur-kde
 
-dnf rm inkscape
+dnf rm -y inkscape
 
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 

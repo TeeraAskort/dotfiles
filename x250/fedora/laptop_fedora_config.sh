@@ -37,7 +37,8 @@ dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKi
 dnf groupupdate sound-and-video -y
 
 #Install WhiteSur theme
-curl -L "https://api.github.com/repos/vinceliuice/WhiteSur-gtk-theme/tarball" > whitesur-gtk.tar.gz
+repoURL=$(curl -L "https://api.github.com/repos/vinceliuice/WhiteSur-gtk-theme/releases/latest" | grep tarball_url | cut -d"\"" -f 4)
+curl -L "$repoURL" > whitesur-gtk.tar.gz
 tar xzvf whitesur-gtk.tar.gz
 cd *WhiteSur-gtk-theme*
 sudo -u $user ./install.sh -n WhiteSur-dark -c dark -o standard -i normal 

@@ -76,6 +76,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	uuid=$(blkid -o value -s UUID /dev/${rootDisk}2)
 	sed -i "s/UUIDchangeme/$uuid/g" $directory/hardware-configuration.nix
 
+	# Add data disk UUID to hardware-config
+	sed -i "s/dataDiskChangeme/$(blkid -s UUID -o value /dev/${dataDisk}1)/g" $directory/hardware-configuration.nix
+
 	# Edit hardware-configuration.nix manually
 	vim -O /mnt/etc/nixos/hardware-configuration.nix $directory/hardware-configuration.nix
 

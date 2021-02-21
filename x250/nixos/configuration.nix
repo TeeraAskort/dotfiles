@@ -47,8 +47,24 @@ in
   time.timeZone = "Europe/Madrid";
 
   # Allow nonfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
 
+    packageOverrides = super: let self = super.pkgs; in {
+      strawberry = super.strawberry.override { withGstreamer = true; };
+
+      strawberry = super.strawberry.overrideAttrs (attrs: {
+        withGstreamer = attrs.withGstreamer ++ [
+          self.gst_all_1.gst-plugins-bad
+          self.gst_all_1.gst-plugins-ugly
+	  self.gst_all_1.gstreamer
+          self.gst_all_1.gst-plugins-base
+          self.gst_all_1.gst-plugins-good
+          self.gst_all_1.gst-plugins-ugly
+	];
+      });
+    };
+  };
   # Package overrides
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
@@ -68,8 +84,6 @@ in
     gtk-engine-murrine bitwarden jetbrains.idea-community obs-studio
     nextcloud-client parallel
     adwaita-qt ffmpeg-full nodejs nodePackages.npm
-    gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
-    gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
   ];
 

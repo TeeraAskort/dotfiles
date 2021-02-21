@@ -63,3 +63,6 @@ until pamu2fcfg -o pam://"$(hostname)" -i pam://"$(hostname)" -n >> ~/.config/Yu
 do
 	echo "Something went wrong reading the FIDO2 card"
 done
+
+## Add alias to zsh
+echo "alias vim=\"nvim\"" | tee -a ~/.zshrc

@@ -51,18 +51,20 @@ in
     allowUnfree = true;
 
     packageOverrides = super: let self = super.pkgs; in {
-      strawberry = super.strawberry.override { withGstreamer = true; };
+      strawberry = super.strawberry = {
+        override { withGstreamer = true; };
 
-      strawberry = super.strawberry.overrideAttrs (attrs: {
-        withGstreamer = attrs.withGstreamer ++ [
-          self.gst_all_1.gst-plugins-bad
-          self.gst_all_1.gst-plugins-ugly
-	  self.gst_all_1.gstreamer
-          self.gst_all_1.gst-plugins-base
-          self.gst_all_1.gst-plugins-good
-          self.gst_all_1.gst-plugins-ugly
-	];
-      });
+        overrideAttrs (attrs: {
+          withGstreamer = attrs.withGstreamer ++ [
+            self.gst_all_1.gst-plugins-bad
+            self.gst_all_1.gst-plugins-ugly
+	    self.gst_all_1.gstreamer
+            self.gst_all_1.gst-plugins-base
+            self.gst_all_1.gst-plugins-good
+            self.gst_all_1.gst-plugins-ugly
+	  ];
+        });
+      };
     };
   };
 

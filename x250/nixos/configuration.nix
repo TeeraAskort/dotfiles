@@ -57,13 +57,13 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
-    gnome3.gnome-terminal firefox-wayland celluloid strawberry gnome3.file-roller noto-fonts 
-    noto-fonts-cjk noto-fonts-emoji papirus-icon-theme transmission-gtk
+    gnome3.gnome-terminal firefox-wayland celluloid strawberry gnome3.file-roller  
+    papirus-icon-theme transmission-gtk
     gnome3.aisleriot gnome3.gnome-tweaks discord libreoffice-fresh
     git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
     p7zip unzip unrar gnome3.gnome-calendar piper
     steam-run systembus-notify
-    desmume chromium ffmpegthumbnailer noto-fonts-cjk 
+    desmume chromium ffmpegthumbnailer 
     android-studio nextcloud-client obs-studio libfido2 pfetch
     gtk-engine-murrine bitwarden jetbrains.idea-community obs-studio
     nextcloud-client parallel
@@ -78,6 +78,13 @@ in
     MOZ_ENABLE_WAYLAND = "1";
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
   };
+
+  fonts.fonts = with pkgs; [
+    (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    noto-fonts-cjk
+    noto-fonts-emoji
+    noto-fonts
+  ];
 
   # QT5 Theming
   qt5 = {

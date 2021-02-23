@@ -64,8 +64,8 @@ in
     p7zip unzip unrar gnome3.gnome-calendar piper
     steam-run systembus-notify
     desmume chromium ffmpegthumbnailer 
-    android-studio nextcloud-client obs-studio libfido2 pfetch
-    gtk-engine-murrine bitwarden jetbrains.idea-community obs-studio
+    nextcloud-client obs-studio libfido2 pfetch
+    gtk-engine-murrine bitwarden obs-studio
     nextcloud-client parallel
     adwaita-qt ffmpeg-full nodejs nodePackages.npm
     python39Packages.pynvim neovim cmake python39Full gcc gnumake

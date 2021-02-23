@@ -58,7 +58,7 @@ in
   environment.systemPackages = with pkgs; [
     plasma-nm plasma-vault breeze-gtk breeze-qt5 sddm-kcm 
     qbittorrent ark kate strawberry
-    kcalc okular kdialog yakuake
+    kcalc okular kdialog yakuake thunderbird-bin
     kdeconnect gimp dolphin libsForQt5.dolphin-plugins
     libsForQt5.kio-extras wacomtablet konsole kcharselect 
     libsForQt5.kdegraphics-thumbnailers kgpg ksystemlog

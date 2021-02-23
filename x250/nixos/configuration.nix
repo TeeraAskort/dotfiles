@@ -59,8 +59,8 @@ in
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
     gnome3.gnome-terminal firefox-wayland celluloid strawberry gnome3.file-roller  
     papirus-icon-theme transmission-gtk
-    gnome3.aisleriot gnome3.gnome-tweaks discord libreoffice-fresh
-    git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
+    gnome3.aisleriot gnome3.gnome-tweaks discord 
+    git home-manager python38 
     p7zip unzip unrar gnome3.gnome-calendar piper
     steam-run systembus-notify
     desmume chromium ffmpegthumbnailer 

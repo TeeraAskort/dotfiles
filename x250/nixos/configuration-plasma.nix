@@ -67,7 +67,7 @@ in
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
     firefox mpv papirus-icon-theme discord 
     git home-manager python38 p7zip unzip unrar piper
-    steam-run systembus-notify desmume chromium ffmpegthumbnailer 
+    steam-run systembus-notify desmume chromium 
     nextcloud-client obs-studio libfido2 pfetch
     gtk-engine-murrine bitwarden obs-studio
     nextcloud-client parallel
@@ -148,7 +148,10 @@ in
 
   # Flatpak support
   services.flatpak.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal = {
+    enale = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-kde ];
+  };
 
   # Steam dependencies
   hardware.opengl = {

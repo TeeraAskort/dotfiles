@@ -62,7 +62,7 @@ in
     gnome3.aisleriot gnome3.gnome-tweaks discord 
     git home-manager python38 
     p7zip unzip unrar gnome3.gnome-calendar piper
-    hunspell hunspellDicts.es_ES aspell aspellDicts.es mythes.es
+    hunspell hunspellDicts.es_ES aspell aspellDicts.es mythes
     steam-run systembus-notify
     desmume chromium ffmpegthumbnailer 
     nextcloud-client obs-studio libfido2 pfetch

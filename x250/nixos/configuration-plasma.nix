@@ -149,7 +149,7 @@ in
   # Flatpak support
   services.flatpak.enable = true;
   xdg.portal = {
-    enale = true;
+    enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-kde ];
   };
 

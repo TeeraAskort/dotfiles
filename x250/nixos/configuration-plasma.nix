@@ -64,14 +64,14 @@ in
     libsForQt5.kdegraphics-thumbnailers kgpg ksystemlog
     libsForQt5.kdenetwork-filesharing gtk-engine-murrine
     plasma-browser-integration
-    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
+    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode 
     firefox mpv papirus-icon-theme discord 
     git home-manager python38 p7zip unzip unrar piper
     steam-run systembus-notify desmume chromium 
     nextcloud-client obs-studio libfido2 pfetch
-    gtk-engine-murrine bitwarden obs-studio
+    bitwarden obs-studio
     nextcloud-client parallel
-    adwaita-qt ffmpeg-full nodejs nodePackages.npm
+    ffmpeg-full nodejs nodePackages.npm
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base

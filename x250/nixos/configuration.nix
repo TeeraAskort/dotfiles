@@ -66,7 +66,7 @@ in
     desmume chromium ffmpegthumbnailer 
     nextcloud-client obs-studio libfido2 pfetch
     gtk-engine-murrine bitwarden obs-studio
-    nextcloud-client parallel 
+    nextcloud-client parallel libreoffice-fresh
     adwaita-qt ffmpeg-full nodejs nodePackages.npm
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 

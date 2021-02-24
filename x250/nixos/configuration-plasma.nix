@@ -69,7 +69,7 @@ in
     git home-manager python38 p7zip unzip unrar piper
     steam-run systembus-notify desmume chromium 
     nextcloud-client obs-studio libfido2 pfetch
-    bitwarden obs-studio
+    bitwarden obs-studio libreoffice-fresh
     nextcloud-client parallel
     ffmpeg-full nodejs nodePackages.npm
     python39Packages.pynvim neovim cmake python39Full gcc gnumake

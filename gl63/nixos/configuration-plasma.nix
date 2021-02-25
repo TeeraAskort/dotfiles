@@ -135,9 +135,6 @@ in
   # Automatic upgrades
   system.autoUpgrade.enable = true;
 
-  # Security
-  security.hideProcessInformation = true;
-
   # PAM FIDO2 support
   security.pam.u2f.enable = true;
   security.pam.services = {

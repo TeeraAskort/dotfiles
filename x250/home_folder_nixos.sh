@@ -31,10 +31,6 @@ nvim +PlugInstall +q +q
 cd ~/.vim/plugged/youcompleteme 
 python install.py 
 
-## Copying fonts
-mkdir ~/.fonts
-cd ~/.fonts && unzip ~/Documentos/fonts.zip
-
 ## Configuring mpv
 mkdir -p ~/.config/mpv/
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/

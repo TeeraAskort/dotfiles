@@ -46,7 +46,7 @@ git config --global init.defaultBranch master
 
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader com.getpostman.Postman com.jetbrains.IntelliJ-IDEA-Community com.google.AndroidStudio 
+flatpak install -y flathub io.lbry.lbry-app com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader com.getpostman.Postman 
 
 ## Configuring u2f authentication
 mkdir -p ~/.config/Yubico

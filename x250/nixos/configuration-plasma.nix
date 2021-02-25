@@ -63,7 +63,7 @@ in
     libsForQt5.kio-extras wacomtablet konsole kcharselect 
     libsForQt5.kdegraphics-thumbnailers kgpg ksystemlog
     libsForQt5.kdenetwork-filesharing gtk-engine-murrine
-    plasma-browser-integration
+    plasma-browser-integration gwenview
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode 
     firefox mpv papirus-icon-theme discord 
     git home-manager python38 p7zip unzip unrar piper
@@ -76,6 +76,9 @@ in
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio jetbrains.idea-community
+
+    hunspell hunspellDicts.es_ES hunspellDicts.en_US
+    aspell.es mythes
   ];
 
   # Environment variables

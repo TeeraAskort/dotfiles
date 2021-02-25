@@ -16,7 +16,7 @@ let
   '';
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "1wv2rp3qx59adrph4y0rhabqk62z892l7cimix6h1dhx6vjvqmqp";
+    sha256 = "changeme";
   };
 in
 {
@@ -58,26 +58,45 @@ in
   # Allow nonfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Package overrides
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     plasma-nm plasma-vault breeze-gtk breeze-qt5 sddm-kcm 
     qbittorrent ark kate strawberry
-    kcalc okular kdialog yakuake
+    kcalc okular kdialog yakuake thunderbird-bin
     kdeconnect gimp dolphin libsForQt5.dolphin-plugins
     libsForQt5.kio-extras wacomtablet konsole kcharselect 
     libsForQt5.kdegraphics-thumbnailers kgpg ksystemlog
     libsForQt5.kdenetwork-filesharing gtk-engine-murrine
     plasma-browser-integration
-    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode 
-    firefox mpv noto-fonts piper
-    noto-fonts-cjk noto-fonts-emoji papirus-icon-theme 
-    nvidia-offload discord libreoffice-fresh
-    git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
-    p7zip unzip unrar gst_all_1.gst-plugins-bad
-    gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
-    gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
-    desmume chromium android-studio bitwarden nodejs nodePackages.npm
-    jetbrains.idea-community obs-studio thunderbird libfido2
+    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode
+    firefox mpv papirus-icon-theme discord 
+    git home-manager python38 p7zip unzip unrar piper
+    steam-run systembus-notify desmume chromium 
+    nextcloud-client obs-studio libfido2 pfetch
+    bitwarden obs-studio libreoffice-fresh
+    nextcloud-client parallel nvidia-offload
+    ffmpeg-full nodejs nodePackages.npm
+    python39Packages.pynvim neovim cmake python39Full gcc gnumake
+    gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
+    gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
+    android-studio jetbrains.idea-community
+  ];
+
+  # Environment variables
+  environment.sessionVariables = {
+    GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
+  };
+
+  fonts.fonts = with pkgs; [
+    (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    noto-fonts-cjk
+    noto-fonts-emoji
+    noto-fonts
   ];
 
   # Firefox plasma browser integration
@@ -193,10 +212,15 @@ in
     # Only the full build has Bluetooth support, so it must be selected here.
     package = pkgs.pulseaudioFull;
     support32Bit = true;
+    extraModules = [ pkgs.pulseaudio-modules-bt ];
   };
 
   # Enable bluetooth
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    package = pkgs.bluezFull;
+  };
+
 
   # Xserver configuration
   services.xserver = {
@@ -250,7 +274,7 @@ in
     };
   };
 
-  # Define a user account. Don't forget to set a password with â€˜passwdâ€™.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.link  = {
     isNormalUser = true;
     extraGroups = [ "wheel" "audio" "networkmanager" "video" "link" ]; # Enable â€˜sudoâ€™ for the user.
@@ -263,7 +287,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.03"; # Did you read the comment?
+  system.stateVersion = "21.05"; # Did you read the comment?
 
 }
 

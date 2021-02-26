@@ -9,14 +9,14 @@ let
     url = "https://someonewhocares.org/hosts/zero/hosts";
     sha256 = "changeme";
   };
-  myHunspell = hunspellWithDicts [
-    hunspellDicts.es_ES
-    hunspellDicts.en_US
+  myHunspell = pkgs.hunspellWithDicts [
+    pkgs.hunspellDicts.es_ES
+    pkgs.hunspellDicts.en_US
   ];
-  myAspell = aspellWithDicts [
-    aspellDicts.es
-    aspellDicts.en
-  ];
+  myAspell = pkgs.aspellWithDicts(ps: with ps; [
+    es
+    en
+  ]);
 in
 {
   imports =

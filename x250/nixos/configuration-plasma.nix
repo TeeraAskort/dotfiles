@@ -9,6 +9,14 @@ let
     url = "https://someonewhocares.org/hosts/zero/hosts";
     sha256 = "changeme";
   };
+  myHunspell = hunspellWithDicts [
+    hunspellDicts.es_ES
+    hunspellDicts.en_US
+  ];
+  myAspell = aspellWithDicts [
+    aspellDicts.es
+    aspellDicts.en
+  ];
 in
 {
   imports =
@@ -77,8 +85,7 @@ in
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio jetbrains.idea-community
 
-    hunspell hunspellDicts.es_ES hunspellDicts.en_US
-    aspell.es mythes
+    myHunspell myAspell mythes
   ];
 
   # Environment variables

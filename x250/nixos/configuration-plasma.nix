@@ -49,7 +49,7 @@ in
   # Select internationalisation properties.
   i18n.defaultLocale = "es_ES.UTF-8";
   console.font = "Lat2-Terminus16";
-  console.keyMap = "de";
+  console.keyMap = "es";
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -86,6 +86,7 @@ in
     android-studio jetbrains.idea-community
 
     myHunspell myAspell mythes
+    (myHunspell = hunspellWithDicts [ hunspellDicts.es_ES hunspellDicts.en_US ])
   ];
 
   # Environment variables
@@ -229,7 +230,7 @@ in
     enable = true;
 
     # Xserver keyboard configuration
-    layout = "de";
+    layout = "es";
     xkbOptions = "eurosign:e";
 
     # Use libinput for trackpad support

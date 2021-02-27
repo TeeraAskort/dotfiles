@@ -4,7 +4,6 @@ rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TS128GMTS430S | cut -d"
 
 dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_MQ01ABD100 | cut -d" " -f1)
 
-
 # Configuring locales
 sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen
 sed -i "s/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g" /etc/locale.gen
@@ -171,7 +170,14 @@ pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop fla
 systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld 
 
 # Installing AUR packages
-sudo -u link paru -S dxvk-bin aic94xx-firmware wd719x-firmware nerd-fonts-fantasque-sans-mono minecraft-launcher android-studio mpv-mpris lbry-app-bin tutanota-desktop-bin jdownloader2 postman-bin bitwarden-bin kwin-scripts-parachute
+cd /tmp/aurbuilder
+rm -r *
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "android-studio" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin" "kwin-scripts-parachute"
+do
+	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
+	cd $package && sudo -u aurbuilder makepkg -si && cd ..
+	rm -r $package
+done
 
 # Installing XAMPP
 version="8.0.2"

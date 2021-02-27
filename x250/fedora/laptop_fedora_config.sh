@@ -42,8 +42,9 @@ curl -L "$repoURL" > whitesur-gtk.tar.gz
 tar xzvf whitesur-gtk.tar.gz
 cd *WhiteSur-gtk-theme*
 sudo -u $user ./install.sh -a standard -c dark -o solid -i normal 
-sudo -u $user gsettings set org.gnome.desktop.interface gtk-theme "WhiteSur-dark"
-sudo -u $user gsettings set org.gnome.desktop.wm.preferences theme "WhiteSur-dark"
+sudo -u $user gsettings set org.gnome.desktop.interface gtk-theme "WhiteSur-dark-solid"
+sudo -u $user gsettings set org.gnome.desktop.wm.preferences theme "WhiteSur-dark-solid"
+sudo -u $user gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 cd ../ && rm -r whitesur* *WhiteSur*
 git clone https://github.com/vinceliuice/WhiteSur-kde.git
 cd WhiteSur-kde

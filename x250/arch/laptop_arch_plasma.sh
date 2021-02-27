@@ -175,7 +175,8 @@ rm -r *
 for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "android-studio" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin" "kwin-scripts-parachute"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
-	cd $package && sudo -u aurbuilder makepkg -si && cd ..
+	cd $package && sudo -u aurbuilder makepkg -si 
+	cd ..
 	rm -r $package
 done
 

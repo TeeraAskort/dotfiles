@@ -172,13 +172,16 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "android-studio" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin" "kwin-scripts-parachute"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin" 
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si 
 	cd ..
 	rm -r $package
 done
+
+# Installing android studio
+sudo -u link paru -S android-studio
 
 # Installing XAMPP
 version="8.0.2"

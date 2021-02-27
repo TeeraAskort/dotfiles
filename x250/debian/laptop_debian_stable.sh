@@ -102,6 +102,7 @@ sudo apt autoremove --purge -y
 
 # Add sysctl config
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo "kernel.unprivileged_userns_clone=1" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Installing angular globally
 sudo npm i -g @angular/cli

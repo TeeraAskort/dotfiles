@@ -81,8 +81,7 @@ in
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio jetbrains.idea-community
 
-    myAspell mythes
-    (hunspellWithDicts [ hunspellDicts.es_ES hunspellDicts.en_US ] )
+    myHunspell myAspell mythes
   ];
 
   # Environment variables

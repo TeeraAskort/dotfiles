@@ -86,7 +86,6 @@ in
     android-studio jetbrains.idea-community
 
     myHunspell myAspell mythes
-    (hunspellWithDicts [ hunspellDicts.es_ES hunspellDicts.en_US ])
   ];
 
   # Environment variables

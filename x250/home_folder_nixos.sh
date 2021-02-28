@@ -44,6 +44,9 @@ git config --global init.defaultBranch master
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub io.lbry.lbry-app com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader com.getpostman.Postman 
 
+## Installing dictionaries
+nix-env -iA nixos.hunspellDicts.es_ES nixos.hunspellDicts.en_US
+
 ## Configuring u2f authentication
 mkdir -p ~/.config/Yubico
 

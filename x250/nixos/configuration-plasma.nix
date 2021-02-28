@@ -9,10 +9,6 @@ let
     url = "https://someonewhocares.org/hosts/zero/hosts";
     sha256 = "changeme";
   };
-  myHunspell = pkgs.hunspellWithDicts [
-    pkgs.hunspellDicts.es_ES
-    pkgs.hunspellDicts.en_US
-  ];
   myAspell = pkgs.aspellWithDicts(ps: with ps; [
     es
     en
@@ -84,8 +80,9 @@ in
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio jetbrains.idea-community
+    mednafen mednaffe
 
-    myHunspell myAspell mythes
+    myAspell mythes
   ];
 
   # Environment variables

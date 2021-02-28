@@ -26,7 +26,7 @@ if [ "$1" = "gnome" ] || [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 	## Adding deb-multimedia repo
 	echo "deb http://www.deb-multimedia.org buster main non-free" | tee /etc/apt/sources.list.d/deb-multimedia.list
 	apt-get update -oAcquire::AllowInsecureRepositories=true
-	apt-get install deb-multimedia-keyring
+	apt-get install -y deb-multimedia-keyring
 
 	## Updating the system
 	apt update -y
@@ -41,7 +41,7 @@ if [ "$1" = "gnome" ] || [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 	usermod -aG adm $user 
 
 	if [ "$1" = "gnome" ]; then
-
+		echo "uninplemented"
 	elif [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 		## Installing plasma desktop
 		apt install -y kde-plasma-desktop breeze-gtk-theme kde-config-gtk-style kde-config-gtk-style-preview kde-config-sddm sddm-theme-debian-breeze kde-config-tablet kde-config-screenlocker kde-config-plymouth libreoffice-kde5 okular ffmpegthumbs gwenview qbittorrent kpat palapeli kmahjongg bluedevil yakuake thunderbird kde-spectacle okular-backend-odt okular-backend-odp okular-extra-backends okular-mobile kcalc ksysguard filelight kdenetwork-filesharing kgpg kate ark dolphin-plugins kdeconnect plasma-discover plasma-discover-backend-flatpak plasma-discover-backend-fwupd plasma-discover-backend-snap kcharselect print-manager skanlite 

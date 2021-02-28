@@ -26,7 +26,7 @@ if [ "$1" = "gnome" ] || [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 	## Adding deb-multimedia repo
 	echo "deb http://www.deb-multimedia.org buster main non-free" | tee /etc/apt/sources.list.d/deb-multimedia.list
 	apt-get update -oAcquire::AllowInsecureRepositories=true
-	apt-get install -y deb-multimedia-keyring
+	apt-get install deb-multimedia-keyring
 
 	## Updating the system
 	apt update -y

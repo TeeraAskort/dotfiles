@@ -35,13 +35,26 @@ if [ "$1" = "gnome" ] || [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 	apt full-upgrade -y
 
 	## Installing basic packages
-	apt install -y mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam telegram-desktop neovim fonts-noto-cjk openjdk-11-jdk thermald intel-microcode gamemode hyphen-en-us mythes-en-us sqlitebrowser net-tools tlp wget apt-transport-https gnupg python3-dev cmake nodejs npm chromium code libpam-u2f pamu2fcfg libfido2-1 hunspell-es hunspell-en-us dolphin-emu libreoffice firefox-esr gimp w64codecs gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-pulseaudio gstreamer1.0-qt5 gstreamer1.0-vaapi gstreamer1.0-libav youtube-dl earlyoom apparmor apparmor-utils apparmor-profiles-extra apparmor-profiles apparmor-notify cups hp-ppd hplip firewalld python-neovim xserver-xorg-input-libinput
+	apt install -y mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam telegram-desktop neovim fonts-noto-cjk openjdk-11-jdk thermald intel-microcode gamemode hyphen-en-us mythes-en-us sqlitebrowser net-tools tlp wget apt-transport-https gnupg python3-dev cmake nodejs npm chromium code libpam-u2f pamu2fcfg libfido2-1 hunspell-es hunspell-en-us dolphin-emu libreoffice firefox-esr gimp w64codecs gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-pulseaudio gstreamer1.0-qt5 gstreamer1.0-vaapi gstreamer1.0-libav youtube-dl earlyoom apparmor apparmor-utils apparmor-profiles-extra apparmor-profiles apparmor-notify cups hp-ppd hplip firewalld python-neovim xserver-xorg-input-libinput bluetooth
 
 	## Adding the user to the adm group
 	usermod -aG adm $user 
 
 	if [ "$1" = "gnome" ]; then
-		echo "uninplemented"
+		## Installing GNOME desktop
+		apt install -y gnome-core evolution aisleriot qt5-style-plugins gnome-mahjongg transmission-gtk network-manager-gnome gnome-tweaks gnome-bluetooth file-roller gnome-screenshot gnome-screensaver 
+
+		## Installing plata-theme 
+		curl -L "http://ppa.launchpad.net/tista/plata-theme/ubuntu/pool/main/p/plata-theme/plata-theme_0.9.9-0ubuntu1~bionic1_all.deb" > plata-theme.deb
+		apt install -y ./plata-theme.deb
+
+		## Making gtk2 the default theming for QT apps
+		echo "QT_STYLE_OVERRIDE=gtk2" | tee -a /etc/environment
+
+		## Removing unused packages
+		apt remove --purge -y totem
+
+
 	elif [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 		## Installing plasma desktop
 		apt install -y kde-plasma-desktop breeze-gtk-theme kde-config-gtk-style kde-config-gtk-style-preview kde-config-sddm sddm-theme-debian-breeze kde-config-tablet kde-config-screenlocker kde-config-plymouth libreoffice-kde5 okular ffmpegthumbs gwenview qbittorrent kpat palapeli kmahjongg bluedevil yakuake thunderbird kde-spectacle okular-backend-odt okular-backend-odp okular-extra-backends okular-mobile kcalc ksysguard filelight kdenetwork-filesharing kgpg kate ark dolphin-plugins kdeconnect plasma-discover plasma-discover-backend-flatpak plasma-discover-backend-snap kcharselect print-manager skanlite 

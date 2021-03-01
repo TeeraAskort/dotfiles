@@ -16,7 +16,7 @@ if [ "$1" = "gnome" ] || [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 	echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | tee /etc/apt/sources.list.d/vscode.list
 	echo "deb [arch=i386,amd64] http://repo.steampowered.com/steam/ precise steam" | tee /etc/apt/sources.list.d/steam.list
 	echo "deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_10 ./" | tee /etc/apt/sources.list.d/faudio.list
-	echo "deb http://deb.debian.org/debian buster-backports main contrib nonfree" | tee -a /etc/apt/sources.list
+	echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" | tee -a /etc/apt/sources.list
 
 	## Importing third party repos keys
 	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F24AEA9FB05498B7

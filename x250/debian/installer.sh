@@ -42,7 +42,7 @@ if [ "$1" = "gnome" ] || [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 
 	if [ "$1" = "gnome" ]; then
 		## Installing GNOME desktop
-		apt install -y gnome-core evolution aisleriot qt5-style-plugins gnome-mahjongg transmission-gtk network-manager-gnome gnome-tweaks gnome-bluetooth file-roller gnome-screenshot gnome-screensaver 
+		apt install -y gnome-core evolution aisleriot qt5-style-plugins gnome-mahjongg transmission-gtk network-manager-gnome gnome-tweaks gnome-bluetooth file-roller gnome-screenshot gnome-screensaver tilix 
 
 		## Installing plata-theme 
 		curl -L "http://ppa.launchpad.net/tista/plata-theme/ubuntu/pool/main/p/plata-theme/plata-theme_0.9.9-0ubuntu1~bionic1_all.deb" > plata-theme.deb
@@ -54,6 +54,8 @@ if [ "$1" = "gnome" ] || [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 		## Removing unused packages
 		apt remove --purge -y totem
 
+		## Fixing networkmanager
+		sed -i "s/managed=false/managed=true/g" /etc/NetworkManager/NetworkManager.conf
 
 	elif [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 		## Installing plasma desktop

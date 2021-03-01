@@ -44,7 +44,7 @@ if [ "$1" = "gnome" ] || [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 		echo "uninplemented"
 	elif [ "$1" = "kde" ] || [ "$1" = "plasma" ]; then
 		## Installing plasma desktop
-		apt install -y kde-plasma-desktop breeze-gtk-theme kde-config-gtk-style kde-config-gtk-style-preview kde-config-sddm sddm-theme-debian-breeze kde-config-tablet kde-config-screenlocker kde-config-plymouth libreoffice-kde5 okular ffmpegthumbs gwenview qbittorrent kpat palapeli kmahjongg bluedevil yakuake thunderbird kde-spectacle okular-backend-odt okular-backend-odp okular-extra-backends okular-mobile kcalc ksysguard filelight kdenetwork-filesharing kgpg kate ark dolphin-plugins kdeconnect plasma-discover plasma-discover-backend-flatpak plasma-discover-backend-fwupd plasma-discover-backend-snap kcharselect print-manager skanlite 
+		apt install -y kde-plasma-desktop breeze-gtk-theme kde-config-gtk-style kde-config-gtk-style-preview kde-config-sddm sddm-theme-debian-breeze kde-config-tablet kde-config-screenlocker kde-config-plymouth libreoffice-kde5 okular ffmpegthumbs gwenview qbittorrent kpat palapeli kmahjongg bluedevil yakuake thunderbird kde-spectacle okular-backend-odt okular-backend-odp okular-extra-backends okular-mobile kcalc ksysguard filelight kdenetwork-filesharing kgpg kate ark dolphin-plugins kdeconnect plasma-discover plasma-discover-backend-flatpak plasma-discover-backend-snap kcharselect print-manager skanlite 
 
 		## Removing unwanted applications
 		apt remove -y --purge konqueror

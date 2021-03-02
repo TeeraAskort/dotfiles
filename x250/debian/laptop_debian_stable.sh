@@ -11,12 +11,17 @@ sudo apt install -y curl wget apt-transport-https dirmngr
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
 echo "deb [arch=i386,amd64] http://repo.steampowered.com/steam/ precise steam" | sudo tee /etc/apt/sources.list.d/steam.list
 echo "deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_10 ./" | sudo tee /etc/apt/sources.list.d/faudio.list
-echo "deb http://deb.debian.org/debian buster-backports main contrib nonfree" | sudo tee -a /etc/apt/sources.list
+echo "deb http://deb.debian.org/debian buster-backports main contrib non-free" | sudo tee -a /etc/apt/sources.list
 
 # Importing third party repos keys
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F24AEA9FB05498B7
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 curl -LO "https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_10/Release.key" && sudo apt-key add Release.key
+
+## Adding deb-multimedia repo
+echo "deb http://www.deb-multimedia.org buster main non-free" | sudo tee /etc/apt/sources.list.d/deb-multimedia.list
+sudo apt-get update -oAcquire::AllowInsecureRepositories=true
+sudo apt-get install deb-multimedia-keyring
 
 # Updating the system
 sudo apt update -y
@@ -41,27 +46,21 @@ if [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
 elif [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
 
 	# Installing basic packages
-	sudo apt install -y ffmpegthumbnailer tilix evolution qt5-style-plugins gtk2-engines-murrine gtk2-engines-pixbuf sassc optipng inkscape libglib2.0-dev-bin
+	sudo apt install -y ffmpegthumbnailer tilix evolution qt5-style-plugins 
 
 	# Removing unwanted packages
 	sudo apt remove --purge -y gnome-taquin tali gnome-tetravex four-in-a-row five-or-more lightsoff gnome-chess hoichess gnome-todo gnome-klotski hitori gnome-robots gnome-music gnome-nibbles gnome-mines quadrapassel swell-foop totem iagno gnome-sudoku rhythmbox
 
 	# Installing WhiteSur theme
-	repoURL=$(curl -L "https://api.github.com/repos/vinceliuice/WhiteSur-gtk-theme/releases/latest" | grep tarball_url | cut -d"\"" -f 4)
-	curl -L "$repoURL" > whitesur-gtk.tar.gz
-	tar xzvf whitesur-gtk.tar.gz
-	cd *WhiteSur-gtk-theme*
-	./install.sh -a standard -c dark -o solid -i normal
-	gsettings set org.gnome.desktop.interface gtk-theme "WhiteSur-dark-solid"
-	gsettings set org.gnome.desktop.wm.preferences theme "WhiteSur-dark-solid"
+	curl -L "http://ppa.launchpad.net/tista/plata-theme/ubuntu/pool/main/p/plata-theme/plata-theme_0.9.9-0ubuntu1~bionic1_all.deb" > plata-theme.deb
+	sudo apt install plata-theme.deb
+	gsettings set org.gnome.desktop.interface gtk-theme "Plata-dark-compact"
+	gsettings set org.gnome.desktop.wm.preferences theme "Plata-dark-compact"
 	gnome-shell-extension-tool -e user-theme@gnome-shell-extensions.gcampax.github.com
-        gsettings set org.gnome.shell.extensions.user-theme name "WhiteSur-dark-solid"
+        gsettings set org.gnome.shell.extensions.user-theme name "Plata-dark-compact"
 
 	# Overriding QT theming
 	echo "QT_QPA_PLATFORM_THEME=gtk2" | sudo tee -a /etc/environment
-
-	# Removing WhiteSur dependencies
-	sudo apt remove --purge -y inkscape optipng sassc 
 
 fi
 

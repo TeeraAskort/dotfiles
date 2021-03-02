@@ -53,7 +53,7 @@ elif [ "$XDG_CURRENT_DESKTOP" = "GNOME" ]; then
 
 	# Installing WhiteSur theme
 	curl -L "http://ppa.launchpad.net/tista/plata-theme/ubuntu/pool/main/p/plata-theme/plata-theme_0.9.9-0ubuntu1~bionic1_all.deb" > plata-theme.deb
-	sudo apt install plata-theme.deb
+	sudo apt install ./plata-theme.deb
 	gsettings set org.gnome.desktop.interface gtk-theme "Plata-dark-compact"
 	gsettings set org.gnome.desktop.wm.preferences theme "Plata-dark-compact"
 	gnome-shell-extension-tool -e user-theme@gnome-shell-extensions.gcampax.github.com

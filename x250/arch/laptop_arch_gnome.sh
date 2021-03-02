@@ -99,11 +99,17 @@ sed -i "/^CFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.c
 sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.conf
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
-# Install Plasma
-pacman -S --noconfirm plasma ark dolphin dolphin-plugins strawberry gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension 
+# Installing patched gtk-filepicker
+sudo -u aurbuilder paru -S gtk3-patched-filechooser-icon-view glib2-patched-thumbnailer
+
+# Install GNOME
+pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution
+ 
+# Removing unwanted packages
+pacman -Rns gnome-music epiphany totem
 
 # Installing plymouth
-sudo -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git
+sudo -u aurbuilder paru -S gdm-plymouth plymouth-theme-hexagon-2-git
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -139,11 +145,8 @@ options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2
 EOF
 bootctl update
 
-# Enabling SDDM
-systemctl enable sddm-plymouth
-
-# Removing unwanted Plasma apps
-pacman -Rnc --noconfirm oxygen
+# Enabling GDM
+systemctl enable gdm
 
 # Adding environment variable to /etc/environment
 echo "GTK_USE_PORTAL=1" | tee -a /etc/environment

@@ -180,7 +180,7 @@ fi
 
 ## Configuring git
 git config --global user.name "Alderaeney"
-git config --global user.email "sariaaskort@tuta.io"
+git config --global user.email "alderaeney@alderaeney.com"
 git config --global init.defaultBranch master
 
 ## Changing user shell

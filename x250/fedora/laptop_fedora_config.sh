@@ -51,14 +51,8 @@ cd Qogir-kde
 sudo -u $user ./install.sh
 cd ../ && rm -r Qogir-kde
 
-dnf rm -y inkscape
-
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
-
-#Copying PRIME render offload launcher
-cp ../dotfiles/prime-run /usr/bin
-chmod +x /usr/bin/prime-run
 
 #Intel undervolt configuration
 sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -75/g" /etc/intel-undervolt.conf

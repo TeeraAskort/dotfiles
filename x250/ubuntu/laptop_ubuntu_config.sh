@@ -14,7 +14,7 @@ sudo apt update
 sudo apt full-upgrade -y
 
 ## Installing required applications
-sudo apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl2 fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu chromium-browser libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 cmake python3-dev libpam-u2f lutris
+sudo apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl2 fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu chromium-browser libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 cmake python3-dev libpam-u2f lutris gamemode
 
 ## Installing DE specific applications
 if [ "$XDG_CURRENT_DESKTOP" = "ubuntu:GNOME" ]; then
@@ -22,6 +22,8 @@ if [ "$XDG_CURRENT_DESKTOP" = "ubuntu:GNOME" ]; then
 	## Installing packages
 	sudo apt install -y aisleriot gnome-mahjongg transmission-gtk ffmpegthumbnailer evolution gnome-tweaks
 
+	## Linking vte.sh
+	sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
 
 elif [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
 	echo "TODO"

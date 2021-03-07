@@ -49,6 +49,10 @@ sudo apt install -y winetricks
 ## Install flutter SDK
 sudo snap install flutter --classic
 
+## Installing snap applications
+sudo snap install intellij-idea-community --classic
+sudo snap install android-studio --classic
+
 ## Add sysctl config
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 

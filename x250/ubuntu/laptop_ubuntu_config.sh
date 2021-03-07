@@ -4,17 +4,16 @@
 sudo dpkg --add-architecture i386
 
 ## Add PPA repositories
-sudo add-apt-repository ppa:jonaski/strawberry
-sudo add-apt-repository ppa:papirus/papirus
-sudo apt-add-repository ppa:dolphin-emu/ppa
-sudo add-apt-repository ppa:kisak/kisak-mesa
+sudo add-apt-repository ppa:jonaski/strawberry -y
+sudo add-apt-repository ppa:papirus/papirus -y
+sudo add-apt-repository ppa:kisak/kisak-mesa -y
 
 ## Updating the system
 sudo apt update 
 sudo apt full-upgrade -y
 
 ## Installing required applications
-sudo apt install zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu-master chromium-browser libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386
+sudo apt install zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl2 fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu chromium-browser libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386
 
 ## Installing DE specific applications
 if [ "$XDG_CURRENT_DESKTOP" = "ubuntu:GNOME" ]; then
@@ -38,7 +37,7 @@ sudo apt install -y ./discord.deb ./steam.deb ./code.deb ./lbry.deb ./Minecraft.
 ## Installing wine
 wget -nc https://dl.winehq.org/wine-builds/winehq.key
 sudo apt-key add winehq.key
-sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/'
+sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/' -y
 sudo apt update
 sudo apt install --install-recommends -y winehq-staging
 sudo apt install -y winetricks

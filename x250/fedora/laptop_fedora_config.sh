@@ -22,7 +22,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg strawberry gtk-murrine-engine gtk2-engines sassc optipng inkscape glib2-devel 
+dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg strawberry gtk-murrine-engine gtk2-engines sassc
 
 systemctl enable thermald
 
@@ -36,20 +36,20 @@ dnf groupupdate core -y
 dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y
 dnf groupupdate sound-and-video -y
 
-#Install WhiteSur theme
-repoURL=$(curl -L "https://api.github.com/repos/vinceliuice/WhiteSur-gtk-theme/releases/latest" | grep tarball_url | cut -d"\"" -f 4)
-curl -L "$repoURL" > whitesur-gtk.tar.gz
-tar xzvf whitesur-gtk.tar.gz
-cd *WhiteSur-gtk-theme*
-sudo -u $user ./install.sh -a standard -c dark -o solid -i normal 
-sudo -u $user gsettings set org.gnome.desktop.interface gtk-theme "WhiteSur-dark-solid"
-sudo -u $user gsettings set org.gnome.desktop.wm.preferences theme "WhiteSur-dark-solid"
+#Install Qogir theme
+repoURL=$(curl -L "https://api.github.com/repos/vinceliuice/Qogir-theme/releases/latest" | grep tarball_url | cut -d"\"" -f 4)
+curl -L "$repoURL" > qogir.tar.gz
+tar xzvf qogir.tar.gz
+cd *Qogir-theme*
+sudo -u $user ./install.sh -t standard -l fedora -c dark -i -w square
+sudo -u $user gsettings set org.gnome.desktop.interface gtk-theme "Qogir-win-dark"
+sudo -u $user gsettings set org.gnome.desktop.wm.preferences theme "Qogir-win-dark"
 sudo -u $user gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-cd ../ && rm -r whitesur* *WhiteSur*
-git clone https://github.com/vinceliuice/WhiteSur-kde.git
-cd WhiteSur-kde
+cd ../ && rm -r qogir* *Qogir*
+git clone https://github.com/vinceliuice/Qogir-kde.git
+cd Qogir-kde
 sudo -u $user ./install.sh
-cd ../ && rm -r WhiteSur-kde
+cd ../ && rm -r Qogir-kde
 
 dnf rm -y inkscape
 

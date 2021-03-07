@@ -7,8 +7,8 @@ sudo dpkg --add-architecture i386
 sudo add-apt-repository ppa:jonaski/strawberry -y
 sudo add-apt-repository ppa:papirus/papirus -y
 sudo add-apt-repository ppa:kisak/kisak-mesa -y
-sudo add-apt-repository ppa:lutris-team/lutris
-sudo add-apt-repository ppa:nextcloud-devs/client
+sudo add-apt-repository ppa:lutris-team/lutris -y
+sudo add-apt-repository ppa:nextcloud-devs/client -y
 
 ## Updating the system
 sudo apt update 

@@ -37,7 +37,7 @@ fi
 wget -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY | sudo apt-key add -
 echo "deb http://deb.anydesk.com/ all main" | sudo tee /etc/apt/sources.list.d/anydesk-stable.list
 sudo apt update
-sudo apt install anydesk
+sudo apt install -y anydesk
 
 ## Install outsider applications
 curl -L "https://discord.com/api/download?platform=linux&format=deb" > discord.deb

@@ -14,13 +14,14 @@ sudo add-apt-repository ppa:kisak/kisak-mesa -y
 sudo add-apt-repository ppa:lutris-team/lutris -y
 sudo add-apt-repository ppa:nextcloud-devs/client -y
 sudo add-apt-repository ppa:graphics-drivers/ppa -y
+sudo add-apt-repository multiverse -y
 
 ## Updating the system
 sudo apt update 
 sudo apt full-upgrade -y
 
 ## Installing required applications
-sudo apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl2 fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu chromium-browser libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 cmake python3-dev libpam-u2f lutris gamemode nextcloud-desktop network-manager-l2tp-gnome nvidia-driver-450 libvulkan1 libvulkan1:i386
+sudo apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl2 fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu chromium-browser libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 cmake python3-dev libpam-u2f lutris gamemode nextcloud-desktop network-manager-l2tp-gnome nvidia-driver-450 libvulkan1 libvulkan1:i386 ubuntu-restricted-extras
 
 ## Installing DE specific applications
 if [ "$XDG_CURRENT_DESKTOP" = "ubuntu:GNOME" ]; then

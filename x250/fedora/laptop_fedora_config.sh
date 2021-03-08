@@ -8,16 +8,6 @@ echo "fastestmirror=1" | tee -a /etc/dnf/dnf.conf
 #Install RPMfusion
 dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 
-# Install anydesk
-cat > /etc/yum.repos.d/AnyDesk-Fedora.repo << "EOF" 
-[anydesk]
-name=AnyDesk Fedora - stable
-baseurl=http://rpm.anydesk.com/fedora/$basearch/
-gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://keys.anydesk.com/repos/RPM-GPG-KEY
-EOF
-
 #Better font rendering cpor
 dnf copr enable dawid/better_fonts -y
 
@@ -32,7 +22,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg strawberry gtk-murrine-engine gtk2-engines sassc anydesk snapd NetworkManager-l2tp-gnome
+dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg strawberry gtk-murrine-engine gtk2-engines sassc snapd NetworkManager-l2tp-gnome
 
 systemctl enable thermald
 
@@ -52,21 +42,6 @@ dnf groupupdate core -y
 dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y
 dnf groupupdate sound-and-video -y
 
-#Install Qogir theme
-repoURL=$(curl -L "https://api.github.com/repos/vinceliuice/Qogir-theme/releases/latest" | grep tarball_url | cut -d"\"" -f 4)
-curl -L "$repoURL" > qogir.tar.gz
-tar xzvf qogir.tar.gz
-cd *Qogir-theme*
-sudo -u $user ./install.sh -t standard -l fedora -c dark -i -w square
-sudo -u $user gsettings set org.gnome.desktop.interface gtk-theme "Qogir-win-dark"
-sudo -u $user gsettings set org.gnome.desktop.wm.preferences theme "Qogir-win-dark"
-sudo -u $user gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-cd ../ && rm -r qogir* *Qogir*
-git clone https://github.com/vinceliuice/Qogir-kde.git
-cd Qogir-kde
-sudo -u $user ./install.sh
-cd ../ && rm -r Qogir-kde
-
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
 
@@ -81,7 +56,7 @@ systemctl enable intel-undervolt
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop org.telegram.desktop com.slack.Slack com.axosoft.GitKraken
+flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop org.telegram.desktop com.slack.Slack com.axosoft.GitKraken com.anydesk.Anydesk
 
 # Flatpak overrides
 flatpak override --filesystem=~/.themes

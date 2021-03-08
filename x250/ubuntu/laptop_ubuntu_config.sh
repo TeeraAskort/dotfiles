@@ -21,10 +21,13 @@ sudo apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram
 if [ "$XDG_CURRENT_DESKTOP" = "ubuntu:GNOME" ]; then
 	
 	## Installing packages
-	sudo apt install -y aisleriot gnome-mahjongg transmission-gtk ffmpegthumbnailer evolution gnome-tweaks
+	sudo apt install -y aisleriot gnome-mahjongg transmission-gtk ffmpegthumbnailer evolution gnome-tweaks qt5-style-plugins
 
 	## Linking vte.sh
 	sudo ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
+
+	## Adding environment variable
+	echo "QT_QPA_PLATFORMTHEME=gtk2" | sudo tee -a /etc/environment
 
 elif [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
 	echo "TODO"

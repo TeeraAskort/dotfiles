@@ -1,5 +1,9 @@
 #!/bin/env bash
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 ## Enabling 32bit support
 sudo dpkg --add-architecture i386
 
@@ -79,3 +83,11 @@ sudo ./xampp.run --mode unattended --unattendedmodeui minimal
 
 ## Removing unused packages
 sudo apt autoremove --purge -y
+
+## Update grub
+sudo sed -i "s/GRUB_CMDLINE_LINUX=\"\(.*\)\"/GRUB_CMDLINE_LINUX=\"\1 intel_idle.max_cstate=1 \"/" /etc/default/grub
+sudo update-grub
+
+## Copying prime-run
+sudo cp $directory/../dotfiles/prime-run /usr/bin/prime-run
+sudo chmod +x /usr/bin/prime-run

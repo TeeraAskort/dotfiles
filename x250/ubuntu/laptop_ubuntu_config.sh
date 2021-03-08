@@ -15,7 +15,7 @@ sudo apt update
 sudo apt full-upgrade -y
 
 ## Installing required applications
-sudo apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl2 fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu chromium-browser libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 cmake python3-dev libpam-u2f lutris gamemode nextcloud-desktop network-manager-l2tp-gnome
+sudo apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl2 fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 cmake python3-dev libpam-u2f lutris gamemode nextcloud-desktop network-manager-l2tp-gnome flatpak gnome-software-plugin-flatpak mariadb-server
 
 ## Installing DE specific applications
 if [ "$XDG_CURRENT_DESKTOP" = "ubuntu:GNOME" ]; then
@@ -55,12 +55,13 @@ sudo apt update
 sudo apt install --install-recommends -y winehq-staging
 sudo apt install -y winetricks
 
+## Install flatpak applications 
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+flatpak install flathub com.google.AndroidStudio org.jdownloader.JDownloader com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop com.slack.Slack com.axosoft.GitKraken org.chromium.Chromium
+
 ## Installing snap applications
-sudo snap install intellij-idea-community --classic
-sudo snap install android-studio --classic
-sudo snap install slack --classic
 sudo snap install flutter --classic
-sudo snap install bitwarden
 
 ## Add sysctl config
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.d/99-sysctl.conf
@@ -68,13 +69,6 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.d/99-sysctl.co
 ## Installing angular globally
 sudo npm i -g @angular/cli
 sudo ng analytics off
-
-## Installing XAMPP
-version="8.0.2"
-subver="0"
-curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${version}-${subver}-installer.run" > xampp.run
-chmod +x xampp.run
-sudo ./xampp.run --mode unattended --unattendedmodeui minimal
 
 ## Removing unused packages
 sudo apt autoremove --purge -y

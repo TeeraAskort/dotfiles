@@ -86,7 +86,10 @@ echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
 cd /tmp/aurbuilder
 sudo -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
 cd paru-bin
-sudo -u aurbuilder makepkg -si
+until sudo -u aurbuilder makepkg -si
+do
+	echo "retrying"
+done
 
 # Optimizing aur
 cores=$(nproc)
@@ -103,7 +106,10 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm plasma ark dolphin dolphin-plugins strawberry gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension 
 
 # Installing plymouth
-sudo -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git
+until sudo -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git
+do
+	echo "retrying"
+done
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -175,13 +181,20 @@ rm -r *
 for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "flutter" "anydesk-bin"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
-	cd $package && sudo -u aurbuilder makepkg -si 
+	cd $package 
+	until sudo -u aurbuilder makepkg -si 
+	do
+		echo "retrying"
+	done
 	cd ..
 	rm -r $package
 done
 
 # Installing android studio
-sudo -u link paru -S android-studio
+until sudo -u link paru -S android-studio
+do
+	echo "retrying"
+done
 
 # Installing angular globally
 npm i -g @angular/cli

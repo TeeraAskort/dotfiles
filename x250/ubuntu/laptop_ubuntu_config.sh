@@ -16,7 +16,7 @@ sudo apt update
 sudo apt full-upgrade -y
 
 ## Installing required applications
-sudo apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl2 fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 cmake python3-dev libpam-u2f lutris gamemode nextcloud-desktop network-manager-l2tp-gnome flatpak gnome-software-plugin-flatpak mariadb-server qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils ia32-libs-multiarch android-studio-4.1 
+sudo apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl2 fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 cmake python3-dev libpam-u2f lutris gamemode nextcloud-desktop network-manager-l2tp-gnome flatpak gnome-software-plugin-flatpak mariadb-server qemu-kvm libvirt0 android-studio-4.1 
 
 ## Installing DE specific applications
 if [ "$XDG_CURRENT_DESKTOP" = "ubuntu:GNOME" ]; then
@@ -70,6 +70,10 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.d/99-sysctl.co
 ## Installing angular globally
 sudo npm i -g @angular/cli
 sudo ng analytics off
+
+## Adding user to kvm group
+user=$USER
+sudo usermod -aG kvm $user
 
 ## Removing unused packages
 sudo apt autoremove --purge -y

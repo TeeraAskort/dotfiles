@@ -94,7 +94,7 @@ mkdir -p ~/.config/mpv/
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
 ## Configuring u2f cards
-hostnm=$(cat /etc/hostname)
+hostnm=$(hostname)
 
 mkdir -p ~/.config/Yubico
 
@@ -155,27 +155,12 @@ mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip
 
-## Installing theme for GNOME
-if [[ $XDG_CURRENT_DESKTOP = "GNOME" ]]; then
-        mkdir ~/.themes
-        cp ~/Documentos/theme.tar.xz ~/.themes && cd ~/.themes
-        tar xf theme.tar.xz
-        rm theme.tar.xz
-        count=$(ls | wc -l)
-        if [[ $count -eq 1 ]]; then
-                file=$(ls)
-                gsettings set org.gnome.desktop.interface gtk-theme "$file"
-                gsettings set org.gnome.desktop.wm.preferences theme "$file"
-                count=$(gnome-extensions list | grep user-theme | wc -l)
-                if [[ $count -eq 1 ]]; then
-                        gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
-                        gsettings set org.gnome.shell.extensions.user-theme name "$file"
-                fi
-        fi
-        count=$(ls /usr/share/icons/ | grep "Papirus" | wc -l)
-        if [[ $count -gt 0 ]]; then
-                gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-        fi
+## Configuring flutter
+if command -v flutter &> /dev/null 
+then
+	flutter sdk-path
+
+	flutter config --android-sdk /home/link/Datos/Android
 fi
 
 ## Configuring git

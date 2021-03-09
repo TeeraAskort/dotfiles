@@ -9,13 +9,14 @@ sudo add-apt-repository ppa:papirus/papirus -y
 sudo add-apt-repository ppa:kisak/kisak-mesa -y
 sudo add-apt-repository ppa:lutris-team/lutris -y
 sudo add-apt-repository ppa:nextcloud-devs/client -y
+sudo add-apt-repository ppa:maarten-fonville/android-studio -y
 
 ## Updating the system
 sudo apt update 
 sudo apt full-upgrade -y
 
 ## Installing required applications
-sudo apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl2 fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 cmake python3-dev libpam-u2f lutris gamemode nextcloud-desktop network-manager-l2tp-gnome flatpak gnome-software-plugin-flatpak mariadb-server
+sudo apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions mpv telegram-desktop curl strawberry libglu1-mesa xz-utils vim tilix openjdk-11-jdk libfido2-1 pamu2fcfg nodejs npm thermald build-essential neovim python3-neovim papirus-icon-theme tlp piper flatpak net-tools libnsl2 fonts-noto-cjk fonts-noto-color-emoji hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us libreoffice libreoffice-l10n-es gimp mednafen mednaffe dolphin-emu libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 cmake python3-dev libpam-u2f lutris gamemode nextcloud-desktop network-manager-l2tp-gnome flatpak gnome-software-plugin-flatpak mariadb-server qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils ia32-libs-multiarch android-studio-4.1 
 
 ## Installing DE specific applications
 if [ "$XDG_CURRENT_DESKTOP" = "ubuntu:GNOME" ]; then
@@ -58,7 +59,7 @@ sudo apt install -y winetricks
 ## Install flatpak applications 
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-flatpak install flathub com.google.AndroidStudio org.jdownloader.JDownloader com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop com.slack.Slack com.axosoft.GitKraken org.chromium.Chromium
+flatpak install flathub -y org.jdownloader.JDownloader com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop com.slack.Slack com.axosoft.GitKraken org.chromium.Chromium
 
 ## Installing snap applications
 sudo snap install flutter --classic

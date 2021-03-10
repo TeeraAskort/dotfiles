@@ -41,11 +41,30 @@ sudo apt update
 sudo apt install -y anydesk
 
 ## Install outsider applications
-curl -L "https://discord.com/api/download?platform=linux&format=deb" > discord.deb
-curl -LO "https://cdn.akamai.steamstatic.com/client/installer/steam.deb"
-curl -L "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" > code.deb
-curl -LO "https://lbry.com/get/lbry.deb"
-curl -LO "https://launcher.mojang.com/download/Minecraft.deb"
+until curl -L "https://discord.com/api/download?platform=linux&format=deb" > discord.deb
+do 
+	echo "retrying"
+done
+
+until curl -LO "https://cdn.akamai.steamstatic.com/client/installer/steam.deb"
+do
+	echo "retrying"
+done
+
+until curl -L "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" > code.deb
+do
+	echo "retrying"
+done
+
+until curl -LO "https://lbry.com/get/lbry.deb"
+do
+	echo "retrying"
+done
+
+until curl -LO "https://launcher.mojang.com/download/Minecraft.deb"
+do
+	echo "retrying"
+done
 sudo apt install -y ./discord.deb ./steam.deb ./code.deb ./lbry.deb ./Minecraft.deb
 
 ## Installing wine

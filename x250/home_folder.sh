@@ -44,10 +44,7 @@ echo "127.0.0.1 $(hostname)" | sudo tee -a /etc/hosts
 echo "::1 $(hostname) ipv6-localhost ipv6-loopback"  | sudo tee -a /etc/hosts
 
 ## Adding intel undervolt configuration
-until git clone https://github.com/kitsunyan/intel-undervolt.git
-do
-	echo "retrying"
-done
+git clone https://github.com/kitsunyan/intel-undervolt.git
 
 cd intel-undervolt && ./configure --enable-systemd && make && sudo make install
 cd .. && sudo rm -r intel-undervolt
@@ -58,25 +55,16 @@ sudo sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/int
 sudo systemctl enable intel-undervolt
 
 ## Installing vim plugins
-until curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-do
-	echo "retrying"
-done
 
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 ## Installing Ohmyzsh and powerlevel10k
-until sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-do
-	echo "retrying"
-done
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-until git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
-do
-	echo "retrying"
-done
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
 
 ## Copying dotfiles
 cp $directory/zsh/.zshrc ~

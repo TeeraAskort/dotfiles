@@ -29,9 +29,6 @@ systemctl enable thermald
 #Configuring snapd
 ln -s /var/lib/snapd/snap /snap
 
-#Installing flutter
-snap install flutter --classic
-
 # Remove unused packages 
 dnf remove -y totem rhythmbox
 

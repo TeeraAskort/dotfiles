@@ -66,3 +66,6 @@ echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.d/99-sysctl.conf
 # Installing angular globally
 npm i -g @angular/cli
 ng analytics off
+
+# Adding kernel parameter
+grubby --update-kernel=ALL --args"i915.mitigations=off"

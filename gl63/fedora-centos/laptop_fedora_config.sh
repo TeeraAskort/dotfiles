@@ -94,5 +94,5 @@ npm i -g @ionic/cli
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
-grubby --update-kernel=ALL --args"i915.mitigations=off"
+grubby --update-kernel=ALL --args="i915.mitigations=off"
 #grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg

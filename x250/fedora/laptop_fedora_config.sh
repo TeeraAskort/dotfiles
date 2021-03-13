@@ -68,4 +68,4 @@ ng analytics off
 npm i -g @ionic/cli
 
 # Adding kernel parameter
-grubby --update-kernel=ALL --args"i915.mitigations=off"
+grubby --update-kernel=ALL --args="i915.mitigations=off"

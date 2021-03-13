@@ -1,5 +1,9 @@
 #!/bin/bash
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 user=$SUDO_USER
 
 # Add fastestmirror to dnf configuration
@@ -22,7 +26,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix telegram-desktop lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl tlp python-neovim cmake python3-devel nodejs npm gcc-c++ sqlitebrowser pam-u2f libfido2 pamu2fcfg gtk-murrine-engine gtk2-engines sassc optipng inkscape glib2-devel
+dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ pam-u2f libfido2 pamu2fcfg strawberry NetworkManager-l2tp-gnome mariadb mariadb-server
 
 systemctl enable thermald
 
@@ -47,29 +51,11 @@ cat > /etc/modprobe.d/nvidia.conf <<EOF
 options nvidia NVreg_DynamicPowerManagement=0x02
 EOF
 
-# Install strawberry player
-version=0.8.5
-curl -L "https://files.strawberrymusicplayer.org/strawberry-${version}-1.fc33.x86_64.rpm" > strawberry.rpm
-dnf in -y ./strawberry.rpm
-
-# Install WhiteSur theme
-git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git
-cd WhiteSur-gtk-theme
-./install.sh -d /usr/share/themes -c dark -o solid -i fedora
-cd ..
-git clone https://github.com/vinceliuice/WhiteSur-kde.git
-cd WhiteSur-kde
-./install.sh
-rm -r WhiteSur*
-
-# Removing installation dependencies
-dnf remove -y inkscape
-
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
 
 #Copying PRIME render offload launcher
-cp ../dotfiles/prime-run /usr/bin
+cp $directory/../dotfiles/prime-run /usr/bin
 chmod +x /usr/bin/prime-run
 
 #Intel undervolt configuration
@@ -89,7 +75,7 @@ systemctl enable tlp
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop 
+flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop org.telegram.desktop com.slack.Slack com.axosoft.GitKraken com.anydesk.Anydesk
 
 # Flatpak overrides
 flatpak override --filesystem=~/.themes
@@ -103,13 +89,10 @@ echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.d/99-sysctl.conf
 npm i -g @angular/cli
 ng analytics off
 
-# Installing XAMPP
-version="8.0.2"
-subver="0"
-curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${version}-${subver}-installer.run" > xampp.run
-chmod +x xampp.run
-./xampp.run --mode unattended --unattendedmodeui minimal
+# Installing ionic
+npm i -g @ionic/cli
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
+grubby --update-kernel=ALL --args"i915.mitigations=off"
 #grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg

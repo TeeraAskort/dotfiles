@@ -65,43 +65,25 @@ mkdir -p ~/.config/pulse
 cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
 
+## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~
 mkdir -p ~/.config/nvim/
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 nvim +PlugInstall +q +q
 cd ~/.vim/plugged/youcompleteme 
-python install.py 
+python3 install.py --ts-completer 
 
+## Copying chromium config
 cp $directory/dotfiles/chromium-flags.conf ~/.config
 
+## Configuring mpv
 mkdir -p ~/.config/mpv/shaders/
 curl -LO https://gist.githubusercontent.com/igv/36508af3ffc84410fe39761d6969be10/raw/ac09db2c0664150863e85d5a4f9f0106b6443a12/SSimDownscaler.glsl
 curl -LO https://gist.githubusercontent.com/igv/a015fc885d5c22e6891820ad89555637/raw/424a8deae7d5a142d0bbbf1552a686a0421644ad/KrigBilateral.glsl
 mv SSimDownscaler.glsl KrigBilateral.glsl ~/.config/mpv/shaders
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
-if [[ $XDG_CURRENT_DESKTOP = "GNOME" ]]; then
-	mkdir ~/.themes
-	cp ~/Documentos/theme.tar.xz ~/.themes && cd ~/.themes
-	tar xf theme.tar.xz 
-	rm theme.tar.xz
-	count=$(ls | wc -l)
-	if [[ $count -eq 1 ]]; then
-		file=$(ls)
-		gsettings set org.gnome.desktop.interface gtk-theme "$file"
-		gsettings set org.gnome.desktop.wm.preferences theme "$file"
-		count=$(gnome-extensions list | grep user-theme | wc -l)
-		if [[ $count -eq 1 ]]; then
-			gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
-			gsettings set org.gnome.shell.extensions.user-theme name "$file"
-		fi
-	fi
-	count=$(ls /usr/share/icons/ | grep "Papirus" | wc -l)
-	if [[ $count -gt 0 ]]; then
-		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-	fi
-fi
-
+## Configuring 2fa
 hostnm=$(cat /etc/hostname)
 
 mkdir -p ~/.config/Yubico
@@ -126,21 +108,52 @@ if [ -e /etc/pam.d/gdm-password ]; then
 fi
 
 if [ -e /etc/pam.d/sddm ]; then
-	sudo sed -i "2i auth required pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/sddm 
+	sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
+	if diff /etc/pam.d/sddm.bak sddm ; then
+		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
+		sudo cp sddm /etc/pam.d/sddm
+	else
+		sudo cp sddm /etc/pam.d/sddm
+	fi
 fi
 
 if [ -e /etc/pam.d/kde ]; then
-	sudo sed -i "2i auth required pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/kde
+	sudo cp /etc/pam.d/kde /etc/pam.d/kde.bak
+	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/kde /etc/pam.d/kde > kde
+	if diff /etc/pam.d/kde.bak kde ; then
+		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/kde /etc/pam.d/kde > kde
+		sudo cp kde /etc/pam.d/kde
+	else
+		sudo cp kde /etc/pam.d/kde
+	fi
 fi
 
 if [ -e /etc/pam.d/polkit-1 ]; then
-	sudo sed -i "2i auth required pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm" /etc/pam.d/polkit-1
+	sudo cp /etc/pam.d/polkit-1 /etc/pam.d/polkit-1.bak
+	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/polkit-1 /etc/pam.d/polkit-1 > polkit-1
+	if diff /etc/pam.d/polkit-1.bak polkit-1 ; then
+		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/polkit-1 /etc/pam.d/polkit-1 > polkit-1
+		sudo cp polkit-1 /etc/pam.d/polkit-1
+	else
+		sudo cp polkit-1 /etc/pam.d/polkit-1
+	fi
 fi
 
 mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip
 
+## Configuring git
 git config --global user.name "Alderaeney"
-git config --global user.email "sariaaskort@tuta.io"
+git config --global user.email "alderaeney@alderaeney.com"
 git config --global init.defaultBranch master
+
+## Changing user shell
+if ! command -v chsh &> /dev/null
+then
+	sudo lchsh link
+else
+	chsh -s /usr/bin/zsh
+fi
+vim ~/.zshrc

@@ -19,7 +19,7 @@ dnf copr enable dawid/better_fonts -y
 dnf copr enable pp3345/gnome-with-patches -y
 
 #Enabling google-chrome repo
-dnf install fedora-workstation-repositories
+dnf install fedora-workstation-repositories -y
 dnf config-manager --set-enabled google-chrome
 
 #Install VSCode

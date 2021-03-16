@@ -99,7 +99,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution tilix gnome-boxes transmission-gtk
  
 # Removing unwanted packages
-pacman -Rns gnome-music epiphany totem
+pacman -Rns --noconfirm gnome-music epiphany totem
 
 # Installing plymouth
 sudo -u aurbuilder paru -S gdm-plymouth plymouth-theme-hexagon-2-git

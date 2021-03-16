@@ -169,13 +169,16 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "qgnomeplatform"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si 
 	cd ..
 	rm -r $package
 done
+
+# Setting environment variable
+echo "QT_QPA_PLATFORMTHEME='gnome'" | tee -a /etc/environment
 
 # Installing android studio
 until sudo -u link paru -S android-studio

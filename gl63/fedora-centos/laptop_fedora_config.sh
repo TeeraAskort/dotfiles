@@ -18,6 +18,10 @@ dnf copr enable dawid/better_fonts -y
 #Add gnome-with-patches copr
 dnf copr enable pp3345/gnome-with-patches -y
 
+#Enabling google-chrome repo
+dnf install fedora-workstation-repositories
+dnf config-manager --set-enabled google-chrome
+
 #Install VSCode
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
@@ -26,7 +30,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions chromium-freeworld google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ pam-u2f libfido2 pamu2fcfg strawberry NetworkManager-l2tp-gnome mariadb mariadb-server
+dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ pam-u2f libfido2 pamu2fcfg strawberry NetworkManager-l2tp-gnome mariadb mariadb-server google-chrome-stable
 
 systemctl enable thermald
 

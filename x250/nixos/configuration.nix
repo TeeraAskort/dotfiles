@@ -89,7 +89,10 @@ in
   };
 
   # XWayland config
-  programs.xwayland.enable = false;
+  programs.xwayland = {
+    enable = false;
+    package = pkgs.xwayland;
+  };
 
   # Font configuration
   fonts.fonts = with pkgs; [

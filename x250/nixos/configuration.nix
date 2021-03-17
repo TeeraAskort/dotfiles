@@ -61,7 +61,7 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
-    gnome3.gnome-terminal firefox-wayland celluloid strawberry gnome3.file-roller  
+    gnome3.gnome-terminal firefox celluloid strawberry gnome3.file-roller  
     papirus-icon-theme transmission-gtk
     gnome3.aisleriot gnome3.gnome-tweaks discord 
     git home-manager python38 
@@ -84,14 +84,7 @@ in
 
   # Environment variables
   environment.sessionVariables = {
-    MOZ_ENABLE_WAYLAND = "1";
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
-  };
-
-  # XWayland config
-  programs.xwayland = {
-    enable = false;
-    package = pkgs.xwayland;
   };
 
   # Font configuration
@@ -247,6 +240,7 @@ in
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
+        wayland = false;
         enable = true;
       };
     };

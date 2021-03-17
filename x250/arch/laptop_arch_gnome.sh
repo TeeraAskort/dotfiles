@@ -181,10 +181,7 @@ done
 echo "QT_QPA_PLATFORMTHEME='gtk2'" | tee -a /etc/environment
 
 # Installing android studio
-until sudo -u link paru -S android-studio
-do
-	echo "retrying"
-done
+sudo -u link paru -S android-studio
 
 # Installing angular globally
 npm i -g @angular/cli

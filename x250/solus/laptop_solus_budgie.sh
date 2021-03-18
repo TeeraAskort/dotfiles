@@ -21,7 +21,7 @@ sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-u
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 ## Installing required flatpak apps
-flatpak install -y flathub com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop 
+flatpak install -y flathub com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop com.anydesk.Anydesk com.slack.Slack io.dbeaver.DBeaverCommunity 
 
 ## Add sysctl config
 echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.d/99-sysctl.conf
@@ -30,12 +30,9 @@ echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.d/99-sysctl.conf
 npm i -g @angular/cli
 ng analytics off
 
-# Installing XAMPP
-version="8.0.2"
-subver="0"
-curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${version}-${subver}-installer.run" > xampp.run
-chmod +x xampp.run
-./xampp.run --mode unattended --unattendedmodeui minimal
-rm xampp.run
+# Installing ionic
+npm i -g @ionic/cli
 
-
+# Installing Google Chrome
+eopkg bi --ignore-safety https://raw.githubusercontent.com/getsolus/3rd-party/master/network/web/browser/google-chrome-stable/pspec.xml
+eopkg it google-chrome-*.eopkg;sudo rm google-chrome-*.eopkg

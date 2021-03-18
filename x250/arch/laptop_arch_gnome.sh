@@ -178,10 +178,10 @@ do
 done
 
 # Setting environment variable
-echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
+echo "QT_QPA_PLATFORMTHEME=gtk2" | tee -a /etc/environment
 
 # Installing android studio
-sudo -u link paru -S android-studio qgnomeplatform adwaita-qt
+sudo -u link paru -S android-studio qt5-styleplugins
 
 # Installing angular globally
 npm i -g @angular/cli

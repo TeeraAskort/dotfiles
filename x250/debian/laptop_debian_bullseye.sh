@@ -5,15 +5,17 @@ sudo dpkg --add-architecture i386
 sudo apt update
 
 # Installing needed packages for getting the third party repos
-sudo apt install -y curl wget apt-transport-https dirmngr
+sudo apt install -y curl wget apt-transport-https dirmngr gnupg2
 
 # Adding third party repos 
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | sudo tee /etc/apt/sources.list.d/vscode.list
 echo "deb [arch=i386,amd64] http://repo.steampowered.com/steam/ precise steam" | sudo tee /etc/apt/sources.list.d/steam.list
+echo "deb http://deb.anydesk.com/ all main" | sudo tee /etc/apt/sources.list.d/anydesk-stable.list
 
 # Importing third party repos keys
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F24AEA9FB05498B7
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+wget -qO - https://keys.anydesk.com/repos/DEB-GPG-KEY | sudo apt-key add -
 
 # Updating the system
 sudo apt update -y
@@ -22,7 +24,7 @@ sudo apt update -y
 sudo apt full-upgrade -y
 
 # Installing basic packages
-sudo apt install -y mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam telegram-desktop neovim fonts-noto-cjk openjdk-11-jdk thermald intel-microcode gamemode hyphen-en-us mythes-en-us sqlitebrowser net-tools tlp wget apt-transport-https gnupg python3-dev cmake nodejs npm chromium code libpam-u2f pamu2fcfg libfido2-1 hunspell-es hunspell-en-us 
+sudo apt install -y mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam telegram-desktop neovim fonts-noto-cjk openjdk-11-jdk thermald intel-microcode gamemode hyphen-en-us mythes-en-us sqlitebrowser net-tools tlp wget apt-transport-https gnupg python3-dev cmake nodejs npm chromium code libpam-u2f pamu2fcfg libfido2-1 hunspell-es hunspell-en-us anydesk
 
 if [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
 
@@ -81,7 +83,7 @@ sudo apt install -y ./strawberry.deb
 
 #Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub com.discordapp.Discord org.DolphinEmu.dolphin-emu com.github.micahflee.torbrowser-launcher io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.obsproject.Studio com.bitwarden.desktop com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community
+flatpak install -y flathub com.discordapp.Discord org.DolphinEmu.dolphin-emu com.github.micahflee.torbrowser-launcher io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.obsproject.Studio com.bitwarden.desktop com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community io.dbeaver.DBeaverCommunity
 
 # Adding grub parameters
 sudo sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub
@@ -103,6 +105,9 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.d/99-sysctl.co
 # Installing angular globally
 sudo npm i -g @angular/cli
 ng analytics off
+
+# Installing ionic
+npm i -g @ionic/cli
 
 # Installing XAMPP
 version="8.0.2"

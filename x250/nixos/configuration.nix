@@ -61,13 +61,13 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
-    gnome3.gnome-terminal firefox-wayland celluloid strawberry gnome3.file-roller  
+    gnome3.gnome-terminal firefox celluloid strawberry gnome3.file-roller  
     papirus-icon-theme transmission-gtk
     gnome3.aisleriot gnome3.gnome-tweaks discord 
     git home-manager python38 
     p7zip unzip unrar gnome3.gnome-calendar piper
     steam-run systembus-notify
-    desmume chromium ffmpegthumbnailer 
+    desmume google-chrome ffmpegthumbnailer 
     nextcloud-client obs-studio libfido2 pfetch
     gtk-engine-murrine bitwarden obs-studio
     nextcloud-client parallel libreoffice-fresh
@@ -77,16 +77,17 @@ in
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio jetbrains.idea-community
     mednafen mednaffe
-
+    
+    nodePackages.node2nix dbeaver anydesk slack-dark postman
     myAspell mythes
   ];
 
   # Environment variables
   environment.sessionVariables = {
-    MOZ_ENABLE_WAYLAND = "1";
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
   };
 
+  # Font configuration
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
     noto-fonts-cjk
@@ -99,6 +100,7 @@ in
     platformTheme = "gnome";
     style = "adwaita-dark";
   };
+
   # Java configuration
   programs.java = {
     enable = true;
@@ -238,6 +240,7 @@ in
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
+        wayland = false;
         enable = true;
       };
     };

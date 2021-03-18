@@ -169,7 +169,7 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "qt5-styleplugins"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" 
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si 
@@ -178,13 +178,10 @@ do
 done
 
 # Setting environment variable
-echo "QT_QPA_PLATFORMTHEME='gtk2'" | tee -a /etc/environment
+echo "QT_QPA_PLATFORMTHEME=gtk2" | tee -a /etc/environment
 
 # Installing android studio
-until sudo -u link paru -S android-studio
-do
-	echo "retrying"
-done
+sudo -u link paru -S android-studio qt5-styleplugins
 
 # Installing angular globally
 npm i -g @angular/cli

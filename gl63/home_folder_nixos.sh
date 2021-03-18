@@ -31,7 +31,7 @@ mkdir -p ~/.config/nvim/
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 nvim +PlugInstall +q +q
 cd ~/.vim/plugged/youcompleteme
-python install.py
+python install.py --ts-completer
 
 mkdir -p ~/.config/mpv/shaders/
 curl -LO https://gist.githubusercontent.com/igv/36508af3ffc84410fe39761d6969be10/raw/ac09db2c0664150863e85d5a4f9f0106b6443a12/SSimDownscaler.glsl
@@ -44,7 +44,12 @@ git config --global user.email "sariaaskort@tuta.io"
 git config --global init.defaultBranch master
 
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub io.lbry.lbry-app com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader com.getpostman.Postman
+flatpak install -y flathub io.lbry.lbry-app com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader 
+
+## Configuring node packages
+npm config set prefix '~/mutable_node_modules'
+npm i -g @angular/cli @ionic/cli
+ln -s ~/mutable_node_modules/bin ~/bin
 
 mkdir -p ~/.config/Yubico
 

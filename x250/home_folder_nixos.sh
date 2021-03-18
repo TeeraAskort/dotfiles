@@ -29,7 +29,7 @@ mkdir -p ~/.config/nvim/
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 nvim +PlugInstall +q +q
 cd ~/.vim/plugged/youcompleteme 
-python install.py 
+python install.py --ts-completer
 
 ## Configuring mpv
 mkdir -p ~/.config/mpv/
@@ -42,10 +42,16 @@ git config --global init.defaultBranch master
 
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub io.lbry.lbry-app com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader com.getpostman.Postman 
+flatpak install -y flathub io.lbry.lbry-app com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader 
 
 ## Installing dictionaries
 nix-env -iA nixos.hunspellDicts.es_ES nixos.hunspellDicts.en_US
+
+## Configuring node packages
+npm config set prefix '~/mutable_node_modules'
+npm i -g @angular/cli @ionic/cli
+ln -s ~/mutable_node_modules/bin ~/bin
+echo "PATH=\"$PATH:$HOME/bin\"" | tee -a ~/.zshrc
 
 ## Configuring u2f authentication
 mkdir -p ~/.config/Yubico

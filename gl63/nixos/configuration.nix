@@ -5,17 +5,21 @@
 { config, pkgs, ... }:
 
 let
-  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+  blockedHosts = pkgs.fetchurl {
+    url = "https://someonewhocares.org/hosts/zero/hosts";
+    sha256 = "changeme";
+  };
+  myAspell = pkgs.aspellWithDicts(ps: with ps; [
+    es
+    en
+  ]);
+    nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
     export __NV_PRIME_RENDER_OFFLOAD=1
     export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
     export __GLX_VENDOR_LIBRARY_NAME=nvidia
     export __VK_LAYER_NV_optimus=NVIDIA_only
     exec -a "$0" "$@"
   '';
-  blockedHosts = pkgs.fetchurl {
-    url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "changeme";
-  };
 in
 {
   imports =
@@ -27,7 +31,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "link-gl63-8rc"; # Define your hostname.
+  networking.hostName = "link-x250"; # Define your hostname.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -36,8 +40,8 @@ in
     useDHCP = false; 
     networkmanager.enable = true;
     interfaces = {
-      enp3s0.useDHCP = true;
-      wlo1.useDHCP = true;
+      enp0s25.useDHCP = true;
+      wlp3s0.useDHCP = true;
     };
     extraHosts = ''
       ${builtins.readFile blockedHosts}
@@ -56,21 +60,53 @@ in
   # Allow nonfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Package overrides
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
-    gnome3.gnome-terminal firefox mpv rhythmbox gnome3.file-roller noto-fonts 
-    nerdfonts noto-fonts-cjk noto-fonts-emoji plata-theme papirus-icon-theme transmission-gtk
-    gnome3.aisleriot nvidia-offload gnome3.gnome-tweaks discord libreoffice-fresh
-    git home-manager python38 hunspellDicts.es_ES mythes aspellDicts.es
-    p7zip unzip unrar gnome3.gnome-calendar gst_all_1.gst-plugins-bad piper
-    gst_all_1.gst-plugins-base gst_all_1.gst-plugins-good gst_all_1.gst-plugins-ugly 
-    gst_all_1.gst-vaapi gst_all_1.gst-libav steam-run systembus-notify
-    desmume chromium ffmpegthumbnailer noto-fonts-cjk evolution
-    android-studio nextcloud-client obs-studio libfido2
-    gtk-engine-murrine eclipses.eclipse-java bitwarden jetbrains.idea-community obs-studio
+    gnome3.gnome-terminal firefox celluloid strawberry gnome3.file-roller  
+    papirus-icon-theme transmission-gtk
+    gnome3.aisleriot gnome3.gnome-tweaks discord 
+    git home-manager python38 
+    p7zip unzip unrar gnome3.gnome-calendar piper
+    steam-run systembus-notify
+    desmume google-chrome ffmpegthumbnailer 
+    nextcloud-client obs-studio libfido2 pfetch
+    gtk-engine-murrine bitwarden obs-studio
+    nextcloud-client parallel libreoffice-fresh
+    adwaita-qt ffmpeg-full nodejs nodePackages.npm
+    python39Packages.pynvim neovim cmake python39Full gcc gnumake
+    gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
+    gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
+    android-studio jetbrains.idea-community
+    mednafen mednaffe
+    nvidia-offload
+    
+    nodePackages.node2nix dbeaver anydesk slack-dark postman 
+    myAspell mythes
   ];
 
+  # Environment variables
+  environment.sessionVariables = {
+    GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
+  };
+
+  fonts.fonts = with pkgs; [
+    (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    noto-fonts-cjk
+    noto-fonts-emoji
+    noto-fonts
+  ];
+
+  # QT5 Theming
+  qt5 = {
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
   # Java configuration
   programs.java = {
     enable = true;
@@ -81,14 +117,6 @@ in
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
-    initialScript = pkgs.writeText "backend-initScript" ''
-      CREATE USER 'tiempodb'@'localhost' IDENTIFIED BY 'tiempodb';
-      CREATE USER 'alderchan'@'localhost' IDENTIFIED BY 'alderchan';
-      CREATE DATABASE 'tiempodb';
-      CREATE DATABASE 'alderchan';
-      GRANT ALL PRIVILEGES ON tiempodb.* TO 'tiempodb'@'localhost';
-      GRANT ALL PRIVILEGES ON alderchan.* TO 'alderchan'@'localhost';
-    '';
   };
 
   # Zsh shell
@@ -118,7 +146,11 @@ in
 
   # PAM FIDO2 support
   security.pam.u2f.enable = true;
-  security.pam.services.gdm.u2fAuth = true;
+  security.pam.services = {
+    gdm.u2fAuth = true;
+    sudo.u2fAuth = true;
+    su.u2fAuth = true;
+  };
 
   #Haveged daemon
   services.haveged.enable = true;
@@ -132,13 +164,22 @@ in
 
   # Flatpak support
   services.flatpak.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
 
   # Steam dependencies
   hardware.opengl = {
     enable = true;
     driSupport32Bit = true;
     extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+    extraPackages = with pkgs; [
+      intel-media-driver
+      vaapiIntel
+      vaapiVdpau
+      libvdpau-va-gl
+    ];
   };
 
   # Enable CUPS to print documents.
@@ -174,12 +215,33 @@ in
  
     # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
     # Only the full build has Bluetooth support, so it must be selected here.
+    extraModules = [ pkgs.pulseaudio-modules-bt ];
     package = pkgs.pulseaudioFull;
     support32Bit = true;
   };
 
+  # Enable pipewire
+  services.pipewire.enable = true;
+
   # Enable bluetooth
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    package = pkgs.bluezFull;
+  };
+
+  # Nvidia config
+  hardware.nvidia = {
+    nvidiaPersistenced = true;
+    prime = {
+      offload.enable = true;
+
+      # Bus ID of the Intel GPU. You can find it using lspci, either under 3D or VGA
+      intelBusId = "PCI:0:2:0";
+
+      # Bus ID of the NVIDIA GPU. You can find it using lspci, either under 3D or VGA
+      nvidiaBusId = "PCI:1:0:0";
+    };
+  };
 
   # Xserver configuration
   services.xserver = {
@@ -195,18 +257,28 @@ in
     # Wacom tablet support
     wacom.enable = true;
 
-    # Use nvidia drivers
+    # Nvidia drivers
     videoDrivers = [ "nvidia" ];
 
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
-        enable = true;
         wayland = false;
-        #nvidiaWayland = true;
+        enable = true;
       };
     };
-    desktopManager.gnome3.enable = true;
+
+    desktopManager.gnome3 = {
+      enable = true;
+      extraGSettingsOverrides = ''
+        [org.gnome.desktop.interface]
+        gtk-theme = "Adwaita-dark"
+        icon-theme = "Papirus-Dark"
+
+        [org.gnome.desktop.wm.preferences]
+        theme = "Adwaita-dark"
+      '';
+    };
   };
 
   # Excluded gnome3 packages
@@ -218,26 +290,12 @@ in
   # TLP
   services.tlp = {
     enable = true;
-    settings = {
-      "CPU_ENERGY_PERF_POLICY_ON_AC"="balance_power";
-      "SCHED_POWERSAVE_ON_AC"=1;
-    };
   };
 
   # EarlyOOM
   services.earlyoom = {
     enable = true;
     enableNotifications = true;
-  };
-
-  # Nvidia PRIME render offload support
-  hardware.nvidia = {
-    powerManagement.enable = true;
-    prime = {
-      offload.enable = true;
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -253,7 +311,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.03"; # Did you read the comment?
+  system.stateVersion = "21.05"; # Did you read the comment?
 
 }
 

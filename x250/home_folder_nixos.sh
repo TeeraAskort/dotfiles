@@ -51,6 +51,7 @@ nix-env -iA nixos.hunspellDicts.es_ES nixos.hunspellDicts.en_US
 npm config set prefix '~/mutable_node_modules'
 npm i -g @angular/cli @ionic/cli
 ln -s ~/mutable_node_modules/bin ~/bin
+echo "PATH=\"$PATH:$HOME/bin\"" | tee -a ~/.zshrc
 
 ## Configuring u2f authentication
 mkdir -p ~/.config/Yubico

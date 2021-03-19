@@ -82,6 +82,10 @@ in
     myAspell mythes
   ];
 
+  # VPN configuration
+  services.libreswan.enable = true;
+  services.xl2tpd.enable = true;
+
   # Environment variables
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";

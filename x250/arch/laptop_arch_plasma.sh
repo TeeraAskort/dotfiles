@@ -22,15 +22,14 @@ hwclock --systohc
 echo link-x250 > /etc/hostname
 
 # Root password
-#clear
-#echo "Enter root password"
-#until passwd
-#do
-#	echo "Enter the password correctly"
-#done
+clear
+echo "Enter root password"
+until passwd
+do
+	echo "Enter the password correctly"
+done
 
 # Restricting root login
-passwd --lock root
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su-l
 
@@ -121,21 +120,21 @@ mkdir -p /boot/loader/entries
 cat > /boot/loader/loader.conf <<EOF
 default  arch.conf
 console-mode max
-editor   no
+editor   yes
 EOF
 cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux-zen
+linux   /vmlinuz-linux-hardened
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-zen.img
+initrd  /initramfs-linux-hardened.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor i915.mitigations=off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat > /boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux-zen
+linux   /vmlinuz-linux-hardened
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-zen-fallback.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor i915.mitigations=off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
+initrd  /initramfs-linux-hardened-fallback.img
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${nootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor i915.mitigations=off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update
 

@@ -22,15 +22,14 @@ hwclock --systohc
 echo link-x250 > /etc/hostname
 
 # Root password
-#clear
-#echo "Enter root password"
-#until passwd
-#do
-#	echo "Enter the password correctly"
-#done
+clear
+echo "Enter root password"
+until passwd
+do
+	echo "Enter the password correctly"
+done
 
 # Restricting root login
-passwd --lock root
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su-l
 
@@ -124,7 +123,7 @@ mkdir -p /boot/loader/entries
 cat > /boot/loader/loader.conf <<EOF
 default  arch.conf
 console-mode max
-editor   no
+editor   yes
 EOF
 cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux

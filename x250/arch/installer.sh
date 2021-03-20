@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Checking if arguments are passed
-if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
+if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "xfce" ]]; then
 
         rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TS128GMTS430S | cut -d" " -f1)
 
@@ -54,11 +54,14 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 		arch-chroot /mnt bash /dotfiles/x250/arch/laptop_arch_gnome.sh
 	elif [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 		arch-chroot /mnt bash /dotfiles/x250/arch/laptop_arch_plasma.sh
+	elif [[ "$1" == "xfce" ]]; then
+		arch-chroot /mnt bash /dotfiles/x250/arch/laptop_arch_xfce.sh
 	fi
 else
 	echo "Available options: "
 	echo "gnome - To install the gnome desktop"
 	echo "kde or plasma - To install the plasma desktop"
+	echo "xfce - To install the XFCE desktop"
 
 fi 
 

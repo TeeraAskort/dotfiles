@@ -42,6 +42,7 @@ sudo cp /etc/hosts /etc/hosts.bak
 sudo mv hosts /etc/hosts
 echo "127.0.0.1 $(hostname)" | sudo tee -a /etc/hosts
 echo "::1 $(hostname) ipv6-localhost ipv6-loopback"  | sudo tee -a /etc/hosts
+sudo chown root:root /etc/hosts
 
 ## Adding intel undervolt configuration
 git clone https://github.com/kitsunyan/intel-undervolt.git

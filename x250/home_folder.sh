@@ -95,6 +95,11 @@ cp $directory/dotfiles/chromium-flags.conf ~/.config
 mkdir -p ~/.config/mpv/
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
+## making glx default vblank method on XFCE
+if [ "$XDG_CURRENT_DESKTOP" = "XFCE" ]; then
+	xfconf-query -c xfwm4 -p /general/vblank_mode -s glx
+fi
+
 ## Configuring u2f cards
 hostnm=$(hostname)
 
@@ -116,6 +121,28 @@ if [ -e /etc/pam.d/gdm-password ]; then
 		sudo cp gdm-password /etc/pam.d/gdm-password
 	else
 		sudo cp gdm-password /etc/pam.d/gdm-password
+	fi
+fi
+
+if [ -e /etc/pam.d/xfce4-screensaver ]; then
+	sudo cp /etc/pam.d/xfce4-screensaver /etc/pam.d/xfce4-screensaver.bak
+	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/xfce4-screensaver /etc/pam.d/xfce4-screensaver > xfce4-screensaver
+	if diff /etc/pam.d/xfce4-screensaver.bak xfce4-screensaver ; then
+		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/xfce4-screensaver /etc/pam.d/xfce4-screensaver > xfce4-screensaver
+		sudo cp xfce4-screensaver /etc/pam.d/xfce4-screensaver
+	else
+		sudo cp xfce4-screensaver /etc/pam.d/xfce4-screensaver
+	fi
+fi
+
+if [ -e /etc/pam.d/lightdm ]; then
+	sudo cp /etc/pam.d/lightdm /etc/pam.d/lightdm.bak
+	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/lightdm /etc/pam.d/lightdm > lightdm
+	if diff /etc/pam.d/lightdm.bak lightdm ; then
+		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/lightdm /etc/pam.d/lightdm > lightdm
+		sudo cp lightdm /etc/pam.d/lightdm
+	else
+		sudo cp lightdm /etc/pam.d/lightdm
 	fi
 fi
 

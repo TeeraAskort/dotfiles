@@ -105,7 +105,14 @@ pacman -S --noconfirm xfce4 xfce4-goodies pavucontrol blueberry playerctl xorg-x
 pacman -Rns --noconfirm parole xfburn
 
 # Installing plymouth
-sudo -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git lightdm-slick-greeter lightdm-settings xorg-server-bug865 
+sudo -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git lightdm-slick-greeter lightdm-settings 
+
+# Installing xorg-server-bug865 
+cd /tmp/aurbuilder
+git clone https://aur.archlinux.org/xorg-server-bug865.git 
+cd xorg-server-bug865 
+sed -i "s/\'\'//g" PKGBUILD
+makepkg -si
 
 # Setting lightdm theme
 sed -i "s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-slick-greeter/g" /etc/lightdm/lightdm.conf

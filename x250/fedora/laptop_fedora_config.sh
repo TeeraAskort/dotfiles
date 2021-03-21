@@ -19,7 +19,7 @@ dnf install fedora-workstation-repositories -y
 dnf config-manager --set-enabled google-chrome
 
 #Enabling xanmod repo
-dnf enable rmnscnce/kernel-xanmod -y
+dnf copr enable rmnscnce/kernel-xanmod -y
 
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y

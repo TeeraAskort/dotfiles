@@ -1,5 +1,9 @@
 #!/bin/bash
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 user=$SUDO_USER
 
 # Add fastestmirror to dnf configuration
@@ -32,9 +36,9 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ pam-u2f libfido2 pamu2fcfg strawberry NetworkManager-l2tp-gnome mariadb mariadb-server google-chrome-stable kernel-xanmod-cacule mednafen mednaffe
+dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ pam-u2f libfido2 pamu2fcfg strawberry NetworkManager-l2tp-gnome mariadb mariadb-server google-chrome-stable kernel-xanmod-cacule mednafen mednaffe acpid
 
-systemctl enable thermald
+systemctl enable thermald acpid
 
 # Remove unused packages 
 dnf remove -y totem rhythmbox
@@ -76,3 +80,15 @@ ng analytics off
 
 # Installing ionic
 npm i -g @ionic/cli
+
+# Headphone jack workaround
+cp $directory/headphones /usr/local/bin 
+chmod +x /usr/local/bin/headphones
+
+cp $directory/headphones.service /usr/lib/systemd/system/
+cp $directory/headphones-sleep /usr/lib/systemd/system-sleep/
+systemctl enable headphones.service
+
+cp $directory/headphone_jack /etc/acpi/events
+cp $directory/headphones /etc/acpi/actions
+chmod +x /etc/acpi/actions/headphones

@@ -1,0 +1,10 @@
+[Unit]
+Description=Start headphones
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/headphones
+
+[Install]
+WantedBy=basic.target

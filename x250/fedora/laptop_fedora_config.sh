@@ -6,9 +6,6 @@ directory="$(dirname $_script)"
 
 user=$SUDO_USER
 
-# Add fastestmirror to dnf configuration
-echo "fastestmirror=1" | tee -a /etc/dnf/dnf.conf
-
 #Install RPMfusion
 dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 

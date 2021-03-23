@@ -101,4 +101,4 @@ npm i -g @ionic/cli
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
-#grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg

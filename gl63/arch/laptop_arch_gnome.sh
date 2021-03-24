@@ -102,7 +102,7 @@ pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot 
 pacman -Rns --noconfirm gnome-music epiphany totem
 
 # Installing plymouth
-sudo -u aurbuilder paru -S gdm-plymouth plymouth-theme-hexagon-2-git
+sudo -u aurbuilder paru -S gdm-plymouth plymouth-theme-hexagon-2-git linux-xanmod-cacule linux-xanmod-cacule-headers
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -136,6 +136,21 @@ initrd  /intel-ucode.img
 initrd  /initramfs-linux-zen-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 i915.mitigations=off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
+cat > /boot/loader/entries/arch-cacule.conf <<EOF
+title   Arch Linux
+linux   /vmlinuz-linux-xanmod-cacule
+initrd  /intel-ucode.img
+initrd  /initramfs-linux-xanmod-cacule.img
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
+EOF
+cat > /boot/loader/entries/arch-cacule-fallback.conf <<EOF
+title   Arch Linux Fallback
+linux   /vmlinuz-linux-xanmod-cacule
+initrd  /intel-ucode.img
+initrd  /initramfs-linux-xanmod-cacule-fallback.img
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
+EOF
+
 bootctl update
 
 # Enabling GDM
@@ -165,7 +180,7 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "qt5-styleplugins"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "qt5-styleplugins" 
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si 

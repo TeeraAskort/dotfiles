@@ -141,6 +141,9 @@ unzip ~/Documentos/fonts.zip
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
+		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	fi
 fi
 
 ## Configuring git

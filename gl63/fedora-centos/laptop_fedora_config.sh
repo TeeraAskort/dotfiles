@@ -27,9 +27,6 @@ dnf copr enable pp3345/gnome-with-patches -y
 dnf install fedora-workstation-repositories -y
 dnf config-manager --set-enabled google-chrome
 
-#Enabling xanmod copr
-dnf copr enable rmnscnce/kernel-xanmod -y
-
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
@@ -41,7 +38,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ pam-u2f libfido2 pamu2fcfg strawberry NetworkManager-l2tp-gnome mariadb mariadb-server google-chrome-stable mednafen mednaffe kernel-xanmod-cacule kernel-xanmod-cacule-devel kernel-xanmod-cacule-headers
+dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ pam-u2f libfido2 pamu2fcfg strawberry NetworkManager-l2tp-gnome mariadb mariadb-server google-chrome-stable mednafen mednaffe tlp
 
 systemctl enable thermald
 
@@ -79,6 +76,12 @@ sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.con
 sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
 
 systemctl enable intel-undervolt
+
+# Changing tlp config
+sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
+sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
+
+systemctl enable tlp
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

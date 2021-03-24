@@ -118,7 +118,7 @@ pacman -S --noconfirm --needed efibootmgr
 bootctl install
 mkdir -p /boot/loader/entries
 cat > /boot/loader/loader.conf <<EOF
-default  arch.conf
+default  arch-cacule.conf
 console-mode max
 editor   no
 EOF

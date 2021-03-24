@@ -138,6 +138,11 @@ mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip
 
+## Changing GNOME theme
+if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
+	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+fi
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@alderaeney.com"

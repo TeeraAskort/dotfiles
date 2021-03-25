@@ -26,7 +26,7 @@ apt update -y
 apt full-upgrade -y
 
 #Installing basic packages
-apt install -y ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser net-tools tlp tlp-rdw wget apt-transport-https gnupg python3-dev cmake nodejs npm chromium code qt5-style-plugins libpam-u2f pamu2fcfg libfido2-1 linux-xanmod-cacule
+apt install -y ffmpegthumbnailer mpv flatpak mednafen mednaffe vim papirus-icon-theme zsh zsh-syntax-highlighting zsh-autosuggestions firmware-linux steam nvidia-driver telegram-desktop nvidia-driver-libs:i386 nvidia-vulkan-icd nvidia-vulkan-icd:i386 libgl1:i386 mesa-vulkan-drivers:i386 mesa-vulkan-drivers neovim fonts-noto-cjk openjdk-11-jdk nextcloud-desktop thermald intel-microcode gamemode tilix evolution hyphen-en-us mythes-en-us adwaita-qt sqlitebrowser net-tools wget apt-transport-https gnupg python3-dev cmake nodejs npm chromium code qt5-style-plugins libpam-u2f pamu2fcfg libfido2-1 linux-xanmod-cacule nvidia-kernel-dkms
 
 # Removing unwanted packages
 apt remove -y gnome-taquin tali gnome-tetravex four-in-a-row five-or-more lightsoff gnome-chess hoichess gnome-todo gnome-klotski hitori gnome-robots gnome-music gnome-nibbles gnome-mines quadrapassel swell-foop totem iagno gnome-sudoku rhythmbox
@@ -50,7 +50,7 @@ apt install -y ./strawberry.deb
 
 #Installing flatpak applications
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub com.discordapp.Discord org.DolphinEmu.dolphin-emu com.github.micahflee.torbrowser-launcher io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.obsproject.Studio com.bitwarden.desktop com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community com.anydesk.Anydesk
+flatpak install -y flathub com.discordapp.Discord org.DolphinEmu.dolphin-emu com.github.micahflee.torbrowser-launcher io.lbry.lbry-app com.mojang.Minecraft com.tutanota.Tutanota com.obsproject.Studio com.bitwarden.desktop com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community com.anydesk.Anydesk io.dbeaver.DBeaverCommunity
 
 #Copying prime render offload launcher
 cp ../dotfiles/prime-run /usr/bin
@@ -68,12 +68,8 @@ tar xzvf hexagon_2.tar.gz
 cp -r hexagon_2 /usr/share/plymouth/themes
 plymouth-set-default-theme -R hexagon_2
 
-# Changing tlp config
-sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
-sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
-
 # Removing unused packages
-apt autoremove
+apt autoremove --purge -y
 
 # Set qt theme to adwaita-dark
 echo "QT_QPA_PLATFORMTHEME=gtk2" | tee -a /etc/environment

@@ -4,23 +4,25 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
+user=$USER
+
 sudo cryptsetup open /dev/sda1 encrypteddata
-mkdir /home/link/Datos
+mkdir $HOME/Datos
 sudo mount /dev/mapper/encrypteddata /home/link/Datos 
-sudo cp /home/link/Datos/.keyfile /root/.keyfile
+sudo cp $HOME/Datos/.keyfile /root/.keyfile
 echo "encrypteddata UUID=20976b67-c796-47c9-90dd-62c1edc34258 /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
-echo "/dev/mapper/encrypteddata /home/link/Datos ext4 defaults 0 0" | sudo tee -a /etc/fstab
+echo "/dev/mapper/encrypteddata $HOME/Datos ext4 defaults 0 0" | sudo tee -a /etc/fstab
 
 rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent
 
-ln -s /home/link/Datos/Descargas /home/link
-ln -s /home/link/Datos/Descargas /home/link/Downloads
-ln -s /home/link/Datos/Documentos /home/link
-ln -s /home/link/Datos/Escritorio /home/link
-ln -s /home/link/Datos/Música /home/link
-ln -s /home/link/Datos/Imágenes /home/link
-ln -s /home/link/Datos/Torrent /home/link
-ln -s /home/link/Datos/Nextcloud /home/link
+ln -s $HOME/Datos/Descargas $HOME
+ln -s $HOME/Datos/Descargas $HOME/Downloads
+ln -s $HOME/Datos/Documentos $HOME
+ln -s $HOME/Datos/Escritorio $HOME
+ln -s $HOME/Datos/Música $HOME
+ln -s $HOME/Datos/Imágenes $HOME
+ln -s $HOME/Datos/Torrent $HOME
+ln -s $HOME/Datos/Nextcloud $HOME
 
 xdg-user-dirs-update --set DESKTOP $HOME/Datos/Escritorio
 xdg-user-dirs-update --set DOCUMENTS $HOME/Datos/Documentos
@@ -96,6 +98,9 @@ fi
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@alderaeney.com"
 git config --global init.defaultBranch master
+
+## Adding user to audio group
+sudo usermod -aG audio $user
 
 ## Changing user shell
 if ! command -v chsh &> /dev/null

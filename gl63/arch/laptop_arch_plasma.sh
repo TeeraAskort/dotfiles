@@ -39,8 +39,8 @@ do
 	echo "Enter the password correctly"
 done
 
-# Sudo configuration
-EDITOR=vim visudo
+# Doas configuration
+echo "permit persist :wheel" | tee -a /etc/doas.conf
 
 # Enabling colors in pacman
 sed -i "s/#Color/Color/g" /etc/pacman.conf
@@ -77,12 +77,11 @@ useradd -r -N -M -d /tmp/aurbuilder -s /usr/bin/nologin aurbuilder
 echo -e "$newpass\n$newpass\n" | passwd aurbuilder
 mkdir /tmp/aurbuilder
 chmod 777 /tmp/aurbuilder
-echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder
-echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
+echo "permit nopass aurbuilder" | tee -a /etc/doas.conf
 cd /tmp/aurbuilder
-sudo -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
+doas -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
 cd paru-bin
-sudo -u aurbuilder makepkg -si
+doas -u aurbuilder makepkg -si
 
 # Optimizing aur
 cores=$(nproc)
@@ -99,7 +98,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpatience okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent thunderbird thunderbird-i18n-es-es virt-manager
 
 # Installing plymouth
-sudo -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git
+doas -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -170,8 +169,8 @@ cd /tmp/aurbuilder
 rm -r *
 for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "android-studio"
 do
-	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
-	cd $package && sudo -u aurbuilder makepkg -si 
+	doas -u aurbuilder git clone https://aur.archlinux.org/${package}.git
+	cd $package && doas -u aurbuilder makepkg -si 
 	cd ..
 	rm -r $package
 done
@@ -184,7 +183,7 @@ ng analytics off
 npm i -g @ionic/cli
 
 # Removing aurbuilder
-rm /etc/sudoers.d/aurbuilder
+sed -i "s/permit nopass aurbuilder//g" /etc/doas.conf
 userdel aurbuilder
 rm -r /tmp/aurbuilder
 

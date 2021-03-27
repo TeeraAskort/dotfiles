@@ -41,6 +41,7 @@ done
 
 # Doas configuration
 echo "permit persist :wheel" | tee -a /etc/doas.conf
+echo "permit nopass root" | tee -a /etc/doas.conf
 
 # Enabling colors in pacman
 sed -i "s/#Color/Color/g" /etc/pacman.conf

@@ -79,10 +79,15 @@ echo -e "$newpass\n$newpass\n" | passwd aurbuilder
 mkdir /tmp/aurbuilder
 chmod 777 /tmp/aurbuilder
 echo "permit nopass aurbuilder" | tee -a /etc/doas.conf
+echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder
+echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
 cd /tmp/aurbuilder
 doas -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
 cd paru-bin
 doas -u aurbuilder makepkg -si
+
+# Installing substitute of sudo and removing sudo
+doas -u aurbuilder paru -S opendoas-sudo
 
 # Optimizing aur
 cores=$(nproc)
@@ -185,6 +190,7 @@ npm i -g @ionic/cli
 
 # Removing aurbuilder
 sed -i "s/permit nopass aurbuilder//g" /etc/doas.conf
+rm /etc/sudoers.d/aurbuilder
 userdel aurbuilder
 rm -r /tmp/aurbuilder
 

@@ -8,7 +8,7 @@ directory="$(dirname $_script)"
 bash $directory/base-system.sh gdm-plymouth
 
 # Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution tilix gnome-boxes transmission-gtk
+pacman -S gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution tilix gnome-boxes transmission-gtk
 
 # Removing unwanted packages
 pacman -Rns --noconfirm gnome-music epiphany totem

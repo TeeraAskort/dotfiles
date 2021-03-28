@@ -40,6 +40,9 @@ sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
+# Generating images
+mkinitcpio -P
+
 # Install and configure systemd-boot
 pacman -S --noconfirm --needed efibootmgr
 bootctl install

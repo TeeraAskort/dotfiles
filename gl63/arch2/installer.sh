@@ -39,7 +39,7 @@ mount /dev/lvm/home /mnt/home
 mount /dev/nvme0n1p1 /mnt/boot
 
 # Install base system
-pacstrap /mnt base base-devel linux-firmware linux-hardened linux-hardened-headers lvm2 efibootmgr btrfs-progs vim git 
+pacstrap /mnt base base-devel linux-firmware linux-hardened linux-hardened-headers lvm2 efibootmgr btrfs-progs vim git intel-ucode
 
 # Generate fstab
 genfstab -U /mnt >> /mnt/etc/fstab

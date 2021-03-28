@@ -30,6 +30,9 @@ passwd --lock root
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su-l
 
+# Workaround to failock issue
+echo "deny = 0" | tee -a /etc/security/faillock.conf
+
 # Create user
 clear
 useradd -m -g users -G wheel -s /bin/bash link

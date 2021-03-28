@@ -31,3 +31,9 @@ pacman -Rnc --noconfirm oxygen
 # Adding environment variable to /etc/environment
 echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
 
+# Adding homed support to sddm
+mkdir /etc/sddm.conf.d
+cat > /etc/sddm.conf.d/uid.conf <<EOF
+[Users]
+MaximumUid=60513
+EOF

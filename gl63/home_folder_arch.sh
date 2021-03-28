@@ -66,63 +66,6 @@ mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip
 
-## Configuring 2fa
-hostnm=$(cat /etc/hostname)
-
-mkdir -p ~/.config/Yubico
-
-echo "Insert FIDO2 card and press a key:"
-read -n 1
-pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" > ~/.config/Yubico/u2f_keys
-echo "Remove FIDO2 car and insert another, then press a key:"
-read -n 1
-pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" -n >> ~/.config/Yubico/u2f_keys
-doas sed -i "2i auth            sufficient      pam_u2f.so origin=pam://$hostnm appid=pam://$hostnm cue" /etc/pam.d/doas
-doas sed -i "/auth.*substack.*system-auth/a auth\tsufficient\tpam_u2f.so cue origin=pam://$hostnm appid=pam://$hostnm cue" /etc/pam.d/su
-if [ -e /etc/pam.d/gdm-password ]; then
-	doas cp /etc/pam.d/gdm-password /etc/pam.d/gdm-password.bak
-	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            sufficient      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/gdm-password /etc/pam.d/gdm-password > gdm-password
-	if diff /etc/pam.d/gdm-password.bak gdm-password ; then
-		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            sufficient      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/gdm-password /etc/pam.d/gdm-password > gdm-password
-		doas cp gdm-password /etc/pam.d/gdm-password
-	else
-		doas cp gdm-password /etc/pam.d/gdm-password
-	fi
-fi
-
-if [ -e /etc/pam.d/sddm ]; then
-	doas cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
-	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            sufficient      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-	if diff /etc/pam.d/sddm.bak sddm ; then
-		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            sufficient      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-		doas cp sddm /etc/pam.d/sddm
-	else
-		doas cp sddm /etc/pam.d/sddm
-	fi
-fi
-
-if [ -e /etc/pam.d/kde ]; then
-	doas cp /etc/pam.d/kde /etc/pam.d/kde.bak
-	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            sufficient      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/kde /etc/pam.d/kde > kde
-	if diff /etc/pam.d/kde.bak kde ; then
-		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            sufficient      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/kde /etc/pam.d/kde > kde
-		doas cp kde /etc/pam.d/kde
-	else
-		doas cp kde /etc/pam.d/kde
-	fi
-fi
-
-if [ -e /etc/pam.d/polkit-1 ]; then
-	doas cp /etc/pam.d/polkit-1 /etc/pam.d/polkit-1.bak
-	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            sufficient      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/polkit-1 /etc/pam.d/polkit-1 > polkit-1
-	if diff /etc/pam.d/polkit-1.bak polkit-1 ; then
-		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth            sufficient      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/polkit-1 /etc/pam.d/polkit-1 > polkit-1
-		doas cp polkit-1 /etc/pam.d/polkit-1
-	else
-		doas cp polkit-1 /etc/pam.d/polkit-1
-	fi
-fi
-
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"

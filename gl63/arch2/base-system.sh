@@ -44,6 +44,17 @@ sudo -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
 cd paru-bin
 sudo -u aurbuilder makepkg -si
 
+# Installing plymouth
+sudo -u aurbuilder paru -S $1 plymouth-theme-hexagon-2-git
+
+# Making lone theme default
+plymouth-set-default-theme -R hexagon_2
+
+# Configuring mkinitcpio
+sed -i "s/udev autodetect/udev plymouth autodetect/g" /etc/mkinitcpio.conf
+sed -i "s/encrypt/plymouth-encrypt/g" /etc/mkinitcpio.conf
+mkinitcpio -P
+
 # Optimizing aur
 cores=$(nproc)
 sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/g' /etc/makepkg.conf

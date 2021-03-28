@@ -71,3 +71,6 @@ options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):l
 EOF
 bootctl update
 
+# Adding network-manager
+pacman -S --noconfirm  networkmanager
+systemctl enable NetworkManager

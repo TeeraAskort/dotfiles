@@ -10,10 +10,10 @@ localectl set-x11-keymap es
 pacman -S --noconfirm  nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput
 
 # Installing services
-pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged bluez bluez-libs
+pacman -S --noconfirm openssh xdg-user-dirs haveged bluez bluez-libs
 
 # Enabling services
-systemctl enable NetworkManager haveged bluetooth
+systemctl enable haveged bluetooth
 
 # Installing sound libraries
 pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth

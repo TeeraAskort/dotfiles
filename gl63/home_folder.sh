@@ -6,6 +6,9 @@ directory="$(dirname $_script)"
 
 user=$USER
 
+## Adjusting keymap
+localectl set-x11-keymap es
+
 sudo cryptsetup open /dev/sda1 encrypteddata
 mkdir $HOME/Datos
 sudo mount /dev/mapper/encrypteddata /home/link/Datos 

@@ -20,9 +20,8 @@ sudo -u aurbuilder paru -S gdm-plymouth plymouth-theme-hexagon-2-git
 plymouth-set-default-theme -R hexagon_2
 
 # Configuring mkinitcpio
-pacman -S --noconfirm --needed lvm2
-sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
-sed -i "s/MODULES=()/MODULES=(i915)/g" /etc/mkinitcpio.conf
+sed -i "s/udev autodetect/udev plymouth autodetect/g" /etc/mkinitcpio.conf
+sed -i "s/encrypt/plymouth-encrypt/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
 # Enabling GDM

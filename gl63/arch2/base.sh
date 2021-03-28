@@ -40,7 +40,10 @@ sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
-# Generating images
+# Configuring mkinitcpio
+pacman -S --noconfirm --needed lvm2
+sed -i "s/udev autodetect modconf block filesystems/udev autodetect modconf block lvm2 encrypt filesystems/g" /etc/mkinitcpio.conf
+sed -i "s/MODULES=()/MODULES=(i915)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
 # Install and configure systemd-boot

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Enabling systemd-homed
+systemctl enable systemd-homed
+systemctl start systemd-homed
+
 # Creating user link
 homectl create link --shell=/usr/bin/zsh --member-of=wheel,audio,video,input
 

@@ -16,11 +16,6 @@ sudo -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
 
-# Configuring mkinitcpio
-sed -i "s/udev autodetect/udev plymouth autodetect/g" /etc/mkinitcpio.conf
-sed -i "s/encrypt/plymouth-encrypt/g" /etc/mkinitcpio.conf
-mkinitcpio -P
-
 # Enabling SDDM
 systemctl enable sddm-plymouth
 

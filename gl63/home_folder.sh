@@ -82,9 +82,6 @@ curl -LO https://gist.githubusercontent.com/igv/a015fc885d5c22e6891820ad89555637
 mv SSimDownscaler.glsl KrigBilateral.glsl ~/.config/mpv/shaders
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
-## Configuring 2fa
-hostnm=$(cat /etc/hostname)
-
 mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip

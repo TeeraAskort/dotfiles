@@ -36,14 +36,6 @@ xdg-user-dirs-update --set DOWNLOAD $HOME/Datos/Descargas
 xdg-user-dirs-update --set MUSIC $HOME/Datos/Música
 xdg-user-dirs-update --set PICTURES $HOME/Datos/Imágenes
 
-## Adding hosts based ads and trackers blocking
-wget https://someonewhocares.org/hosts/zero/hosts
-sudo cp /etc/hosts /etc/hosts.bak
-sudo mv hosts /etc/hosts
-echo "127.0.0.1 $(hostname)" | sudo tee -a /etc/hosts
-echo "::1 $(hostname) ipv6-localhost ipv6-loopback"  | sudo tee -a /etc/hosts
-sudo chown root:root /etc/hosts
-
 ## Adding intel undervolt configuration
 git clone https://github.com/kitsunyan/intel-undervolt.git
 
@@ -176,6 +168,23 @@ if [ -e /etc/pam.d/polkit-1 ]; then
 		sudo cp polkit-1 /etc/pam.d/polkit-1
 	else
 		sudo cp polkit-1 /etc/pam.d/polkit-1
+	fi
+fi
+
+## Changing GNOME theme
+if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
+	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+	gsettings set org.gnome.desktop.interface monospace-font-name "FantasqueSansMono Nerd Font Mono Regular 12"
+	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
+	gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
+	gsettings set org.gnome.desktop.privacy disable-camera true
+	gsettings set org.gnome.desktop.privacy disable-microphone true
+	gsettings set org.gnome.desktop.privacy remember-recent-files false
+	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
+	gsettings set org.gnome.desktop.privacy remove-old-trash-files  true
+	gsettings set org.gnome.desktop.privacy old-files-age 3
+	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
+		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
 fi
 

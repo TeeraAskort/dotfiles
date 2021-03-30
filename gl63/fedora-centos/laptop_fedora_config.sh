@@ -27,9 +27,6 @@ dnf copr enable pp3345/gnome-with-patches -y
 dnf install fedora-workstation-repositories -y
 dnf config-manager --set-enabled google-chrome
 
-#Enabling xanmod kernel repo
-dnf copr enable rmnscnce/kernel-xanmod -y
-
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
@@ -41,7 +38,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ libfido2 strawberry NetworkManager-l2tp-gnome google-chrome-stable mednafen mednaffe kernel-xanmod-edge kernel-xanmod-edge-devel youtube-dl
+dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution net-tools libnsl python-neovim cmake python3-devel nodejs npm gcc-c++ libfido2 strawberry NetworkManager-l2tp-gnome google-chrome-stable mednafen mednaffe youtube-dl
 
 systemctl enable thermald
 

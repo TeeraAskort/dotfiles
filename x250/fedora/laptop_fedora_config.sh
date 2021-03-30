@@ -93,3 +93,6 @@ systemctl enable headphones.service
 cp $directory/headphone_jack /etc/acpi/events
 cp $directory/headphones /etc/acpi/actions
 chmod +x /etc/acpi/actions/headphones
+
+# Fix power button shutting down
+sed -i "s/shutdown -h now/pm-suspend/g" /etc/acpi/actions/power.sh

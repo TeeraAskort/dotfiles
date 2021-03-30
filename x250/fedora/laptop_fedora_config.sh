@@ -6,6 +6,14 @@ directory="$(dirname $_script)"
 
 user=$SUDO_USER
 
+#DNF Tweaks
+echo "deltarpm=true" | tee -a /etc/dnf/dnf.conf
+echo "max_parallel_downloads=10" | tee -a /etc/dnf/dnf.conf 
+echo "fastestmirror=true" | tee -a /etc/dnf/dnf.conf
+
+#Setting up hostname
+hostnamectl set-hostname link-x250
+
 #Install RPMfusion
 dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 

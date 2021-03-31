@@ -8,6 +8,9 @@ rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TS128GMTS430S | cut -d"
 
 dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_MQ01ABD100 | cut -d" " -f1)
 
+## Adjusting keymap
+sudo localectl set-x11-keymap es
+
 ## Configuring data disk
 sudo cryptsetup open /dev/${dataDisk}1 encrypteddata
 mkdir /home/link/Datos
@@ -29,24 +32,6 @@ ln -s /home/link/Datos/Imágenes /home/link
 ln -s /home/link/Datos/Torrent /home/link
 ln -s /home/link/Datos/Nextcloud /home/link
 
-## Overriding xdg-user-dirs
-xdg-user-dirs-update --set DESKTOP $HOME/Datos/Escritorio
-xdg-user-dirs-update --set DOCUMENTS $HOME/Datos/Documentos
-xdg-user-dirs-update --set DOWNLOAD $HOME/Datos/Descargas
-xdg-user-dirs-update --set MUSIC $HOME/Datos/Música
-xdg-user-dirs-update --set PICTURES $HOME/Datos/Imágenes
-
-## Adding intel undervolt configuration
-git clone https://github.com/kitsunyan/intel-undervolt.git
-
-cd intel-undervolt && ./configure --enable-systemd && make && sudo make install
-cd .. && sudo rm -r intel-undervolt
-
-sudo sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -75/g" /etc/intel-undervolt.conf
-sudo sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf
-sudo sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-undervolt.conf
-sudo systemctl enable intel-undervolt
-
 ## Installing vim plugins
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -62,12 +47,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/cu
 ## Copying dotfiles
 cp $directory/zsh/.zshrc ~
 cp $directory/zsh/.general_alias ~
-cp $directory/zsh/.arch_alias ~
-cp $directory/zsh/.debian_alias ~
 cp $directory/zsh/.fedora_alias ~
-cp $directory/zsh/.silverblue_alias ~
-cp $directory/zsh/.opensuse_alias ~
-cp $directory/zsh/.elementary_alias ~
 mkdir -p ~/.config/pulse
 cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k

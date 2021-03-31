@@ -7,7 +7,7 @@ directory="$(dirname $_script)"
 user=$USER
 
 ## Adjusting keymap
-localectl set-x11-keymap es
+sudo localectl set-x11-keymap es
 
 sudo cryptsetup open /dev/sda1 encrypteddata
 mkdir $HOME/Datos

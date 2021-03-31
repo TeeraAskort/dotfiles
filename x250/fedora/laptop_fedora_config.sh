@@ -75,7 +75,7 @@ flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Mi
 flatpak override --filesystem=~/.fonts
 
 # Add sysctl config
-echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
+# echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Installing angular globally

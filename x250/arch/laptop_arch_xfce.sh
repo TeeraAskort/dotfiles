@@ -99,7 +99,7 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install XFCE
-pacman -S --noconfirm xfce4 xfce4-goodies pavucontrol blueberry playerctl xorg-xinput gvfs network-manager-applet lightdm gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine tilix transmission-gtk virt-manager geary webp-pixbuf-loader
+pacman -S --noconfirm xfce4 xfce4-goodies pavucontrol blueberry playerctl xorg-xinput gvfs network-manager-applet lightdm gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine tilix transmission-gtk virt-manager geary webp-pixbuf-loader kvantum-qt5
  
 # Removing unwanted packages
 pacman -Rns --noconfirm parole xfburn
@@ -109,9 +109,9 @@ sudo -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git lightdm-slick-g
 
 # Installing xorg-server-bug865 
 cd /tmp/aurbuilder
-git clone https://aur.archlinux.org/xorg-server-bug865.git 
+sudo -u aurbuilder git clone https://aur.archlinux.org/xorg-server-bug865.git 
 cd xorg-server-bug865 
-sed -i "s/\'\'//g" PKGBUILD
+sudo -u aurbuilder sed -i "s/\'\'//g" PKGBUILD
 sudo -u aurbuilder makepkg -si
 
 # Setting lightdm theme
@@ -178,7 +178,7 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "qogir-gtk-theme" "kvantum-theme-qogir-git"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "qogir-gtk-theme" "kvantum-theme-qogir-git"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si 

@@ -99,20 +99,20 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install XFCE
-pacman -S --noconfirm xfce4 xfce4-goodies pavucontrol blueberry playerctl xorg-xinput gvfs network-manager-applet lightdm gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine tilix transmission-gtk virt-manager xcape geary webp-pixbuf-loader
+pacman -S --noconfirm xfce4 xfce4-goodies pavucontrol blueberry playerctl xorg-xinput gvfs network-manager-applet lightdm gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine tilix transmission-gtk virt-manager geary webp-pixbuf-loader
  
 # Removing unwanted packages
 pacman -Rns --noconfirm parole xfburn
 
 # Installing plymouth
-sudo -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git lightdm-slick-greeter lightdm-settings 
+sudo -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git lightdm-slick-greeter lightdm-settings xfce-superkey-git
 
 # Installing xorg-server-bug865 
 cd /tmp/aurbuilder
 git clone https://aur.archlinux.org/xorg-server-bug865.git 
 cd xorg-server-bug865 
 sed -i "s/\'\'//g" PKGBUILD
-makepkg -si
+sudo -u aurbuilder makepkg -si
 
 # Setting lightdm theme
 sed -i "s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-slick-greeter/g" /etc/lightdm/lightdm.conf

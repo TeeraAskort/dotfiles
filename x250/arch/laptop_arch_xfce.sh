@@ -22,12 +22,12 @@ hwclock --systohc
 echo link-x250 > /etc/hostname
 
 # Root password
-clear
-echo "Enter root password"
-until passwd
-do
-	echo "Enter the password correctly"
-done
+#clear
+#echo "Enter root password"
+#until passwd
+#do
+#	echo "Enter the password correctly"
+#done
 
 # Restricting root login
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
@@ -99,7 +99,7 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install XFCE
-pacman -S --noconfirm xfce4 xfce4-goodies pavucontrol blueberry playerctl xorg-xinput gvfs network-manager-applet lightdm gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine tilix transmission-gtk virt-manager xcape
+pacman -S --noconfirm xfce4 xfce4-goodies pavucontrol blueberry playerctl xorg-xinput gvfs network-manager-applet lightdm gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine tilix transmission-gtk virt-manager xcape geary webp-pixbuf-loader
  
 # Removing unwanted packages
 pacman -Rns --noconfirm parole xfburn
@@ -178,7 +178,7 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "qogir-gtk-theme" "qogir-kde-theme-git"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "qogir-gtk-theme" "kvantum-theme-qogir-git"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si 

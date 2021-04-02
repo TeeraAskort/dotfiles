@@ -88,7 +88,7 @@ echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
 cd /tmp/aurbuilder
 sudo -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
 cd paru-bin
-sudo -u aurbuilder makepkg -si
+sudo -u aurbuilder makepkg -si --noconfirm
 
 # Optimizing aur
 cores=$(nproc)
@@ -105,7 +105,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm mate mate-extra pavucontrol blueberry gvfs network-manager-applet lightdm gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine tilix transmission-gtk virt-manager geary webp-pixbuf-loader system-config-printer mate-media 
  
 # Installing plymouth
-sudo -u aurbuilder paru -S plymouth plymouth-theme-hexagon-2-git lightdm-slick-greeter lightdm-settings mate-menu mate-tweak
+sudo -u aurbuilder paru -S --noconfirm plymouth plymouth-theme-hexagon-2-git lightdm-slick-greeter lightdm-settings mate-menu mate-tweak
 
 # Setting lightdm theme
 sed -i "s/#greeter-session=example-gtk-gnome/greeter-session=lightdm-slick-greeter/g" /etc/lightdm/lightdm.conf
@@ -174,7 +174,7 @@ rm -r *
 for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "jdownloader2" "postman-bin" "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "qogir-gtk-theme" "qt6gtk2"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
-	cd $package && sudo -u aurbuilder makepkg -si 
+	cd $package && sudo -u aurbuilder makepkg -si --noconfirm
 	cd ..
 	rm -r $package
 done
@@ -183,7 +183,7 @@ done
 echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
 
 # Installing android studio
-sudo -u link paru -S android-studio 
+sudo -u link paru -S --noconfirm android-studio 
 
 # Installing angular globally
 npm i -g @angular/cli

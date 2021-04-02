@@ -29,6 +29,9 @@ echo link-x250 > /etc/hostname
 #	echo "Enter the password correctly"
 #done
 
+# Fixing faillock
+sed -i "s/# deny = 3/deny = 0/g" /etc/security/faillock.conf
+
 # Restricting root login
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su-l
@@ -183,7 +186,7 @@ done
 echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
 
 # Installing android studio
-sudo -u link paru -S android-studio 
+sudo -u link paru -S --noconfirm android-studio 
 
 # Installing angular globally
 npm i -g @angular/cli
@@ -210,9 +213,6 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 # echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
-
-# Fixing faillock
-sed -i "s/# deny = 3/deny = 0/g" /etc/security/faillock.conf
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -

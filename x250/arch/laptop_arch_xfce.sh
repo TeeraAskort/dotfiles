@@ -102,7 +102,7 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install XFCE
-pacman -S --noconfirm xfce4 xfce4-goodies pavucontrol blueman playerctl xorg-xinput gvfs network-manager-applet lightdm gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine tilix transmission-gtk virt-manager geary webp-pixbuf-loader 
+pacman -S --noconfirm xfce4 xfce4-goodies pavucontrol blueman playerctl xorg-xinput gvfs network-manager-applet lightdm gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine tilix transmission-gtk virt-manager geary webp-pixbuf-loader libgepub libgsf libopenraw
  
 # Removing unwanted packages
 pacman -Rns --noconfirm parole xfburn

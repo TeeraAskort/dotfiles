@@ -211,6 +211,9 @@ echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 # echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
+# Fixing faillock
+sed -i "s/# deny = 3/deny = 0/g" /etc/security/faillock.conf
+
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 

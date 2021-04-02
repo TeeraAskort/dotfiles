@@ -90,6 +90,11 @@ cp $directory/dotfiles/chromium-flags.conf ~/.config
 mkdir -p ~/.config/mpv/
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
+## Copy fonts
+mkdir ~/.fonts
+cd ~/.fonts
+unzip ~/Documentos/fonts.zip
+
 ## making glx default vblank method on XFCE
 if [ "$XDG_CURRENT_DESKTOP" = "XFCE" ]; then
 	xfconf-query -c xfwm4 -p /general/vblank_mode -s glx
@@ -111,11 +116,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
 fi
-
-## Copy fonts
-mkdir ~/.fonts
-cd ~/.fonts
-unzip ~/Documentos/fonts.zip
 
 ## Configuring git
 git config --global user.name "Alderaeney"

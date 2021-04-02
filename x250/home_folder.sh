@@ -98,6 +98,26 @@ unzip ~/Documentos/fonts.zip
 ## making glx default vblank method on XFCE
 if [ "$XDG_CURRENT_DESKTOP" = "XFCE" ]; then
 	xfconf-query -c xfwm4 -p /general/vblank_mode -s glx
+	xfconf-query -c xfwm4 -p /general/raise_with_any_button -s false
+	xfconf-query -c xsettings -p /Gtk/MonospaceFontName -s "FantasqueSansMono Nerd Font Mono 12"
+	xfconf-query -c xfce4-screensaver -p /saver/fullscreen-inhibit -s true
+	xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/inactivity-on-ac -s 30
+	xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/inactivity-on-battery -s 15
+	xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/lid-action-on-ac -s 1
+	xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/lid-action-on-battery -s 1	
+	xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/critical-power-action -s 2
+	xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/power-button-action -s 1
+	xfconf-query -c thunar -p /last-location-bar -s "ThunarLocationButtons"
+	xfconf-query -c keyboard-layout -p /Default/XkbLayout -s "es"
+	
+	if [ -e /usr/share/icons/Papirus-Dark ]; then
+		xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus-Dark"
+	fi
+
+	if [ -e /usr/share/themes/Qogir-dark ]; then
+		xfconf-query -c xfwm4 -p /general/theme -s "Qogir-dark"
+		xfconf-query -c xsettings -p /Net/ThemeName -s "Qogir-dark"
+	fi
 fi
 
 ## Changing GNOME theme

@@ -29,6 +29,9 @@ echo link-x250 > /etc/hostname
 #	echo "Enter the password correctly"
 #done
 
+# Fixing faillock
+sed -i "s/# deny = 3/deny = 0/g" /etc/security/faillock.conf
+
 # Restricting root login
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su-l

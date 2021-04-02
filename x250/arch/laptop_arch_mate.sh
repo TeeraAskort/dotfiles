@@ -33,6 +33,9 @@ echo link-x250 > /etc/hostname
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su-l
 
+# Fixing faillock
+sed -i "s/# deny = 3/deny = 0/g" /etc/security/faillock.conf
+
 # Create user
 clear
 useradd -m -g users -G wheel -s /bin/bash link
@@ -207,9 +210,6 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
-
-# Fixing faillock
-sed -i "s/# deny = 3/deny = 0/g" /etc/security/faillock.conf
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -

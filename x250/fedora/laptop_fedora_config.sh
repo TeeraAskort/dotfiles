@@ -41,7 +41,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution python-neovim cmake python3-devel nodejs npm gcc-c++ libfido2 strawberry NetworkManager-l2tp-gnome google-chrome-stable mednafen mednaffe acpid youtube-dl kernel-xanmod-edge 
+dnf install -y vim tilix lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg piper evolution python-neovim cmake python3-devel nodejs npm gcc-c++ libfido2 strawberry NetworkManager-l2tp-gnome google-chrome-stable mednafen mednaffe acpid youtube-dl kernel-xanmod-edge webp-pixbuf-loader
 
 systemctl enable thermald acpid 
 

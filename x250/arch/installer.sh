@@ -30,7 +30,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	lvcreate -l 100%FREE -n root lvm
 
 	# Format partitions
-	mkfs.btrfs -f -L root /dev/lvm/root
+	mkfs.f2fs -f -l root -O extra_attr,inode_checksum,sb_checksum /dev/lvm/root
 	mkfs.vfat -F32 /dev/${rootDisk}1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
@@ -41,7 +41,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	mount /dev/${rootDisk}1 /mnt/boot
 
 	# Install base system
-	pacstrap /mnt base base-devel linux-firmware linux lvm2 efibootmgr btrfs-progs vim git
+	pacstrap /mnt base base-devel linux-firmware linux lvm2 efibootmgr f2fs-tools vim git
 
 	# Generate fstab
 	genfstab -U /mnt >> /mnt/etc/fstab

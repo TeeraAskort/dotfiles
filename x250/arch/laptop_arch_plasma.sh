@@ -174,7 +174,7 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "tutanota-desktop-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" 
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "jdownloader2" "postman-bin" "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" 
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si --noconfirm
@@ -212,6 +212,7 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 # echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -

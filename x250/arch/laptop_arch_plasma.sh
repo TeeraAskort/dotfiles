@@ -127,16 +127,16 @@ editor   yes
 EOF
 cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux
+linux   /vmlinuz-linux-hardened
 initrd  /intel-ucode.img
-initrd  /initramfs-linux.img
+initrd  /initramfs-linux-hardened.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat > /boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux
+linux   /vmlinuz-linux-hardened
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-fallback.img
+initrd  /initramfs-linux-hardened-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${nootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update

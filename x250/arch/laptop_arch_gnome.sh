@@ -88,7 +88,7 @@ echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
 cd /tmp/aurbuilder
 sudo -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
 cd paru-bin
-sudo -u aurbuilder makepkg -si
+sudo -u aurbuilder makepkg -si --noconfirm
 
 # Optimizing aur
 cores=$(nproc)
@@ -108,7 +108,7 @@ pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot 
 pacman -Rns gnome-music epiphany totem
 
 # Installing plymouth
-sudo -u aurbuilder paru -S gdm-plymouth plymouth-theme-hexagon-2-git
+sudo -u aurbuilder paru -S --noconfirm gdm-plymouth plymouth-theme-hexagon-2-git
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -171,10 +171,10 @@ systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "minecraft-launcher" "mpv-mpris" "lbry-app-bin" "jdownloader2" "postman-bin" "bitwarden-bin"  "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "qt6gtk2"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "mpv-mpris" "lbry-app-bin" "jdownloader2" "postman-bin" "mednaffe" "slack-desktop" "anydesk-bin" "visual-studio-code-bin" "google-chrome" "qt6gtk2"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
-	cd $package && sudo -u aurbuilder makepkg -si 
+	cd $package && sudo -u aurbuilder makepkg -si --noconfirm
 	cd ..
 	rm -r $package
 done
@@ -183,7 +183,7 @@ done
 echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
 
 # Installing android studio
-sudo -u link paru -S android-studio 
+sudo -u link paru -S --noconfirm android-studio 
 
 # Installing angular globally
 npm i -g @angular/cli
@@ -209,6 +209,7 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 # echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -

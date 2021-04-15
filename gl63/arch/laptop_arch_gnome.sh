@@ -102,7 +102,7 @@ pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot 
 pacman -Rns --noconfirm gnome-music epiphany totem
 
 # Installing plymouth
-sudo -u aurbuilder paru -S --noconfirm gdm-plymouth plymouth-theme-hexagon-2-git 
+sudo -u aurbuilder paru -S gdm-plymouth plymouth-theme-hexagon-2-git 
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2

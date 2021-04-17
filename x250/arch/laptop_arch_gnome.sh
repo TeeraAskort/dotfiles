@@ -105,7 +105,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution gnome-boxes transmission-gtk
  
 # Removing unwanted packages
-pacman -Rns --noconfirm gnome-music epiphany totem 
+pacman -Rns --noconfirm gnome-music epiphany totem orca
 
 # Installing plymouth
 sudo -u aurbuilder paru -S gdm-plymouth
@@ -133,16 +133,16 @@ editor   yes
 EOF
 cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux
+linux   /vmlinuz-linux-hardened
 initrd  /intel-ucode.img
-initrd  /initramfs-linux.img
+initrd  /initramfs-linux-hardened.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat > /boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux
+linux   /vmlinuz-linux-hardened
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-fallback.img
+initrd  /initramfs-linux-hardened-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update
@@ -162,7 +162,7 @@ pacman -S --noconfirm  libreoffice-fresh libreoffice-fresh-es hunspell-en_US hun
 # Installing multimedia codecs
 pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst-libav
 
-# Installing gimp
+#plugin  Installing gimp
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages

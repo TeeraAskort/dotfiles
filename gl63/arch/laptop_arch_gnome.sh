@@ -25,6 +25,9 @@ echo link-gl63-8rc > /etc/hostname
 #	echo "Enter the password correctly"
 #done
 
+# Fixing faillock
+sed -i "s/# deny = 3/deny = 0/g" /etc/security/faillock.conf
+
 # Restricting root login
 passwd --lock root
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
@@ -99,7 +102,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution gnome-boxes transmission-gtk
  
 # Removing unwanted packages
-pacman -Rns --noconfirm gnome-music epiphany totem
+pacman -Rns --noconfirm gnome-music epiphany totem orca 
 
 # Installing plymouth
 sudo -u aurbuilder paru -S gdm-plymouth plymouth-theme-hexagon-2-git 

@@ -162,7 +162,7 @@ pacman -S --noconfirm  libreoffice-fresh libreoffice-fresh-es hunspell-en_US hun
 # Installing multimedia codecs
 pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst-libav
 
-#plugin  Installing gimp
+# Installing gimp
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages

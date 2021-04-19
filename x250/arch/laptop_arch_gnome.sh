@@ -102,7 +102,7 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine geary gnome-boxes transmission-gtk
+pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution gnome-boxes transmission-gtk
  
 # Removing unwanted packages
 pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-software gnome-maps gnome-books
@@ -129,7 +129,7 @@ mkdir -p /boot/loader/entries
 cat > /boot/loader/loader.conf <<EOF
 default  arch.conf
 console-mode max
-editor   yes
+editor   no
 EOF
 cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux

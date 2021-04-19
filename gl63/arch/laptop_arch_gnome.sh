@@ -99,13 +99,16 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid gnome-software-packagekit-plugin ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution gnome-boxes transmission-gtk
+pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution gnome-boxes transmission-gtk
  
 # Removing unwanted packages
-pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-maps gnome-books
+pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-software gnome-maps gnome-books
 
 # Installing plymouth
-sudo -u aurbuilder paru -S gdm-plymouth plymouth-theme-hexagon-2-git 
+sudo -u aurbuilder paru -S gdm-plymouth 
+
+# Installing plymouth theme
+sudo -u aurbuilder paru -S --noconfirm plymouth-theme-hexagon-2-git
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2

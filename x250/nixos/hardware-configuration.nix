@@ -15,7 +15,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernel.sysctl = {
     "kernel.unprivileged_userns_clone" = 1;
-    "fs.inotify.max_user_watches" = 524288;
+    "dev.i915.perf_stream_paranoid" = 0; 
   };
 
   boot.initrd.luks.fido2Support = true;

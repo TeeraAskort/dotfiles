@@ -68,20 +68,21 @@ in
     libsForQt5.kdegraphics-thumbnailers kgpg ksystemlog
     libsForQt5.kdenetwork-filesharing gtk-engine-murrine
     plasma-browser-integration gwenview
-    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode 
+    wget vim steam tdesktop lutris wineWowPackages.staging vscode 
     firefox mpv papirus-icon-theme discord 
-    git home-manager python38 p7zip unzip unrar piper
+    git home-manager p7zip unzip unrar 
     steam-run systembus-notify desmume chromium 
-    nextcloud-client obs-studio libfido2 pfetch
-    bitwarden obs-studio libreoffice-fresh
-    nextcloud-client parallel
+    libfido2 pfetch
+    obs-studio libreoffice-fresh
+    parallel
     ffmpeg-full nodejs nodePackages.npm
-    python39Packages.pynvim neovim cmake python39Full gcc gnumake
+    python39Packages.pynvim neovim cmake python3Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio jetbrains.idea-community
     mednafen mednaffe
 
+    nodePackages.node2nix dbeaver anydesk slack postman
     myAspell mythes
   ];
 
@@ -101,12 +102,6 @@ in
   programs.java = {
     enable = true;
     package = pkgs.jdk11;
-  };
-
-  # MariaDB config
-  services.mysql = {
-    enable = true;
-    package = pkgs.mariadb;
   };
 
   # Zsh shell
@@ -194,7 +189,7 @@ in
       default-channel-map = "front-left,front-right";
       default-fragments = 2;
       default-fragment-size-msec = 125;
-      resample-method = "src-sinc-best-quality";
+      resample-method = "speex-float-5";
       remixing-produce-lfe = "no";
       remixing-consume-lfe = "no";
       high-priority = "yes";

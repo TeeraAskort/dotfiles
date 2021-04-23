@@ -65,12 +65,12 @@ in
     papirus-icon-theme transmission-gtk
     gnome3.aisleriot gnome3.gnome-tweaks discord 
     git home-manager python38 
-    p7zip unzip unrar gnome3.gnome-calendar piper
+    p7zip unzip unrar gnome3.gnome-calendar 
     steam-run systembus-notify
     desmume google-chrome ffmpegthumbnailer 
     nextcloud-client obs-studio libfido2 pfetch
-    gtk-engine-murrine bitwarden obs-studio
-    nextcloud-client parallel libreoffice-fresh
+    gtk-engine-murrine 
+    parallel libreoffice-fresh
     adwaita-qt ffmpeg-full nodejs nodePackages.npm
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
@@ -78,7 +78,7 @@ in
     android-studio jetbrains.idea-community
     mednafen mednaffe
     
-    nodePackages.node2nix dbeaver anydesk slack-dark postman
+    nodePackages.node2nix dbeaver anydesk slack postman
     myAspell mythes
   ];
 
@@ -109,12 +109,6 @@ in
   programs.java = {
     enable = true;
     package = pkgs.jdk11;
-  };
-
-  # MariaDB config
-  services.mysql = {
-    enable = true;
-    package = pkgs.mariadb;
   };
 
   # Zsh shell
@@ -200,7 +194,7 @@ in
       default-channel-map = "front-left,front-right";
       default-fragments = 2;
       default-fragment-size-msec = 125;
-      resample-method = "src-sinc-best-quality";
+      resample-method = "speex-float-5";
       remixing-produce-lfe = "no";
       remixing-consume-lfe = "no";
       high-priority = "yes";
@@ -254,9 +248,22 @@ in
         [org.gnome.desktop.interface]
         gtk-theme = "Adwaita-dark"
         icon-theme = "Papirus-Dark"
+	monospace-font-name = "FantasqueSansMono Nerd Font Mono Regular 12"
 
         [org.gnome.desktop.wm.preferences]
         theme = "Adwaita-dark"
+	button-layout = "appmenu:minimize,maximize,close"
+
+	[org.gnome.desktop.peripherals.mouse]
+	accel-profile = "flat"
+
+	[org.gnome.desktop.privacy]
+	disable-camera = true
+	disable-microphone = true
+	remember-recent-files = false
+	remove-old-temp-files = true
+	remove-old-trash-files = true
+	old-files-age = 3
       '';
     };
   };

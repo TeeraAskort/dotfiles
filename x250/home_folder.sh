@@ -172,7 +172,11 @@ if [ -e /etc/pam.d/polkit-1 ]; then
 	else
 		sudo cp polkit-1 /etc/pam.d/polkit-1
 	fi
-	fi
+fi
+
+## Installing doom emacs
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
+~/.emacs.d/bin/doom install
 
 ## making glx default vblank method on XFCE
 if [ "$XDG_CURRENT_DESKTOP" = "XFCE" ]; then

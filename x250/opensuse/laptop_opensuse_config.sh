@@ -28,7 +28,7 @@ sudo zypper refresh
 sudo zypper dup
 
 # Installing basic packages
-sudo zypper in google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt gcc-c++ make python3 neovim python-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom
+sudo zypper in google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt gcc-c++ make python3 neovim python-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom emacs pam-u2f
 
 # Enabling thermald service
 sudo systemctl enable thermald intel-undervolt earlyoom
@@ -91,3 +91,6 @@ sudo ng analytics off
 
 # Installing ionic
 sudo npm i -g @ionic/cli
+
+# Remove .emacs file from home folder
+rm ~/.emacs

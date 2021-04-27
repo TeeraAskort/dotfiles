@@ -165,10 +165,6 @@ if [ -e /etc/pam.d/polkit-1 ]; then
 	fi
 	fi
 
-## Installing doom emacs
-git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-~/.emacs.d/bin/doom install
-
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"

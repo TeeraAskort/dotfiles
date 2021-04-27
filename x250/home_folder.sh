@@ -202,7 +202,10 @@ fi
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
-	gsettings set org.gnome.desktop.interface monospace-font-name "FantasqueSansMono Nerd Font Mono Regular 12"
+	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 12"
+	gsettings set org.gnome.desktop.interface font-name "Recursive Sans Linear Static Regular 12"
+	gsettings set org.gnome.desktop.wm.preferences titlebar-font "Recursive Sans Linear Static Regular 12"
+	gsettings set org.gnome.desktop.interface document-font-name "Recursive Sans Linear Static Regular 12"
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
 	gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 	gsettings set org.gnome.desktop.privacy disable-camera true
@@ -211,6 +214,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
 	gsettings set org.gnome.desktop.privacy remove-old-trash-files  true
 	gsettings set org.gnome.desktop.privacy old-files-age 3
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi

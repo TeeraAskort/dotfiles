@@ -214,40 +214,6 @@ echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 # echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
-## Setting up gnome-keyring on sddm
-if [ -e /etc/pam.d/sddm ]; then
-	cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
-	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-	if diff /etc/pam.d/sddm.bak sddm ; then
-		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-		cp sddm /etc/pam.d/sddm
-	else
-		cp sddm /etc/pam.d/sddm
-	fi
-fi
-
-if [ -e /etc/pam.d/sddm ]; then
-	cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
-	awk "FNR==NR{ if (/session /) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-	if diff /etc/pam.d/sddm.bak sddm ; then
-		awk "FNR==NR{ if (/session\t/) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-		cp sddm /etc/pam.d/sddm
-	else
-		cp sddm /etc/pam.d/sddm
-	fi
-fi
-
-if [ -e /etc/pam.d/sddm ]; then
-	cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
-	awk "FNR==NR{ if (/password /) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-	if diff /etc/pam.d/sddm.bak sddm ; then
-		awk "FNR==NR{ if (/password\t/) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-		cp sddm /etc/pam.d/sddm
-	else
-		cp sddm /etc/pam.d/sddm
-	fi
-fi
-
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 

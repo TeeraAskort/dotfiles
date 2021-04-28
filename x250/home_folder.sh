@@ -175,6 +175,12 @@ if [ -e /etc/pam.d/polkit-1 ]; then
 	fi
 fi
 
+if [ -e /etc/pam.d/sddm ]; then
+	sudo sed -i "/pam_gnome_keyring.so/ s/-auth/auth/g" /etc/pam.d/sddm
+	sudo sed -i "/pam_gnome_keyring.so/ s/-password/password/g" /etc/pam.d/sddm
+	sudo sed -i "/pam_gnome_keyring.so/ s/-session/session/g" /etc/pam.d/sddm
+fi
+
 ## making glx default vblank method on XFCE
 if [ "$XDG_CURRENT_DESKTOP" = "XFCE" ]; then
 	xfconf-query -c xfwm4 -p /general/vblank_mode -s glx

@@ -41,7 +41,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code java-11-openjdk-devel aisleriot thermald gnome-mahjongg evolution python-neovim cmake python3-devel nodejs npm gcc-c++ libfido2 strawberry NetworkManager-l2tp-gnome google-chrome-stable mednafen mednaffe acpid youtube-dl kernel-xanmod-edge webp-pixbuf-loader pam-u2f pamu2fcfg
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry NetworkManager-l2tp-gnome google-chrome-stable mednafen mednaffe acpid youtube-dl kernel-xanmod-edge webp-pixbuf-loader pam-u2f pamu2fcfg
 
 systemctl enable thermald acpid 
 
@@ -69,7 +69,7 @@ systemctl enable intel-undervolt
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.obsproject.Studio com.getpostman.Postman com.jetbrains.IntelliJ-IDEA-Community org.telegram.desktop com.slack.Slack com.anydesk.Anydesk io.dbeaver.DBeaverCommunity
+flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.getpostman.Postman org.telegram.desktop com.slack.Slack com.anydesk.Anydesk io.dbeaver.DBeaverCommunity
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts

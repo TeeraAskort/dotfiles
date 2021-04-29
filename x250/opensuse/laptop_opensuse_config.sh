@@ -25,26 +25,26 @@ sudo rpm --import linux_signing_key.pub
 sudo zypper refresh
 
 # Updating the system
-sudo zypper dup
+sudo zypper dup -y 
 
 # Installing basic packages
-sudo zypper in google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f
+sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f
 
 # Enabling thermald service
 sudo systemctl enable thermald intel-undervolt earlyoom
 
 # Removing unwanted applications
-sudo zypper rm git-gui
+sudo zypper rm -y git-gui
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
     # Installing codecs
 	sudo OneClickInstallCLI https://www.opensuse-community.org/codecs-kde.ymp
 
 	# Installing DE specific applications
-	sudo zypper in yakuake qbittorrent kdeconnect-kde palapeli
+	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli
 
 	# Removing unwanted DE specific applications
-	sudo zypper rm konversation kmines ksudoku kreversi
+	sudo zypper rm -y konversation kmines ksudoku kreversi
 
 fi
 

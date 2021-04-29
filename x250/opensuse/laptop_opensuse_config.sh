@@ -28,7 +28,7 @@ sudo zypper refresh
 sudo zypper dup
 
 # Installing basic packages
-sudo zypper in google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam-u2f
+sudo zypper in google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f
 
 # Enabling thermald service
 sudo systemctl enable thermald intel-undervolt earlyoom

@@ -107,6 +107,7 @@ if [ -e /etc/pam.d/gdm-password ]; then
 	else
 		sudo cp gdm-password /etc/pam.d/gdm-password
 	fi
+	rm gdm-password
 fi
 
 if [ -e /etc/pam.d/xfce4-screensaver ]; then
@@ -118,6 +119,7 @@ if [ -e /etc/pam.d/xfce4-screensaver ]; then
 	else
 		sudo cp xfce4-screensaver /etc/pam.d/xfce4-screensaver
 	fi
+	rm xfce4-screensaver
 fi
 
 if [ -e /etc/pam.d/lightdm ]; then
@@ -129,6 +131,7 @@ if [ -e /etc/pam.d/lightdm ]; then
 	else
 		sudo cp lightdm /etc/pam.d/lightdm
 	fi
+	rm lightdm
 fi
 
 if [ -e /etc/pam.d/sddm ]; then
@@ -140,6 +143,7 @@ if [ -e /etc/pam.d/sddm ]; then
 	else
 		sudo cp sddm /etc/pam.d/sddm
 	fi
+	rm sddm
 fi
 
 if [ -e /etc/pam.d/kde ]; then
@@ -151,6 +155,7 @@ if [ -e /etc/pam.d/kde ]; then
 	else
 		sudo cp kde /etc/pam.d/kde
 	fi
+	rm kde
 fi
 
 if [ -e /etc/pam.d/polkit-1 ]; then
@@ -162,6 +167,7 @@ if [ -e /etc/pam.d/polkit-1 ]; then
 	else
 		sudo cp polkit-1 /etc/pam.d/polkit-1
 	fi
+	rm polkit-1
 fi
 
 ## Setting up gnome-keyring on sddm
@@ -174,6 +180,7 @@ if [ -e /etc/pam.d/sddm ]; then
 	else
 		sudo cp sddm /etc/pam.d/sddm
 	fi
+	rm sddm
 fi
 
 if [ -e /etc/pam.d/sddm ]; then
@@ -185,6 +192,7 @@ if [ -e /etc/pam.d/sddm ]; then
 	else
 		sudo cp sddm /etc/pam.d/sddm
 	fi
+	rm sddm
 fi
 
 if [ -e /etc/pam.d/sddm ]; then
@@ -196,6 +204,7 @@ if [ -e /etc/pam.d/sddm ]; then
 	else
 		sudo cp sddm /etc/pam.d/sddm
 	fi
+	rm sddm
 fi
 
 ## Changing GNOME theme

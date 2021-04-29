@@ -77,7 +77,7 @@ sudo sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/int
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.getpostman.Postman io.dbeaver.DBeaverCommunity com.slack.Slack com.anydesk.Anydesk org.jdownloader.JDownloader
+sudo flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.getpostman.Postman io.dbeaver.DBeaverCommunity com.slack.Slack com.anydesk.Anydesk org.jdownloader.JDownloader
 
 # Flatpak overrides
 sudo flatpak override --filesystem=~/.fonts

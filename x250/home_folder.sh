@@ -80,8 +80,6 @@ cp $directory/dotfiles/.vimrc ~
 mkdir -p ~/.config/nvim/
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 nvim +PlugInstall +q +q
-cd ~/.vim/plugged/youcompleteme 
-python3 install.py --ts-completer 
 
 ## Copying chromium config
 cp $directory/dotfiles/chromium-flags.conf ~/.config

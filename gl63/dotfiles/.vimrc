@@ -159,9 +159,27 @@ inoremap { {}<left>
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {;<CR> {<CR>};<ESC>O
 
+
+"UltiSnips
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+
+
 call plug#begin('~/.vim/plugged')
 
+Plug 'metalelf0/supertab'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'ycm-core/youcompleteme'
 Plug 'scrooloose/syntastic'
+Plug 'sirver/ultisnips'
+Plug 'honza/vim-snippets'
 
 call plug#end()

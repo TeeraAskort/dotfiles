@@ -28,7 +28,7 @@ sudo zypper refresh
 sudo zypper dup
 
 # Installing basic packages
-sudo zypper in google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt gcc-c++ make python3 neovim python-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam-u2f
+sudo zypper in google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam-u2f
 
 # Enabling thermald service
 sudo systemctl enable thermald intel-undervolt earlyoom
@@ -77,7 +77,7 @@ sudo sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/int
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.obsproject.Studio com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.IntelliJ-IDEA-Community com.slack.Slack com.anydesk.Anydesk org.jdownloader.JDownloader
+flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.getpostman.Postman io.dbeaver.DBeaverCommunity com.slack.Slack com.anydesk.Anydesk org.jdownloader.JDownloader
 
 # Flatpak overrides
 sudo flatpak override --filesystem=~/.fonts

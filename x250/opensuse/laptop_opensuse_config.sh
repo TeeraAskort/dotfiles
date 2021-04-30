@@ -25,7 +25,7 @@ sudo rpm --import linux_signing_key.pub
 sudo zypper refresh
 
 # Updating the system
-sudo zypper dup -y 
+sudo zypper dup -y
 
 # Installing basic packages
 sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f NetworkManager-l2tp
@@ -37,15 +37,51 @@ sudo systemctl enable thermald intel-undervolt earlyoom
 sudo zypper rm -y git-gui
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
-    # Installing codecs
+	# Installing codecs
 	sudo OneClickInstallCLI https://www.opensuse-community.org/codecs-kde.ymp
 
 	# Installing DE specific applications
-	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli
+	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring
 
 	# Removing unwanted DE specific applications
 	sudo zypper rm -y konversation kmines ksudoku kreversi
 
+	## Setting up gnome-keyring on sddm
+	if [ -e /etc/pam.d/sddm ]; then
+		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+		awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+		if diff /etc/pam.d/sddm.bak sddm; then
+			awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+			sudo cp sddm /etc/pam.d/sddm
+		else
+			sudo cp sddm /etc/pam.d/sddm
+		fi
+		rm sddm
+	fi
+
+	if [ -e /etc/pam.d/sddm ]; then
+		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+		awk "FNR==NR{ if (/session /) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+		if diff /etc/pam.d/sddm.bak sddm; then
+			awk "FNR==NR{ if (/session\t/) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+			sudo cp sddm /etc/pam.d/sddm
+		else
+			sudo cp sddm /etc/pam.d/sddm
+		fi
+		rm sddm
+	fi
+
+	if [ -e /etc/pam.d/sddm ]; then
+		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+		awk "FNR==NR{ if (/password /) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+		if diff /etc/pam.d/sddm.bak sddm; then
+			awk "FNR==NR{ if (/password\t/) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+			sudo cp sddm /etc/pam.d/sddm
+		else
+			sudo cp sddm /etc/pam.d/sddm
+		fi
+		rm sddm
+	fi
 fi
 
 # Changing plymouth theme
@@ -63,7 +99,7 @@ clear
 echo "Enter disk encryption password"
 sudo cryptsetup luksAddKey /dev/${rootDisk}2 /.root.key
 sudo sed -i "/TS128GMTS430S/ s/none/\/.root.key/g" /etc/crypttab
-echo -e 'install_items+=" /.root.key "' | sudo tee --append /etc/dracut.conf.d/99-root-key.conf > /dev/null
+echo -e 'install_items+=" /.root.key "' | sudo tee --append /etc/dracut.conf.d/99-root-key.conf >/dev/null
 echo "/boot/ root:root 700" | sudo tee -a /etc/permissions.local
 sudo chkstat --system --set
 sudo mkinitrd
@@ -91,4 +127,3 @@ sudo ng analytics off
 
 # Installing ionic
 sudo npm i -g @ionic/cli
-

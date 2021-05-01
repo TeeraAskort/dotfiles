@@ -97,7 +97,10 @@ sudo chmod 600 /.root.key
 sudo dd if=/dev/urandom of=/.root.key bs=1024 count=1
 clear
 echo "Enter disk encryption password"
-sudo cryptsetup luksAddKey /dev/${rootDisk}2 /.root.key
+until sudo cryptsetup luksAddKey /dev/${rootDisk}2 /.root.key
+do
+	echo "Retrying"
+done
 sudo sed -i "/TS128GMTS430S/ s/none/\/.root.key/g" /etc/crypttab
 echo -e 'install_items+=" /.root.key "' | sudo tee --append /etc/dracut.conf.d/99-root-key.conf >/dev/null
 echo "/boot/ root:root 700" | sudo tee -a /etc/permissions.local

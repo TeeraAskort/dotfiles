@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Installing repos
 sudo zypper ar -cfp 99 http://download.opensuse.org/repositories/games/openSUSE_Tumbleweed/ games
@@ -12,39 +12,76 @@ sudo zypper addrepo https://download.opensuse.org/repositories/hardware/openSUSE
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/zypp/repos.d/vscode.repo'
 
+# Adding chrome repo
+sudo zypper ar http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
+wget https://dl.google.com/linux/linux_signing_key.pub
+sudo rpm --import linux_signing_key.pub
+
 # Refreshing the repos
 sudo zypper refresh
 
 # Updating the system
-sudo zypper dup
+sudo zypper dup -y
 
-# Installing nvidia drivers
+# Installing basic packages
+sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f NetworkManager-l2tp
+
+# Enabling thermald service
+sudo systemctl enable thermald intel-undervolt earlyoom
+
+# Removing unwanted applications
+sudo zypper rm -y git-gui
+
+# Installing NVIDIA drivers
 sudo OneClickInstallCLI https://www.opensuse-community.org/nvidia_G05.ymp
 
-# Installing codecs
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
-
 	# Installing codecs
 	sudo OneClickInstallCLI https://www.opensuse-community.org/codecs-kde.ymp
 
-	# Installing packages
-	sudo zypper in chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions yakuake mpv mpv-mpris strawberry dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel fish thermald xf86-video-intel qbittorrent emacs kdeconnect-kde plymouth-plugin-script pam_u2f nodejs15 npm15 intel-undervolt gcc-c++ make python3 neovim python-neovim libnsl2 net-tools thunderbird noto-sans-cjk-fonts noto-coloremoji-fonts code
+	# Installing DE specific applications
+	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring
 
-	# Remove unwanted packages
-	sudo zypper rm git-gui akregator konversation kmines ksudoku kreversi 
+	# Removing unwanted DE specific applications
+	sudo zypper rm -y konversation kmines ksudoku kreversi
 
-else
+	## Setting up gnome-keyring on sddm
+	if [ -e /etc/pam.d/sddm ]; then
+		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+		awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+		if diff /etc/pam.d/sddm.bak sddm; then
+			awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+			sudo cp sddm /etc/pam.d/sddm
+		else
+			sudo cp sddm /etc/pam.d/sddm
+		fi
+		rm sddm
+	fi
 
-	# Installing codecs
-	sudo OneClickInstallCLI https://www.opensuse-community.org/codecs-gnome.ymp
+	if [ -e /etc/pam.d/sddm ]; then
+		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+		awk "FNR==NR{ if (/session /) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+		if diff /etc/pam.d/sddm.bak sddm; then
+			awk "FNR==NR{ if (/session\t/) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+			sudo cp sddm /etc/pam.d/sddm
+		else
+			sudo cp sddm /etc/pam.d/sddm
+		fi
+		rm sddm
+	fi
 
-	# Installing packages
-	sudo zypper in chromium steam lutris plata-theme papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions tilix mpv rhythmbox dolphin-emu telegram-desktop nextcloud-client flatpak gamemoded java-11-openjdk-devel fish thermald xf86-video-intel emacs plymouth-plugin-script pam_u2f nodejs15 npm15 intel-undervolt gcc-c++ make python3 neovim python-neovim libnsl2 net-tools noto-sans-cjk-fonts noto-coloremoji-fonts code
-
+	if [ -e /etc/pam.d/sddm ]; then
+		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+		awk "FNR==NR{ if (/password /) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+		if diff /etc/pam.d/sddm.bak sddm; then
+			awk "FNR==NR{ if (/password\t/) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+			sudo cp sddm /etc/pam.d/sddm
+		else
+			sudo cp sddm /etc/pam.d/sddm
+		fi
+		rm sddm
+	fi
 fi
-
-# Enabling thermald service
-sudo systemctl enable thermald
 
 # Changing plymouth theme
 wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_2/hexagon_2.tar.gz
@@ -60,48 +97,32 @@ sudo dd if=/dev/urandom of=/.root.key bs=1024 count=1
 clear
 echo "Enter disk encryption password"
 sudo cryptsetup luksAddKey /dev/nvme0n1p2 /.root.key
-sudo sed -i "/^cr_nvme/ s/none/\/.root.key/g" /etc/crypttab
-echo -e 'install_items+=" /.root.key "' | sudo tee --append /etc/dracut.conf.d/99-root-key.conf > /dev/null
+sudo sed -i "/TS128GMTS430S/ s/none/\/.root.key/g" /etc/crypttab
+echo -e 'install_items+=" /.root.key "' | sudo tee --append /etc/dracut.conf.d/99-root-key.conf >/dev/null
 echo "/boot/ root:root 700" | sudo tee -a /etc/permissions.local
 sudo chkstat --system --set
 sudo mkinitrd
 
 #Intel undervolt configuration
-sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
+sudo sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /etc/intel-undervolt.conf
+sudo sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.conf
+sudo sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
 
-systemctl enable intel-undervolt
-
-# Changing tlp config
-sudo sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
-sudo sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
-
-systemctl enable tlp
-
-# Adding flathub repo 
+# Adding flathub repo
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.mojang.Minecraft com.google.AndroidStudio com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader org.gimp.GIMP com.tutanota.Tutanota com.obsproject.Studio com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.IntelliJ-IDEA-Community com.bitwarden.desktop
+sudo flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.getpostman.Postman io.dbeaver.DBeaverCommunity com.slack.Slack com.anydesk.Anydesk org.jdownloader.JDownloader
 
 # Flatpak overrides
 sudo flatpak override --filesystem=~/.fonts
 
 # Add sysctl config
-echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+echo "dev.i915.perf_stream_paranoid=0" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Installing angular globally
 sudo npm i -g @angular/cli
-ng analytics off
+sudo ng analytics off
 
-# Installing XAMPP
-version="8.0.2"
-subver="0"
-curl -L "https://www.apachefriends.org/xampp-files/${version}/xampp-linux-x64-${version}-${subver}-installer.run" > xampp.run
-chmod +x xampp.run
-sudo ./xampp.run --mode unattended --unattendedmodeui minimal
-
-# Installing prime offload launchers
-sudo cp ../dotfiles/prime-run /usr/bin
-sudo chmod +x /usr/bin/prime-run
+# Installing ionic
+sudo npm i -g @ionic/cli

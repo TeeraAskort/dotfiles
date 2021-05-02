@@ -83,7 +83,6 @@ cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip
-unzip ~/Documentos/fonts2.zip
 
 ## Configuring u2f cards
 hostnm=$(hostname)
@@ -170,51 +169,10 @@ if [ -e /etc/pam.d/polkit-1 ]; then
 	rm polkit-1
 fi
 
-## Setting up gnome-keyring on sddm
-if [ -e /etc/pam.d/sddm ]; then
-	sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
-	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-	if diff /etc/pam.d/sddm.bak sddm ; then
-		awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-		sudo cp sddm /etc/pam.d/sddm
-	else
-		sudo cp sddm /etc/pam.d/sddm
-	fi
-	rm sddm
-fi
-
-if [ -e /etc/pam.d/sddm ]; then
-	sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
-	awk "FNR==NR{ if (/session /) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-	if diff /etc/pam.d/sddm.bak sddm ; then
-		awk "FNR==NR{ if (/session\t/) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-		sudo cp sddm /etc/pam.d/sddm
-	else
-		sudo cp sddm /etc/pam.d/sddm
-	fi
-	rm sddm
-fi
-
-if [ -e /etc/pam.d/sddm ]; then
-	sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
-	awk "FNR==NR{ if (/password /) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-	if diff /etc/pam.d/sddm.bak sddm ; then
-		awk "FNR==NR{ if (/password\t/) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
-		sudo cp sddm /etc/pam.d/sddm
-	else
-		sudo cp sddm /etc/pam.d/sddm
-	fi
-	rm sddm
-fi
-
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
-	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
-	gsettings set org.gnome.desktop.interface font-name "Recursive Sans Linear Static Regular 11"
-	gsettings set org.gnome.desktop.wm.preferences titlebar-font "Recursive Sans Linear Static Regular 11"
-	gsettings set org.gnome.desktop.interface document-font-name "Recursive Sans Linear Static Regular 11"
-
+	gsettings set org.gnome.desktop.interface monospace-font-name "CaskaydiaCove Nerd Font Mono Book 11"
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
 	gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 	gsettings set org.gnome.desktop.privacy disable-camera true

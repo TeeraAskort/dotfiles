@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 # Installing repos
 sudo zypper ar -cfp 99 http://download.opensuse.org/repositories/games/openSUSE_Tumbleweed/ games
 sudo zypper ar -cfp 99 http://download.opensuse.org/repositories/Emulators:/Wine/openSUSE_Tumbleweed/ wine
@@ -129,3 +133,7 @@ sudo ng analytics off
 
 # Installing ionic
 sudo npm i -g @ionic/cli
+
+# Copying prime-run
+sudo cp $directory/../dotfiles/prime-run /usr/bin
+sudo chmod +x /usr/bin/prime-run

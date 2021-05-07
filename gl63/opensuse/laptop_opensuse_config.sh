@@ -11,6 +11,7 @@ sudo zypper ar -cfp 99 http://download.opensuse.org/repositories/shells:/zsh-use
 sudo zypper addrepo https://download.opensuse.org/repositories/shells:zsh-users:zsh-autosuggestions/openSUSE_Tumbleweed/shells:zsh-users:zsh-autosuggestions.repo
 sudo zypper ar -cfp 99 https://download.opensuse.org/repositories/Emulators/openSUSE_Tumbleweed/ emulators
 sudo zypper addrepo https://download.opensuse.org/repositories/hardware/openSUSE_Tumbleweed/hardware.repo
+sudo zypper ar https://packagecloud.io/slacktechnologies/slack/fedora/21/x86_64 slack
 
 # Adding VSCode repo
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -28,7 +29,7 @@ sudo zypper refresh
 sudo zypper dup -y
 
 # Installing basic packages
-sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f NetworkManager-l2tp xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa
+sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f NetworkManager-l2tp xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa slack
 
 # Enabling thermald service
 sudo systemctl enable thermald intel-undervolt earlyoom
@@ -119,7 +120,7 @@ sudo sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/in
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-sudo flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.getpostman.Postman io.dbeaver.DBeaverCommunity com.slack.Slack com.anydesk.Anydesk org.jdownloader.JDownloader
+sudo flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.getpostman.Postman io.dbeaver.DBeaverCommunity com.anydesk.Anydesk org.jdownloader.JDownloader
 
 # Flatpak overrides
 sudo flatpak override --filesystem=~/.fonts

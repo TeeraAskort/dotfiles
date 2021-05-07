@@ -197,6 +197,11 @@ sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.con
 sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
 systemctl enable intel-undervolt
 
+# Configuring sddm
+sed -i "/pam_gnome_keyring.so/ s/-session/session/g" /etc/pam.d/sddm
+sed -i "/pam_gnome_keyring.so/ s/-password/password/g" /etc/pam.d/sddm
+sed -i "/pam_gnome_keyring.so/ s/-auth/auth/g" /etc/pam.d/sddm
+
 # Changing tlp config
 sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
 sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf

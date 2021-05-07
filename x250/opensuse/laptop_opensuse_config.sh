@@ -29,7 +29,7 @@ sudo zypper refresh
 sudo zypper dup -y
 
 # Installing basic packages
-sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f NetworkManager-l2tp slack
+sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f NetworkManager-l2tp slack discord
 
 # Enabling thermald service
 sudo systemctl enable thermald intel-undervolt earlyoom
@@ -117,7 +117,7 @@ sudo sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/int
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-sudo flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.getpostman.Postman io.dbeaver.DBeaverCommunity com.anydesk.Anydesk org.jdownloader.JDownloader
+sudo flatpak install -y flathub io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.getpostman.Postman io.dbeaver.DBeaverCommunity com.anydesk.Anydesk org.jdownloader.JDownloader
 
 # Flatpak overrides
 sudo flatpak override --filesystem=~/.fonts

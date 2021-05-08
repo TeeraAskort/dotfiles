@@ -203,6 +203,10 @@ sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.con
 sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
 systemctl enable intel-undervolt
 
+# Configuring lightdm
+sed -i "/pam_gnome_keyring.so/ s/-session/session/g" /etc/pam.d/lightdm
+sed -i "/pam_gnome_keyring.so/ s/-auth/auth/g" /etc/pam.d/lightdm
+
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 

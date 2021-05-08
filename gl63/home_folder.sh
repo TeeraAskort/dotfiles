@@ -171,7 +171,11 @@ fi
 
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
-	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+	if [ -e /usr/share/themes/Materia-dark-compact ]; then
+		gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark-compact"
+	else
+		gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+	fi
 	gsettings set org.gnome.desktop.interface monospace-font-name "CaskaydiaCove Nerd Font Mono Book 11"
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
 	gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'

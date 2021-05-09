@@ -13,7 +13,6 @@ sudo zypper ar -cfp 99 https://download.opensuse.org/repositories/Emulators/open
 sudo zypper addrepo https://download.opensuse.org/repositories/hardware/openSUSE_Tumbleweed/hardware.repo
 sudo zypper ar https://packagecloud.io/slacktechnologies/slack/fedora/21/x86_64 slack
 sudo zypper addrepo -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
-sudo zypper ar https://download.nvidia.com/opensuse/tumbleweed nvidia
 
 # Adding VSCode repo
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -34,7 +33,7 @@ sudo zypper dup -y --from packman --allow-vendor-change
 sudo zypper install -y --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 # Installing basic packages
-sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f NetworkManager-l2tp xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa slack discord x11-video-nvidiaG05
+sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f NetworkManager-l2tp xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa slack discord
 
 # Enabling thermald service
 sudo systemctl enable thermald intel-undervolt earlyoom
@@ -43,7 +42,7 @@ sudo systemctl enable thermald intel-undervolt earlyoom
 sudo zypper rm -y git-gui
 
 # Installing NVIDIA drivers
-# sudo OneClickInstallCLI https://www.opensuse-community.org/nvidia_G05.ymp
+sudo OneClickInstallCLI https://www.opensuse-community.org/nvidia_G05.ymp
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	# Installing codecs

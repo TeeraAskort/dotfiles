@@ -12,6 +12,7 @@ sudo zypper addrepo https://download.opensuse.org/repositories/shells:zsh-users:
 sudo zypper ar -cfp 99 https://download.opensuse.org/repositories/Emulators/openSUSE_Tumbleweed/ emulators
 sudo zypper addrepo https://download.opensuse.org/repositories/hardware/openSUSE_Tumbleweed/hardware.repo
 sudo zypper ar https://packagecloud.io/slacktechnologies/slack/fedora/21/x86_64 slack
+sudo zypper addrepo -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
 
 # Adding VSCode repo
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -26,7 +27,10 @@ sudo rpm --import linux_signing_key.pub
 sudo zypper refresh
 
 # Updating the system
-sudo zypper dup -y
+sudo zypper dup -y --from packman --allow-vendor-change
+
+# Installing codecs
+sudo zypper install --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 # Installing basic packages
 sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs15 npm15 intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f NetworkManager-l2tp slack discord
@@ -39,13 +43,13 @@ sudo zypper rm -y git-gui
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	# Installing codecs
-	sudo OneClickInstallCLI https://www.opensuse-community.org/codecs-kde.ymp
+	# sudo OneClickInstallCLI https://www.opensuse-community.org/codecs-kde.ymp
 
 	# Installing DE specific applications
 	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring
 
 	# Removing unwanted DE specific applications
-	sudo zypper rm -y konversation kmines ksudoku kreversi
+	sudo zypper rm -y konversation kmines ksudoku kreversi vlc
 
 	## Setting up gnome-keyring on sddm
 	if [ -e /etc/pam.d/sddm ]; then

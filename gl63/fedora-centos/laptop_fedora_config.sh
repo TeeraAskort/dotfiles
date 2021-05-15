@@ -87,7 +87,7 @@ systemctl enable intel-undervolt
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP com.getpostman.Postman org.telegram.desktop com.slack.Slack com.anydesk.Anydesk io.dbeaver.DBeaverCommunity 
+flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP org.telegram.desktop com.slack.Slack com.anydesk.Anydesk 
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
@@ -102,6 +102,9 @@ ng analytics off
 
 # Installing ionic
 npm i -g @ionic/cli
+
+# Installing firebase cli
+npm install -g firebase-tools
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'

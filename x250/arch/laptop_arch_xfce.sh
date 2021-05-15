@@ -195,6 +195,9 @@ ng analytics off
 # Installing ionic
 npm i -g @ionic/cli
 
+# Installing firebase cli
+npm install -g firebase-tools
+
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder
 userdel aurbuilder

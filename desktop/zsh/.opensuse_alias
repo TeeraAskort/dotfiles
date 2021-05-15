@@ -1,0 +1,7 @@
+# Opensuse general alias
+
+alias zypp="sudo zypper"
+alias zyppi="sudo zypper in"
+alias zyppr="sudo zypper rm"
+alias zyppu="sudo zypper refresh"
+alias zyppup="sudo zypper dup"

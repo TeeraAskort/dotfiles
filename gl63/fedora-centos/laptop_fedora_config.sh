@@ -51,6 +51,9 @@ systemctl enable thermald
 # Remove unused packages 
 dnf remove -y totem rhythmbox
 
+# Remove pipewire
+dnf swap - -allowerasing pipewire-pulseaudio pulseaudio -y
+
 #Update Appstream data
 dnf groupupdate core -y
 

@@ -80,7 +80,7 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]];then
 	git clone https://SariaAskort@bitbucket.org/SariaAskort/dotfiles.git
 
 	if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
-		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_arch_plasma.sh
+		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_arch_plasma.sh
 	fi
 else
 	echo "Available options: "

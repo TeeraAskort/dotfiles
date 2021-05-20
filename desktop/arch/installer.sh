@@ -52,7 +52,7 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]];then
 	# Format partitions
 	mkfs.btrfs -f -L home /dev/mapper/data
 	mkfs.f2fs -f -l root -O extra_attr,inode_checksum,sb_checksum /dev/lvm/root
-	mkfs.vfat -F32 /dev/nvme0n1p1
+	mkfs.vfat -F32 /dev/i${rootDisk}1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
 
@@ -60,17 +60,17 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]];then
 	mount /dev/lvm/root /mnt
 	mkdir /mnt/{boot,home}
 	mount /dev/mapper/data /mnt/home
-	mount /dev/nvme0n1p1 /mnt/boot
-
-	# Generate keyfile for data disk
-	dd if=/dev/random bs=32 count=1 of=/mnt/root/.keyfile
-	cryptsetup luksAddKey /dev/${dataDisk}1 /mnt/root/.keyfile
+	mount /dev/${rootDisk}1 /mnt/boot
 
 	# Install base system
 	pacstrap /mnt base base-devel linux-firmware linux-zen lvm2 efibootmgr btrfs-progs vim git f2fs-tools
 
 	# Generate fstab
 	genfstab -U /mnt >> /mnt/etc/fstab
+
+	# Generate keyfile for data disk
+	dd if=/dev/random bs=32 count=1 of=/mnt/root/.keyfile
+	cryptsetup luksAddKey /dev/${dataDisk}1 /mnt/root/.keyfile
 
 	# Add key to crypttab
 	echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${dataDisk}1) /root/.keyfile luks,discard" | tee -a /mnt/etc/crypttab

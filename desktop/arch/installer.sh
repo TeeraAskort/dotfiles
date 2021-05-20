@@ -70,6 +70,7 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]];then
 
 	# Generate keyfile for data disk
 	dd if=/dev/random bs=32 count=1 of=/mnt/root/.keyfile
+	echo "Enter data disk passphrase"
 	cryptsetup luksAddKey /dev/${dataDisk}1 /mnt/root/.keyfile
 
 	# Add key to crypttab

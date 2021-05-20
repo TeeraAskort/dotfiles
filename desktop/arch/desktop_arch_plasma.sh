@@ -1,5 +1,8 @@
 #!/bin/bash
 
+rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDC_WDS120G2G0B-00EPW0 | cut -d" " -f1)
+dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_DT01ACA300 | cut -d" " -f1)
+
 # Configuring locales
 sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen
 sed -i "s/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g" /etc/locale.gen
@@ -15,7 +18,7 @@ ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
 hwclock --systohc
 
 # Hostname
-echo link-gl63-8rc > /etc/hostname
+echo link-pc > /etc/hostname
 
 # Root password
 #clear
@@ -54,7 +57,7 @@ sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
 # Installing drivers 
-pacman -S --noconfirm  nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver
+pacman -S --noconfirm xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver
 
 # Installing services
 pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
@@ -124,17 +127,17 @@ editor   no
 EOF
 cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux-hardened
+linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-hardened.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
+initrd  /initramfs-linux-zen.img
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat > /boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux-hardened
+linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-hardened-fallback.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
+initrd  /initramfs-linux-zen-fallback.img
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update
 
@@ -163,10 +166,10 @@ pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-pl
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld obs-studio tlp neovim nodejs npm python-pynvim libfido2 mednafen networkmanager-l2tp strongswan strawberry youtube-dl dbeaver 
+pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld obs-studio neovim nodejs npm python-pynvim libfido2 mednafen networkmanager-l2tp strongswan strawberry youtube-dl 
 
 # Enabling services
-systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld 
+systemctl enable thermald earlyoom apparmor libvirtd firewalld 
 
 # Installing AUR packages
 cd /tmp/aurbuilder
@@ -191,22 +194,10 @@ rm /etc/sudoers.d/aurbuilder
 userdel aurbuilder
 rm -r /tmp/aurbuilder
 
-# Configuring intel-undervolt
-sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
-systemctl enable intel-undervolt
-
 # Configuring sddm
 sed -i "/pam_gnome_keyring.so/ s/-session/session/g" /etc/pam.d/sddm
 sed -i "/pam_gnome_keyring.so/ s/-password/password/g" /etc/pam.d/sddm
 sed -i "/pam_gnome_keyring.so/ s/-auth/auth/g" /etc/pam.d/sddm
-
-# Changing tlp config
-sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
-sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
-
-systemctl enable tlp
 
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

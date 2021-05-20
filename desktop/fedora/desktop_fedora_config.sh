@@ -37,7 +37,7 @@ dnf copr enable rmnscnce/kernel-xanmod -y
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts aisleriot thermald gnome-mahjongg evolution python-neovim strawberry NetworkManager-l2tp-gnome google-chrome-stable mednafen mednaffe youtube-dl materia-gtk-theme materia-kde kernel-xanmod-cacule
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts aisleriot thermald gnome-mahjongg evolution python-neovim strawberry google-chrome-stable mednafen mednaffe youtube-dl materia-gtk-theme materia-kde kernel-xanmod-cacule nodejs npm
 
 systemctl enable thermald
 

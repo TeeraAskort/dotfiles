@@ -2,20 +2,43 @@
 
 # Checking if arguments are passed
 if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]];then
+
+	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDC_WDS120G2G0B-00EPW0 | cut -d" " -f1)
+	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_DT01ACA300 | cut -d" " -f1)
+
 	# Create partitions
-	parted /dev/nvme0n1 -- mklabel gpt
-	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
-	parted /dev/nvme0n1 -- mkpart primary 512M 100%
-	parted /dev/nvme0n1 -- set 1 boot on
+	parted /dev/${rootDisk} -- mklabel gpt
+	parted /dev/${rootDisk} -- mkpart ESP fat32 1M 512M
+	parted /dev/${rootDisk} -- mkpart primary 512M 100%
+	parted /dev/${rootDisk} -- set 1 boot on
+
+	parted /dev/${dataDisk} -- mklabel gpt
+	parted /dev/${dataDisk} -- mkpart primary 1M 100%
 
 	# Loop until cryptsetup succeeds formatting the partition
-	until cryptsetup luksFormat /dev/nvme0n1p2
+	echo "Enter passphrase for root disk"
+	until cryptsetup luksFormat /dev/${rootDisk}2
+	do
+		echo "Cryptsetup failed, trying again"
+	done
+
+	# Loop until cryptsetup suceeds formatting the partition
+	echo "Enter passphrase for data disk"
+	until cryptsetup luksFormat /dev/${dataDisk}1
 	do
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the partition
-	until cryptsetup open /dev/nvme0n1p2 luks
+	echo "Enter passphrase for root disk"
+	until cryptsetup open /dev/${rootDisk}2 luks
+	do
+		echo "Cryptsetup failed, trying again"
+	done
+
+	# Loop until cryptsetup succeeds opening the partition
+	echo "Enter passphrase for data disk"
+	until cryptsetup open /dev/${dataDisk}1 data
 	do
 		echo "Cryptsetup failed, trying again"
 	done
@@ -24,11 +47,10 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]];then
 	pvcreate /dev/mapper/luks
 	vgcreate lvm /dev/mapper/luks
 	lvcreate -L 16G -n swap lvm
-	lvcreate -L 100G -n root lvm
-	lvcreate -l 100%FREE -n home lvm
+	lvcreate -l 100%FREE -n root lvm
 
 	# Format partitions
-	mkfs.btrfs -f -L home /dev/lvm/home
+	mkfs.btrfs -f -L home /dev/mapper/data
 	mkfs.f2fs -f -l root -O extra_attr,inode_checksum,sb_checksum /dev/lvm/root
 	mkfs.vfat -F32 /dev/nvme0n1p1
 	mkswap /dev/lvm/swap
@@ -37,8 +59,12 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]];then
 	# Mount paritions
 	mount /dev/lvm/root /mnt
 	mkdir /mnt/{boot,home}
-	mount /dev/lvm/home /mnt/home
+	mount /dev/mapper/data /mnt/home
 	mount /dev/nvme0n1p1 /mnt/boot
+
+	# Generate keyfile for data disk
+	dd if=/dev/random bs=32 count=1 of=/mnt/root/.keyfile
+	cryptsetup luksAddKey /dev/${dataDisk}1 /mnt/root/.keyfile
 
 	# Install base system
 	pacstrap /mnt base base-devel linux-firmware linux-zen lvm2 efibootmgr btrfs-progs vim git f2fs-tools
@@ -46,12 +72,15 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]];then
 	# Generate fstab
 	genfstab -U /mnt >> /mnt/etc/fstab
 
+	# Add key to crypttab
+	echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${dataDisk}1) /root/.keyfile luks,discard" | tee -a /mnt/etc/crypttab
+
 	# Change location, clone the git repo and execute the installation script
 	cd /mnt
 	git clone https://SariaAskort@bitbucket.org/SariaAskort/dotfiles.git
 
 	if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
-		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_plasma.sh
+		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_arch_plasma.sh
 	fi
 else
 	echo "Available options: "

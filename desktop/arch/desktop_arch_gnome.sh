@@ -108,7 +108,7 @@ pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot 
 pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-maps gnome-books
 
 # Installing plymouth
-sudo -u aurbuilder paru -S --noconfirm --useask gdm-plymouth 
+yes y | LC_ALL=en_US.UTF-8 sudo -u aurbuilder paru -S --noconfirm gdm-plymouth 
 
 # Installing plymouth theme
 sudo -u aurbuilder paru -S --noconfirm plymouth-theme-hexagon-2-git

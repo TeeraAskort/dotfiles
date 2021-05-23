@@ -23,7 +23,7 @@ sudo zypper refresh
 sudo zypper dist-upgrade --from packman --allow-vendor-change -y
 
 # Installing codecs
-sudo zypper install --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
+sudo zypper install -y --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 # Installing basic packages
 sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom discord

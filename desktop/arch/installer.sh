@@ -12,19 +12,9 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]];then
 	parted /dev/${rootDisk} -- mkpart primary 512M 100%
 	parted /dev/${rootDisk} -- set 1 boot on
 
-	parted /dev/${dataDisk} -- mklabel gpt
-	parted /dev/${dataDisk} -- mkpart primary 1M 100%
-
 	# Loop until cryptsetup succeeds formatting the partition
 	echo "Enter passphrase for root disk"
 	until cryptsetup luksFormat /dev/${rootDisk}2
-	do
-		echo "Cryptsetup failed, trying again"
-	done
-
-	# Loop until cryptsetup suceeds formatting the partition
-	echo "Enter passphrase for data disk"
-	until cryptsetup luksFormat /dev/${dataDisk}1
 	do
 		echo "Cryptsetup failed, trying again"
 	done
@@ -36,13 +26,6 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]];then
 		echo "Cryptsetup failed, trying again"
 	done
 
-	# Loop until cryptsetup succeeds opening the partition
-	echo "Enter passphrase for data disk"
-	until cryptsetup open /dev/${dataDisk}1 data
-	do
-		echo "Cryptsetup failed, trying again"
-	done
-
 	# Configure LVM
 	pvcreate /dev/mapper/luks
 	vgcreate lvm /dev/mapper/luks
@@ -50,7 +33,6 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]];then
 	lvcreate -l 100%FREE -n root lvm
 
 	# Format partitions
-	mkfs.btrfs -f -L home /dev/mapper/data
 	mkfs.f2fs -f -l root -O extra_attr,inode_checksum,sb_checksum /dev/lvm/root
 	mkfs.vfat -F32 /dev/i${rootDisk}1
 	mkswap /dev/lvm/swap
@@ -58,8 +40,7 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]];then
 
 	# Mount paritions
 	mount /dev/lvm/root /mnt
-	mkdir /mnt/{boot,home}
-	mount /dev/mapper/data /mnt/home
+	mkdir /mnt/boot
 	mount /dev/${rootDisk}1 /mnt/boot
 
 	# Install base system
@@ -67,14 +48,6 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]];then
 
 	# Generate fstab
 	genfstab -U /mnt >> /mnt/etc/fstab
-
-	# Generate keyfile for data disk
-	dd if=/dev/random bs=32 count=1 of=/mnt/root/.keyfile
-	echo "Enter data disk passphrase"
-	cryptsetup luksAddKey /dev/${dataDisk}1 /mnt/root/.keyfile
-
-	# Add key to crypttab
-	echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${dataDisk}1) /root/.keyfile luks,discard" | tee -a /mnt/etc/crypttab
 
 	# Change location, clone the git repo and execute the installation script
 	cd /mnt

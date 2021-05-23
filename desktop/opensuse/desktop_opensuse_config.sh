@@ -9,6 +9,7 @@ sudo zypper ar -cfp 99 http://download.opensuse.org/repositories/shells:/zsh-use
 sudo zypper addrepo https://download.opensuse.org/repositories/shells:zsh-users:zsh-autosuggestions/openSUSE_Tumbleweed/shells:zsh-users:zsh-autosuggestions.repo
 sudo zypper ar -cfp 99 https://download.opensuse.org/repositories/Emulators/openSUSE_Tumbleweed/ emulators
 sudo zypper addrepo https://download.opensuse.org/repositories/hardware/openSUSE_Tumbleweed/hardware.repo
+sudo zypper addrepo -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
 
 # Adding chrome repo
 sudo zypper ar http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
@@ -19,7 +20,10 @@ sudo rpm --import linux_signing_key.pub
 sudo zypper refresh
 
 # Updating the system
-sudo zypper dup -y 
+sudo zypper dist-upgrade --from packman --allow-vendor-change -y
+
+# Installing codecs
+sudo zypper install --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 # Installing basic packages
 sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom discord
@@ -31,9 +35,6 @@ sudo systemctl enable thermald earlyoom
 sudo zypper rm -y git-gui
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
-	# Installing codecs
-	sudo OneClickInstallCLI https://www.opensuse-community.org/codecs-kde.ymp
-
 	# Installing DE specific applications
 	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli 
 

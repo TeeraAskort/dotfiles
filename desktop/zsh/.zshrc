@@ -122,9 +122,6 @@ source ~/.general_alias
 
 ## /Alias
 
-## Gamemode exec variable
-export GAMEMODERUNEXEC=prime-run
-
 ## Arch-linux
 # source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

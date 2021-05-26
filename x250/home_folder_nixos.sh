@@ -49,7 +49,7 @@ nix-env -iA nixos.hunspellDicts.es_ES nixos.hunspellDicts.en_US
 
 ## Configuring node packages
 npm config set prefix '~/mutable_node_modules'
-npm i -g @angular/cli @ionic/cli
+npm i -g @angular/cli @ionic/cli firebase-tools
 echo "PATH=\"$PATH:$HOME/mutable_node_modules/bin\"" | tee -a ~/.zshrc
 
 ## Configuring u2f authentication

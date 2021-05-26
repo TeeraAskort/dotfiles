@@ -60,6 +60,7 @@ in
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
+    (pkgs.callPackage ./materia-theme/release.nix)
     wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
     gnome3.gnome-terminal firefox celluloid strawberry gnome3.file-roller  
     papirus-icon-theme transmission-gtk
@@ -71,14 +72,13 @@ in
     nextcloud-client obs-studio libfido2 pfetch
     gtk-engine-murrine 
     parallel libreoffice-fresh
-    adwaita-qt ffmpeg-full nodejs nodePackages.npm
+    ffmpeg-full nodejs nodePackages.npm
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
-    android-studio jetbrains.idea-community
-    mednafen mednaffe
+    android-studio 
+    mednafen mednaffe lbry
     
-    nodePackages.node2nix dbeaver anydesk slack postman
     myAspell mythes
   ];
 
@@ -97,12 +97,13 @@ in
     noto-fonts-cjk
     noto-fonts-emoji
     noto-fonts
+    recursive
   ];
 
   # QT5 Theming
   qt5 = {
-    platformTheme = "gnome";
-    style = "adwaita-dark";
+    platformTheme = "gtk2";
+    style = "gtk2";
   };
 
   # Java configuration
@@ -246,12 +247,12 @@ in
       enable = true;
       extraGSettingsOverrides = ''
         [org.gnome.desktop.interface]
-        gtk-theme = "Adwaita-dark"
+        gtk-theme = "Materia-dark-compact"
         icon-theme = "Papirus-Dark"
-	monospace-font-name = "FantasqueSansMono Nerd Font Mono Regular 12"
+	monospace-font-name = "Rec Mono Semicasual Regular 11"
 
         [org.gnome.desktop.wm.preferences]
-        theme = "Adwaita-dark"
+        theme = "Materia-dark-compact"
 	button-layout = "appmenu:minimize,maximize,close"
 
 	[org.gnome.desktop.peripherals.mouse]
@@ -264,6 +265,10 @@ in
 	remove-old-temp-files = true
 	remove-old-trash-files = true
 	old-files-age = 3
+
+        [org.gnome.settings-daemon.plugins.power]
+        sleep-inactive-ac-timeout = 1800
+        sleep-inactive-battery-timeout = 900
       '';
     };
   };
@@ -298,7 +303,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.05"; # Did you read the comment?
+  system.stateVersion = "21.11"; # Did you read the comment?
 
 }
 

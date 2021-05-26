@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
     owner = "nana-4";
     repo = pname;
     rev = "v${version}";
-    sha256 = "1ddwfjz4cf4bwpmyk1ll0nz3ksiyjvw2646779a440np5ihsyq24";
+    sha256 = "1fsicmcni70jkl4jb3fvh7yv0v9jhb8nwjzdq8vfwn256qyk0xvl";
   };
 
   nativeBuildInputs = [

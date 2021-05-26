@@ -243,7 +243,7 @@ in
         enable = true;
       };
     };
-    desktopManager.gnome3 = {
+    desktopManager.gnome = {
       enable = true;
       extraGSettingsOverrides = ''
         [org.gnome.desktop.interface]
@@ -274,15 +274,10 @@ in
   };
 
   # Excluded gnome3 packages
-  environment.gnome3.excludePackages = 
+  environment.gnome.excludePackages = 
     [ pkgs.epiphany pkgs.gnome3.gnome-music
       pkgs.gnome3.gnome-software pkgs.gnome3.totem
     ];
-
-  # TLP
-  services.tlp = {
-    enable = true;
-  };
 
   # EarlyOOM
   services.earlyoom = {

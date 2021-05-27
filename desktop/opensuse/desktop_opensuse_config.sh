@@ -11,6 +11,10 @@ sudo zypper ar -cfp 99 https://download.opensuse.org/repositories/Emulators/open
 sudo zypper addrepo https://download.opensuse.org/repositories/hardware/openSUSE_Tumbleweed/hardware.repo
 sudo zypper addrepo -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
 
+# Adding VSCode repo
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/zypp/repos.d/vscode.repo'
+
 # Adding chrome repo
 sudo zypper ar http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
 wget https://dl.google.com/linux/linux_signing_key.pub
@@ -26,7 +30,7 @@ sudo zypper dist-upgrade --from packman --allow-vendor-change -y
 sudo zypper install -y --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 # Installing basic packages
-sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom discord
+sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom discord code
 
 # Enabling thermald service
 sudo systemctl enable thermald earlyoom
@@ -36,10 +40,47 @@ sudo zypper rm -y git-gui
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	# Installing DE specific applications
-	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli 
+	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring
 
 	# Removing unwanted DE specific applications
 	sudo zypper rm -y konversation kmines ksudoku kreversi 
+
+	## Setting up gnome-keyring on sddm
+	if [ -e /etc/pam.d/sddm ]; then
+		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+		awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+		if diff /etc/pam.d/sddm.bak sddm; then
+			awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+			sudo cp sddm /etc/pam.d/sddm
+		else
+			sudo cp sddm /etc/pam.d/sddm
+		fi
+		rm sddm
+	fi
+
+	if [ -e /etc/pam.d/sddm ]; then
+		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+		awk "FNR==NR{ if (/session /) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+		if diff /etc/pam.d/sddm.bak sddm; then
+			awk "FNR==NR{ if (/session\t/) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+			sudo cp sddm /etc/pam.d/sddm
+		else
+			sudo cp sddm /etc/pam.d/sddm
+		fi
+		rm sddm
+	fi
+
+	if [ -e /etc/pam.d/sddm ]; then
+		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+		awk "FNR==NR{ if (/password /) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+		if diff /etc/pam.d/sddm.bak sddm; then
+			awk "FNR==NR{ if (/password\t/) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+			sudo cp sddm /etc/pam.d/sddm
+		else
+			sudo cp sddm /etc/pam.d/sddm
+		fi
+		rm sddm
+	fi
 fi
 
 # Changing plymouth theme

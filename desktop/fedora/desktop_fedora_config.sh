@@ -48,14 +48,11 @@ systemctl enable thermald
 # Remove unused packages 
 dnf remove -y totem rhythmbox
 
-# Remove pipewire
-dnf swap --allowerasing pipewire-pulseaudio pulseaudio -y
-
 #Update Appstream data
 dnf groupupdate core -y
 
 #Install multimedia codecs
-dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y
+dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y --allowerasing
 dnf groupupdate sound-and-video -y
 
 #Disable wayland

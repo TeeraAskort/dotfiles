@@ -45,26 +45,5 @@ flatpak install -y flathub org.jdownloader.JDownloader
 ## Installing dictionaries
 nix-env -iA nixos.hunspellDicts.es_ES nixos.hunspellDicts.en_US
 
-## Configuring node packages
-npm config set prefix '~/mutable_node_modules'
-npm i -g @angular/cli @ionic/cli firebase-tools
-echo "PATH=\"$PATH:$HOME/mutable_node_modules/bin\"" | tee -a ~/.zshrc
-
-## Configuring u2f authentication
-mkdir -p ~/.config/Yubico
-
-echo "Insert FIDO2 card and press a key:"
-read -n 1
-until pamu2fcfg -o pam://"$(hostname)" -i pam://"$(hostname)" > ~/.config/Yubico/u2f_keys
-do
-	echo "Something went wrong reading the FIDO2 card"
-done
-echo "Remove FIDO2 card and insert another, then press a key:"
-read -n 1
-until pamu2fcfg -o pam://"$(hostname)" -i pam://"$(hostname)" -n >> ~/.config/Yubico/u2f_keys
-do
-	echo "Something went wrong reading the FIDO2 card"
-done
-
 ## Add alias to zsh
 echo "alias vim=\"nvim\"" | tee -a ~/.zshrc

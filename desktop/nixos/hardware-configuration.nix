@@ -24,7 +24,6 @@
     device = "/dev/disk/by-uuid/UUIDchangeme";
     allowDiscards = true;
     preLVM = true;
-    fido2.credential = "fidochangeme";
   };
 
   fileSystems."/" =

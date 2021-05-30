@@ -33,8 +33,7 @@ in
     useDHCP = false; 
     networkmanager.enable = true;
     interfaces = {
-      enp0s25.useDHCP = true;
-      wlp3s0.useDHCP = true;
+      enp2s0.useDHCP = true;
     };
     extraHosts = ''
       ${builtins.readFile blockedHosts}
@@ -62,7 +61,7 @@ in
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-tweaks discord 
     git home-manager python38 
-    p7zip unzip unrar gnome3.gnome-calendar 
+    p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify
     desmume google-chrome ffmpegthumbnailer 
     nextcloud-client obs-studio libfido2 pfetch
@@ -72,7 +71,7 @@ in
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
-    android-studio qgnomeplatform
+    android-studio libsForQt5.qtstyleplugin-kvantum
     mednafen mednaffe lbry
     
     myAspell mythes
@@ -85,6 +84,7 @@ in
   # Environment variables
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
+    QT_STYLE_OVERRIDE = "kvantum";
   };
 
   # Font configuration
@@ -95,12 +95,6 @@ in
     noto-fonts
     recursive
   ];
-
-  # QT5 Theming
-  qt5 = {
-    platformTheme = "gnome";
-    style = "gnome";
-  };
 
   # Java configuration
   programs.java = {

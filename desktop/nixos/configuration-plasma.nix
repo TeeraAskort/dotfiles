@@ -54,40 +54,37 @@ in
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    (pkgs.callPackage ./materia-theme {})
-    (pkgs.callPackage ./materia-kde {})
-    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
-    gnome.gnome-terminal firefox celluloid strawberry gnome.file-roller  
-    papirus-icon-theme transmission-gtk
-    gnome.aisleriot gnome.gnome-tweaks discord 
-    git home-manager python38 
-    p7zip unzip unrar gnome.gnome-calendar 
-    steam-run systembus-notify
-    desmume google-chrome ffmpegthumbnailer 
-    nextcloud-client obs-studio libfido2 pfetch
-    gtk-engine-murrine 
-    parallel libreoffice-fresh
+    plasma-nm plasma-vault breeze-gtk breeze-qt5 sddm-kcm 
+    qbittorrent ark kate strawberry
+    kcalc okular kdialog yakuake thunderbird-bin
+    kdeconnect gimp dolphin libsForQt5.dolphin-plugins
+    libsForQt5.kio-extras wacomtablet konsole kcharselect 
+    libsForQt5.kdegraphics-thumbnailers kgpg ksystemlog
+    libsForQt5.kdenetwork-filesharing gtk-engine-murrine
+    plasma-browser-integration gwenview
+    wget vim steam tdesktop lutris wineWowPackages.staging vscode 
+    firefox mpv papirus-icon-theme discord 
+    git home-manager p7zip unzip unrar 
+    steam-run systembus-notify desmume chromium 
+    libfido2 pfetch
+    obs-studio libreoffice-fresh
+    parallel
     ffmpeg-full nodejs nodePackages.npm
-    python39Packages.pynvim neovim cmake python39Full gcc gnumake
+    python39Packages.pynvim neovim cmake python3Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
-    android-studio libsForQt5.qtstyleplugin-kvantum
+    android-studio
     mednafen mednaffe lbry
-    
+
+     anydesk
     myAspell mythes
   ];
-
-  # VPN configuration
-  services.libreswan.enable = true;
-  services.xl2tpd.enable = true;
 
   # Environment variables
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
-    QT_STYLE_OVERRIDE = "kvantum";
   };
 
-  # Font configuration
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
     noto-fonts-cjk
@@ -134,7 +131,7 @@ in
   services.flatpak.enable = true;
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    extraPortals = [ pkgs.xdg-desktop-portal-kde ];
   };
 
   # Steam dependencies
@@ -193,6 +190,12 @@ in
   # Enable pipewire
   services.pipewire.enable = true;
 
+  # Enable bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    package = pkgs.bluezFull;
+  };
+
   # Xserver configuration
   services.xserver = {
     enable = true;
@@ -210,48 +213,16 @@ in
     # AMDGPU drivers
     videoDrivers = [ "amdgpu" ];
 
-    # Gnome3 desktop configuration
+    # Plasma5 desktop configuration
     displayManager = {
-      gdm = {
-        wayland = false;
+      sddm = {
         enable = true;
+        autoNumlock = true;
       };
     };
-    desktopManager.gnome = {
-      enable = true;
-      extraGSettingsOverrides = ''
-        [org.gnome.desktop.interface]
-        gtk-theme = "Materia-dark-compact"
-        icon-theme = "Papirus-Dark"
-	      monospace-font-name = "Rec Mono Semicasual Regular 11"
+    desktopManager.plasma5.enable = true;
 
-        [org.gnome.desktop.wm.preferences]
-        theme = "Materia-dark-compact"
-	      button-layout = "appmenu:minimize,maximize,close"
-
-	      [org.gnome.desktop.peripherals.mouse]
-	      accel-profile = "flat"
-
-	      [org.gnome.desktop.privacy]
-	      disable-camera = true
-	      disable-microphone = true
-	      remember-recent-files = false
-	      remove-old-temp-files = true
-	      remove-old-trash-files = true
-	      old-files-age = 3
-
-        [org.gnome.settings-daemon.plugins.power]
-        sleep-inactive-ac-timeout = 1800
-        sleep-inactive-battery-timeout = 900
-      '';
-    };
   };
-
-  # Excluded gnome3 packages
-  environment.gnome.excludePackages = 
-    [ pkgs.epiphany pkgs.gnome.gnome-music
-      pkgs.gnome.gnome-software pkgs.gnome.totem
-    ];
 
   # EarlyOOM
   services.earlyoom = {

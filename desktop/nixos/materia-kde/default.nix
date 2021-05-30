@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
     description = "A port of the materia theme for Plasma";
     homepage = "https://git.io/materia-kde";
     license = stdenv.lib.licenses.gpl3;
-    maintainers = [ Alderaeney ];
+    maintainers = [ ];
     platforms = stdenv.lib.platforms.all;
   };
 }

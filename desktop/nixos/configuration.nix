@@ -55,11 +55,12 @@ in
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    (pkgs.callPackage ./materia-theme/release.nix)
-    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
-    gnome3.gnome-terminal firefox celluloid strawberry gnome3.file-roller  
+    (pkgs.callPackage ./materia-theme {})
+    (pkgs.callPackage ./materia-kde {})
+    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
+    gnome.gnome-terminal firefox celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
-    gnome3.aisleriot gnome3.gnome-tweaks discord 
+    gnome.aisleriot gnome.gnome-tweaks discord 
     git home-manager python38 
     p7zip unzip unrar gnome3.gnome-calendar 
     steam-run systembus-notify
@@ -71,7 +72,7 @@ in
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
-    android-studio 
+    android-studio qgnomeplatform
     mednafen mednaffe lbry
     
     myAspell mythes
@@ -97,8 +98,8 @@ in
 
   # QT5 Theming
   qt5 = {
-    platformTheme = "gtk2";
-    style = "gtk2";
+    platformTheme = "gnome";
+    style = "gnome";
   };
 
   # Java configuration
@@ -275,8 +276,8 @@ in
 
   # Excluded gnome3 packages
   environment.gnome.excludePackages = 
-    [ pkgs.epiphany pkgs.gnome3.gnome-music
-      pkgs.gnome3.gnome-software pkgs.gnome3.totem
+    [ pkgs.epiphany pkgs.gnome.gnome-music
+      pkgs.gnome.gnome-software pkgs.gnome.totem
     ];
 
   # EarlyOOM

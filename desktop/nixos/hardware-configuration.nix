@@ -18,8 +18,6 @@
     "dev.i915.perf_stream_paranoid" = 0; 
   };
 
-  boot.initrd.luks.fido2Support = true;
-
   boot.initrd.luks.devices."luks" = {
     device = "/dev/disk/by-uuid/UUIDchangeme";
     allowDiscards = true;

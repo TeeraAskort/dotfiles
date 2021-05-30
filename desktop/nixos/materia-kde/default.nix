@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
     owner = "PapirusDevelopmentTeam";
     repo = "materia-kde";
     rev = version;
-    sha256 = "0wli16k9my7m8a9561545vjwfifmxm4w606z1h0j08msvlky40xw";
+    sha256 = "1ng16w0cbz857ps6cg36pm4564f65wn0r23ayv42sp2zm1x86cid";
   };
 
   makeFlags = [ "PREFIX=$(out)" ];

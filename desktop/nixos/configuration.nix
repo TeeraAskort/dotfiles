@@ -24,7 +24,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "link-x250"; # Define your hostname.
+  networking.hostName = "link-pc"; # Define your hostname.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -227,18 +227,18 @@ in
 
         [org.gnome.desktop.wm.preferences]
         theme = "Materia-dark-compact"
-	      button-layout = "appmenu:minimize,maximize,close"
+        button-layout = "appmenu:minimize,maximize,close"
 
-	      [org.gnome.desktop.peripherals.mouse]
-	      accel-profile = "flat"
+	[org.gnome.desktop.peripherals.mouse]
+	accel-profile = "flat"
 
-	      [org.gnome.desktop.privacy]
-	      disable-camera = true
-	      disable-microphone = true
-	      remember-recent-files = false
-	      remove-old-temp-files = true
-	      remove-old-trash-files = true
-	      old-files-age = 3
+	[org.gnome.desktop.privacy]
+	disable-camera = true
+	disable-microphone = true
+	remember-recent-files = false
+	remove-old-temp-files = true
+	remove-old-trash-files = true
+	old-files-age = 3
 
         [org.gnome.settings-daemon.plugins.power]
         sleep-inactive-ac-timeout = 1800

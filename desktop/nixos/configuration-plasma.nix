@@ -24,7 +24,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "link-x250"; # Define your hostname.
+  networking.hostName = "link-pc"; # Define your hostname.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -76,7 +76,6 @@ in
     android-studio
     mednafen mednaffe lbry
 
-     anydesk
     myAspell mythes
   ];
 
@@ -189,12 +188,6 @@ in
 
   # Enable pipewire
   services.pipewire.enable = true;
-
-  # Enable bluetooth
-  hardware.bluetooth = {
-    enable = true;
-    package = pkgs.bluezFull;
-  };
 
   # Xserver configuration
   services.xserver = {

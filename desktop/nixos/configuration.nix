@@ -7,7 +7,7 @@
 let
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "0w8jpiidd86d04clwqn682rj6j3r8rq1xkyb99nf46smbn14lqpk";
+    sha256 = "changeme";
   };
   myAspell = pkgs.aspellWithDicts(ps: with ps; [
     es
@@ -85,10 +85,6 @@ in
     
     myAspell mythes steam
   ];
-
-  # VPN configuration
-  services.libreswan.enable = true;
-  services.xl2tpd.enable = true;
 
   # Environment variables
   environment.sessionVariables = {

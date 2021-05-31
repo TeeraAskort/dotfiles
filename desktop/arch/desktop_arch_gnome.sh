@@ -147,14 +147,8 @@ options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2
 EOF
 bootctl update
 
-# Enabling SDDM
-systemctl enable sddm-plymouth
-
-# Removing unwanted Plasma apps
-pacman -Rnc --noconfirm oxygen
-
-# Adding environment variable to /etc/environment
-echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
+# Enabling GDM
+systemctl enable gdm
 
 # Installing printing services
 pacman -S --noconfirm  cups cups-pdf hplip ghostscript
@@ -172,7 +166,7 @@ pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-pl
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld obs-studio neovim nodejs npm python-pynvim libfido2 mednafen networkmanager-l2tp strongswan strawberry youtube-dl 
+pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt firewalld obs-studio neovim nodejs npm python-pynvim libfido2 mednafen strawberry youtube-dl 
 
 # Enabling services
 systemctl enable thermald earlyoom apparmor libvirtd firewalld 
@@ -199,11 +193,6 @@ npm i -g @ionic/cli
 rm /etc/sudoers.d/aurbuilder
 userdel aurbuilder
 rm -r /tmp/aurbuilder
-
-# Configuring sddm
-sed -i "/pam_gnome_keyring.so/ s/-session/session/g" /etc/pam.d/sddm
-sed -i "/pam_gnome_keyring.so/ s/-password/password/g" /etc/pam.d/sddm
-sed -i "/pam_gnome_keyring.so/ s/-auth/auth/g" /etc/pam.d/sddm
 
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

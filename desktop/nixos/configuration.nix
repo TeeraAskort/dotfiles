@@ -52,11 +52,20 @@ in
   # Allow nonfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Package overriding
+  nixpkgs.config.packageOverrides = pkgs: {
+    steam = pkgs.steam.override {
+      extraPkgs = pkgs: [
+        ibus
+      ];
+    };
+  };
+
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     (pkgs.callPackage ./materia-theme {})
     (pkgs.callPackage ./materia-kde {})
-    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
+    wget vim tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
     gnome.gnome-terminal firefox celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-tweaks discord 
@@ -74,7 +83,7 @@ in
     android-studio libsForQt5.qtstyleplugin-kvantum
     mednafen mednaffe lbry
     
-    myAspell mythes
+    myAspell mythes steam
   ];
 
   # VPN configuration

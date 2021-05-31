@@ -68,12 +68,12 @@ in
     wget vim tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
     gnome.gnome-terminal firefox celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
-    gnome.aisleriot gnome.gnome-tweaks discord 
+    gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
     git home-manager python38 
     p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify
     desmume google-chrome ffmpegthumbnailer 
-    nextcloud-client obs-studio libfido2 pfetch
+    obs-studio libfido2 pfetch
     gtk-engine-murrine 
     parallel libreoffice-fresh
     ffmpeg-full nodejs nodePackages.npm

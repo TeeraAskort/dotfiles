@@ -42,6 +42,11 @@ git config --global init.defaultBranch master
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub org.jdownloader.JDownloader 
 
+## Configuring node packages
+npm config set prefix '~/mutable_node_modules'
+npm i -g @angular/cli @ionic/cli firebase-tools
+echo "PATH=\"$PATH:$HOME/mutable_node_modules/bin\"" | tee -a ~/.zshrc
+
 ## Installing dictionaries
 nix-env -iA nixos.hunspellDicts.es_ES nixos.hunspellDicts.en_US
 

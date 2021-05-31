@@ -7,7 +7,7 @@
 let
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "changeme";
+    sha256 = "0w8jpiidd86d04clwqn682rj6j3r8rq1xkyb99nf46smbn14lqpk";
   };
   myAspell = pkgs.aspellWithDicts(ps: with ps; [
     es
@@ -56,7 +56,7 @@ in
   nixpkgs.config.packageOverrides = pkgs: {
     steam = pkgs.steam.override {
       extraPkgs = pkgs: [
-        ibus
+        pkgs.ibus
       ];
     };
   };

@@ -83,7 +83,7 @@ in
     android-studio libsForQt5.qtstyleplugin-kvantum
     mednafen mednaffe lbry
     
-    myAspell mythes gimp
+    myAspell mythes gimp steam
   ];
 
   # Environment variables

@@ -67,7 +67,7 @@ in
   environment.systemPackages = with pkgs; [
     (pkgs.callPackage ./materia-theme {})
     (pkgs.callPackage ./materia-kde {})
-    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
+    wget vim tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
     gnome.gnome-terminal firefox celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
@@ -85,7 +85,7 @@ in
     android-studio libsForQt5.qtstyleplugin-kvantum
     mednafen mednaffe lbry
     
-    myAspell mythes gimp
+    myAspell mythes gimp steam
   ];
 
   # Environment variables

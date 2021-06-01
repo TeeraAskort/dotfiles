@@ -16,7 +16,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernel.sysctl = {
     "kernel.unprivileged_userns_clone" = 1;
-    "fs.inotify.max_user_watches" = 524288;
+    "dev.i915.perf_stream_paranoid" = 0; 
   };
 
   boot.initrd.luks.fido2Support = true;
@@ -39,13 +39,13 @@
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/249E-5A45";
+    { device = "/dev/disk/by-uuid/bootChangeme";
       fsType = "vfat";
     };
 
   fileSystems."/home/link/Datos" = {
     encrypted = {
-      blkDev = "/dev/disk/by-uuid/20976b67-c796-47c9-90dd-62c1edc34258";
+      blkDev = "/dev/disk/by-uuid/dataDiskChangeme";
       enable = true;
       keyFile = "/mnt-root/.keyfile";
       label = "encrypteddata";
@@ -55,9 +55,8 @@
   };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/37cbbf94-781f-4197-8af9-d4fa6fa2c6e3"; }
+    [ { device = "/dev/disk/by-uuid/swapChangeme"; }
     ];
 
   nix.maxJobs = lib.mkDefault 12;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 }

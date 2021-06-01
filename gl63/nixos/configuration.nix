@@ -301,11 +301,6 @@ in
       pkgs.gnome.gnome-software pkgs.gnome.totem
     ];
 
-  # TLP
-  services.tlp = {
-    enable = true;
-  };
-
   # EarlyOOM
   services.earlyoom = {
     enable = true;

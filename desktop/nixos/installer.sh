@@ -77,8 +77,14 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	# Add data disk UUID to hardware-config
 	sed -i "s/dataDiskChangeme/$(blkid -s UUID -o value /dev/${dataDisk}1)/g" $directory/hardware-configuration.nix
 
-	# Edit hardware-configuration.nix manually
-	vim -O /mnt/etc/nixos/hardware-configuration.nix $directory/hardware-configuration.nix
+	# Add boot partition to hardware-config
+	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${rootDisk}1)/g" $directory/hardware-configuration.nix
+
+	# Add swap partition to hardware-config
+	sed -i "s/swapChangeme/$(blkid -s UUID -o value /dev/lvm/swap)/g" $directory/hardware-configuration.nix
+
+	# Copy hardware-config to /mnt
+	cp $directory/hardware-configuration.nix /mnt/etc/nixos/hardware-configuration.nix
 
 	# Install nixos
 	nixos-install

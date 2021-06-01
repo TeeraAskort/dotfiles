@@ -23,12 +23,6 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
-## Configuring vim/neovim
-cp $directory/dotfiles/.vimrc ~
-mkdir -p ~/.config/nvim/
-ln -s ~/.vimrc ~/.config/nvim/init.vim
-nvim +PlugInstall +q +q
-
 ## Configuring mpv
 mkdir -p ~/.config/mpv/
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
@@ -68,3 +62,9 @@ done
 
 ## Add alias to zsh
 echo "alias vim=\"nvim\"" | tee -a ~/.zshrc
+
+## Configuring vim/neovim
+cp $directory/dotfiles/.vimrc ~
+mkdir -p ~/.config/nvim/
+ln -s ~/.vimrc ~/.config/nvim/init.vim
+nvim +PlugInstall +q +q

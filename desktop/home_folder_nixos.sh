@@ -51,8 +51,6 @@ mkdir -p ~/.config/nvim/
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 nvim +PlugInstall +q +q
 
-
-
 ## Installing dictionaries
 nix-env -iA nixos.hunspellDicts.es_ES nixos.hunspellDicts.en_US
 

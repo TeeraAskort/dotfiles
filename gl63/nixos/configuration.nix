@@ -40,8 +40,8 @@ in
     useDHCP = false; 
     networkmanager.enable = true;
     interfaces = {
-      enp0s25.useDHCP = true;
-      wlp3s0.useDHCP = true;
+      enp3s0.useDHCP = true;
+      wlo1.useDHCP = true;
     };
     extraHosts = ''
       ${builtins.readFile blockedHosts}

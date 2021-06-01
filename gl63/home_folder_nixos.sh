@@ -36,11 +36,11 @@ git config --global user.email "sariaaskort@tuta.io"
 git config --global init.defaultBranch master
 
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub io.lbry.lbry-app com.tutanota.Tutanota com.github.micahflee.torbrowser-launcher org.jdownloader.JDownloader 
+flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader 
 
 ## Configuring node packages
 npm config set prefix '~/mutable_node_modules'
-npm i -g @angular/cli @ionic/cli
+npm i -g @angular/cli @ionic/cli firebase-tools
 ln -s ~/mutable_node_modules/bin ~/bin
 
 ## Configuring vim/neovim

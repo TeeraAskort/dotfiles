@@ -69,7 +69,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	bash $directory/setup_luks_fido.sh
 
 	# Copy key from secondary drive to root partition
-	until cryptsetup open /dev/sda1 datos
+	until cryptsetup open /dev/${dataDisk}1 datos
 	do
 		echo "Cryptsetup failed opening the secondary drive"
 	done
@@ -85,7 +85,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	sed -i "s/dataDiskChangeme/$(blkid -s UUID -o value /dev/${dataDisk}1)/g" $directory/hardware-configuration.nix
 
 	# Add boot partition to hardware-config
-	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${rootDisk}1)/g" $directory/hardware-configuration.nix
+	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${rootDisk}p1)/g" $directory/hardware-configuration.nix
 
 	# Add swap partition to hardware-config
 	sed -i "s/swapChangeme/$(blkid -s UUID -o value /dev/lvm/swap)/g" $directory/hardware-configuration.nix

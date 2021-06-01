@@ -5,20 +5,25 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 directory="$(dirname $_script)"
 
 if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
+
+	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep "WDC WDS500G2B0C-00PXH0" | cut -d" " -f1)
+
+	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDC_WD20SPZX-00UA7T0 | cut -d" " -f1)
+
 	# Create partitions
-	parted /dev/nvme0n1 -- mklabel gpt
-	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
-	parted /dev/nvme0n1 -- set 1 boot on
-	parted /dev/nvme0n1 -- mkpart primary 512M 100%
+	parted /dev/${rootDisk} -- mklabel gpt
+	parted /dev/${rootDisk} -- mkpart ESP fat32 1M 512M
+	parted /dev/${rootDisk} -- set 1 boot on
+	parted /dev/${rootDisk} -- mkpart primary 512M 100%
 
 	# Loop until cryptsetup succeeds formatting the partition
-	until cryptsetup luksFormat /dev/nvme0n1p2 
+	until cryptsetup luksFormat /dev/${rootDisk}p2 
 	do 
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the patition
-	until cryptsetup open /dev/nvme0n1p2 luks
+	until cryptsetup open /dev/${rootDisk}p2 luks
 	do
 		echo "Cryptsetup failed, trying again"
 	done
@@ -33,7 +38,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	# Format partitions
 	mkfs.btrfs -f -L home /dev/lvm/home
 	mkfs.btrfs -f -L root /dev/lvm/root
-	mkfs.vfat -F32 /dev/nvme0n1p1
+	mkfs.vfat -F32 /dev/${rootDisk}p1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
 
@@ -41,7 +46,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	mount /dev/lvm/root /mnt
 	mkdir /mnt/{boot,home}
 	mount /dev/lvm/home /mnt/home
-	mount /dev/nvme0n1p1 /mnt/boot
+	mount /dev/${rootDisk}p1 /mnt/boot
 
 	# Generate configs
 	nixos-generate-config --root /mnt
@@ -73,11 +78,20 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	cp $directory/datos/.keyfile /mnt 
 
 	# Put correct UUID on hardware-configuration.nix
-	uuid=$(blkid -o value -s UUID /dev/nvme0n1p2)
+	uuid=$(blkid -o value -s UUID /dev/${rootDisk}p2)
 	sed -i "s/UUIDchangeme/$uuid/g" $directory/hardware-configuration.nix
 
-	# Edit hardware-configuration.nix manually
-	vim -O /mnt/etc/nixos/hardware-configuration.nix $directory/hardware-configuration.nix
+	# Add data disk UUID to hardware-config
+	sed -i "s/dataDiskChangeme/$(blkid -s UUID -o value /dev/${dataDisk}1)/g" $directory/hardware-configuration.nix
+
+	# Add boot partition to hardware-config
+	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${rootDisk}1)/g" $directory/hardware-configuration.nix
+
+	# Add swap partition to hardware-config
+	sed -i "s/swapChangeme/$(blkid -s UUID -o value /dev/lvm/swap)/g" $directory/hardware-configuration.nix
+
+	# Copy hardware-config to /mnt
+	cp $directory/hardware-configuration.nix /mnt/etc/nixos/hardware-configuration.nix
 	
 	# Install nixos
 	nixos-install

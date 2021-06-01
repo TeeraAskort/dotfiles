@@ -31,7 +31,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "link-x250"; # Define your hostname.
+  networking.hostName = "link-gl63-8rc"; # Define your hostname.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -63,36 +63,43 @@ in
   # Package overrides
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+    steam = pkgs.steam.override {
+      extraPkgs = pkgs: [
+        pkgs.ibus
+      ];
+    };
   };
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome3.gedit 
-    gnome3.gnome-terminal firefox celluloid strawberry gnome3.file-roller  
+    (pkgs.callPackage ./materia-theme {})
+    (pkgs.callPackage ./materia-kde {})
+    nvidia-offload
+    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
+    gnome.gnome-terminal firefox celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
-    gnome3.aisleriot gnome3.gnome-tweaks discord 
+    gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
     git home-manager python38 
-    p7zip unzip unrar gnome3.gnome-calendar piper
+    p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify
     desmume google-chrome ffmpegthumbnailer 
-    nextcloud-client obs-studio libfido2 pfetch
-    gtk-engine-murrine bitwarden obs-studio
-    nextcloud-client parallel libreoffice-fresh
-    adwaita-qt ffmpeg-full nodejs nodePackages.npm
+    obs-studio libfido2 pfetch
+    gtk-engine-murrine 
+    parallel libreoffice-fresh
+    ffmpeg-full nodejs nodePackages.npm
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
-    android-studio jetbrains.idea-community
-    mednafen mednaffe
-    nvidia-offload
+    android-studio libsForQt5.qtstyleplugin-kvantum
+    mednafen mednaffe lbry
     
-    nodePackages.node2nix dbeaver anydesk slack-dark postman 
-    myAspell mythes
+    myAspell mythes gimp
   ];
 
   # Environment variables
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
+    QT_STYLE_OVERRIDE = "kvantum";
   };
 
   fonts.fonts = with pkgs; [
@@ -100,23 +107,13 @@ in
     noto-fonts-cjk
     noto-fonts-emoji
     noto-fonts
+    recursive
   ];
 
-  # QT5 Theming
-  qt5 = {
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
   # Java configuration
   programs.java = {
     enable = true;
     package = pkgs.jdk11;
-  };
-
-  # MariaDB config
-  services.mysql = {
-    enable = true;
-    package = pkgs.mariadb;
   };
 
   # Zsh shell
@@ -268,23 +265,40 @@ in
       };
     };
 
-    desktopManager.gnome3 = {
+    desktopManager.gnome = {
       enable = true;
       extraGSettingsOverrides = ''
         [org.gnome.desktop.interface]
-        gtk-theme = "Adwaita-dark"
+        gtk-theme = "Materia-dark-compact"
         icon-theme = "Papirus-Dark"
+	      monospace-font-name = "Rec Mono Semicasual Regular 11"
 
         [org.gnome.desktop.wm.preferences]
-        theme = "Adwaita-dark"
+        theme = "Materia-dark-compact"
+	      button-layout = "appmenu:minimize,maximize,close"
+
+	      [org.gnome.desktop.peripherals.mouse]
+	      accel-profile = "flat"
+
+	      [org.gnome.desktop.privacy]
+	      disable-camera = true
+	      disable-microphone = true
+	      remember-recent-files = false
+	      remove-old-temp-files = true
+	      remove-old-trash-files = true
+        old-files-age = 3
+
+        [org.gnome.settings-daemon.plugins.power]
+        sleep-inactive-ac-timeout = 1800
+        sleep-inactive-battery-timeout = 900
       '';
     };
   };
 
   # Excluded gnome3 packages
-  environment.gnome3.excludePackages = 
-    [ pkgs.epiphany pkgs.gnome3.gnome-music
-      pkgs.gnome3.gnome-software pkgs.gnome3.totem
+  environment.gnome.excludePackages = 
+    [ pkgs.epiphany pkgs.gnome.gnome-music
+      pkgs.gnome.gnome-software pkgs.gnome.totem
     ];
 
   # TLP
@@ -311,7 +325,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.05"; # Did you read the comment?
+  system.stateVersion = "21.11"; # Did you read the comment?
 
 }
 

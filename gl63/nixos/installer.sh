@@ -55,6 +55,8 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 		cp $directory/configuration-plasma.nix /mnt/etc/nixos/configuration.nix
 	elif [ "$1" = "gnome" ]; then
 		sed -i "s/changeme/$sha256/g" $directory/configuration.nix
+		cp -r $directory/materia-theme /mnt/etc/nixos/
+		cp -r $directory/materia-kde /mnt/etc/nixos/
 		cp $directory/configuration.nix /mnt/etc/nixos/configuration.nix
 	fi
 

@@ -76,7 +76,7 @@ in
     steam-run systembus-notify
     desmume google-chrome ffmpegthumbnailer 
     obs-studio libfido2 pfetch
-    gtk-engine-murrine 
+    gtk-engine-murrine lm_sensors
     parallel libreoffice-fresh
     ffmpeg-full nodejs nodePackages.npm
     python39Packages.pynvim neovim cmake python39Full gcc gnumake

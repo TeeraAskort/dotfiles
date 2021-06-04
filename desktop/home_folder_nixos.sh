@@ -37,7 +37,7 @@ git config --global init.defaultBranch master
 
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub org.jdownloader.JDownloader 
+flatpak install -y flathub org.jdownloader.JDownloader io.lbry.lbry-app
 
 ## Configuring node packages
 npm config set prefix '~/mutable_node_modules'

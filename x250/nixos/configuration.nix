@@ -75,10 +75,10 @@ in
     gnome.gnome-terminal vivaldi celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
-    git home-manager python38 
+    git home-manager python39 
     p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify
-    desmume chromium ffmpegthumbnailer 
+    chromium ffmpegthumbnailer 
     obs-studio libfido2 pfetch
     gtk-engine-murrine lm_sensors
     parallel libreoffice-fresh
@@ -87,7 +87,7 @@ in
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio libsForQt5.qtstyleplugin-kvantum
-    mednafen mednaffe lbry
+    mednafen mednaffe 
     
     myAspell mythes gimp steam
   ];

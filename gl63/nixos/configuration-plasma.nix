@@ -14,6 +14,10 @@ let
     export __VK_LAYER_NV_optimus=NVIDIA_only
     exec -a "$0" "$@"
   '';
+  myAspell = pkgs.aspellWithDicts(ps: with ps; [
+    es
+    en
+  ]);
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
     sha256 = "changeme";
@@ -61,6 +65,15 @@ in
   # Package overrides
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+    steam = pkgs.steam.override {
+      extraPkgs = pkgs: [
+        pkgs.ibus
+      ];
+    };
+    vivaldi = pkgs.vivaldi.override {
+      proprietaryCodecs = true;
+      enableWidevine = true;
+    };
   };
 
   # List packages installed in system profile. To search, run:
@@ -72,19 +85,23 @@ in
     libsForQt5.kio-extras wacomtablet konsole kcharselect 
     libsForQt5.kdegraphics-thumbnailers kgpg ksystemlog
     libsForQt5.kdenetwork-filesharing gtk-engine-murrine
-    plasma-browser-integration
-    wget vim steam tdesktop lutris wineWowPackages.staging minecraft vscode
-    firefox mpv papirus-icon-theme discord 
-    git home-manager python38 p7zip unzip unrar piper
-    steam-run systembus-notify desmume chromium 
-    nextcloud-client obs-studio libfido2 pfetch
-    bitwarden obs-studio libreoffice-fresh
-    nextcloud-client parallel nvidia-offload
+    plasma-browser-integration gwenview
+    wget vim steam tdesktop lutris wineWowPackages.staging vscode 
+    mpv papirus-icon-theme discord 
+    git home-manager p7zip unzip unrar 
+    steam-run systembus-notify chromium 
+    libfido2 pfetch
+    obs-studio libreoffice-fresh
+    parallel vivaldi
     ffmpeg-full nodejs nodePackages.npm
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
-    android-studio jetbrains.idea-community
+    android-studio
+    mednafen mednaffe
+
+    myAspell mythes gimp
+    nvidia-offload
   ];
 
   # Environment variables
@@ -97,21 +114,13 @@ in
     noto-fonts-cjk
     noto-fonts-emoji
     noto-fonts
+    recursive
   ];
-
-  # Firefox plasma browser integration
-  nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
 
   # Java configuration
   programs.java = {
     enable = true;
     package = pkgs.jdk11;
-  };
-
-  # MariaDB config
-  services.mysql = {
-    enable = true;
-    package = pkgs.mariadb;
   };
 
   # Zsh shell
@@ -172,6 +181,12 @@ in
     enable = true;
     driSupport32Bit = true;
     extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+    extraPackages = with pkgs; [
+      intel-media-driver
+      vaapiIntel
+      vaapiVdpau
+      libvdpau-va-gl
+    ];
   };
 
   # Enable CUPS to print documents.
@@ -246,15 +261,6 @@ in
     desktopManager.plasma5.enable = true;
   };
 
-  # TLP
-  services.tlp = {
-    enable = true;
-    settings = {
-      "CPU_ENERGY_PERF_POLICY_ON_AC"="balance_power";
-      "SCHED_POWERSAVE_ON_AC"=1;
-    };
-  };
-
   # EarlyOOM
   services.earlyoom = {
     enable = true;
@@ -284,7 +290,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.05"; # Did you read the comment?
+  system.stateVersion = "21.11"; # Did you read the comment?
 
 }
 

@@ -52,6 +52,19 @@ in
   # Allow nonfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Package overriding
+  nixpkgs.config.packageOverrides = pkgs: {
+    steam = pkgs.steam.override {
+      extraPkgs = pkgs: [
+        pkgs.ibus
+      ];
+    };
+    vivaldi = pkgs.vivaldi.override {
+      proprietaryCodecs = true;
+      enableWidevine = true;
+    };
+  };
+
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     plasma-nm plasma-vault breeze-gtk breeze-qt5 sddm-kcm 
@@ -63,18 +76,18 @@ in
     libsForQt5.kdenetwork-filesharing gtk-engine-murrine
     plasma-browser-integration gwenview
     wget vim steam tdesktop lutris wineWowPackages.staging vscode 
-    firefox mpv papirus-icon-theme discord 
+    vivaldi mpv papirus-icon-theme discord 
     git home-manager p7zip unzip unrar 
     steam-run systembus-notify desmume chromium 
     libfido2 pfetch
     obs-studio libreoffice-fresh
     parallel
     ffmpeg-full nodejs nodePackages.npm
-    python39Packages.pynvim neovim cmake python3Full gcc gnumake
+    python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio
-    mednafen mednaffe lbry
+    mednafen mednaffe 
 
     myAspell mythes
   ];

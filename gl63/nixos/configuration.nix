@@ -68,6 +68,10 @@ in
         pkgs.ibus
       ];
     };
+    vivaldi = pkgs.vivaldi.override {
+      proprietaryCodecs = true;
+      enableWidevine = true;
+    };
   };
 
   # List packages installed in system profile. To search, run:
@@ -76,7 +80,7 @@ in
     (pkgs.callPackage ./materia-kde {})
     nvidia-offload
     wget vim tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
-    gnome.gnome-terminal firefox celluloid strawberry gnome.file-roller  
+    gnome.gnome-terminal vivaldi celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
     git python39 

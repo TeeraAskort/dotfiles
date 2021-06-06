@@ -45,7 +45,7 @@ user_pref("datareporting.policy.dataSubmissionEnabled", false);
 user_pref("device.sensors.enabled", false);
 user_pref("geo.wifi.logging.enabled", false);
 user_pref("network.predictor.enabled", false);
-user_pref("toolkit.telemetry.server", );
+user_pref("toolkit.telemetry.server", "");
 user_pref("extensions.pocket.enabled", false);
 user_pref("browser.newtabpage.activity-stream.telemetry", false);
 user_pref("mozilla.widget.use-argb-visuals", true);

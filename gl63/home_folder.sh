@@ -83,6 +83,7 @@ cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip
+unzip ~/Documentos/fonts2.zip
 
 ## Configuring u2f cards
 hostnm=$(hostname)

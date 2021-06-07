@@ -23,10 +23,6 @@ dnf copr enable dawid/better_fonts -y
 #Add gnome-with-patches copr
 dnf copr enable pp3345/gnome-with-patches -y
 
-#Enabling google-chrome repo
-dnf install fedora-workstation-repositories -y
-dnf config-manager --set-enabled google-chrome
-
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
@@ -44,7 +40,7 @@ dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.re
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts aisleriot thermald gnome-mahjongg evolution python-neovim strawberry google-chrome-stable mednafen mednaffe youtube-dl materia-gtk-theme materia-kde kernel-xanmod-edge nodejs npm code vivaldi-stable
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts aisleriot thermald gnome-mahjongg evolution python-neovim strawberry chromium-freeworld mednafen mednaffe youtube-dl materia-gtk-theme materia-kde kernel-xanmod-edge nodejs npm code vivaldi-stable
 
 systemctl enable thermald
 
@@ -69,6 +65,16 @@ flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownload
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
+
+# Installing angular globally
+npm i -g @angular/cli
+ng analytics off
+
+# Installing ionic
+npm i -g @ionic/cli
+
+# Installing firebase cli
+npm install -g firebase-tools
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'

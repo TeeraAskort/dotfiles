@@ -23,10 +23,6 @@ dnf copr enable dawid/better_fonts -y
 #Add gnome-with-patches copr
 dnf copr enable pp3345/gnome-with-patches -y
 
-#Enabling google-chrome repo
-dnf install fedora-workstation-repositories -y
-dnf config-manager --set-enabled google-chrome
-
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
@@ -47,7 +43,7 @@ dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.re
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry google-chrome-stable mednafen mednaffe youtube-dl pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-gtk-theme materia-kde kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers nvidia-driver dkms-nvidia nvidia-driver-libs.i686 vivaldi-stable
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-gtk-theme materia-kde kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers nvidia-driver dkms-nvidia nvidia-driver-libs.i686 vivaldi-stable
 
 systemctl enable thermald
 

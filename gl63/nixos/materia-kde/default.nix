@@ -1,4 +1,4 @@
- { stdenv, fetchFromGitHub }:
+ { stdenv, lib, fetchFromGitHub }:
 
 stdenv.mkDerivation rec {
   pname = "materia-kde-theme";
@@ -21,8 +21,8 @@ stdenv.mkDerivation rec {
   meta = {
     description = "A port of the materia theme for Plasma";
     homepage = "https://git.io/materia-kde";
-    license = stdenv.lib.licenses.gpl3;
+    license = lib.licenses.gpl3;
     maintainers = [ ];
-    platforms = stdenv.lib.platforms.all;
+    platforms = lib.platforms.all;
   };
 }

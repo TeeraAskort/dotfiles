@@ -26,9 +26,6 @@ dnf copr enable pp3345/gnome-with-patches -y
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
-#Enabling xanmod kernel
-dnf copr enable rmnscnce/kernel-xanmod -y
-
 #Install VSCode
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
@@ -40,7 +37,7 @@ dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.re
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts aisleriot thermald gnome-mahjongg evolution python-neovim strawberry chromium-freeworld mednafen mednaffe youtube-dl materia-gtk-theme materia-kde kernel-xanmod-edge nodejs npm code vivaldi-stable
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts aisleriot thermald gnome-mahjongg evolution python-neovim strawberry chromium-freeworld mednafen mednaffe youtube-dl materia-gtk-theme materia-kde nodejs npm code vivaldi-stable
 
 systemctl enable thermald
 

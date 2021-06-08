@@ -52,7 +52,7 @@ dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKi
 dnf groupupdate sound-and-video -y
 
 #Install nvidia drivers
-dnf install akmod-nvidia xorg-x11-drv-nvidia-cuda
+dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
 cat > /etc/modprobe.d/nvidia.conf <<EOF
 # Enable DynamicPwerManagement
 # http://download.nvidia.com/XFree86/Linux-x86_64/440.31/README/dynamicpowermanagement.html

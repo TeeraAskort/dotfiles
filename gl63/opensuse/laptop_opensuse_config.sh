@@ -12,7 +12,8 @@ sudo zypper addrepo https://download.opensuse.org/repositories/shells:zsh-users:
 sudo zypper ar -cfp 99 https://download.opensuse.org/repositories/Emulators/openSUSE_Tumbleweed/ emulators
 sudo zypper addrepo https://download.opensuse.org/repositories/hardware/openSUSE_Tumbleweed/hardware.repo
 sudo zypper addrepo -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
-zypper addrepo --refresh https://download.nvidia.com/opensuse/tumbleweed NVIDIA
+sudo zypper addrepo --refresh https://download.nvidia.com/opensuse/tumbleweed NVIDIA
+sudo zypper ar https://repo.vivaldi.com/archive/vivaldi-suse.repo
 
 # Adding VSCode repo
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -28,20 +29,17 @@ sudo zypper dist-upgrade --from packman --allow-vendor-change -y
 sudo zypper install -y --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 # Installing basic packages
-sudo zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa discord x11-video-nvidiaG05
+sudo zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa discord x11-video-nvidiaG05 vivaldi-stable
 
 # Enabling thermald service
 sudo systemctl enable thermald intel-undervolt earlyoom
 
 # Removing unwanted applications
-sudo zypper rm -y git-gui
-
-# Installing NVIDIA drivers
-sudo OneClickInstallCLI https://www.opensuse-community.org/nvidia_G05.ymp
+sudo zypper rm -y git-gui firefox
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	# Installing DE specific applications
-	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet
+	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam
 
 	# Removing unwanted DE specific applications
 	sudo zypper rm -y konversation kmines ksudoku kreversi

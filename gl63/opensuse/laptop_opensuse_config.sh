@@ -18,11 +18,6 @@ zypper addrepo --refresh https://download.nvidia.com/opensuse/tumbleweed NVIDIA
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/zypp/repos.d/vscode.repo'
 
-# Adding chrome repo
-sudo zypper ar http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
-wget https://dl.google.com/linux/linux_signing_key.pub
-sudo rpm --import linux_signing_key.pub
-
 # Refreshing the repos
 sudo zypper refresh
 
@@ -33,7 +28,7 @@ sudo zypper dist-upgrade --from packman --allow-vendor-change -y
 sudo zypper install -y --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 # Installing basic packages
-sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa discord x11-video-nvidiaG05
+sudo zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa discord x11-video-nvidiaG05
 
 # Enabling thermald service
 sudo systemctl enable thermald intel-undervolt earlyoom
@@ -46,7 +41,7 @@ sudo OneClickInstallCLI https://www.opensuse-community.org/nvidia_G05.ymp
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	# Installing DE specific applications
-	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring
+	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet
 
 	# Removing unwanted DE specific applications
 	sudo zypper rm -y konversation kmines ksudoku kreversi
@@ -130,11 +125,8 @@ sudo flatpak override --filesystem=~/.fonts
 echo "dev.i915.perf_stream_paranoid=0" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Installing angular globally
-sudo npm i -g @angular/cli
+sudo npm i -g @angular/cli @ionic/cli firebase-tools
 sudo ng analytics off
-
-# Installing ionic
-sudo npm i -g @ionic/cli
 
 # Copying prime-run
 sudo cp $directory/../dotfiles/prime-run /usr/bin

@@ -15,11 +15,6 @@ sudo zypper addrepo -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/ope
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/zypp/repos.d/vscode.repo'
 
-# Adding chrome repo
-sudo zypper ar http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
-wget https://dl.google.com/linux/linux_signing_key.pub
-sudo rpm --import linux_signing_key.pub
-
 # Refreshing the repos
 sudo zypper refresh
 
@@ -30,7 +25,7 @@ sudo zypper dist-upgrade --from packman --allow-vendor-change -y
 sudo zypper install -y --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 # Installing basic packages
-sudo zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom discord code
+sudo zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom discord code patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa
 
 # Enabling thermald service
 sudo systemctl enable thermald earlyoom
@@ -40,7 +35,7 @@ sudo zypper rm -y git-gui
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	# Installing DE specific applications
-	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring
+	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet
 
 	# Removing unwanted DE specific applications
 	sudo zypper rm -y konversation kmines ksudoku kreversi 
@@ -115,5 +110,6 @@ sudo flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader org
 # Flatpak overrides
 sudo flatpak override --filesystem=~/.fonts
 
-# Add sysctl config
-echo "dev.i915.perf_stream_paranoid=0" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+# Installing angular globally
+sudo npm i -g @angular/cli @ionic/cli firebase-tools
+sudo ng analytics off

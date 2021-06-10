@@ -60,10 +60,10 @@ pacman -Syu --noconfirm
 pacman -S --noconfirm xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver
 
 # Installing services
-pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
+pacman -S --noconfirm  networkmanager openssh xdg-user-dirs intel-ucode bluez bluez-libs
 
 # Enabling services
-systemctl enable NetworkManager haveged bluetooth
+systemctl enable NetworkManager bluetooth
 
 # Installing sound libraries
 pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth

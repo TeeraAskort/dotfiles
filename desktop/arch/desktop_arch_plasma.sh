@@ -60,7 +60,7 @@ pacman -Syu --noconfirm
 pacman -S --noconfirm xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa xf86-input-wacom xf86-input-libinput 
 
 # Installing services
-pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged
+pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode
 
 # Enabling services
 systemctl enable NetworkManager haveged

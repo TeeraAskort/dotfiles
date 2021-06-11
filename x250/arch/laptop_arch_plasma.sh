@@ -60,7 +60,7 @@ pacman -Syu --noconfirm
 pacman -S --noconfirm lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader libva-intel-driver intel-media-driver
 
 # Installing services
-pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged bluez bluez-libs
+pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
 
 # Enabling services
 systemctl enable NetworkManager bluetooth haveged

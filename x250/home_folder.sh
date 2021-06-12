@@ -6,7 +6,7 @@ directory="$(dirname $_script)"
 
 rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TS128GMTS430S | cut -d" " -f1)
 
-dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_MQ01ABD100 | cut -d" " -f1)
+dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep ST1000LM048-2E7172 | cut -d" " -f1)
 
 ## Adjusting keymap
 sudo localectl set-x11-keymap es

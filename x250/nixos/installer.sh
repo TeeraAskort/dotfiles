@@ -8,7 +8,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 
 	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TS128GMTS430S | cut -d" " -f1)
 
-	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_MQ01ABD100 | cut -d" " -f1)
+	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep ST1000LM048-2E7172 | cut -d" " -f1)
 
 	# Create partitions
 	parted /dev/$rootDisk -- mklabel gpt

@@ -30,16 +30,19 @@ dnf copr enable alderaeney/mednaffe -y
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
 
+#Add Vivaldi repo
+dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
+
 # Upgrade system
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-gtk-theme materia-kde 
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-gtk-theme materia-kde vivaldi-stable
 
 systemctl enable thermald
 
 # Remove unused packages 
-dnf remove -y totem rhythmbox 
+dnf remove -y totem rhythmbox firefox
 
 #Update Appstream data
 dnf groupupdate core -y

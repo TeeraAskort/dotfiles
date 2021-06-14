@@ -11,7 +11,6 @@ sudo zypper ar -cfp 99 https://download.opensuse.org/repositories/Emulators/open
 sudo zypper addrepo https://download.opensuse.org/repositories/hardware/openSUSE_Tumbleweed/hardware.repo
 sudo zypper addrepo -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
 sudo zypper ar https://repo.vivaldi.com/archive/vivaldi-suse.repo
-sudo zypper ar https://download.opensuse.org/repositories/multimedia:/libs/openSUSE_Tumbleweed/multimedia:libs.repo
 
 # Adding VSCode repo
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -25,9 +24,6 @@ sudo zypper dup
 
 # Updating the system
 sudo zypper dist-upgrade --from packman --allow-vendor-change -y
-
-# Update from multimedia_libs
-sudo zypper dist-upgrade --from multimedia_libs --allow-vendor-change -y
 
 # Installing codecs
 sudo zypper install -y --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full

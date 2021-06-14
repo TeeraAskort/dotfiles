@@ -22,6 +22,9 @@ sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.m
 # Refreshing the repos
 sudo zypper refresh
 
+# Updating system
+sudo zypper dup -y
+
 # Updating the system
 sudo zypper dist-upgrade --from packman --allow-vendor-change -y
 

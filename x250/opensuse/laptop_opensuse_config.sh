@@ -21,6 +21,9 @@ sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.m
 # Refreshing the repos
 sudo zypper refresh
 
+# Updating system
+sudo zypper dup
+
 # Updating the system
 sudo zypper dist-upgrade --from packman --allow-vendor-change -y
 
@@ -34,7 +37,7 @@ sudo zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-hi
 sudo systemctl enable thermald intel-undervolt earlyoom firefox
 
 # Removing unwanted applications
-sudo zypper rm -y git-gui
+sudo zypper rm -y git-gui firefox
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	# Installing DE specific applications

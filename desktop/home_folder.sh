@@ -78,27 +78,6 @@ cd ~/.fonts
 unzip ~/Documentos/fonts.zip
 unzip ~/Documentos/fonts2.zip
 
-if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then
-	kwriteconfig5 --file kxkbrc --group Layout --key LayoutList es 
-	kwriteconfig5 --file kscreenlockerrc --group Greeter --group Wallpaper --group org.kde.image --group General --key Image /home/link/Imágenes/wallpapers/naturalesa/bfantinatti_flower.jpg
-	kwriteconfig5 --file powermanagementprofilesrc --group AC --group SuspendSession --key idleTime 1800000
-	kwriteconfig5 --file powermanagementprofilesrc --group AC --group SuspendSession --key suspendType 1
-	kwriteconfig5 --file kdeglobals --group Icons --key Theme Papirus-Dark
-	kwriteconfig5 --file kdeglobals --group General --key fixed "Rec Mono Semicasual,11,-1,5,50,0,0,0,0,0"
-	kwriteconfig5 --file breezerc --group Style --key MenuOpacity 90
-	kwriteconfig5 --file kdedefaults/kdeglobals --group General --key ColorScheme BreezeDark
-
-	kwriteconfig5 --file kwinrulesrc --group 1 --key Description "Preferencias para konsole"
-	kwriteconfig5 --file kwinrulesrc --group 1 --key ignoregeometry true
-	kwriteconfig5 --file kwinrulesrc --group 1 --key ignoregeometryrule 3
-	kwriteconfig5 --file kwinrulesrc --group 1 --key size "640,600"
-	kwriteconfig5 --file kwinrulesrc --group 1 --key sizerule 3
-	kwriteconfig5 --file kwinrulesrc --group 1 --key types 1
-	kwriteconfig5 --file kwinrulesrc --group 1 --key wmclass konsole
-	kwriteconfig5 --file kwinrulesrc --group 1 --key wmclassmatch 1
-
-fi
-
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	if [ -e /usr/share/themes/Materia-dark-compact ]; then

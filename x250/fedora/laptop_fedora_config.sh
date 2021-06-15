@@ -34,9 +34,9 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl webp-pixbuf-loader pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-kde materia-gtk-theme 
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl webp-pixbuf-loader pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-kde materia-gtk-theme acpid
 
-systemctl enable thermald 
+systemctl enable thermald acpid
 
 # Remove unused packages 
 dnf remove -y totem rhythmbox 
@@ -74,3 +74,18 @@ echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 # Installing angular globally
 npm i -g @angular/cli @ionic/cli firebase-tools
 ng analytics off
+
+# Headphone jack workaround
+cp $directory/headphones /usr/local/bin
+chmod +x /usr/local/bin/headphones
+
+cp $directory/headphones.service /usr/lib/systemd/system/
+cp $directory/headphones-sleep /usr/lib/systemd/system-sleep/
+systemctl enable headphones.service
+
+cp $directory/headphone_jack /etc/acpi/events
+cp $directory/headphones /etc/acpi/actions
+chmod +x /etc/acpi/actions/headphones
+
+# Fix power button shutting down
+sed -i "s/shutdown -h now/pm-suspend/g" /etc/acpi/actions/power.sh

@@ -30,19 +30,16 @@ dnf copr enable alderaeney/mednaffe -y
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
 
-#Add Vivaldi repo
-dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
-
 # Upgrade system
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe acpid youtube-dl webp-pixbuf-loader pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-kde materia-gtk-theme vivaldi-stable
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe acpid youtube-dl webp-pixbuf-loader pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-kde materia-gtk-theme 
 
 systemctl enable thermald acpid 
 
 # Remove unused packages 
-dnf remove -y totem rhythmbox firefox
+dnf remove -y totem rhythmbox 
 
 #Update Appstream data
 dnf groupupdate core -y
@@ -75,26 +72,5 @@ flatpak override --filesystem=~/.fonts
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Installing angular globally
-npm i -g @angular/cli
+npm i -g @angular/cli @ionic/cli firebase-tools
 ng analytics off
-
-# Installing ionic
-npm i -g @ionic/cli
-
-# Installing firebase cli
-npm install -g firebase-tools
-
-# Headphone jack workaround
-cp $directory/headphones /usr/local/bin 
-chmod +x /usr/local/bin/headphones
-
-cp $directory/headphones.service /usr/lib/systemd/system/
-cp $directory/headphones-sleep /usr/lib/systemd/system-sleep/
-systemctl enable headphones.service
-
-cp $directory/headphone_jack /etc/acpi/events
-cp $directory/headphones /etc/acpi/actions
-chmod +x /etc/acpi/actions/headphones
-
-# Fix power button shutting down
-sed -i "s/shutdown -h now/pm-suspend/g" /etc/acpi/actions/power.sh

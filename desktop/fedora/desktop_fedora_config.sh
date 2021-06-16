@@ -63,3 +63,7 @@ flatpak override --filesystem=~/.fonts
 # Installing angular globally
 npm i -g @angular/cli @ionic/cli firebase-tools
 ng analytics off
+
+# Add intel_idle.max_cstate=1 to grub and update
+grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
+grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg

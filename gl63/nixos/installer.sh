@@ -93,6 +93,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	# Copy hardware-config to /mnt
 	cp $directory/hardware-configuration.nix /mnt/etc/nixos/hardware-configuration.nix
 	
+	# Workaround for bug 
+	nix-build '<nixpkgs/nixos>' -A config.system.build.toplevel -I nixos-config=/mnt/etc/nixos/configuration.nix
+
 	# Install nixos
 	nixos-install
 

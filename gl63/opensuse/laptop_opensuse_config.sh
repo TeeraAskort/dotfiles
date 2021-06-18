@@ -41,7 +41,7 @@ sudo systemctl enable thermald intel-undervolt earlyoom
 sudo zypper in --auto-agree-with-licenses x11-video-nvidiaG05
 
 # Removing unwanted applications
-sudo zypper rm -y git-gui 
+sudo zypper rm -y git-gui firefox
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	# Installing DE specific applications

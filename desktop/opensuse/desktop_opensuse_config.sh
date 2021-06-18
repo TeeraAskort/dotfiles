@@ -35,7 +35,7 @@ sudo zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-hi
 sudo systemctl enable thermald earlyoom
 
 # Removing unwanted applications
-sudo zypper rm -y git-gui 
+sudo zypper rm -y git-gui firefox
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	# Installing DE specific applications

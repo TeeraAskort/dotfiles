@@ -9,7 +9,6 @@ user=$SUDO_USER
 #DNF Tweaks
 echo "deltarpm=true" | tee -a /etc/dnf/dnf.conf
 echo "max_parallel_downloads=10" | tee -a /etc/dnf/dnf.conf 
-echo "fastestmirror=true" | tee -a /etc/dnf/dnf.conf
 
 #Setting up hostname
 hostnamectl set-hostname link-x250

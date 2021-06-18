@@ -31,10 +31,13 @@ sudo zypper dist-upgrade --from packman --allow-vendor-change -y
 sudo zypper install -y --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 # Installing basic packages
-sudo zypper in --auto-agree-with-licenses -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa discord x11-video-nvidiaG05
+sudo zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa discord 
 
 # Enabling thermald service
 sudo systemctl enable thermald intel-undervolt earlyoom
+
+# Install nvidia drivers
+sudo zypper in --auto-agree-with-licenses x11-video-nvidiaG05
 
 # Removing unwanted applications
 sudo zypper rm -y git-gui 

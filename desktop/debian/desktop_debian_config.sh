@@ -5,8 +5,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	dpkg --add-architecture i386
 	apt update
 
+	# Installing curl
+	apt install -y curl wget
+
 	# Installing drivers
-	apt install firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
+	apt install -y firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
 
 	# Adding xanmod kernel
 	echo 'deb http://deb.xanmod.org releases main' | tee /etc/apt/sources.list.d/xanmod-kernel.list
@@ -45,11 +48,15 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Add deb-multimedia repo
 	echo "deb https://www.deb-multimedia.org bullseye main non-free" | tee /etc/apt/sources.list.d/multimedia.list
 	apt-get update -oAcquire::AllowInsecureRepositories=true
-	apt-get install -y deb-multimedia-keyring
+	apt install deb-multimedia-keyring --allow-unauthenticated
 	apt update && apt full-upgrade -y
 
+	# Adding steam repo
+	echo "deb [arch=i386,amd64] http://repo.steampowered.com/steam/ precise steam" | tee /etc/apt/sources.list.d/steam.list
+	apt update
+
 	# Installing required applications
-	apt install -y build-essential steam vivaldi-stable vim nano fonts-noto fonts-noto-cjk fonts-noto-mono pcsx2 mednafen mednaffe telegram-desktop nodejs npm neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl 
+	apt install -y build-essential steam vivaldi-stable vim nano fonts-noto fonts-noto-cjk fonts-noto-mono pcsx2 mednafen mednaffe telegram-desktop nodejs npm neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us 
 	
 	systemctl enable thermald
 	
@@ -72,10 +79,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		
 	elif [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing required packages
-		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird yakuake 
+		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird yakuake gnome-keyring libpam-gnome-keyring libpam-kwallet5
 		
 		# Remove unwanted applications
-		apt remove -y konversation akregator 
+		apt remove -y konversation akregator kmail konqueror dragonplayer k3b juk kaddressbook korganizer
 		
 	elif [ "$1" == "xfce" ]; then
 		# Installing required packages
@@ -101,6 +108,17 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Installing angular globally
 	npm i -g @angular/cli @ionic/cli firebase-tools
 	ng analytics off
+
+	# Updating grub
+	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub
+	sed -i 's/#GRUB_GFXMODE=640x480/GRUB_GFXMODE=1920x1080x32/g' /etc/default/grub
+	update-grub
+
+	# Setting hexagon_2 plymouth theme
+	curl -LO "https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_2/hexagon_2.tar.gz"
+	tar xzvf hexagon_2.tar.gz
+	cp -r hexagon_2 /usr/share/plymouth/themes
+	plymouth-set-default-theme -R hexagon_2
 
 else
 	echo "Accepted paramenters:"

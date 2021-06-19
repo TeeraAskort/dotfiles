@@ -5,17 +5,19 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 directory="$(dirname $_script)"
 
 dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_DT01ACA300 | cut -d" " -f1)
+torrentDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_DT01ABA300 | cut -d" " -f1)
 
 ## Adjusting keymap
 sudo localectl set-x11-keymap es
 
 ## Configuring data disk
+echo "Enter data disk password: "
 sudo cryptsetup open /dev/${dataDisk}1 encrypteddata
-mkdir /home/link/Datos
-sudo mount /dev/mapper/encrypteddata /home/link/Datos
-sudo cp /home/link/Datos/.keyfile /root/.keyfile
+mkdir $HOME/Datos
+sudo mount /dev/mapper/encrypteddata $HOME/Datos
+sudo cp $HOME/Datos/.keyfile /root/.keyfile
 echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${dataDisk}1) /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
-echo "/dev/mapper/encrypteddata /home/link/Datos btrfs defaults 0 0" | sudo tee -a /etc/fstab
+echo "/dev/mapper/encrypteddata $HOME/Datos btrfs defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders
 rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent
@@ -27,8 +29,17 @@ ln -s /home/link/Datos/Documentos /home/link
 ln -s /home/link/Datos/Escritorio /home/link
 ln -s /home/link/Datos/Música /home/link
 ln -s /home/link/Datos/Imágenes /home/link
-ln -s /home/link/Datos/Torrent /home/link
 ln -s /home/link/Datos/Nextcloud /home/link
+
+## Configuring Torrent disk
+clear 
+echo "Enter Torrent disk password:"
+sudo cryptsetup open /dev/${torrentDisk}1 torrent
+mkdir $HOME/Torrent
+sudo mount /dev/mapper/torrent $HOME/Torrent
+sudo cp $HOME/Torrent/.torrentkey /root/.torrentkey
+echo "torrent UUID=$(sudo blkid -s UUID -o value /dev/${torrentDisk}1) /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
+echo "/dev/mapper/torrent $HOME/Torrent btrfs defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Installing vim plugins
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \

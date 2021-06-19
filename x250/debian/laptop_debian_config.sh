@@ -78,6 +78,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		
 		# Remove unwanted applications
 		apt remove -y konversation akregator kmail konqueror dragonplayer k3b juk kaddressbook korganizer
+
+		# Adding environment variable
+		echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
 		
 	elif [ "$1" == "xfce" ]; then
 		# Installing required packages

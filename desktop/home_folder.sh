@@ -38,7 +38,7 @@ sudo cryptsetup open /dev/${torrentDisk}1 torrent
 mkdir $HOME/Torrent
 sudo mount /dev/mapper/torrent $HOME/Torrent
 sudo cp $HOME/Torrent/.torrentkey /root/.torrentkey
-echo "torrent UUID=$(sudo blkid -s UUID -o value /dev/${torrentDisk}1) /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
+echo "torrent UUID=$(sudo blkid -s UUID -o value /dev/${torrentDisk}1) /root/.torrentkey luks,discard" | sudo tee -a /etc/crypttab
 echo "/dev/mapper/torrent $HOME/Torrent btrfs defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Installing vim plugins

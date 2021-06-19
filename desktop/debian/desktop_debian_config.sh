@@ -21,11 +21,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo 'net.core.default_qdisc = fq_pie' | tee /etc/sysctl.d/90-override.conf
 	
 	# Adding vivaldi repo
-	wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
-	add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main' 
-	apt update
-       	apt install -y vivaldi-stable
-	apt remove -y firefox-esr
+	# wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
+	# add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main' 
+	# apt update
+       	# apt install -y vivaldi-stable
+	# apt remove -y firefox-esr
 	
 	# Installing strawberry
 	curl -s https://api.github.com/repos/strawberrymusicplayer/strawberry/releases/latest \

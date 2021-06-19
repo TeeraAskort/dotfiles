@@ -14,11 +14,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt install -y libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386 firmware-linux-nonfree firmware-misc-nonfree
 
 	# Adding vivaldi repo
-	wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
-	add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main' 
-	apt update
-       	apt install -y vivaldi-stable
-	apt remove -y firefox-esr
+	# wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
+	# add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main' 
+	# apt update
+       	# apt install -y vivaldi-stable
+	# apt remove -y firefox-esr
 	
 	# Installing strawberry
 	curl -s https://api.github.com/repos/strawberrymusicplayer/strawberry/releases/latest \

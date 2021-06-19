@@ -78,7 +78,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		
 	elif [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing required packages
-		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird yakuake gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect nautilus-kdeconnect plasma-browser-integration qemu-system libvirt-clients libvirt-daemon-system virt-manager
+		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird yakuake gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect nautilus-kdeconnect plasma-browser-integration qemu-system libvirt-clients libvirt-daemon-system virt-manager xdg-desktop-portal-kde
 
 		# Adding user to libvirt group
 		adduser $user libvirt

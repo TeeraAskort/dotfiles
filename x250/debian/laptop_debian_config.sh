@@ -9,7 +9,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt install -y curl wget
 
 	# Installing drivers
-	apt install -y libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386 firmware-linux-nonfree
+	apt install -y libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386 firmware-linux-nonfree firmware-misc-nonfree
 
 	# Adding vivaldi repo
 	wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
@@ -98,7 +98,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	#Install flatpak applications
-	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader
+	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu
 
 	# Installing angular globally
 	npm i -g @angular/cli @ionic/cli firebase-tools

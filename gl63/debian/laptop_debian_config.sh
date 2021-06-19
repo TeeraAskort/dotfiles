@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "xfce" ]; then
 	# Adding 32bit support
 	dpkg --add-architecture i386
@@ -9,14 +13,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt install -y curl wget
 
 	# Installing drivers
-	apt install -y firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
+	apt install -y linux-headers-amd64 nvidia-driver firmware-misc-nonfree libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386 firmware-linux-nonfree
 
-	# Adding xanmod kernel
-	echo 'deb http://deb.xanmod.org releases main' | tee /etc/apt/sources.list.d/xanmod-kernel.list
-	wget -qO - https://dl.xanmod.org/gpg.key | apt-key --keyring /etc/apt/trusted.gpg.d/xanmod-kernel.gpg add -
-	apt update && apt install -y linux-xanmod intel-microcode iucode-tool
-	echo 'net.core.default_qdisc = fq_pie' | tee /etc/sysctl.d/90-override.conf
-	
 	# Adding vivaldi repo
 	wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
 	add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main' 
@@ -57,7 +55,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt update && apt install -y lutris
 
 	# Installing required applications
-	apt install -y build-essential steam vivaldi-stable vim nano fonts-noto fonts-noto-cjk fonts-noto-mono pcsx2 mednafen mednaffe telegram-desktop nodejs npm neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us 
+	apt install -y build-essential steam vivaldi-stable vim nano fonts-noto fonts-noto-cjk fonts-noto-mono pcsx2 mednafen mednaffe telegram-desktop nodejs npm neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us pamu2fcfg libpam-u2f
 	
 	systemctl enable thermald
 	
@@ -111,7 +109,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	ng analytics off
 
 	# Updating grub
-	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1 splash"/' /etc/default/grub
+	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub
 	sed -i 's/#GRUB_GFXMODE=640x480/GRUB_GFXMODE=1920x1080x32/g' /etc/default/grub
 	update-grub
 
@@ -120,6 +118,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	tar xzvf hexagon_2.tar.gz
 	cp -r hexagon_2 /usr/share/plymouth/themes
 	plymouth-set-default-theme -R hexagon_2
+
+	# Copying prime-run script
+	cp $directory/../dotfiles/prime-run /usr/bin/prime-run
+	chmod +x /usr/bin/prime-run
 
 else
 	echo "Accepted paramenters:"

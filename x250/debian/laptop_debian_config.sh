@@ -16,7 +16,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Adding vivaldi repo
 	wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
 	add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main' 
-	apt update && apt install -y vivaldi-stable
+	apt update
+       	apt install -y vivaldi-stable
 	apt remove -y firefox-esr
 	
 	# Installing strawberry
@@ -32,7 +33,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	wget -nc https://dl.winehq.org/wine-builds/winehq.key
 	apt-key add winehq.key
 	echo "deb https://dl.winehq.org/wine-builds/debian/ bullseye main" | tee /etc/apt/sources.list.d/wine.list
-	apt update && apt install -y winehq-staging winetricks
+	apt update
+       	apt install -y winehq-staging winetricks
 
 	# Installing VSCode
 	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -46,12 +48,14 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo "deb https://www.deb-multimedia.org bullseye main non-free" | tee /etc/apt/sources.list.d/multimedia.list
 	apt-get update -oAcquire::AllowInsecureRepositories=true
 	apt install deb-multimedia-keyring --allow-unauthenticated
-	apt update && apt full-upgrade -y
+	apt update
+       	apt full-upgrade -y
 
 	# Installing lutris
 	echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_10/ ./" | tee /etc/apt/sources.list.d/lutris.list
 	wget -q https://download.opensuse.org/repositories/home:/strycore/Debian_10/Release.key -O- | sudo apt-key add -
-	apt update && apt install -y lutris
+	apt update
+       	apt install -y lutris
 
 	# Installing required applications
 	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono pcsx2 mednafen mednaffe telegram-desktop nodejs npm neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us pamu2fcfg libpam-u2f

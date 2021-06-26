@@ -20,13 +20,13 @@ dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$
 dnf copr enable dawid/better_fonts -y
 
 #Add gnome-with-patches copr
-dnf copr enable pp3345/gnome-with-patches -y
+dnf copr enable grigorig/gnome-with-performance -y
 
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
 #Enabling vivaldi repo
-dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
+# dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
 
 #Install VSCode
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -36,12 +36,12 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl webp-pixbuf-loader pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-kde materia-gtk-theme acpid vivaldi-stable
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl webp-pixbuf-loader pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-kde materia-gtk-theme acpid 
 
 systemctl enable thermald acpid
 
 # Remove unused packages 
-dnf remove -y totem rhythmbox firefox
+dnf remove -y totem rhythmbox 
 
 #Update Appstream data
 dnf groupupdate core -y

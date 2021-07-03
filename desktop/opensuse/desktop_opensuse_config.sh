@@ -39,47 +39,10 @@ sudo zypper rm -y git-gui firefox
 
 if [ $XDG_CURRENT_DESKTOP = "KDE" ]; then
 	# Installing DE specific applications
-	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam
+	sudo zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd
 
 	# Removing unwanted DE specific applications
 	sudo zypper rm -y konversation kmines ksudoku kreversi 
-
-	## Setting up gnome-keyring on sddm
-	if [ -e /etc/pam.d/sddm ]; then
-		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
-		awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
-		if diff /etc/pam.d/sddm.bak sddm; then
-			awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth      optional    pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
-			sudo cp sddm /etc/pam.d/sddm
-		else
-			sudo cp sddm /etc/pam.d/sddm
-		fi
-		rm sddm
-	fi
-
-	if [ -e /etc/pam.d/sddm ]; then
-		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
-		awk "FNR==NR{ if (/session /) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
-		if diff /etc/pam.d/sddm.bak sddm; then
-			awk "FNR==NR{ if (/session\t/) p=NR; next} 1; FNR==p{ print \"session   optional    pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
-			sudo cp sddm /etc/pam.d/sddm
-		else
-			sudo cp sddm /etc/pam.d/sddm
-		fi
-		rm sddm
-	fi
-
-	if [ -e /etc/pam.d/sddm ]; then
-		sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
-		awk "FNR==NR{ if (/password /) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
-		if diff /etc/pam.d/sddm.bak sddm; then
-			awk "FNR==NR{ if (/password\t/) p=NR; next} 1; FNR==p{ print \"password       optional        pam_gnome_keyring.so use_authtok\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
-			sudo cp sddm /etc/pam.d/sddm
-		else
-			sudo cp sddm /etc/pam.d/sddm
-		fi
-		rm sddm
-	fi
 fi
 
 # Changing plymouth theme
@@ -109,8 +72,7 @@ sudo mkinitrd
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-sudo flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader org.gimp.GIMP org.jdownloader.JDownloader
-
+sudo flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader org.gimp.GIMP 
 # Flatpak overrides
 sudo flatpak override --filesystem=~/.fonts
 

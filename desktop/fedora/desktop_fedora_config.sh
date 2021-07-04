@@ -33,7 +33,7 @@ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
 
 # Upgrade system
-dnf upgrade -y
+dnf upgrade -y --refresh
 
 #Install required packages
 dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts aisleriot thermald gnome-mahjongg evolution python-neovim strawberry chromium-freeworld mednafen mednaffe youtube-dl materia-gtk-theme materia-kde nodejs npm code brasero desmume
@@ -69,3 +69,5 @@ ng analytics off
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
 grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+
+dnf up

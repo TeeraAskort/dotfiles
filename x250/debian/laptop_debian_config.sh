@@ -111,7 +111,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.katawa_shoujo.KatawaShoujo com.google.AndroidStudio
 
 	# Installing angular globally
-	npm i -g @angular/cli @ionic/cli @vue/cli firebase-tools @aws-amplify/cli
+	npm i -g @angular/cli @ionic/cli @vue/cli firebase-tools 
 	ng analytics off
 
 	# Updating grub

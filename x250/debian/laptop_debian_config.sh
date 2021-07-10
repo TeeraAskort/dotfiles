@@ -88,7 +88,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		adduser $user libvirt
 		
 		# Remove unwanted applications
-		apt remove -y konversation akregator kmail konqueror dragonplayer juk kaddressbook korganizer
+		apt remove -y konversation akregator kmail konqueror dragonplayer juk kaddressbook korganizer xdg-desktop-portal-gtk
 
 		# Adding environment variable
 		echo "GTK_USE_PORTAL=1" | tee -a /etc/environment

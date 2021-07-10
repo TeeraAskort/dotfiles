@@ -8,7 +8,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt update
 
 	# Installing curl
-	apt install -y curl wget
+	apt install -y curl wget software-properties-common
 
 	# Installing drivers
 	apt install -y libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386 firmware-linux-nonfree firmware-misc-nonfree
@@ -57,8 +57,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt update
        	apt install -y lutris
 
+	# Installing nodejs
+	curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+	apt-get install -y nodejs
+
 	# Installing required applications
-	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono pcsx2 mednafen mednaffe telegram-desktop nodejs npm neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us pamu2fcfg libpam-u2f btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk
+	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono pcsx2 mednafen mednaffe telegram-desktop neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk
 	
 	systemctl enable thermald
 	
@@ -110,9 +114,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	#Install flatpak applications
 	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.katawa_shoujo.KatawaShoujo com.google.AndroidStudio
 
-	# Installing angular globally
-	npm i -g @angular/cli @ionic/cli @vue/cli firebase-tools 
-	ng analytics off
+	# Installing npm packages globally
+	npm i -g @ionic/cli @vue/cli electron@latest
 
 	# Updating grub
 	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub

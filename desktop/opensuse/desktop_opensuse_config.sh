@@ -41,10 +41,10 @@ rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDC_WDS120G2G0B-00EPW0 
 
 if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Installing DE specific applications
-	 zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd
+	 zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird
 
 	# Removing unwanted DE specific applications
-	 zypper rm -y konversation kmines kku kreversi 
+	 zypper rm -y konversation kmines ksudoku kreversi
 fi
 
 # Changing plymouth theme
@@ -74,7 +74,8 @@ echo "/boot/ root:root 700" |  tee -a /etc/permissions.local
  flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader org.gimp.GIMP 
+flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader org.gimp.GIMP com.google.AndroidStudio
+
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
 

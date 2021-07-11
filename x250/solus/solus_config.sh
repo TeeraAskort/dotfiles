@@ -28,7 +28,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 		eopkg it -y gnome-mahjongg aisleriot brasero ffmpegthumbnailer transmission xdg-desktop-portal-gtk
 		
 		## Removing unwanted applications
-		eopkg rm hexchat rhythmbox
+		eopkg rm -y hexchat rhythmbox
 	fi
 	
 	## Adding flathub repo

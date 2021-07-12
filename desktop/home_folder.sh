@@ -32,7 +32,7 @@ ln -s /home/link/Datos/Imágenes /home/link
 ln -s /home/link/Datos/Nextcloud /home/link
 
 ## Configuring Torrent disk
-clear 
+clear
 echo "Enter Torrent disk password:"
 sudo cryptsetup open /dev/${torrentDisk}1 torrent
 mkdir $HOME/Torrent
@@ -43,7 +43,7 @@ echo "/dev/mapper/torrent $HOME/Torrent btrfs defaults 0 0" | sudo tee -a /etc/f
 
 ## Installing vim plugins
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -103,10 +103,28 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.privacy disable-microphone true
 	gsettings set org.gnome.desktop.privacy remember-recent-files false
 	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
-	gsettings set org.gnome.desktop.privacy remove-old-trash-files  true
+	gsettings set org.gnome.desktop.privacy remove-old-trash-files true
 	gsettings set org.gnome.desktop.privacy old-files-age 3
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
+	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
+		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	fi
+fi
+
+## Changing Budgie config
+if [[ "$XDG_CURRENT_DESKTOP" == "Budgie:GNOME" ]]; then
+	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
+	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
+	gsettings set org.gnome.desktop.privacy disable-camera true
+	gsettings set org.gnome.desktop.privacy disable-microphone true
+	gsettings set org.gnome.desktop.privacy remember-recent-files false
+	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
+	gsettings set org.gnome.desktop.privacy remove-old-trash-files true
+	gsettings set org.gnome.desktop.privacy old-files-age 3
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
+
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
@@ -118,8 +136,7 @@ git config --global user.email "alderaeney@alderaeney.com"
 git config --global init.defaultBranch master
 
 ## Changing user shell
-if ! command -v chsh &> /dev/null
-then
+if ! command -v chsh &>/dev/null; then
 	sudo lchsh link
 else
 	chsh -s /usr/bin/zsh

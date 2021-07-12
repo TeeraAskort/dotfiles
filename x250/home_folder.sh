@@ -202,6 +202,24 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	fi
 fi
 
+## Changing Budgie config
+if [[ "$XDG_CURRENT_DESKTOP" == "Budgie:GNOME" ]]; then
+	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
+	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
+	gsettings set org.gnome.desktop.privacy disable-camera true
+	gsettings set org.gnome.desktop.privacy disable-microphone true
+	gsettings set org.gnome.desktop.privacy remember-recent-files false
+	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
+	gsettings set org.gnome.desktop.privacy remove-old-trash-files true
+	gsettings set org.gnome.desktop.privacy old-files-age 3
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
+
+	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
+		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	fi
+fi
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@alderaeney.com"

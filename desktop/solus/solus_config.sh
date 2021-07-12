@@ -25,10 +25,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	
 	if [ "$1" == "budgie" ]; then
 		## Installing desktop specific packages
-		eopkg it -y gnome-mahjongg aisleriot brasero ffmpegthumbnailer transmission xdg-desktop-portal-gtk
+		eopkg it -y gnome-mahjongg aisleriot brasero ffmpegthumbnailer transmission xdg-desktop-portal-gtk gnome-boxes evolution
 		
 		## Removing unwanted applications
-		eopkg rm -y hexchat rhythmbox
+		eopkg rm -y hexchat rhythmbox thunderbird
 	fi
 	
 	## Adding flathub repo

@@ -25,7 +25,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	
 	if [ "$1" == "budgie" ]; then
 		## Installing desktop specific packages
-		eopkg it -y gnome-mahjongg aisleriot brasero ffmpegthumbnailer transmission xdg-desktop-portal-gtk gnome-boxes evolution
+		eopkg it -y gnome-mahjongg aisleriot brasero ffmpegthumbnailer transmission xdg-desktop-portal-gtk gnome-boxes evolution libgepub
 		
 		## Removing unwanted applications
 		eopkg rm -y hexchat rhythmbox thunderbird
@@ -35,8 +35,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	## Installing flatpak applications
-	flatpak install -y flathub org.jdownloader.JDownloader com.katawa_shoujo.KatawaShoujo
-	
+	flatpak install -y flathub org.jdownloader.JDownloader com.katawa_shoujo.KatawaShoujo org.desmume.DeSmuME org.flarerpg.Flare com.mojang.Minecraft
+
 	## Installing npm packages globally
 	npm i -g @ionic/cli @vue/cli 
 	

@@ -117,6 +117,9 @@ export ARCHFLAGS="-arch x86_64"
 ## Elementary alias
 # source ~/.elementary_alias
 
+## Solus alias
+# source ~/.solus_alias
+
 ## General alias
 source ~/.general_alias
 

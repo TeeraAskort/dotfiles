@@ -230,6 +230,10 @@ if ! command -v chsh &> /dev/null
 then
 	sudo lchsh link
 else
-	chsh -s /usr/bin/zsh
+	if [ -e /usr/bin/zsh ]; then 
+		chsh -s /usr/bin/zsh
+	else
+		chsh -s /bin/zsh
+	fi
 fi
 vim ~/.zshrc

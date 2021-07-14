@@ -36,7 +36,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 
 	if [ "$1" == "gnome" ]; then
 		## Installing gnome specific packages
-		eopkg it -y chrome-gnome-shell
+		eopkg it -y chrome-gnome-shell materia-gtk-theme-dark-compact
 	fi
 	
 	## Adding flathub repo

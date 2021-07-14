@@ -23,7 +23,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf
 	sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-undervolt.conf
 	
-	if [ "$1" == "budgie" ]; then
+	if [ "$1" == "budgie" ] || [ "$1" == "gnome" ]; then
 		## Installing desktop specific packages
 		eopkg it -y gnome-mahjongg aisleriot brasero ffmpegthumbnailer transmission xdg-desktop-portal-gtk gnome-boxes evolution libgepub
 		

@@ -12,8 +12,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	eopkg bi -y --ignore-safety https://raw.githubusercontent.com/getsolus/3rd-party/master/programming/android-studio/pspec.xml
 	eopkg it -y android-studio*.eopkg; rm android-studio*.eopkg
 	
+	## Install drivers
+	eopkg it -y libva-intel-driver libva-vdpau-driver gstreamer-vaapi
+
 	## Install global packages
-	eopkg it -y libfido2 pam-u2f intel-undervolt strawberry nodejs vim neovim python-neovim wine wine-devel winetricks zsh zsh-syntax-highlighting zsh-autosuggestions steam lutris gimp vscode telegram discord dolphin-emu thermald gamemode gamemode-32bit youtube-dl openjdk-11-devel btrfs-progs ntfs-3g p7zip unrar exfatprogs hplip cups pcsx2 noto-sans-ttf flatpak obs-studio lbry-desktop 
+	eopkg it -y libfido2 pam-u2f intel-undervolt strawberry nodejs vim neovim python-neovim wine wine-devel winetricks zsh zsh-syntax-highlighting zsh-autosuggestions steam lutris gimp vscode telegram discord dolphin-emu thermald gamemode gamemode-32bit youtube-dl openjdk-11-devel btrfs-progs ntfs-3g p7zip unrar exfatprogs hplip cups pcsx2 noto-sans-ttf flatpak obs-studio lbry-desktop
 	
 	## Enabling services
 	systemctl enable thermald intel-undervolt cups 
@@ -23,7 +26,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf
 	sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-undervolt.conf
 	
-	if [ "$1" == "budgie" ]; then
+	if [ "$1" == "budgie" ] || [ "$1" == "gnome" ]; then
 		## Installing desktop specific packages
 		eopkg it -y gnome-mahjongg aisleriot brasero ffmpegthumbnailer transmission xdg-desktop-portal-gtk gnome-boxes evolution libgepub
 		

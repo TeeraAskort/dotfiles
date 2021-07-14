@@ -33,6 +33,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 		## Removing unwanted applications
 		eopkg rm -y hexchat rhythmbox thunderbird
 	fi
+
+	if [ "$1" == "gnome" ]; then
+		## Installing gnome specific packages
+		eopkg it -y chrome-gnome-shell
+	fi
 	
 	## Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

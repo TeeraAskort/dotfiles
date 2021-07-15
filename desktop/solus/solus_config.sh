@@ -40,9 +40,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	## Installing npm packages globally
 	npm i -g @ionic/cli @vue/cli 
 	
-	## Putting sysctl options
-	echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
-
 	## Adding kernel parameters
 	echo "intel_idle.max_cstate=1" | tee -a /etc/kernel/cmdline
 	clr-boot-manager update

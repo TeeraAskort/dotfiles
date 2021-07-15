@@ -20,7 +20,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	
 	if [ "$1" == "budgie" ] || [ "$1" == "gnome" ]; then
 		## Installing desktop specific packages
-		eopkg it -y gnome-mahjongg aisleriot brasero ffmpegthumbnailer transmission xdg-desktop-portal-gtk gnome-boxes evolution libgepub materia-gtk-theme-dark-compact
+		eopkg it -y gnome-mahjongg aisleriot brasero ffmpegthumbnailer transmission xdg-desktop-portal-gtk gnome-boxes evolution libgepub 
 		
 		## Removing unwanted applications
 		eopkg rm -y hexchat rhythmbox thunderbird
@@ -28,7 +28,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	
 	if [ "$1" == "gnome" ]; then
 		## Installing gnome specific packages
-		eopkg it -y chrome-gnome-shell 
+		eopkg it -y chrome-gnome-shell materia-gtk-theme-dark-compact
 	fi
 
 	## Adding flathub repo

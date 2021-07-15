@@ -119,8 +119,8 @@ fi
 
 ## Changing Budgie config
 if [[ "$XDG_CURRENT_DESKTOP" == "Budgie:GNOME" ]]; then
-	if [ -e /usr/share/themes/Materia-dark-compact ]; then
-		gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark-compact"
+	if [ -e /usr/share/themes/Plata-Noir-Compact ]; then
+		gsettings set org.gnome.desktop.interface gtk-theme "Plata-Noir-Compact"
 	fi
 	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"

@@ -19,7 +19,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	eopkg it -y libfido2 pam-u2f intel-undervolt strawberry nodejs vim neovim python-neovim wine wine-devel winetricks zsh zsh-syntax-highlighting zsh-autosuggestions steam lutris gimp vscode telegram discord dolphin-emu thermald gamemode gamemode-32bit youtube-dl openjdk-11-devel btrfs-progs ntfs-3g p7zip unrar exfatprogs hplip cups pcsx2 noto-sans-ttf flatpak obs-studio lbry-desktop
 	
 	## Enabling services
-	systemctl enable thermald intel-undervolt cups 
+	systemctl enable thermald intel-undervolt
 	
 	## Configuring intel-undervolt
 	sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -75/g" /etc/intel-undervolt.conf

@@ -31,6 +31,14 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 		eopkg it -y chrome-gnome-shell materia-gtk-theme-dark-compact
 	fi
 
+    if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
+        ## Installing desktop specific applications
+        eopkg it -y palapeli kmahjongg kpat qbittorrent mpv yakuake gnome-keyring xdg-desktop-portal-kde plasma-browser-integration virt-manager ffmpegthumbs k3b kio-extras wacomtablet qemu libvirt
+
+        ## Removing unwanted applications
+        eopkg rm -y konversation elisa smplayer
+	fi
+
 	## Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 

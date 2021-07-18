@@ -68,7 +68,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	clr-boot-manager update
 	
 	## Configuring nvidia optimus
-	sudo -u $user git clone https://github.com/xinnna/Solus-Nvidia-Optimus-Manager.git
+	git clone https://github.com/xinnna/Solus-Nvidia-Optimus-Manager.git
 	cd Solus-Nvidia-Optimus-Manager
 	eopkg it -y pciutils
 

@@ -60,6 +60,7 @@ cp $directory/zsh/.fedora_alias ~
 cp $directory/zsh/.silverblue_alias ~
 cp $directory/zsh/.opensuse_alias ~
 cp $directory/zsh/.elementary_alias ~
+cp $directory/zsh/.solus_alias ~
 mkdir -p ~/.config/pulse
 cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k

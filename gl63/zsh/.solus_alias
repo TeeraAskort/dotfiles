@@ -1,0 +1,5 @@
+alias vim="nvim"
+alias eit="sudo eopkg it"
+alias erm="sudo eopkg rm"
+alias ese="sudo eopkg search"
+alias eup="sudo eopkg up"

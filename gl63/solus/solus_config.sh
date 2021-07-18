@@ -65,33 +65,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "budgie" ] || [ "$1" == "kde" ] || [ "$1" ==
 	
 	## Adding kernel parameters
 	echo "intel_idle.max_cstate=1" | tee -a /etc/kernel/cmdline
+	echo "nvidia-drm.modeset=1" | tee -a /etc/kernel/cmdline
 	clr-boot-manager update
-	
-	## Configuring nvidia optimus
-	git clone https://github.com/xinnna/Solus-Nvidia-Optimus-Manager.git
-	cd Solus-Nvidia-Optimus-Manager
-	eopkg it -y pciutils
-
-	## Desktop specific configs
-	if [ "$1" == "gnome" ]; then
-		cp 99-nvidia.conf /etc/gdm/99-nvidia.conf
-	elif [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
-		cp 99-nvidia-sddm.conf /etc/sddm.conf.d/99-nvidia-sddm.conf
-	elif [ "$1" == "budgie" ]; then
-		cp 99-nvidia.conf /etc/lightdm/lightdm.conf.d/99-nvidia.conf
-		cp 99-nvidia.conf /etc/gdm/99-nvidia.conf
-	fi
-
-	## Copying service and executable
-	cp nvidia-optimus-autoconfig.service /etc/systemd/system/nvidia-optimus-autoconfig.service
-	cp nvidia-optimus-manager /usr/bin/nvidia-optimus-manager
-
-	## Enabling service
-	systemctl daemon-reload
-	systemctl enable nvidia-optimus-autoconfig
-
-	## Removing git folder
-	cd ../; rm -r Solus-Nvidia-Optimus-Manager
 	
 	## Copying prime-run script
 	cp $directory/../dotfiles/prime-run /usr/bin/prime-run

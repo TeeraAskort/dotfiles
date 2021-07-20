@@ -29,7 +29,7 @@ dnf copr enable alderaeney/mednaffe -y
 # dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
 
 #Install VSCode
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
 
 # Upgrade system
@@ -64,7 +64,7 @@ systemctl enable intel-undervolt
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP org.telegram.desktop 
+flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP org.telegram.desktop org.flarerpg.Flare com.mojang.Minecraft
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
@@ -73,9 +73,8 @@ flatpak override --filesystem=~/.fonts
 # echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
-# Installing angular globally
-npm i -g @angular/cli @ionic/cli firebase-tools
-ng analytics off
+# Installing npm packages globally
+npm i -g @ionic/cli @vue/cli electron@latest
 
 # Headphone jack workaround
 cp $directory/headphones /usr/local/bin

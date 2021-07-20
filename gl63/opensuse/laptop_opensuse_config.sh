@@ -85,7 +85,7 @@ sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-u
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-flatpak install -y flathub io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP 
+flatpak install -y flathub io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP org.flarerpg.Flare com.mojang.Minecraft
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
@@ -94,7 +94,7 @@ flatpak override --filesystem=~/.fonts
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Installing angular globally
-npm i -g @ionic/cli @vue/cli electron@latest
+npm i -g @ionic/cli @vue/cli 
 
 # Copying prime-run
 cp $directory/../dotfiles/prime-run /usr/bin

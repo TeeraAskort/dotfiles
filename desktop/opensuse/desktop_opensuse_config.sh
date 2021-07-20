@@ -74,13 +74,13 @@ echo "/boot/ root:root 700" |  tee -a /etc/permissions.local
  flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader org.gimp.GIMP com.google.AndroidStudio
+flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader org.gimp.GIMP com.google.AndroidStudio org.flarerpg.Flare com.mojang.Minecraft
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
 
 # Installing angular globally
-npm i -g @ionic/cli @vue/cli electron@latest
+npm i -g @ionic/cli @vue/cli 
 
 else
 	echo "Accepted paramenters:"

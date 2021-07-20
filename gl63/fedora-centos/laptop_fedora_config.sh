@@ -19,9 +19,6 @@ dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$
 #Better font rendering cpor
 dnf copr enable dawid/better_fonts -y
 
-#Add gnome-with-patches copr
-dnf copr enable grigorig/gnome-with-performance -y
-
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 

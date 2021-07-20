@@ -74,7 +74,7 @@ flatpak override --filesystem=~/.fonts
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Installing npm packages globally
-npm i -g @ionic/cli @vue/cli electron@latest
+npm i -g @ionic/cli @vue/cli 
 
 # Headphone jack workaround
 cp $directory/headphones /usr/local/bin

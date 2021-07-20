@@ -63,7 +63,7 @@ flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownload
 flatpak override --filesystem=~/.fonts
 
 # Installing npm packages globally
-npm i -g @ionic/cli @vue/cli electron@latest
+npm i -g @ionic/cli @vue/cli 
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'

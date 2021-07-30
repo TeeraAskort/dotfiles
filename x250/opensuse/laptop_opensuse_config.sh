@@ -34,7 +34,7 @@ zypper install -y --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} 
 zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f discord patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa desmume
 
 # Enabling thermald service
-systemctl enable thermald intel-undervolt earlyoom 
+systemctl enable thermald intel-undervolt earlyoom libvirtd
 
 # Removing unwanted applications
 zypper rm -y git-gui 

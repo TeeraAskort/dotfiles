@@ -34,7 +34,7 @@ rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDC_WDS120G2G0B-00EPW0 
  zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry dolphin-emu telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom discord code patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa desmume
 
 # Enabling thermald service
- systemctl enable thermald earlyoom
+ systemctl enable thermald earlyoom libvirtd
 
 # Removing unwanted applications
  zypper rm -y git-gui 

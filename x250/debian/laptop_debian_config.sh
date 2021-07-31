@@ -115,7 +115,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.katawa_shoujo.KatawaShoujo com.google.AndroidStudio org.flarerpg.Flare com.mojang.Minecraft
 
 	# Installing npm packages globally
-	npm i -g @ionic/cli @vue/cli electron@latest
+	npm i -g @ionic/cli @vue/cli 
 
 	# Updating grub
 	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub

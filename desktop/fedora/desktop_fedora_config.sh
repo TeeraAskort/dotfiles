@@ -36,7 +36,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y --refresh
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts aisleriot thermald gnome-mahjongg evolution python-neovim strawberry chromium-freeworld mednafen mednaffe youtube-dl materia-gtk-theme materia-kde nodejs npm code brasero desmume kernel-xanmod-cacule
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts aisleriot thermald gnome-mahjongg evolution python-neovim strawberry chromium-freeworld mednafen mednaffe youtube-dl materia-gtk-theme materia-kde nodejs npm code brasero desmume kernel-xanmod-cacule unrar
 
 systemctl enable thermald
 

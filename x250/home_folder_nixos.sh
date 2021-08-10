@@ -34,14 +34,14 @@ git config --global init.defaultBranch master
 
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub org.jdownloader.JDownloader io.lbry.lbry-app
+flatpak install -y flathub org.jdownloader.JDownloader io.lbry.lbry-app org.flarerpg.Flare com.mojang.Minecraft
 
 ## Installing dictionaries
 nix-env -iA nixos.hunspellDicts.es_ES nixos.hunspellDicts.en_US
 
 ## Configuring node packages
 npm config set prefix '~/mutable_node_modules'
-npm i -g @angular/cli @ionic/cli firebase-tools
+npm i -g @ionic/cli @vue/cli
 echo "PATH=\"$PATH:$HOME/mutable_node_modules/bin\"" | tee -a ~/.zshrc
 
 ## Configuring u2f authentication

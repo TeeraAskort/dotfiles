@@ -61,16 +61,16 @@ in
         pkgs.ibus
       ];
     };
-    vivaldi = pkgs.vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine = true;
-    };
+#    vivaldi = pkgs.vivaldi.override {
+#      proprietaryCodecs = true;
+#      enableWidevine = true;
+#    };
   };
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     (pkgs.callPackage ./materia-theme {})
-    (pkgs.callPackage ./materia-kde {})
+    materia-kde-theme
     wget vim tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
     gnome.gnome-terminal celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
@@ -87,8 +87,8 @@ in
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio libsForQt5.qtstyleplugin-kvantum
-    mednafen mednaffe 
-    vivaldi
+    mednafen mednaffe zip
+    firefox
     myAspell mythes gimp steam
   ];
 

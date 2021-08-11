@@ -11,6 +11,7 @@ add-apt-repository ppa:kisak/kisak-mesa -y
 add-apt-repository ppa:maarten-fonville/android-studio -y
 add-apt-repository -y ppa:lutris-team/lutris
 add-apt-repository -y ppa:philip.scott/pantheon-tweaks
+add-apt-repository ppa:jonaski/strawberry -y
 
 ## Updating the system
 apt update
@@ -24,19 +25,21 @@ add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
 apt-get update
 apt-get upgrade -y
 apt-get install --install-recommends -y winehq-staging
-apt-get install -y libgnutls30:i386 libldap-2.4-2:i386 libgpg-error0:i386 libxml2:i386 libasound2-plugins:i386 \
-libsdl2-2.0-0:i386 libfreetype6:i386 libdbus-1-3:i386 libsqlite3-0:i386
+apt-get install -y libgnutls30:i386 libldap-2.4-2:i386 libgpg-error0:i386 libxml2:i386 libasound2-plugins:i386 libsdl2-2.0-0:i386 libfreetype6:i386 libdbus-1-3:i386 libsqlite3-0:i386
 
 ## Installing nodejs
-curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
-bash nodesource_setup.sh
-apt install -y nodejs
+curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+apt-get install -y nodejs
+
 
 ## Installing required packages
-apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions libreoffice libreoffice-l10n-es firefox firefox-locale-es earlyoom thermald intel-microcode intel-media-va-driver mpv youtube-dl transmission-gtk vim neovim python3-neovim nano build-essential obs-studio steam-installer desmume openjdk-11-jdk printer-driver-cups-pdf hplip fonts-noto fonts-noto-cjk fonts-noto-color-emoji mednaffe mednafen pamu2fcfg libpam-u2f hyphen-es hyphen-en-us gimp telegram-desktop gstreamer1.0-vaapi gstreamer1.0-libav unrar zip unzip gamemode libfido2-1 mythes-en-us mythes-es hunspell-es hunspell-en-us pantheon-tweaks lutris libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 qemu-kvm libvirt0 android-studio-4.2 virt-manager
+apt install -y zsh zsh-syntax-highlighting zsh-autosuggestions libreoffice libreoffice-l10n-es firefox firefox-locale-es earlyoom thermald intel-microcode intel-media-va-driver mpv youtube-dl transmission-gtk vim neovim python3-neovim nano build-essential obs-studio steam-installer desmume openjdk-11-jdk printer-driver-cups-pdf hplip fonts-noto fonts-noto-cjk fonts-noto-color-emoji mednaffe mednafen pamu2fcfg libpam-u2f hyphen-es hyphen-en-us gimp telegram-desktop gstreamer1.0-vaapi gstreamer1.0-libav unrar zip unzip gamemode libfido2-1 mythes-en-us mythes-es hunspell-es hunspell-en-us pantheon-tweaks lutris libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 qemu-kvm libvirt0 android-studio-4.2 virt-manager strawberry
+
+## Removing unwanted applications
+apt remove -y io.elementary.videos noise
 
 ## Install outsider applications
-curl -L "https://discord.com/api/download?platform=linux&format=deb" > discord.debº
+curl -L "https://discord.com/api/download?platform=linux&format=deb" > discord.deb
 curl -LO "https://cdn.akamai.steamstatic.com/client/installer/steam.deb"
 curl -L "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" > code.deb
 curl -LO "https://lbry.com/get/lbry.deb"
@@ -49,6 +52,9 @@ npm i -g @ionic/cli @vue/cli
 ## Installing flatpak applications
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.katawa_shoujo.KatawaShoujo org.flarerpg.Flare org.chromium.Chromium
+
+## Removing flatpak applications
+flatpak remove -y org.gnome.Epiphany io.elementary.tasks 
 
 ## Putting sysctl options
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf

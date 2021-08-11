@@ -56,3 +56,6 @@ echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 ## Adding user to kvm group
 user=$USER
 sudo usermod -aG kvm $user
+
+## Removing unused packages
+apt autoremove -y --purge

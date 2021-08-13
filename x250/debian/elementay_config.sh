@@ -20,6 +20,7 @@ apt full-upgrade -y
 ## Installing nodejs
 apt install -y curl
 curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
+apt-get update
 apt-get install -y nodejs 
 
 ## Installing wine

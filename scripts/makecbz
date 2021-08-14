@@ -1,12 +1,24 @@
 #!/usr/bin/env bash
 
-SAVEIFS=$IFS
-IFS=$(echo -en "\n\b")
+if [[ "$1" = "-r" ]]; then
 
-cd $1
+	SAVEIFS=$IFS
+	IFS=$(echo -en "\n\b")
 
-for file in $(ls $1); do
-	zip -r ${file}.zip $file
-	mv ${file}.zip ${file}.cbz
-done
-IFS=$SAVEIFS
+	cd $2
+
+	for file in $(ls $2); do
+		zip -r ${file}.zip $file
+		mv ${file}.zip ${file}.cbz
+	done
+	IFS=$SAVEIFS
+
+elif [[ "$1" = "-h" ]]; then
+	echo "Options:"
+	echo "makecbz [-r] folder"
+	echo "-r to make the contents of the folder a cbz instead of the folder itself"
+	echo "Use -h to see this help"
+else
+	zip -r "${1}.zip" "${1}"
+	mv "${1}.zip" "${1}.cbz"
+fi

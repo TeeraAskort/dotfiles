@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ## Installing software-properties for PPAs
-apt install -y software-properties-common
+apt install -y software-properties-common pkg-config
 
 ## Adding 32bit support
 dpkg --add-architecture i386

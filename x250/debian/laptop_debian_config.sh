@@ -102,10 +102,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Installing required packages
-		apt install -y tilix gvfs gvfs-backends evolution materia-gtk-theme materia-kde qt5-style-kvantum transmission-gtk aisleriot gnome-mahjongg ffmpegthumbnailer 
+		apt install -y tilix gvfs gvfs-backends evolution materia-gtk-theme materia-kde qt5-style-kvantum transmission-gtk aisleriot gnome-mahjongg ffmpegthumbnailer lightdm-settings slick-greeter 
 
 		# Removing unwanted applications
-		apt remove -y
+		apt remove -y gnome-2048 gnome-taquin tali gnome-robots gnome-tetravex quadrapassel four-in-a-row five-or-more lightsoff gnome-chess hoichess gnome-klotski swell-foop gnome-mines gnome-nibbles iagno gnome-sudoku inkscape hexchat remmina pidgin rhythmbox sound-juicer totem
 
 		# Adding environment variable
 		echo "QT_STYLE_OVERRIDE=kvantum" | tee -a /etc/environment

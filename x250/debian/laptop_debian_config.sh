@@ -20,6 +20,13 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
        	# apt install -y vivaldi-stable
 	# apt remove -y firefox-esr
 	
+	# Adding xanmod kernel
+	echo 'deb http://deb.xanmod.org releases main' | tee /etc/apt/sources.list.d/xanmod-kernel.list
+	wget -qO - https://dl.xanmod.org/gpg.key | apt-key --keyring /etc/apt/trusted.gpg.d/xanmod-kernel.gpg add -
+	apt update
+    apt install -y linux-xanmod-cacule intel-microcode iucode-tool
+	echo 'net.core.default_qdisc = fq_pie' | tee /etc/sysctl.d/90-override.conf
+	
 	# Installing strawberry
 	curl -s https://api.github.com/repos/strawberrymusicplayer/strawberry/releases/latest \
 	| grep "browser_download_url" \

@@ -76,10 +76,6 @@ mkdir -p ~/.config/pulse
 cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
 
-## Copying pipewire config
-mkdir -p ~/.config/pipewire
-cp $directory/dotfiles/pipewire.conf $direcotry/dotfiles/pipewire-pulse.conf ~/.config/pipewire
-
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~
 mkdir -p ~/.config/nvim/

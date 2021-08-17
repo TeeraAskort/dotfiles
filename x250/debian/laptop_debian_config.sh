@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "xfce" ]; then
+if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "xfce" ] || [ "$1" == "cinnamon" ]; then
 	user=$SUDO_USER
 
 	# Adding 32bit support
@@ -99,6 +99,16 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		qmake && make && make install
 		cd .. && rm -r qt5gtk2
 		echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
+
+	elif [ "$1" == "cinnamon" ]; then
+		# Installing required packages
+		apt install -y tilix gvfs gvfs-backends evolution materia-gtk-theme materia-kde qt5-style-kvantum transmission-gtk aisleriot gnome-mahjongg ffmpegthumbnailer 
+
+		# Removing unwanted applications
+		apt remove -y
+
+		# Adding environment variable
+		echo "QT_STYLE_OVERRIDE=kvantum" | tee -a /etc/environment
 	fi
 	
 	# Removing unused packages

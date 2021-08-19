@@ -19,6 +19,13 @@ elif [ "$1" == "-h" ]; then
 	echo "-r to make the contents of the folder a cbz instead of the folder itself"
 	echo "Use -h to see this help"
 else
-	zip -r "${1}.zip" "${1}"
-	mv "${1}.zip" "${1}.cbz"
+	SAVEIFS=$IFS
+	IFS=$(echo -en "\n\b")
+	count=$(echo "$1" | sed 's/[^/]//g' | wc -m)
+	filename=$(echo "$1" | cut -d "/" -f $count)
+
+	cd "$(dirname $1)"
+	zip -r "${filename}.zip" "${filename}"
+	mv "${filename}.zip" "${filename}.cbz"
+	IFS=$SAVEIFS
 fi

@@ -105,7 +105,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-software gnome-software-packagekit-plugin gnome-system-monitor  gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme gnome-boxes cinnamon-translations
 
 # Enabling lightdm
-systemctl enable lightdm-plymouth
+systemctl enable lightdm-plymouth.service
 
 # Install lightdm-settings and slick-greeter
 sudo -u aurbuilder paru -S --noconfirm lightdm-settings lightdm-slick-greeter

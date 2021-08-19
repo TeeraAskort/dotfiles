@@ -150,9 +150,6 @@ options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2
 EOF
 bootctl update
 
-# Enabling GDM
-systemctl enable gdm
-
 # Installing printing services
 pacman -S --noconfirm  cups cups-pdf hplip ghostscript
 

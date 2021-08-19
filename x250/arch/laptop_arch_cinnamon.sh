@@ -2,6 +2,8 @@
 
 rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TS128GMTS430S | cut -d" " -f1)
 
+dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_MQ01ABD100 | cut -d" " -f1)
+
 # Configuring locales
 sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen
 sed -i "s/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g" /etc/locale.gen
@@ -55,13 +57,13 @@ sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
 # Installing drivers 
-pacman -S --noconfirm lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader libva-intel-driver intel-media-driver
+pacman -S --noconfirm lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader libva-intel-driver intel-media-driver xf86-video-intel
 
 # Installing services
 pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
 
 # Enabling services
-systemctl enable NetworkManager bluetooth haveged
+systemctl enable NetworkManager haveged bluetooth
 
 # Installing sound libraries
 pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
@@ -99,11 +101,17 @@ sed -i "/^CFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.c
 sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.conf
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
-# Install Plasma
-pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent thunderbird thunderbird-i18n-es-es virt-manager gnome-keyring
+# Install cinnamon
+pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-software gnome-software-packagekit-plugin gnome-system-monitor  gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme gnome-boxes
 
-# Installing plymouth
-sudo -u aurbuilder paru -S --noconfirm plymouth plymouth-theme-hexagon-2-git
+# Install lightdm-settings and slick-greeter
+sudo -u aurbuilder paru -S --noconfirm lightdm-settings lightdm-slick-greeter
+
+# Change lightdm theme
+sed -i "s/^#greeter-session=.*$/greeter-session=lightdm-slick-greeter/" /etc/lightdm/lightdm.conf
+ 
+# Installing plymouth theme
+sudo -u aurbuilder paru -S --noconfirm plymouth-theme-hexagon-2-git plymouth
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -121,7 +129,7 @@ mkdir -p /boot/loader/entries
 cat > /boot/loader/loader.conf <<EOF
 default  arch.conf
 console-mode max
-editor   yes
+editor   no
 EOF
 cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
@@ -139,14 +147,8 @@ options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2
 EOF
 bootctl update
 
-# Enabling SDDM
-systemctl enable sddm-plymouth
-
-# Removing unwanted Plasma apps
-pacman -Rnc --noconfirm oxygen
-
-# Adding environment variable to /etc/environment
-echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
+# Enabling GDM
+systemctl enable gdm
 
 # Installing printing services
 pacman -S --noconfirm  cups cups-pdf hplip ghostscript
@@ -164,15 +166,15 @@ pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-pl
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld obs-studio tlp neovim nodejs npm python-pynvim libfido2 mednafen strawberry youtube-dl pam-u2f chromium firefox firefox-i18n-es-es
+pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld obs-studio neovim nodejs npm python-pynvim libfido2 mednafen strawberry youtube-dl pam-u2f chromium
 
 # Enabling services
-systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld 
+systemctl enable thermald earlyoom apparmor libvirtd firewalld 
 
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "mpv-mpris" "lbry-app-bin" "jdownloader2" "mednaffe" "visual-studio-code-bin" "ttf-recursive" 
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "mpv-mpris" "lbry-app-bin" "jdownloader2" "mednaffe" "visual-studio-code-bin" "qt6gtk2" "ttf-recursive"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si --noconfirm
@@ -180,15 +182,14 @@ do
 	rm -r $package
 done
 
+# Setting environment variable
+echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
+
 # Installing android studio
-until sudo -u link paru -S android-studio --noconfirm
-do
-	echo "retrying"
-done
+sudo -u link paru -S --noconfirm android-studio 
 
 # Installing angular globally
-npm i -g @angular/cli @ionic/cli firebase-tools
-ng analytics off
+npm i -g @ionic/cli @vue/cli
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder
@@ -201,15 +202,11 @@ sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf
 sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-undervolt.conf
 systemctl enable intel-undervolt
 
-# Configuring sddm
-echo "password optional pam_gnome_keyring.so" /etc/pam.d/passwd
-
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
-# echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Cleaning orphans

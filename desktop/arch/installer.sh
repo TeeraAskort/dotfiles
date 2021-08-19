@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Checking if arguments are passed
-if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]];then
+if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]];then
 
 	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDC_WDS120G2G0B-00EPW0 | cut -d" " -f1)
 	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_DT01ACA300 | cut -d" " -f1)
@@ -57,10 +57,13 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]];then
 		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_arch_plasma.sh
 	elif [[ "$1" == "gnome" ]]; then
 		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_arch_gnome.sh
+	elif [[ "$1" == "cinnamon" ]]; then
+		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_arch_cinnamon.sh
 	fi
 else
 	echo "Available options: "
 	echo "kde or plasma - To install the plasma desktop"
 	echo "gnome - To install the GNOME desktop"
+	echo "cinnamon - To install the cinnamon desktop"
 fi 
 

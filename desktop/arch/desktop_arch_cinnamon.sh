@@ -57,13 +57,13 @@ sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
 # Installing drivers 
-pacman -S --noconfirm xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa xf86-input-wacom xf86-input-libinput 
+pacman -S --noconfirm xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput 
 
 # Installing services
-pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode
+pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
 
 # Enabling services
-systemctl enable NetworkManager haveged
+systemctl enable NetworkManager haveged bluetooth
 
 # Installing sound libraries
 pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
@@ -101,11 +101,20 @@ sed -i "/^CFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.c
 sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.conf
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
-# Install Plasma
-pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent thunderbird thunderbird-i18n-es-es virt-manager gnome-keyring
+# Install cinnamon
+pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-software gnome-software-packagekit-plugin gnome-system-monitor  gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme gnome-boxes cinnamon-translations
+ 
+# Install lightdm-settings and slick-greeter
+sudo -u aurbuilder paru -S --noconfirm lightdm-settings lightdm-slick-greeter
 
-# Installing plymouth
-sudo -u aurbuilder paru -S --noconfirm plymouth plymouth-theme-hexagon-2-git
+# Change lightdm theme
+sed -i "s/^#greeter-session=.*$/greeter-session=lightdm-slick-greeter/" /etc/lightdm/lightdm.conf
+ 
+# Installing plymouth theme
+sudo -u aurbuilder paru -S --noconfirm plymouth-theme-hexagon-2-git plymouth
+
+# Enabling lightdm
+systemctl enable lightdm-plymouth.service
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -141,14 +150,8 @@ options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2
 EOF
 bootctl update
 
-# Enabling SDDM
-systemctl enable sddm-plymouth
-
-# Removing unwanted Plasma apps
-pacman -Rnc --noconfirm oxygen
-
-# Adding environment variable to /etc/environment
-echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
+# Enabling GDM
+systemctl enable gdm
 
 # Installing printing services
 pacman -S --noconfirm  cups cups-pdf hplip ghostscript
@@ -166,7 +169,7 @@ pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-pl
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt firewalld obs-studio neovim nodejs npm python-pynvim libfido2 strawberry youtube-dl chromium firefox firefox-i18n-es-es
+pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt firewalld obs-studio neovim nodejs npm python-pynvim libfido2 strawberry youtube-dl chromium
 
 # Enabling services
 systemctl enable thermald earlyoom apparmor libvirtd firewalld 
@@ -174,7 +177,7 @@ systemctl enable thermald earlyoom apparmor libvirtd firewalld
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "visual-studio-code-bin" "android-studio" 
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "qt6gtk2" "android-studio"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si --noconfirm
@@ -184,7 +187,6 @@ done
 
 # Installing angular globally
 npm i -g @ionic/cli @vue/cli
-ng analytics off
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder
@@ -194,11 +196,9 @@ rm -r /tmp/aurbuilder
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-# Configuring sddm
-echo "password optional pam_gnome_keyring.so" /etc/pam.d/passwd
-
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
+# echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Cleaning orphans

@@ -57,10 +57,10 @@ pacman -Syu --noconfirm
 pacman -S --noconfirm xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa xf86-input-wacom xf86-input-libinput 
 
 # Installing services
-pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
+pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode 
 
 # Enabling services
-systemctl enable NetworkManager haveged bluetooth
+systemctl enable NetworkManager haveged 
 
 # Installing sound libraries
 pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
@@ -146,9 +146,6 @@ initrd  /initramfs-linux-zen-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update
-
-# Enabling GDM
-systemctl enable gdm
 
 # Installing printing services
 pacman -S --noconfirm  cups cups-pdf hplip ghostscript

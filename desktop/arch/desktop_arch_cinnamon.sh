@@ -177,13 +177,16 @@ pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-lib
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "qt6gtk2" "android-studio" "pamac-flatpak"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "qt6gtk2" "android-studio"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si --noconfirm
 	cd ..
 	rm -r $package
 done
+
+# Installing pamac-flatpak
+sudo -u link paru -S --noconfirm pamac-flatpak
 
 # Setting environment variable
 echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment

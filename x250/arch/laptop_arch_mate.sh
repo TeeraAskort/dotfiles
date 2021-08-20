@@ -98,11 +98,11 @@ sed -i "/^CFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.c
 sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.conf
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
-# Install cinnamon
+# Install mate
 pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird virt-manager gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme blueberry 
 
 # Install lightdm-settings, slick-greeter, mate-tweak and briskmenu
-sudo -u aurbuilder paru -S --noconfirm lightdm-settings lightdm-slick-greeter mate-tweak brisk-menu
+sudo -u aurbuilder paru -S --noconfirm lightdm-settings lightdm-slick-greeter
 
 # Change lightdm theme
 sed -i "s/^#greeter-session=.*$/greeter-session=lightdm-slick-greeter/" /etc/lightdm/lightdm.conf
@@ -174,7 +174,7 @@ pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-lib
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "visual-studio-code-bin" "qt6gtk2" "pamac-flatpak"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "visual-studio-code-bin" "qt6gtk2" "pamac-flatpak" "mate-tweak" "brisk-menu"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si --noconfirm

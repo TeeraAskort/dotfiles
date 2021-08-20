@@ -3,7 +3,7 @@
 # Checking if arguments are passed
 if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]];then
 
-	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDC_WDS120G2G0B-00EPW0 | cut -d" " -f1)
+	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDS120G2G0B-00EPW0 | cut -d" " -f1)
 	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_DT01ACA300 | cut -d" " -f1)
 
 	# Create partitions

@@ -100,10 +100,10 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer chrome-gnome-shell gtk-engine-murrine evolution gnome-boxes transmission-gtk gnome-software-packagekit-plugin webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme tilix
+pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer gtk-engine-murrine evolution gnome-boxes transmission-gtk gnome-software-packagekit-plugin webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme tilix
  
 # Removing unwanted packages
-pacman -Rns --noconfirm gnome-music epiphany totem orca
+pacman -Rns --noconfirm gnome-music epiphany totem orca gdm
 
 # Installing plymouth
 sudo -u aurbuilder paru -S --noconfirm --useask gdm-plymouth
@@ -175,7 +175,7 @@ pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-lib
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "visual-studio-code-bin" "qt6gtk2"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "visual-studio-code-bin" "qt6gtk2" "chrome-gnome-shell"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si --noconfirm

@@ -47,6 +47,7 @@ EDITOR=vim visudo
 
 # Enabling colors in pacman
 sed -i "s/#Color/Color/g" /etc/pacman.conf
+sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 
 # Enabling multilib repo
 sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
@@ -63,7 +64,7 @@ pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode
 systemctl enable NetworkManager haveged 
 
 # Installing sound libraries
-pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
+pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa 
 
 # Installing filesystem libraries
 pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfat-utils gptfdisk autofs fuse2 fuse3 fuseiso sshfs

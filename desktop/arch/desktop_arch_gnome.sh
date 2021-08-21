@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDC_WDS120G2G0B-00EPW0 | cut -d" " -f1)
+rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDS120G2G0B-00EPW0 | cut -d" " -f1)
 dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_DT01ACA300 | cut -d" " -f1)
 
 # Configuring locales
@@ -33,9 +33,6 @@ passwd --lock root
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su-l
 
-# Fixing faillock
-sed -i "s/# deny = 3/deny = 0/g" /etc/security/faillock.conf
-
 # Create user
 clear
 useradd -m -g users -G wheel -s /bin/bash link
@@ -50,6 +47,7 @@ EDITOR=vim visudo
 
 # Enabling colors in pacman
 sed -i "s/#Color/Color/g" /etc/pacman.conf
+sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 
 # Enabling multilib repo
 sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
@@ -133,16 +131,16 @@ editor   no
 EOF
 cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux-zen
+linux   /vmlinuz-linux-hardened
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-zen.img
+initrd  /initramfs-linux-hardened.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat > /boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux-zen
+linux   /vmlinuz-linux-hardened
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-zen-fallback.img
+initrd  /initramfs-linux-hardened-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update

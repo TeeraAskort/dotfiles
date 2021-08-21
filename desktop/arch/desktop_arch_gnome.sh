@@ -100,10 +100,10 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer gtk-engine-murrine evolution gnome-boxes transmission-gtk gnome-software-packagekit-plugin webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme tilix
+pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer gtk-engine-murrine evolution gnome-boxes transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero
  
 # Removing unwanted packages
-pacman -Rns --noconfirm gnome-music epiphany totem orca gdm
+pacman -Rns --noconfirm gnome-music epiphany totem orca gdm gnome-software
 
 # Installing plymouth
 sudo -u aurbuilder paru -S --noconfirm --useask gdm-plymouth 
@@ -182,6 +182,9 @@ do
 	cd ..
 	rm -r $package
 done
+
+# Install aur packages with link user
+sudo -u link paru -S --noconfirm pamac-flatpak
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

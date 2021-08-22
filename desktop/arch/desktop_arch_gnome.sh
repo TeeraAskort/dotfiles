@@ -183,6 +183,9 @@ do
 	rm -r $package
 done
 
+# Setting environment variable
+echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
+
 # Install aur packages with link user
 sudo -u link paru -S --noconfirm pamac-flatpak
 

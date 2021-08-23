@@ -72,7 +72,7 @@ pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfat-utils gptfdisk autof
 pacman -S --noconfirm  zip unzip unrar p7zip lzop pigz pbzip2
 
 # Installing generic tools
-pacman -S --noconfirm  vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils
+pacman -S --noconfirm  vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils vi
 
 # Installing paru
 newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "xfce" ] || [ "$1" == "cinnamon" ]; then
+if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "xfce" ] || [ "$1" == "cinnamon" ] || [ "$1" == "mate" ]; then
 	user=$SUDO_USER
 
 	# Adding 32bit support
@@ -109,6 +109,17 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 		# Adding environment variable
 		echo "QT_STYLE_OVERRIDE=kvantum" | tee -a /etc/environment
+
+	elif [ "$1" == "mate" ]; then
+		# Installing required packages
+		apt install -y tilix gvfs gvfs-backends materia-gtk-theme materia-kde qt5-style-kvantum transmission-gtk aisleriot gnome-mahjongg ffmpegthumbnailer lightdm-settings slick-greeter xdg-desktop-portal-gtk libpam-gnome-keyring libgepub-0.6-0 libgsf-1-114 libwebp6 libopenraw7 
+
+		# Removing unwanted applications
+		apt remove -y
+
+		# Adding environment variable
+		echo "QT_STYLE_OVERRIDE=kvantum" | tee -a /etc/environment
+
 	fi
 	
 	# Removing unused packages
@@ -119,9 +130,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	#Install flatpak applications
 	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.katawa_shoujo.KatawaShoujo com.google.AndroidStudio
-
-	# Installing npm packages globally
-	npm i -g @ionic/cli @vue/cli 
 
 	# Updating grub
 	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub

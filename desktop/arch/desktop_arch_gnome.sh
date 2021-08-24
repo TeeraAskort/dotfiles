@@ -99,14 +99,14 @@ sed -i "/^CFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.c
 sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.conf
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
+# Installing plymouth
+sudo -u aurbuilder paru -S --noconfirm gdm-plymouth 
+
 # Install GNOME
 pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer gtk-engine-murrine evolution gnome-boxes transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero
  
 # Removing unwanted packages
-pacman -Rns --noconfirm gnome-music epiphany totem orca gdm gnome-software
-
-# Installing plymouth
-sudo -u aurbuilder paru -S --noconfirm --useask gdm-plymouth 
+pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-software
 
 # Installing plymouth theme
 sudo -u aurbuilder paru -S --noconfirm plymouth-theme-hexagon-2-git

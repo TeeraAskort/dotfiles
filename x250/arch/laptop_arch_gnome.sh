@@ -103,7 +103,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 sudo -u aurbuilder paru -S --noconfirm gdm-plymouth plymouth
 
 # Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer gtk-engine-murrine evolution gnome-boxes transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero
+pacman -S gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer gtk-engine-murrine evolution gnome-boxes transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero
  
 # Removing unwanted packages
 pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-software

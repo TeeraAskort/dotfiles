@@ -66,7 +66,7 @@ systemctl enable NetworkManager haveged
 pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa 
 
 # Installing filesystem libraries
-pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfat-utils gptfdisk autofs fuse2 fuse3 fuseiso sshfs
+pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs
 
 # Installing compresion tools
 pacman -S --noconfirm  zip unzip unrar p7zip lzop pigz pbzip2

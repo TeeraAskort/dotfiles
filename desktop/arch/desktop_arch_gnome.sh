@@ -67,7 +67,7 @@ systemctl enable NetworkManager haveged
 pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa 
 
 # Installing filesystem libraries
-pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfat-utils gptfdisk autofs fuse2 fuse3 fuseiso sshfs
+pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs
 
 # Installing compresion tools
 pacman -S --noconfirm  zip unzip unrar p7zip lzop pigz pbzip2
@@ -100,7 +100,7 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Installing plymouth
-sudo -u aurbuilder paru -S --noconfirm gdm-plymouth plymouth
+sudo -u aurbuilder paru -S --noconfirm --useask gdm-plymouth 
 
 # Install GNOME
 pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer gtk-engine-murrine evolution gnome-boxes transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero

@@ -59,6 +59,8 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_arch_gnome.sh
 	elif [[ "$1" == "cinnamon" ]]; then
 		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_arch_cinnamon.sh
+	elif [[ "$1" == "xfce" ]]; then
+		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_arch_xfce.sh
 	fi
 else
 	echo "Available options: "

@@ -75,7 +75,7 @@ pacman -S --noconfirm  zip unzip unrar p7zip lzop pigz pbzip2
 # Installing generic tools
 pacman -S --noconfirm  vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils vi
 
-# Installing paru
+# Installing yay
 newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
 useradd -r -N -M -d /tmp/aurbuilder -s /usr/bin/nologin aurbuilder
 echo -e "$newpass\n$newpass\n" | passwd aurbuilder
@@ -84,8 +84,8 @@ chmod 777 /tmp/aurbuilder
 echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder
 echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
 cd /tmp/aurbuilder
-sudo -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
-cd paru-bin
+sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
 sudo -u aurbuilder makepkg -si --noconfirm
 
 # Optimizing aur
@@ -103,13 +103,13 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme gnome-boxes cinnamon-translations nemo-fileroller system-config-printer gnome-books gnome-screenshot gnome-disk-utility gnome-calendar
  
 # Install lightdm-settings and slick-greeter
-sudo -u aurbuilder paru -S --noconfirm lightdm-settings lightdm-slick-greeter
+sudo -u aurbuilder yay -S --noconfirm lightdm-settings lightdm-slick-greeter
 
 # Change lightdm theme
 sed -i "s/^#greeter-session=.*$/greeter-session=lightdm-slick-greeter/" /etc/lightdm/lightdm.conf
  
 # Installing plymouth theme
-sudo -u aurbuilder paru -S --noconfirm plymouth-theme-hexagon-2-git plymouth
+sudo -u aurbuilder yay -S --noconfirm plymouth-theme-hexagon-2-git plymouth
 
 # Enabling lightdm
 systemctl enable lightdm-plymouth.service
@@ -184,7 +184,7 @@ do
 done
 
 # Installing pamac-flatpak
-sudo -u link paru -S --noconfirm pamac-flatpak
+sudo -u link yay -S --noconfirm pamac-flatpak
 
 # Setting environment variable
 echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment

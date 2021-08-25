@@ -72,7 +72,7 @@ pacman -S --noconfirm  zip unzip unrar p7zip lzop pigz pbzip2
 # Installing generic tools
 pacman -S --noconfirm  vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils vi
 
-# Installing paru
+# Installing yay
 newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
 useradd -r -N -M -d /tmp/aurbuilder -s /usr/bin/nologin aurbuilder
 echo -e "$newpass\n$newpass\n" | passwd aurbuilder
@@ -81,8 +81,8 @@ chmod 777 /tmp/aurbuilder
 echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder
 echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
 cd /tmp/aurbuilder
-sudo -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
-cd paru-bin
+sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
 sudo -u aurbuilder makepkg -si --noconfirm
 
 # Optimizing aur
@@ -100,7 +100,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent thunderbird thunderbird-i18n-es-es virt-manager gnome-keyring
 
 # Installing plymouth
-sudo -u aurbuilder paru -S --noconfirm plymouth plymouth-theme-hexagon-2-git
+sudo -u aurbuilder yay -S --noconfirm plymouth plymouth-theme-hexagon-2-git
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -181,7 +181,7 @@ do
 done
 
 # Installing android studio
-until sudo -u link paru -S android-studio --noconfirm
+until sudo -u link yay -S android-studio --noconfirm
 do
 	echo "retrying"
 done

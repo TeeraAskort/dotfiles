@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Checking if arguments are passed
-if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]]; then
+if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
 
         rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TS128GMTS430S | cut -d" " -f1)
 
@@ -67,6 +67,7 @@ else
 	echo "kde or plasma - To install the plasma desktop"
 	echo "cinnamon - To install the cinnamon desktop"
 	echo "mate - To install the mate desktop"
+	echo "xfce - To install the xfce desktop"
 
 fi 
 

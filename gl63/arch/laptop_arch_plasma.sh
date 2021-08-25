@@ -30,9 +30,6 @@ passwd --lock root
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su-l
 
-# Fixing faillock
-sed -i "s/# deny = 3/deny = 0/g" /etc/security/faillock.conf
-
 # Create user
 clear
 useradd -m -g users -G wheel -s /bin/bash link
@@ -47,6 +44,7 @@ EDITOR=vim visudo
 
 # Enabling colors in pacman
 sed -i "s/#Color/Color/g" /etc/pacman.conf
+sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 
 # Enabling multilib repo
 sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
@@ -66,15 +64,15 @@ systemctl enable NetworkManager bluetooth
 pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
 
 # Installing filesystem libraries
-pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfat-utils gptfdisk autofs fuse2 fuse3 fuseiso sshfs
+pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs
 
 # Installing compresion tools
 pacman -S --noconfirm  zip unzip unrar p7zip lzop pigz pbzip2
 
 # Installing generic tools
-pacman -S --noconfirm  vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils
+pacman -S --noconfirm  vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils vi
 
-# Installing paru
+# Installing yay
 newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
 useradd -r -N -M -d /tmp/aurbuilder -s /usr/bin/nologin aurbuilder
 echo -e "$newpass\n$newpass\n" | passwd aurbuilder
@@ -83,8 +81,8 @@ chmod 777 /tmp/aurbuilder
 echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder
 echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
 cd /tmp/aurbuilder
-sudo -u aurbuilder git clone https://aur.archlinux.org/paru-bin.git
-cd paru-bin
+sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
 sudo -u aurbuilder makepkg -si --noconfirm
 
 # Optimizing aur
@@ -102,7 +100,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent thunderbird thunderbird-i18n-es-es virt-manager 
 
 # Installing plymouth
-sudo -u aurbuilder paru -S --noconfirm plymouth plymouth-theme-hexagon-2-git
+sudo -u aurbuilder yay -S --noconfirm plymouth plymouth-theme-hexagon-2-git
 
 # Making lone theme default
 plymouth-set-default-theme -R hexagon_2
@@ -163,25 +161,24 @@ pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-pl
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt nextcloud-client firewalld obs-studio tlp neovim nodejs npm python-pynvim libfido2 mednafen strawberry youtube-dl pam-u2f chromium firefox firefox-i18n-es-es
+pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt firewalld obs-studio neovim nodejs npm python-pynvim libfido2 strawberry youtube-dl pam-u2f chromium
 
 # Enabling services
-systemctl enable thermald tlp earlyoom apparmor libvirtd firewalld 
+systemctl enable thermald earlyoom apparmor libvirtd firewalld 
+
+# Wine dependencies
+pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs
 
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "nerd-fonts-fantasque-sans-mono" "mpv-mpris" "lbry-app-bin" "jdownloader2" "mednaffe" "visual-studio-code-bin" "android-studio" "ttf-recursive" 
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "visual-studio-code-bin" "android-studio" 
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si --noconfirm
 	cd ..
 	rm -r $package
 done
-
-# Installing angular globally
-npm i -g @angular/cli @ionic/cli firebase-tools
-ng analytics off
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder
@@ -194,18 +191,11 @@ sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.con
 sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
 systemctl enable intel-undervolt
 
-# Changing tlp config
-sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
-sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
-
-systemctl enable tlp
-
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
-# echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Cleaning orphans

@@ -209,6 +209,9 @@ echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 
+# Adding user link to libvirt group
+usermod -aG libvirt link
+
 # Copying dotfiles folder to link
 mv /dotfiles /home/link
 chown -R link:users /home/link/dotfiles

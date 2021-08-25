@@ -214,6 +214,9 @@ sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 
+# Adding user link to libvirt group
+usermod -aG libvirt link
+
 # Copying dotfiles folder to link
 mv /dotfiles /home/link
 chown -R link:users /home/link/dotfiles

@@ -199,6 +199,9 @@ echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 
+# Adding user link to libvirt group
+usermod -aG libvirt link
+
 # Copying dotfiles folder to link
 mv /dotfiles /home/link
 chown -R link:users /home/link/dotfiles

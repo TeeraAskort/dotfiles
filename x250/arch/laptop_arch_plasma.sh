@@ -198,7 +198,7 @@ sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-un
 systemctl enable intel-undervolt
 
 # Configuring sddm
-echo "password optional pam_gnome_keyring.so" /etc/pam.d/passwd
+echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

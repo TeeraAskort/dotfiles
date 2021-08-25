@@ -191,7 +191,7 @@ rm -r /tmp/aurbuilder
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Configuring sddm
-echo "password optional pam_gnome_keyring.so" /etc/pam.d/passwd
+echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf

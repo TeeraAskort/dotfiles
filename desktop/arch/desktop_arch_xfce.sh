@@ -212,6 +212,9 @@ usermod -aG libvirt link
 # Adding xprofile to user link
 sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/link/.xprofile
 
+# Adding gnome-keyring to pam
+echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
+
 # Fixing xfce power manager
 sed -i "s/auth_admin/yes/g" /usr/share/polkit-1/actions/org.xfce.power.policy
 

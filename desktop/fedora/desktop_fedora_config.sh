@@ -57,13 +57,10 @@ sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.gimp.GIMP org.telegram.desktop com.google.AndroidStudio org.flarerpg.Flare com.mojang.Minecraft
+flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.gimp.GIMP org.telegram.desktop com.google.AndroidStudio 
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
-
-# Installing npm packages globally
-npm i -g @ionic/cli @vue/cli 
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'

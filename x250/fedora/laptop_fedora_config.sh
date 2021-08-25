@@ -64,7 +64,7 @@ systemctl enable intel-undervolt
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP org.telegram.desktop org.flarerpg.Flare com.mojang.Minecraft
+flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP org.telegram.desktop 
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
@@ -72,9 +72,6 @@ flatpak override --filesystem=~/.fonts
 # Add sysctl config
 # echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
-
-# Installing npm packages globally
-npm i -g @ionic/cli @vue/cli 
 
 # Headphone jack workaround
 cp $directory/headphones /usr/local/bin

@@ -217,7 +217,7 @@ pacman -Qtdq | pacman -Rns --noconfirm -
 usermod -aG libvirt link
 
 # Adding xprofile to user link
-sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a ~/.xprofile
+sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/link/.xprofile
 
 # Fixing xfce power manager
 sed -i "s/auth_admin/yes/g" /usr/share/polkit-1/actions/org.xfce.power.policy

@@ -103,7 +103,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 pacman -S --noconfirm xfce4 xfce4-goodies xcape pavucontrol network-manager-applet virt-manager thunderbird playerctl gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme blueberry system-config-printer 
 
 # Remove unwanted applications
-pacman -Rns parole 
+pacman -Rns --noconfirm parole 
 
 # Install lightdm-settings and slick-greeter
 sudo -u aurbuilder yay -S --noconfirm lightdm-settings lightdm-slick-greeter

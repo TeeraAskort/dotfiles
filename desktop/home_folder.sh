@@ -138,6 +138,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "Budgie:GNOME" ]]; then
 	fi
 fi
 
+# XFCE config
 if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
 	xfconf-query -c xfwm4 -p /general/vblank_mode -s glx
 

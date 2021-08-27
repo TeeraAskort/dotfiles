@@ -214,9 +214,6 @@ in
     support32Bit = true;
   };
 
-  # Enable pipewire
-  services.pipewire.enable = true;
-
   # Enable bluetooth
   hardware.bluetooth = {
     enable = true;

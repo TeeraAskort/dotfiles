@@ -39,11 +39,6 @@ git config --global init.defaultBranch master
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub org.jdownloader.JDownloader io.lbry.lbry-app
 
-## Configuring node packages
-npm config set prefix '~/mutable_node_modules'
-npm i -g @angular/cli @ionic/cli firebase-tools
-echo "PATH=\"$PATH:$HOME/mutable_node_modules/bin\"" | tee -a ~/.zshrc
-
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~
 mkdir -p ~/.config/nvim/

@@ -59,22 +59,17 @@ in
         pkgs.ibus
       ];
     };
-    vivaldi = pkgs.vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine = true;
-    };
   };
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     (pkgs.callPackage ./materia-theme {})
-    (pkgs.callPackage ./materia-kde {})
     wget vim tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
     gnome.gnome-terminal celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
     git home-manager python39 
-    p7zip unzip unrar gnome.gnome-calendar 
+    zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify
     chromium ffmpegthumbnailer 
     obs-studio libfido2 pfetch
@@ -86,8 +81,9 @@ in
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio libsForQt5.qtstyleplugin-kvantum
     mednafen mednaffe 
-    vivaldi
+    firefox
     myAspell mythes gimp steam
+    materia-kde-theme
   ];
 
   # Environment variables
@@ -191,16 +187,13 @@ in
       rlimit-rtprio = 9;
       daemonize = "no";
     };
- 
+
     # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
     # Only the full build has Bluetooth support, so it must be selected here.
     extraModules = [ pkgs.pulseaudio-modules-bt ];
     package = pkgs.pulseaudioFull;
     support32Bit = true;
   };
-
-  # Enable pipewire
-  services.pipewire.enable = true;
 
   # Xserver configuration
   services.xserver = {

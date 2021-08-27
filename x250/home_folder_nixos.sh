@@ -39,11 +39,6 @@ flatpak install -y flathub org.jdownloader.JDownloader io.lbry.lbry-app org.flar
 ## Installing dictionaries
 nix-env -iA nixos.hunspellDicts.es_ES nixos.hunspellDicts.en_US
 
-## Configuring node packages
-npm config set prefix '~/mutable_node_modules'
-npm i -g @ionic/cli @vue/cli
-echo "PATH=\"$PATH:$HOME/mutable_node_modules/bin\"" | tee -a ~/.zshrc
-
 ## Configuring u2f authentication
 mkdir -p ~/.config/Yubico
 

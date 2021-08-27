@@ -64,11 +64,11 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     (pkgs.callPackage ./materia-theme {})
-    wget vim tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
+    wget vim tdesktop lutris wineWowPackages.staging vscode gnome.gedit 
     gnome.gnome-terminal celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
-    git home-manager python39 
+    git 
     zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify
     chromium ffmpegthumbnailer 
@@ -81,7 +81,7 @@ in
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio libsForQt5.qtstyleplugin-kvantum
     mednafen mednaffe 
-    firefox
+    firefox lbry
     myAspell mythes gimp steam
     materia-kde-theme
   ];

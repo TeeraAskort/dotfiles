@@ -37,7 +37,7 @@ git config --global init.defaultBranch master
 
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub org.jdownloader.JDownloader io.lbry.lbry-app
+flatpak install -y flathub org.jdownloader.JDownloader 
 
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~

@@ -68,23 +68,21 @@ in
         pkgs.ibus
       ];
     };
-    vivaldi = pkgs.vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine = true;
-    };
+   # vivaldi = pkgs.vivaldi.override {
+   #   proprietaryCodecs = true;
+   #   enableWidevine = true;
+   # };
   };
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     (pkgs.callPackage ./materia-theme {})
-    (pkgs.callPackage ./materia-kde {})
-    nvidia-offload
-    wget vim tdesktop lutris wineWowPackages.staging minecraft vscode gnome.gedit 
+    wget vim tdesktop lutris wineWowPackages.staging vscode gnome.gedit 
     gnome.gnome-terminal celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
-    git python39 
-    p7zip unzip unrar gnome.gnome-calendar 
+    git 
+    zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify
     chromium ffmpegthumbnailer 
     obs-studio libfido2 pfetch
@@ -96,8 +94,9 @@ in
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio libsForQt5.qtstyleplugin-kvantum
     mednafen mednaffe 
-    vivaldi
+    firefox lbry
     myAspell mythes gimp steam
+    materia-kde-theme   
   ];
 
   # Environment variables
@@ -153,7 +152,7 @@ in
     su.u2fAuth = true;
   };
 
-  #Haveged daemon
+  # Haveged daemon
   services.haveged.enable = true;
 
   # Undervolting the cpu
@@ -221,9 +220,6 @@ in
     support32Bit = true;
   };
 
-  # Enable pipewire
-  services.pipewire.enable = true;
-
   # Enable bluetooth
   hardware.bluetooth = {
     enable = true;
@@ -279,17 +275,17 @@ in
 
         [org.gnome.desktop.wm.preferences]
         theme = "Materia-dark-compact"
-	      button-layout = "appmenu:minimize,maximize,close"
+	button-layout = "appmenu:minimize,maximize,close"
 
-	      [org.gnome.desktop.peripherals.mouse]
-	      accel-profile = "flat"
+	[org.gnome.desktop.peripherals.mouse]
+	accel-profile = "flat"
 
-	      [org.gnome.desktop.privacy]
-	      disable-camera = true
-	      disable-microphone = true
-	      remember-recent-files = false
-	      remove-old-temp-files = true
-	      remove-old-trash-files = true
+	[org.gnome.desktop.privacy]
+	disable-camera = true
+	disable-microphone = true
+	remember-recent-files = false
+	remove-old-temp-files = true
+	remove-old-trash-files = true
         old-files-age = 3
 
         [org.gnome.settings-daemon.plugins.power]

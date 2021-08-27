@@ -87,7 +87,7 @@ in
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio libsForQt5.qtstyleplugin-kvantum
     mednafen mednaffe 
-    firefox lbry
+    firefox lbry gnome.gnome-boxes
     myAspell mythes gimp steam
     materia-kde-theme
   ];

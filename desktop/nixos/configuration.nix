@@ -101,6 +101,9 @@ in
     recursive
   ];
 
+  # Enabling virtualization
+  virtualisation.libvirtd.enable = true;
+
   # Java configuration
   programs.java = {
     enable = true;

@@ -114,6 +114,9 @@ in
     recursive
   ];
 
+  # Enabling virtualization
+  virtualisation.libvirtd.enable = true;
+
   # Java configuration
   programs.java = {
     enable = true;
@@ -203,7 +206,7 @@ in
       default-channel-map = "front-left,front-right";
       default-fragments = 2;
       default-fragment-size-msec = 125;
-      resample-method = "src-sinc-best-quality";
+      resample-method = "speex-float-5";
       remixing-produce-lfe = "no";
       remixing-consume-lfe = "no";
       high-priority = "yes";

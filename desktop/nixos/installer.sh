@@ -91,7 +91,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	sed -i "s/dataDiskChangeme/$(blkid -s UUID -o value /dev/${dataDisk}1)/g" $directory/hardware-configuration.nix
 
 	# Add torrent disk UUID to hardware-config
-	sed -i "s/torrentDiskChangeme/$(blkid -s UUID -o value /dev/${torrentDisk}1)/g" $directory/hardware-config.nix
+	sed -i "s/torrentDiskChangeme/$(blkid -s UUID -o value /dev/${torrentDisk}1)/g" $directory/hardware-configuration.nix
 
 	# Add boot partition to hardware-config
 	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${rootDisk}1)/g" $directory/hardware-configuration.nix

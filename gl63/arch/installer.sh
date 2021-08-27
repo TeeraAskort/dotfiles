@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Checking if arguments are passed
-if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "xfce" ]]; then
+if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "cinnamon" ]]; then
 	# Create partitions
 	parted /dev/nvme0n1 -- mklabel gpt
 	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
@@ -54,12 +54,17 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_gnome.sh
 	elif [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_plasma.sh
+	elif [[ "$1" == "cinnamon" ]]; then
+		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_cinnamon.sh
+	elif [[ "$1" == "xfce" ]]; then
+		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_xfce.sh
 	fi
 else
 	echo "Available options: "
 	echo "gnome - To install the gnome desktop"
 	echo "kde or plasma - To install the plasma desktop"
 	echo "xfce - To install the xfce desktop"
+	echo "cinnamon - To install the cinnamon desktop"
 
 fi 
 

@@ -96,8 +96,8 @@ sed -i "/^CFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.c
 sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg.conf
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
-# Install cinnamon
-pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme gnome-boxes cinnamon-translations nemo-fileroller blueberry system-config-printer gnome-books gnome-screenshot gnome-disk-utility gnome-calendar
+# Install xfce
+pacman -S --noconfirm xfce4 xfce4-goodies xcape pavucontrol network-manager-applet virt-manager thunderbird playerctl gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme system-config-printer blueberry
 
 # Install lightdm-settings and slick-greeter
 sudo -u aurbuilder yay -S --noconfirm lightdm-settings lightdm-slick-greeter
@@ -213,6 +213,15 @@ pacman -Qtdq | pacman -Rns --noconfirm -
 
 # Adding user link to libvirt group
 usermod -aG libvirt link
+
+# Adding xprofile to user link
+sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/link/.xprofile
+
+# Adding gnome-keyring to pam
+echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
+
+# Fixing xfce power manager
+sed -i "s/auth_admin/yes/g" /usr/share/polkit-1/actions/org.xfce.power.policy
 
 # Copying dotfiles folder to link
 mv /dotfiles /home/link

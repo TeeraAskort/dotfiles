@@ -194,6 +194,11 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	fi
 fi
 
+# XFCE config
+if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
+	xfconf-query -c xfwm4 -p /general/vblank_mode -s glx
+fi
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@alderaeney.com"

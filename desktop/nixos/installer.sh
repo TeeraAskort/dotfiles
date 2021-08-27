@@ -91,7 +91,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	sed -i "s/dataDiskChangeme/$(blkid -s UUID -o value /dev/${dataDisk}1)/g" $directory/hardware-configuration.nix
 
 	# Add torrent disk UUID to hardware-config
-	sed -i "s/torrentDiskChangeme/$(blkid -s UUID -o value /dev/${torrentDisk}1/g)" $directory/hardware-config.nix
+	sed -i "s/torrentDiskChangeme/$(blkid -s UUID -o value /dev/${torrentDisk}1)/g" $directory/hardware-config.nix
 
 	# Add boot partition to hardware-config
 	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${rootDisk}1)/g" $directory/hardware-configuration.nix
@@ -101,9 +101,6 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 
 	# Copy hardware-config to /mnt
 	cp $directory/hardware-configuration.nix /mnt/etc/nixos/hardware-configuration.nix
-
-	# Workaround for bug in installation 
-	nix-build '<nixpkgs/nixos>' -A config.system.build.toplevel -I nixos-config=/mnt/etc/nixos/configuration.nix
 
 	# Install nixos
 	nixos-install

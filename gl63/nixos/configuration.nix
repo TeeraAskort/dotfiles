@@ -97,6 +97,7 @@ in
     firefox lbry
     myAspell mythes gimp steam
     materia-kde-theme   
+    nvidia-offload
   ];
 
   # Environment variables

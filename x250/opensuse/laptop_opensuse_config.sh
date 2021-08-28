@@ -31,7 +31,7 @@ zypper dist-upgrade --from packman --allow-vendor-change -y
 zypper install -y --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 # Installing basic packages
-zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f discord patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa desmume zip
+zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f discord patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa desmume zip dolphin-emu
 
 # Enabling thermald service
 systemctl enable thermald intel-undervolt earlyoom libvirtd
@@ -79,16 +79,13 @@ sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-un
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-flatpak install -y flathub io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP org.flarerpg.Flare com.mojang.Minecraft org.DolphinEmu.dolphin-emu
+flatpak install -y flathub io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP 
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
 
 # Add sysctl config
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
-
-# Installing angular globally
-npm i -g @ionic/cli @vue/cli 
 
 else
 	echo "Accepted paramenters:"

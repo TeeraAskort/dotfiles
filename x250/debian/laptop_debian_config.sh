@@ -14,11 +14,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt install -y libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386 firmware-linux-nonfree firmware-misc-nonfree intel-microcode iucode-tool intel-media-va-driver intel-media-va-driver-non-free mesa-va-drivers
 	
 	# Adding vivaldi repo
-	# wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
-	# add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main' 
-	# apt update
-       	# apt install -y vivaldi-stable
-	# apt remove -y firefox-esr
+	wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
+	add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main' 
+	apt update
+       	apt install -y vivaldi-stable
+	apt remove -y firefox-esr
 	
 	# Installing strawberry
 	curl -s https://api.github.com/repos/strawberrymusicplayer/strawberry/releases/latest \
@@ -49,13 +49,13 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt-get update -oAcquire::AllowInsecureRepositories=true
 	apt install deb-multimedia-keyring --allow-unauthenticated
 	apt update
-    apt full-upgrade -y
+	apt full-upgrade -y
 
 	# Installing lutris
 	echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_10/ ./" | tee /etc/apt/sources.list.d/lutris.list
 	wget -q https://download.opensuse.org/repositories/home:/strycore/Debian_10/Release.key -O- | sudo apt-key add -
 	apt update
-    apt install -y lutris
+	apt install -y lutris
 
 	# Installing required applications
 	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe telegram-desktop neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk pamu2fcfg libpam-u2f zip unzip nodejs npm 

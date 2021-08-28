@@ -73,15 +73,15 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	cp $directory/datos/.keyfile /mnt
 
 	# Copy key from torrent disk to root partition
-#	clear
-#	echo "Enter torrent disk password"
-#	until cryptsetup open /dev/${torrentDisk}1 torrent
-#	do
-#		echo "Cryptsetup failed opening the torrent disk"
-#	done
-#	mkdir $directory/torrent
-#	mount /dev/mapper/torrent $directory/torrent
-#	cp $directory/torrent/.torrentkey /mnt
+	clear
+	echo "Enter torrent disk password"
+	until cryptsetup open /dev/${torrentDisk}1 torrent
+	do
+		echo "Cryptsetup failed opening the torrent disk"
+	done
+	mkdir $directory/torrent
+	mount /dev/mapper/torrent $directory/torrent
+	cp $directory/torrent/.torrentkey /mnt
 
 	# Put correct UUID on hardware-configuration.nix
 	uuid=$(blkid -o value -s UUID /dev/${rootDisk}2)
@@ -91,7 +91,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	sed -i "s/dataDiskChangeme/$(blkid -s UUID -o value /dev/${dataDisk}1)/g" $directory/hardware-configuration.nix
 
 	# Add torrent disk UUID to hardware-config
-#	sed -i "s/torrentDiskChangeme/$(blkid -s UUID -o value /dev/${torrentDisk}1)/g" $directory/hardware-configuration.nix
+	sed -i "s/torrentDiskChangeme/$(blkid -s UUID -o value /dev/${torrentDisk}1)/g" $directory/hardware-configuration.nix
 
 	# Add boot partition to hardware-config
 	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${rootDisk}1)/g" $directory/hardware-configuration.nix

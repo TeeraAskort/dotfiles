@@ -13,7 +13,7 @@ let
     es
     en
   ]);
-  useRADV = pkgs.writeSehllScriptBin "nvidia-offload" ''
+  useRADV = pkgs.writeShellScriptBin "nvidia-offload" ''
     export AMD_VULKAN_ICD=RADV
     exec -a "$0" "$@"
   '';

@@ -45,16 +45,16 @@
     fsType = "btrfs";
   };
 
-  fileSystems."/home/link/Torrent" = {
-    encrypted = {
-      blkDev = "/dev/disk/by-uuid/torrentDiskChangeme";
-      enable = true;
-      keyFile = "/mnt-root/.torrentkey";
-      label = "torrent";
-    };
-    device = "/dev/mapper/torrent";
-    fsType = "btrfs";
-  };
+#  fileSystems."/home/link/Torrent" = {
+#    encrypted = {
+#      blkDev = "/dev/disk/by-uuid/torrentDiskChangeme";
+#      enable = true;
+#      keyFile = "/mnt-root/.torrentkey";
+#      label = "torrent";
+#    };
+#    device = "/dev/mapper/torrent";
+#    fsType = "btrfs";
+#  };
 
   swapDevices =
     [ { device = "/dev/disk/by-uuid/swapChangeme"; }

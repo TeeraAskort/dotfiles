@@ -69,7 +69,6 @@ in
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    (pkgs.callPackage ./materia-theme {})
     wget vim tdesktop lutris wineWowPackages.staging vscode gnome.gedit 
     gnome.gnome-terminal celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
@@ -89,13 +88,13 @@ in
     mednafen mednaffe 
     firefox lbry gnome.gnome-boxes
     myAspell mythes gimp steam
-    materia-kde-theme
+    adwaita-qt
   ];
 
   # Environment variables
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
-    QT_STYLE_OVERRIDE = "kvantum";
+    QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
   # Font configuration
@@ -248,12 +247,12 @@ in
       enable = true;
       extraGSettingsOverrides = ''
         [org.gnome.desktop.interface]
-        gtk-theme = "Materia-dark-compact"
+        gtk-theme = "Adwaita-dark"
         icon-theme = "Papirus-Dark"
 	monospace-font-name = "Rec Mono Semicasual Regular 11"
 
         [org.gnome.desktop.wm.preferences]
-        theme = "Materia-dark-compact"
+        theme = "Adwaita-dark"
 	button-layout = "appmenu:minimize,maximize,close"
 
 	[org.gnome.desktop.peripherals.mouse]

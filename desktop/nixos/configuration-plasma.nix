@@ -13,6 +13,10 @@ let
     es
     en
   ]);
+  useRADV = pkgs.writeSehllScriptBin "nvidia-offload" ''
+    export AMD_VULKAN_ICD=RADV
+    exec -a "$0" "$@"
+  '';
 in
 {
   imports =
@@ -59,10 +63,6 @@ in
         pkgs.ibus
       ];
     };
-    vivaldi = pkgs.vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine = true;
-    };
   };
 
   # List packages installed in system profile. To search, run:
@@ -76,25 +76,26 @@ in
     libsForQt5.kdenetwork-filesharing gtk-engine-murrine
     plasma-browser-integration gwenview
     wget vim steam tdesktop lutris wineWowPackages.staging vscode 
-    vivaldi mpv papirus-icon-theme discord 
-    git home-manager p7zip unzip unrar 
+    mpv papirus-icon-theme discord 
+    git p7zip unzip unrar zip
     steam-run systembus-notify desmume chromium 
     libfido2 pfetch
     obs-studio libreoffice-fresh
-    parallel
     ffmpeg-full nodejs nodePackages.npm
-    python39Packages.pynvim neovim cmake python39Full gcc gnumake
+    python39Packages.pynvim neovim python39Full 
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
     android-studio
-    mednafen mednaffe 
-
+    mednafen mednaffe lbry
+    virt-manager
+    firefox
     myAspell mythes
   ];
 
   # Environment variables
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
+    GTK_USE_PORTAL = "1";
   };
 
   fonts.fonts = with pkgs; [
@@ -104,6 +105,9 @@ in
     noto-fonts
     recursive
   ];
+
+  # Enabling virtualization
+  virtualisation.libvirtd.enable = true;
 
   # Java configuration
   programs.java = {
@@ -156,7 +160,7 @@ in
       rocm-opencl-icd
       rocm-opencl-runtime
     ];
-    extraPackages32 = with pkgs; [
+    hardware.opengl.extraPackages32 = with pkgs; [
       driversi686Linux.amdvlk
     ];
   };
@@ -239,7 +243,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

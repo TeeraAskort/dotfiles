@@ -13,6 +13,10 @@ let
     es
     en
   ]);
+  useRADV = pkgs.writeSehllScriptBin "nvidia-offload" ''
+    export AMD_VULKAN_ICD=RADV
+    exec -a "$0" "$@"
+  '';
 in
 {
   imports =
@@ -63,7 +67,6 @@ in
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    (pkgs.callPackage ./materia-theme {})
     wget vim tdesktop lutris wineWowPackages.staging vscode gnome.gedit 
     gnome.gnome-terminal celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
@@ -83,13 +86,14 @@ in
     mednafen mednaffe 
     firefox lbry gnome.gnome-boxes
     myAspell mythes gimp steam
-    materia-kde-theme
+    adwaita-qt
+    useRADV
   ];
 
   # Environment variables
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
-    QT_STYLE_OVERRIDE = "kvantum";
+    QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
   # Font configuration
@@ -155,7 +159,7 @@ in
       rocm-opencl-icd
       rocm-opencl-runtime
     ];
-    extraPackages32 = with pkgs; [
+    hardware.opengl.extraPackages32 = with pkgs; [
       driversi686Linux.amdvlk
     ];
   };
@@ -222,33 +226,36 @@ in
         enable = true;
       };
     };
-    desktopManager.gnome = {
-      enable = true;
-      extraGSettingsOverrides = ''
-        [org.gnome.desktop.interface]
-        gtk-theme = "Materia-dark-compact"
-        icon-theme = "Papirus-Dark"
-	      monospace-font-name = "Rec Mono Semicasual Regular 11"
+    desktopManager = {
+      xterm.enable = false;
+      gnome = {
+        enable = true;
+        extraGSettingsOverrides = ''
+          [org.gnome.desktop.interface]
+          gtk-theme = "Adwaita-dark"
+          icon-theme = "Papirus-Dark"
+	  monospace-font-name = "Rec Mono Semicasual Regular 11"
 
-        [org.gnome.desktop.wm.preferences]
-        theme = "Materia-dark-compact"
-        button-layout = "appmenu:minimize,maximize,close"
+          [org.gnome.desktop.wm.preferences]
+          theme = "Adwaita-dark"
+          button-layout = "appmenu:minimize,maximize,close"
 
-	[org.gnome.desktop.peripherals.mouse]
-	accel-profile = "flat"
+	  [org.gnome.desktop.peripherals.mouse]
+	  accel-profile = "flat"
 
-	[org.gnome.desktop.privacy]
-	disable-camera = true
-	disable-microphone = true
-	remember-recent-files = false
-	remove-old-temp-files = true
-	remove-old-trash-files = true
-	old-files-age = 3
+	  [org.gnome.desktop.privacy]
+	  disable-camera = true
+	  disable-microphone = true
+	  remember-recent-files = false
+	  remove-old-temp-files = true
+	  remove-old-trash-files = true
+	  old-files-age = 3
 
-        [org.gnome.settings-daemon.plugins.power]
-        sleep-inactive-ac-timeout = 1800
-        sleep-inactive-battery-timeout = 900
-      '';
+          [org.gnome.settings-daemon.plugins.power]
+          sleep-inactive-ac-timeout = 1800
+          sleep-inactive-battery-timeout = 900
+        '';
+      };
     };
   };
 

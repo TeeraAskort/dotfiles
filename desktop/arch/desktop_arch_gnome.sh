@@ -117,7 +117,7 @@ plymouth-set-default-theme -R hexagon_2
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
 sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
-sed -i "s/MODULES=()/MODULES=(i915)/g" /etc/mkinitcpio.conf
+sed -i "s/MODULES=()/MODULES=(amdgpu)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
 # Install and configure systemd-boot

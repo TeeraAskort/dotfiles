@@ -215,6 +215,12 @@ sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/link/.xpr
 # Adding gnome-keyring to pam
 echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
+# Add keyring unlock on login
+cp /etc/pam.d/login $directory/login 
+awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' $directory/login $directory/login | tee $directory/login
+echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/login
+mv $directory/login /etc/pam.d/login
+
 # Fixing xfce power manager
 sed -i "s/auth_admin/yes/g" /usr/share/polkit-1/actions/org.xfce.power.policy
 

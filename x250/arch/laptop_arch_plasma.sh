@@ -2,6 +2,10 @@
 
 rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TS128GMTS430S | cut -d" " -f1)
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 # Configuring locales
 sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen
 sed -i "s/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g" /etc/locale.gen
@@ -199,6 +203,12 @@ systemctl enable intel-undervolt
 
 # Configuring sddm
 echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
+
+# Add keyring unlock on login
+cp /etc/pam.d/login $directory/login 
+awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' $directory/login $directory/login | tee $directory/login
+echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/login
+mv $directory/login /etc/pam.d/login
 
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

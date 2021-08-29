@@ -49,6 +49,7 @@ EDITOR=vim visudo
 
 # Enabling colors in pacman
 sed -i "s/#Color/Color/g" /etc/pacman.conf
+sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 
 # Enabling multilib repo
 sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf

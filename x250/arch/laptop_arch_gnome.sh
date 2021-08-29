@@ -100,7 +100,7 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer gtk-engine-murrine geary gnome-boxes transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero
+pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot bubblewrap-suid ffmpegthumbnailer gtk-engine-murrine geary gnome-boxes transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra
  
 # Removing unwanted packages
 pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-software gdm
@@ -175,7 +175,7 @@ pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-lib
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "visual-studio-code-bin" "qt6gtk2" "chrome-gnome-shell" "pfetch"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "visual-studio-code-bin" "adwaita-qt" "chrome-gnome-shell" "pfetch"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si --noconfirm
@@ -184,7 +184,7 @@ do
 done
 
 # Setting environment variable
-echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
+echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
 
 # Installing android studio
 sudo -u link yay -S --noconfirm android-studio pamac-flatpak

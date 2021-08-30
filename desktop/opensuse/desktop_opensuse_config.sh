@@ -49,6 +49,9 @@ if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Removing unwanted DE specific applications
 	zypper rm -y konversation kmines ksudoku kreversi
+
+	# Adding GTK_USE_PORTAL
+	echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
 fi
 
 # Changing plymouth theme

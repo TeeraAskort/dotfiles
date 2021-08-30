@@ -58,7 +58,7 @@ sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
 # Installing drivers 
-pacman -S --noconfirm xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa xf86-input-wacom xf86-input-libinput 
+pacman -S --noconfirm mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa xf86-input-wacom xf86-input-libinput libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau
 
 # Installing services
 pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode
@@ -114,7 +114,7 @@ plymouth-set-default-theme -R hexagon_2
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
 sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
-sed -i "s/MODULES=()/MODULES=(amdgpu)/g" /etc/mkinitcpio.conf
+# sed -i "s/MODULES=()/MODULES=(amdgpu)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
 # Install and configure systemd-boot
@@ -128,16 +128,16 @@ editor   no
 EOF
 cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux-zen
+linux   /vmlinuz-linux-hardened
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-zen.img
+initrd  /initramfs-linux-hardened.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat > /boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux-zen
+linux   /vmlinuz-linux-hardened
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-zen-fallback.img
+initrd  /initramfs-linux-hardened-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update

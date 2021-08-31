@@ -61,7 +61,10 @@ if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 fi
 
 # Changing plymouth theme
-wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_2/hexagon_2.tar.gz
+until wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_2/hexagon_2.tar.gz
+do
+	echo "Download failed, retrying"
+done
 tar xzvf hexagon_2.tar.gz
 mv hexagon_2 /usr/share/plymouth/themes/
 plymouth-set-default-theme -R hexagon_2

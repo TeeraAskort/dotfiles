@@ -39,7 +39,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-gtk-theme materia-kde brasero desmume kernel-xanmod-cacule kernel-xanmod-cacule-devel kernel-xanmod-cacule-headers nvidia-driver dkms-nvidia nvidia-driver-libs.i686 unrar
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-gtk-theme materia-kde brasero desmume kernel-xanmod-cacule kernel-xanmod-cacule-devel kernel-xanmod-cacule-headers nvidia-driver dkms-nvidia nvidia-driver-libs.i686 unrar gimp
 
 systemctl enable thermald
 
@@ -86,7 +86,7 @@ systemctl enable intel-undervolt
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.gimp.GIMP org.telegram.desktop 
+flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.telegram.desktop 
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts

@@ -39,9 +39,12 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf upgrade -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu pcsx2 fontconfig-enhanced-defaults fontconfig-font-replacements intel-undervolt ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl pam-u2f pamu2fcfg libva-intel-hybrid-driver materia-gtk-theme materia-kde brasero desmume kernel-xanmod-cacule kernel-xanmod-cacule-devel kernel-xanmod-cacule-headers nvidia-driver dkms-nvidia nvidia-driver-libs.i686 unrar gimp
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl webp-pixbuf-loader materia-kde materia-gtk-theme brasero desmume kernel-xanmod-cacule unrar gimp mpv-mpris
 
 systemctl enable thermald
+
+# Installing computer specific packages
+dnf in -y kernel-xanmod-cacule-devel kernel-xanmod-cacule-headers nvidia-driver dkms-nvidia nvidia-driver-libs.i686 intel-undervolt libva-intel-hybrid-driver pam-u2f pamu2fcfg
 
 # Remove unused packages 
 dnf remove -y totem rhythmbox 
@@ -92,7 +95,6 @@ flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.An
 flatpak override --filesystem=~/.fonts
 
 # Add sysctl config
-# echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Add intel_idle.max_cstate=1 to grub and update

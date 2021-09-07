@@ -45,7 +45,7 @@ sudo dnf groupinstall "C Development Tools and Libraries" -y
 sudo dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl webp-pixbuf-loader materia-kde materia-gtk-theme brasero desmume kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers unrar gimp mpv-mpris protontricks
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl webp-pixbuf-loader materia-kde materia-gtk-theme brasero desmume kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers unrar gimp mpv-mpris protontricks lpf-mscore-fonts lpf-cleartype-fonts
 
 systemctl enable thermald
 

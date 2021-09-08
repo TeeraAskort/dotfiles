@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Checking if arguments are passed
-if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "cinnamon" ]]; then
+if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]]; then
 	# Create partitions
 	parted /dev/nvme0n1 -- mklabel gpt
 	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
@@ -58,6 +58,8 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_cinnamon.sh
 	elif [[ "$1" == "xfce" ]]; then
 		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_xfce.sh
+	elif [[ "$1" == "mate" ]]; then
+		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_mate.sh
 	fi
 else
 	echo "Available options: "
@@ -65,6 +67,7 @@ else
 	echo "kde or plasma - To install the plasma desktop"
 	echo "xfce - To install the xfce desktop"
 	echo "cinnamon - To install the cinnamon desktop"
+	echo "mate - To install the mate desktop"
 
 fi 
 

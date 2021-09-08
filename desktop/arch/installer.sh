@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Checking if arguments are passed
-if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "xfce" ]]; then
+if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "mate" ]]; then
 
 	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDS120G2G0B-00EPW0 | cut -d" " -f1)
 	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_DT01ACA300 | cut -d" " -f1)
@@ -61,6 +61,8 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_arch_cinnamon.sh
 	elif [[ "$1" == "xfce" ]]; then
 		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_arch_xfce.sh
+	elif [[ "$1" == "mate" ]]; then
+		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_arch_mate.sh
 	fi
 else
 	echo "Available options: "
@@ -68,5 +70,6 @@ else
 	echo "gnome - To install the GNOME desktop"
 	echo "cinnamon - To install the cinnamon desktop"
 	echo "xfce - To install the xfce desktop"
+	echo "mate - To install the mate desktop"
 fi 
 

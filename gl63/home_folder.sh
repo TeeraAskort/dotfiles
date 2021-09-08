@@ -176,7 +176,11 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	if [ -e /usr/share/themes/Materia-dark-compact ]; then
 		gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark-compact"
 	else
-		gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+		if [ -e /usr/share/themes/Materia-dark ]; then 
+			gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark"
+		else
+			gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+		fi
 	fi
 	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"

@@ -52,7 +52,7 @@ sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
 # Installing drivers 
-pacman -S --noconfirm  nvidia nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver xf86-video-intel
+pacman -S --noconfirm  nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver xf86-video-intel
 
 # Installing services
 pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
@@ -128,16 +128,16 @@ editor   no
 EOF
 cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux
+linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
-initrd  /initramfs-linux.img
+initrd  /initramfs-linux-zen.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat > /boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux
+linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-fallback.img
+initrd  /initramfs-linux-zen-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 

@@ -17,7 +17,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo 'deb http://deb.xanmod.org releases main' | tee /etc/apt/sources.list.d/xanmod-kernel.list
 	wget -qO - https://dl.xanmod.org/gpg.key | apt-key --keyring /etc/apt/trusted.gpg.d/xanmod-kernel.gpg add -
 	apt update
-    apt install -y linux-xanmod-cacule intel-microcode iucode-tool
+	apt install -y linux-xanmod intel-microcode iucode-tool
 	echo 'net.core.default_qdisc = fq_pie' | tee /etc/sysctl.d/90-override.conf
 	
 	# Adding vivaldi repo
@@ -41,7 +41,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt-key add winehq.key
 	echo "deb https://dl.winehq.org/wine-builds/debian/ bullseye main" | tee /etc/apt/sources.list.d/wine.list
 	apt update
-    apt install -y winehq-staging winetricks
+	apt install -y winehq-staging winetricks
 
 	# Installing VSCode
 	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg

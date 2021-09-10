@@ -17,15 +17,15 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo 'deb http://deb.xanmod.org releases main' | tee /etc/apt/sources.list.d/xanmod-kernel.list
 	wget -qO - https://dl.xanmod.org/gpg.key | apt-key --keyring /etc/apt/trusted.gpg.d/xanmod-kernel.gpg add -
 	apt update
-    apt install -y linux-xanmod-cacule intel-microcode iucode-tool
+	apt install -y linux-xanmod intel-microcode iucode-tool
 	echo 'net.core.default_qdisc = fq_pie' | tee /etc/sysctl.d/90-override.conf
 	
 	# Adding vivaldi repo
-	wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
-	add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main' 
-	apt update
-       	apt install -y vivaldi-stable
-	apt remove -y firefox-esr
+	# wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
+	# add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main' 
+	# apt update
+       	# apt install -y vivaldi-stable
+	# apt remove -y firefox-esr
 	
 	# Installing strawberry
 	curl -s https://api.github.com/repos/strawberrymusicplayer/strawberry/releases/latest \
@@ -41,7 +41,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt-key add winehq.key
 	echo "deb https://dl.winehq.org/wine-builds/debian/ bullseye main" | tee /etc/apt/sources.list.d/wine.list
 	apt update
-    apt install -y winehq-staging winetricks
+	apt install -y winehq-staging winetricks
 
 	# Installing VSCode
 	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -56,13 +56,13 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt-get update -oAcquire::AllowInsecureRepositories=true
 	apt install deb-multimedia-keyring --allow-unauthenticated
 	apt update
-    apt full-upgrade -y
+	apt full-upgrade -y
 
 	# Installing lutris
 	echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_10/ ./" | tee /etc/apt/sources.list.d/lutris.list
 	wget -q https://download.opensuse.org/repositories/home:/strycore/Debian_10/Release.key -O- | sudo apt-key add -
 	apt update
-    apt install -y lutris
+	apt install -y lutris
 
 	# Installing required applications
 	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono pcsx2 mednafen mednaffe telegram-desktop neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip nodejs npm ntfs-3g
@@ -125,10 +125,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	#Install flatpak applications
-	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.katawa_shoujo.KatawaShoujo com.google.AndroidStudio
-
-	# Installing npm packages globally
-	npm i -g @ionic/cli @vue/cli 
+	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio
 
 	# Updating grub
 	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1 splash"/' /etc/default/grub

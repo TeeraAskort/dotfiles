@@ -178,7 +178,7 @@ pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-lib
 # Installing AUR packages
 cd /tmp/aurbuilder
 rm -r *
-for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "visual-studio-code-bin" "qt6gtk2" "pfetch" "youtube-dlp-bin" "yt-dlp-drop-in"
+for package in "dxvk-bin" "aic94xx-firmware" "wd719x-firmware" "mpv-mpris" "lbry-app-bin" "jdownloader2" "visual-studio-code-bin" "qt6gtk2" "pfetch" "youtube-dlp-bin" "yt-dlp-drop-in" "protontricks"
 do
 	sudo -u aurbuilder git clone https://aur.archlinux.org/${package}.git
 	cd $package && sudo -u aurbuilder makepkg -si --noconfirm

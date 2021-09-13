@@ -39,7 +39,7 @@ zypper in -y --from "Wine (openSUSE_Tumbleweed)" wine-staging wine-staging-32bit
 zypper install -y --from packman ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 # Installing basic packages
-zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa discord desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch eclipse
+zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry telegram-desktop flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa discord desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch eclipse java-16-openjdk
 
 # Enabling thermald service
 systemctl enable thermald intel-undervolt earlyoom libvirtd

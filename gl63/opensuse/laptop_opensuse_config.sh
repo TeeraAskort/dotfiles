@@ -48,7 +48,7 @@ systemctl enable thermald intel-undervolt earlyoom libvirtd
 zypper in --auto-agree-with-licenses -y x11-video-nvidiaG05
 
 # Removing unwanted applications
-zypper rm -y git-gui vlc
+zypper rm -y git-gui vlc vlc-qt vlc-noX
 
 # Block vlc from installing
 zypper addlock vlc-beta
@@ -120,7 +120,7 @@ sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-u
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community com.getpostman.Postman com.github.alecaddd.sequeler org.eclipse.Java
+flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community com.github.alecaddd.sequeler org.eclipse.Java com.mojang.Minecraft com.github.treagod.spectator com.github.AmatCoder.mednaffe
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts

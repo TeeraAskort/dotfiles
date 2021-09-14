@@ -109,7 +109,7 @@ mkinitrd
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak apps
-flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community com.github.alecaddd.sequeler org.eclipse.Java com.mojang.Minecraft com.github.treagod.spectator com.github.AmatCoder.mednaffe
+flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community com.github.alecaddd.sequeler org.eclipse.Java com.mojang.Minecraft com.getpostman.Postman com.github.AmatCoder.mednaffe
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts

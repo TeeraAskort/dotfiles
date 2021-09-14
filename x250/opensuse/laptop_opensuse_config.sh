@@ -42,7 +42,11 @@ zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlig
 systemctl enable thermald intel-undervolt earlyoom libvirtd
 
 # Removing unwanted applications
-zypper rm -y git-gui 
+zypper rm -y git-gui vlc
+
+# Block vlc from installing
+zypper addlock vlc-beta
+zypper addlock vlc
 
 if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Installing DE specific applications

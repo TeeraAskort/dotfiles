@@ -48,7 +48,11 @@ systemctl enable thermald intel-undervolt earlyoom libvirtd
 zypper in --auto-agree-with-licenses -y x11-video-nvidiaG05
 
 # Removing unwanted applications
-zypper rm -y git-gui 
+zypper rm -y git-gui vlc
+
+# Block vlc from installing
+zypper addlock vlc-beta
+zypper addlock vlc
 
 if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Installing DE specific applications

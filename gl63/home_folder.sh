@@ -207,6 +207,7 @@ fi
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@alderaeney.com"
 git config --global init.defaultBranch master
+git config --global credential.helper store
 
 ## Adding user to audio group
 sudo usermod -aG audio $user

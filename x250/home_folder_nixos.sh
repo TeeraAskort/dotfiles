@@ -31,6 +31,7 @@ cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@alderaeney.com"
 git config --global init.defaultBranch master
+git config --global credential.helper store
 
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

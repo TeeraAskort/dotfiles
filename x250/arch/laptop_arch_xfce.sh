@@ -167,7 +167,7 @@ pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-pl
 pacman -S --noconfirm  gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt firewalld obs-studio neovim nodejs npm python-pynvim libfido2 strawberry pam-u2f chromium yad intellij-idea-community-edition
+pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt firewalld obs-studio neovim nodejs npm python-pynvim libfido2 strawberry pam-u2f chromium yad intellij-idea-community-edition mednafen
 
 # Enabling services
 systemctl enable thermald earlyoom apparmor libvirtd firewalld 
@@ -190,7 +190,7 @@ done
 echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
 
 # Installing android studio
-sudo -u link yay -S --noconfirm android-studio pamac-flatpak protontricks eclipse-jee-bin
+sudo -u link yay -S --noconfirm android-studio pamac-flatpak protontricks eclipse-jee-bin mednaffe
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

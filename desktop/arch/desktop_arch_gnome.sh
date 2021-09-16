@@ -64,7 +64,7 @@ pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode
 systemctl enable NetworkManager haveged 
 
 # Installing sound libraries
-pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa 
+pacman -S --noconfirm  alsa-utils alsa-plugins pipewire pipewire-alsa pipewire-pulse pipewire-jack lib32-pipewire lib32-pipewire-jack
 
 # Installing filesystem libraries
 pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs
@@ -100,7 +100,7 @@ sed -i "/^CXXFLAGS/ s/-march=x86-64 -mtune=generic/-march=native/g" /etc/makepkg
 sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu=native\"/g" /etc/makepkg.conf
 
 # Install GNOME
-pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution gnome-boxes transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero gnome-themes-extra
+pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution gnome-boxes transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk
  
 # Removing unwanted packages
 pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-software gdm

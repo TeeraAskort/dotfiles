@@ -187,7 +187,7 @@ do
 done
 
 # Installing pamac-flatpak
-sudo -u link yay -S --noconfirm pamac-flatpak protontricks eclipse-jee-bin mednaffe
+sudo -u link yay -S --noconfirm pamac-all protontricks eclipse-jee-bin mednaffe snapd
 
 # Setting environment variable
 echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment

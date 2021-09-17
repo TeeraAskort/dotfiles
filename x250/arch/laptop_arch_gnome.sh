@@ -187,7 +187,7 @@ done
 echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
 
 # Installing android studio
-sudo -u link yay -S --noconfirm android-studio pamac-flatpak protontricks eclipse-jee-bin mednaffe
+sudo -u link yay -S --noconfirm android-studio pamac-all protontricks eclipse-jee-bin mednaffe snapd
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

@@ -187,7 +187,7 @@ done
 echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
 
 # Install aur packages with link user
-sudo -u link yay -S --noconfirm pamac-flatpak protontricks eclipse-jee-bin mednaffe
+sudo -u link yay -S --noconfirm pamac-all protontricks eclipse-jee-bin mednaffe snapd
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

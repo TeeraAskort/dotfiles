@@ -186,7 +186,7 @@ do
 done
 
 # Installing android studio
-until sudo -u link yay -S android-studio protontricks eclipse-jee-bin mednaffe --noconfirm
+until sudo -u link yay -S android-studio protontricks eclipse-jee-bin mednaffe snapd --noconfirm
 do
 	echo "retrying"
 done

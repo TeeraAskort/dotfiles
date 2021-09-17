@@ -181,7 +181,7 @@ do
 done
 
 # Installing AUR packages with yay
-sudo -u link yay -S --noconfirm protontricks eclipse-jee-bin mednafen
+sudo -u link yay -S --noconfirm protontricks eclipse-jee-bin mednafen snapd
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

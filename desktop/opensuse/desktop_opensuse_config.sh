@@ -108,7 +108,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community org.eclipse.Java com.mojang.Minecraft com.getpostman.Postman com.github.AmatCoder.mednaffe org.telegram.desktop io.dbeaver.DBeaverCommunity com.axosoft.GitKraken
+	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community org.eclipse.Java com.mojang.Minecraft com.github.AmatCoder.mednaffe org.telegram.desktop io.dbeaver.DBeaverCommunity com.axosoft.GitKraken rest.insomnia.Insomnia
 
 	# Flatpak overrides
 	flatpak override --filesystem=~/.fonts

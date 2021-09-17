@@ -64,7 +64,7 @@ pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode
 systemctl enable NetworkManager haveged 
 
 # Installing sound libraries
-pacman -S --noconfirm  alsa-utils alsa-plugins pipewire pipewire-alsa pipewire-pulse pipewire-jack lib32-pipewire lib32-pipewire-jack
+pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa
 
 # Installing filesystem libraries
 pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs

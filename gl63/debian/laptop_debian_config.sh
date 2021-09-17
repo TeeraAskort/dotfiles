@@ -131,7 +131,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	#Install flatpak applications
-	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio com.getpostman.Postman org.eclipse.Java io.dbeaver.DBeaverCommunity com.axosoft.GitKraken com.jetbrains.IntelliJ-IDEA-Community
+	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio org.eclipse.Java io.dbeaver.DBeaverCommunity com.axosoft.GitKraken com.jetbrains.IntelliJ-IDEA-Community rest.insomnia.Insomnia
 
 	# Updating grub
 	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub

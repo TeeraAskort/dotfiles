@@ -78,6 +78,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 			sudo cp sddm /etc/pam.d/sddm
 		fi
 		rm sddm
+
+		# Adding gnome-keyring to passwd pam setings
+		echo "password	optional	pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 	fi
 
 	# Changing plymouth theme

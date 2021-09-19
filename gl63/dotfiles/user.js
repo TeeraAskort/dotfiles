@@ -135,10 +135,8 @@ user_pref("network.IDN_show_punycode", true);
 user_pref("permissions.delegation.enabled", false);
 user_pref("browser.download.manager.addToRecentDocs", false);
 user_pref("extensions.postDownloadThirdPartyPrompt", false);
-user_pref("network.cookie.cookieBehavior", 1);
 user_pref("browser.contentblocking.category", "custom");
 user_pref("privacy.trackingprotection.enabled", true);
 user_pref("privacy.trackingprotection.socialtracking.enabled", true);
 user_pref("dom.storage.next_gen", true); // [DEFAULT: true FF92+]
-user_pref("privacy.sanitize.sanitizeOnShutdown", true);
 

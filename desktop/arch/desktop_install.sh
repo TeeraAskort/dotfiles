@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
 rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDS120G2G0B-00EPW0 | cut -d" " -f1)
-
-_script="$(readlink -f ${BASH_SOURCE[0]})"
-
-directory="$(dirname $_script)"
+dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_DT01ACA300 | cut -d" " -f1)
 
 # Configuring locales
 sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen

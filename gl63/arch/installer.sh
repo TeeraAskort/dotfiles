@@ -54,16 +54,10 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	cd /mnt
 	git clone https://SariaAskort@bitbucket.org/SariaAskort/dotfiles.git
 
-	if [[ "$1" == "gnome" ]]; then
-		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_gnome.sh
-	elif [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
-		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_plasma.sh
-	elif [[ "$1" == "cinnamon" ]]; then
-		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_cinnamon.sh
-	elif [[ "$1" == "xfce" ]]; then
-		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_xfce.sh
-	elif [[ "$1" == "mate" ]]; then
-		arch-chroot /mnt bash /dotfiles/gl63/arch/laptop_arch_mate.sh
+	if [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
+		arch-chroot /mnt bash /dotfiles/x250/arch/desktop_install.sh "$1" "gtk"
+	else
+		arch-chroot /mnt bash /dotfiles/x250/arch/desktop_install.sh "$1" "qt"
 	fi
 else
 	echo "Available options: "

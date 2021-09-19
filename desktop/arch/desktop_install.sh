@@ -226,7 +226,7 @@ fi
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]; then
-	sudo -u aurbuilder yay -S qt6gtk2
+	sudo -u aurbuilder yay -S --noconfirm qt6gtk2
 
 	# Setting environment variable
 	echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment

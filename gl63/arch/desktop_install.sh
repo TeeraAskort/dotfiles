@@ -146,10 +146,10 @@ if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[
 fi
 
 # Installing plymouth theme
-sudo -u aurbuilder yay -S --noconfirm plymouth-theme-hexagon-2-git
+sudo -u aurbuilder yay -S --noconfirm plymouth-theme-rings-git
 
 # Making hexagon_2 theme default
-plymouth-set-default-theme -R hexagon_2
+plymouth-set-default-theme -R rings
 
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2

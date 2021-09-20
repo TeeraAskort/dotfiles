@@ -40,7 +40,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper install -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa discord desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 snapd virtualbox filezilla net-tools net-tools-deprecated net-tools-lang
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa discord desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 snapd virtualbox filezilla net-tools net-tools-deprecated net-tools-lang pcsx2
 
 	# Enabling thermald service
 	systemctl enable thermald intel-undervolt earlyoom libvirtd
@@ -90,13 +90,13 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	fi
 
 	# Changing plymouth theme
-	until wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_2/hexagon_2.tar.gz; do
+	until wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_4/rings.tar.gz; do
 		echo "Download failed, retrying"
 	done
-	tar xzvf hexagon_2.tar.gz
-	mv hexagon_2 /usr/share/plymouth/themes/
-	plymouth-set-default-theme -R hexagon_2
-	rm hexagon_2.tar.gz
+	tar xzvf rings.tar.gz
+	mv rings /usr/share/plymouth/themes/
+	plymouth-set-default-theme -R rings
+	rm rings.tar.gz
 
 	# Removing double encryption password asking
 	touch /.root.key
@@ -138,6 +138,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Setting hostname properly for xampp
 	echo "127.0.0.1    link-gl63-8rc" | tee -a /etc/hosts
+
+	# Installing NPM packages
+	npm install -g @angular/cli @vue/cli
 
 	# Copying prime-run
 	cp $directory/../dotfiles/prime-run /usr/bin

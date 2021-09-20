@@ -284,9 +284,6 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 
 fi
 
-# Installing NPM packages
-npm install -g @angular/cli @vue/cli
-
 # Copying dotfiles folder to link
 mv /dotfiles /home/link
 chown -R link:users /home/link/dotfiles

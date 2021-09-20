@@ -97,6 +97,9 @@ cd ~/.fonts
 unzip ~/Documentos/fonts.zip
 unzip ~/Documentos/fonts2.zip
 
+# Installing NPM packages
+npm install -g @angular/cli @vue/cli
+
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	if [ -e /usr/share/themes/Materia-dark-compact ]; then

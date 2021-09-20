@@ -95,6 +95,9 @@ cd ~/.fonts
 unzip ~/Documentos/fonts.zip
 unzip ~/Documentos/fonts2.zip
 
+# Installing NPM packages
+npm install -g @angular/cli @vue/cli
+
 ## Configuring u2f cards
 hostnm=$(hostname)
 

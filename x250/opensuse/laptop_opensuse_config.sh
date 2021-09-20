@@ -133,9 +133,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Setting hostname properly for xampp
 	echo "127.0.0.1    link-x250" | tee -a /etc/hosts
 
-	# Installing NPM packages
-	npm install -g @angular/cli @vue/cli
-
 else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"

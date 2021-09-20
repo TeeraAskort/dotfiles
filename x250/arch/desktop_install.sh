@@ -8,18 +8,18 @@ dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_MQ01ABD100 | cu
 sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen
 sed -i "s/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g" /etc/locale.gen
 locale-gen
-echo LANG=es_ES.UTF-8 > /etc/locale.conf
+echo LANG=es_ES.UTF-8 >/etc/locale.conf
 export LANG=es_ES.UTF-8
 
 # Virtual console keymap
-echo KEYMAP=es > /etc/vconsole.conf
+echo KEYMAP=es >/etc/vconsole.conf
 
 # Change localtime
 ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
 hwclock --systohc
 
 # Hostname
-echo link-x250 > /etc/hostname
+echo link-x250 >/etc/hostname
 
 # Restricting root login
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
@@ -29,8 +29,7 @@ sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su-l
 clear
 useradd -m -g users -G wheel -s /bin/bash link
 echo "Enter link's password"
-until passwd link
-do
+until passwd link; do
 	echo "Enter the password correctly"
 done
 
@@ -50,31 +49,31 @@ pacman -Syu --noconfirm
 pacman -S --noconfirm lib32-mesa vulkan-intel lib32-vulkan-intel vulkan-icd-loader lib32-vulkan-icd-loader libva-intel-driver intel-media-driver xf86-video-intel
 
 # Installing services
-pacman -S --noconfirm  networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
+pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
 
 # Enabling services
 systemctl enable NetworkManager haveged bluetooth
 
 # Installing sound libraries
-pacman -S --noconfirm  alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
+pacman -S --noconfirm alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
 
 # Installing filesystem libraries
-pacman -S --noconfirm  dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs
+pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs
 
 # Installing compresion tools
-pacman -S --noconfirm  zip unzip unrar p7zip lzop pigz pbzip2
+pacman -S --noconfirm zip unzip unrar p7zip lzop pigz pbzip2
 
 # Installing generic tools
-pacman -S --noconfirm  vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils vi
+pacman -S --noconfirm vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils vi
 
 # Installing yay
-newpass=$(< /dev/urandom tr -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
+newpass=$(tr </dev/urandom -dc "@#*%&_A-Z-a-z-0-9" | head -c16)
 useradd -r -N -M -d /tmp/aurbuilder -s /usr/bin/nologin aurbuilder
 echo -e "$newpass\n$newpass\n" | passwd aurbuilder
 mkdir /tmp/aurbuilder
 chmod 777 /tmp/aurbuilder
-echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/aurbuilder
-echo "root ALL=(aurbuilder) NOPASSWD: ALL" >> /etc/sudoers.d/aurbuilder
+echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/aurbuilder
+echo "root ALL=(aurbuilder) NOPASSWD: ALL" >>/etc/sudoers.d/aurbuilder
 cd /tmp/aurbuilder
 sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
@@ -103,7 +102,7 @@ elif [[ "$1" == "gnome" ]]; then
 	pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-software gdm
 
 elif [[ "$1" == "mate" ]]; then
-	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird virt-manager gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme blueberry 
+	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird virt-manager gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme blueberry
 
 elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent thunderbird thunderbird-i18n-es-es virt-manager gnome-keyring
@@ -120,7 +119,7 @@ fi
 # Installing display-manager
 if [[ "$1" == "gnome" ]]; then
 	# Installing gdm-plymouth
-	sudo -u aurbuilder yay -S --noconfirm --useask gdm-plymouth 
+	sudo -u aurbuilder yay -S --noconfirm --useask gdm-plymouth
 
 	# Enabling gdm
 	systemctl enable gdm
@@ -166,19 +165,19 @@ mkinitcpio -P
 pacman -S --noconfirm --needed efibootmgr
 bootctl install
 mkdir -p /boot/loader/entries
-cat > /boot/loader/loader.conf <<EOF
+cat >/boot/loader/loader.conf <<EOF
 default  arch.conf
 console-mode max
 editor   no
 EOF
-cat > /boot/loader/entries/arch.conf <<EOF
+cat >/boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
 linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
 initrd  /initramfs-linux-zen.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
-cat > /boot/loader/entries/arch-fallback.conf <<EOF
+cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
 linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
@@ -188,19 +187,19 @@ EOF
 bootctl update
 
 # Installing printing services
-pacman -S --noconfirm  cups cups-pdf hplip ghostscript
+pacman -S --noconfirm cups cups-pdf hplip ghostscript
 
 # Enabling cups service
 systemctl enable cups
 
 # Installing office utilities
-pacman -S --noconfirm  libreoffice-fresh libreoffice-fresh-es hunspell-en_US hunspell-es_es mythes-en mythes-es hyphen-en hyphen-es
+pacman -S --noconfirm libreoffice-fresh libreoffice-fresh-es hunspell-en_US hunspell-es_es mythes-en mythes-es hyphen-en hyphen-es
 
 # Installing multimedia codecs
-pacman -S --noconfirm  gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst-libav
+pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst-libav
 
 # Installing gimp
-pacman -S --noconfirm  gimp gimp-help-es
+pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
 pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse qemu libvirt firewalld obs-studio neovim nodejs npm python-pynvim libfido2 clementine pam-u2f yad intellij-idea-community-edition mednafen dbeaver virtualbox virtualbox-host-dkms filezilla php chromium
@@ -224,10 +223,10 @@ fi
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm qt6gtk2
+	pacman -S --noconfirm kvantum-qt5 kvantum-theme-materia
 
 	# Setting environment variable
-	echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
+	echo "QT_STYLE_OVERRIDE=kvantum" | tee -a /etc/environment
 fi
 
 # Installing the rest of AUR packages with user link
@@ -257,7 +256,7 @@ pacman -Qtdq | pacman -Rns --noconfirm -
 # Adding user link to libvirt group
 usermod -aG libvirt link
 
-# Adding desktop specific final settings 
+# Adding desktop specific final settings
 if [[ "$1" == "gnome" ]]; then
 	# Disabling wayland
 	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
@@ -286,12 +285,15 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
 	# Add keyring unlock on login
-	cp /etc/pam.d/login $directory/login 
+	cp /etc/pam.d/login $directory/login
 	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' $directory/login $directory/login | tee $directory/login
 	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/login
 	mv $directory/login /etc/pam.d/login
 
 fi
+
+# Installing NPM packages
+npm install -g @angular/cli @vue/cli
 
 # Copying dotfiles folder to link
 mv /dotfiles /home/link

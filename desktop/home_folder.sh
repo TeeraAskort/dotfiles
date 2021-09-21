@@ -98,7 +98,13 @@ unzip ~/Documentos/fonts.zip
 unzip ~/Documentos/fonts2.zip
 
 # Installing NPM packages
-sudo npm install -g @angular/cli @vue/cli
+sudo npm install -g @angular/cli @vue/cli @ionic/cli
+
+# Installing lxd
+sudo systemctl restart snapd.socket
+echo "Waiting snapd to restart"
+sleep 20
+sudo snap install lxd
 
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then

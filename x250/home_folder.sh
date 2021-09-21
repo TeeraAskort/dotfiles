@@ -41,7 +41,6 @@ xdg-user-dirs-update --set PICTURES $HOME/Datos/Imágenes
 
 ## Adding intel undervolt configuration
 git clone https://github.com/kitsunyan/intel-undervolt.git
-
 cd intel-undervolt && ./configure --enable-systemd && make && sudo make install
 cd .. && sudo rm -r intel-undervolt
 
@@ -230,6 +229,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "Budgie:GNOME" ]]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
 fi
+
+gsettings set org.gtk.Settings.FileChooser sort-directories-first true
 
 # XFCE config
 if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then

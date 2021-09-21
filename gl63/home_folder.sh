@@ -206,6 +206,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
 	xfconf-query -c xfwm4 -p /general/vblank_mode -s glx
 fi
 
+gsettings set org.gtk.Settings.FileChooser sort-directories-first true
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@alderaeney.com"

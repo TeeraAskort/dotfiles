@@ -154,6 +154,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
 
 fi
 
+gsettings set org.gtk.Settings.FileChooser sort-directories-first true
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@alderaeney.com"

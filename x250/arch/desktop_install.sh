@@ -230,7 +230,7 @@ if [[ "$2" == "gtk" ]]; then
 fi
 
 # Installing the rest of AUR packages with user link
-sudo -u link yay -S --noconfirm android-studio pamac-all protontricks eclipse-jee-bin mednaffe snapd xampp
+sudo -u link yay -S --noconfirm android-studio pamac-all protontricks eclipse-jee mednaffe snapd xampp
 
 # Configuring snapd
 systemctl enable snapd.socket

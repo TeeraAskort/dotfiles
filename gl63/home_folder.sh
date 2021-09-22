@@ -91,9 +91,10 @@ sudo npm install -g @angular/cli @vue/cli @ionic/cli
 
 # Installing lxd
 sudo systemctl restart snapd.socket
-echo "Waiting snapd to restart"
-sleep 20
-sudo snap install lxd
+until sudo snap install lxd; do
+	echo "Waiting until snap starts"
+	sleep 10
+done
 
 ## Configuring u2f cards
 hostnm=$(hostname)

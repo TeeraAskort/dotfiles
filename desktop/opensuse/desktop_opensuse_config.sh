@@ -40,7 +40,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak gamemoded thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom discord code patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 snapd virtualbox filezilla net-tools net-tools-deprecated net-tools-lang pcsx2 php-composer2
 
 	# Enabling thermald service
-	systemctl enable thermald earlyoom libvirtd snapd.apparmor snapd
+	systemctl enable thermald earlyoom libvirtd snapd.apparmor snapd snapd.socket
 
 	# Configuring snap
 	grep secure_path /etc/sudoers | grep "^[^#;]" | tee /etc/sudoers.d/path

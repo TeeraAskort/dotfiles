@@ -39,8 +39,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Installing basic packages
 	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak gamemoded thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f discord patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 snapd virtualbox filezilla net-tools net-tools-deprecated net-tools-lang pcsx2 php-composer2
 
-	# Enabling thermald service
-	systemctl enable thermald intel-undervolt earlyoom libvirtd
+	# Enabling services
+	systemctl enable thermald intel-undervolt earlyoom libvirtd snapd.apparmor snapd 
+
+	# Configuring snap
+	grep secure_path /etc/sudoers | grep "^[^#;]" | tee /etc/sudoers.d/path
+	sed -i 's/.$/:\/snap\/bin&/' /etc/sudoers.d/path
 
 	# Removing unwanted applications
 	zypper rm -y git-gui vlc vlc-qt vlc-noX

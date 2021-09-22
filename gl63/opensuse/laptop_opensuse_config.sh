@@ -48,6 +48,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Install nvidia drivers
 	zypper in --auto-agree-with-licenses -y x11-video-nvidiaG05
 
+	# Configuring snap
+	grep secure_path /etc/sudoers | grep "^[^#;]" | tee /etc/sudoers.d/path
+	sed -i 's/.$/:\/snap\/bin&/' /etc/sudoers.d/path
+
 	# Removing unwanted applications
 	zypper rm -y git-gui vlc vlc-qt vlc-noX
 

@@ -87,7 +87,7 @@ unzip ~/Documentos/fonts.zip
 unzip ~/Documentos/fonts2.zip
 
 # Installing NPM packages
-sudo npm install -g @angular/cli @vue/cli @ionic/cli
+sudo npm install -g @angular/cli @vue/cli 
 
 # Installing lxd
 sudo systemctl restart snapd.socket

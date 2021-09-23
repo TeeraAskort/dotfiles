@@ -40,10 +40,6 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	mkdir /mnt/boot
 	mount /dev/${rootDisk}1 /mnt/boot
 
-	# Download and rank mirrors
-	pacman -S --noconfirm pacman-contrib
-	curl -s "https://archlinux.org/mirrorlist/?country=BE&country=FR&country=DE&country=LU&country=NL&country=PT&country=ES&country=CH&protocol=http&protocol=https&ip_version=4" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 10 - > /etc/pacman.d/mirrorlist
-
 	# Install base system
 	pacstrap /mnt base base-devel linux-firmware linux-zen linux-zen-headers lvm2 efibootmgr f2fs-tools vim git
 

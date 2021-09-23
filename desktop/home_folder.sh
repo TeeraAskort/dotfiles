@@ -100,13 +100,6 @@ unzip ~/Documentos/fonts2.zip
 # Installing NPM packages
 sudo npm install -g @angular/cli @vue/cli 
 
-# Installing lxd
-sudo systemctl restart snapd.socket
-until sudo snap install lxd; do
-	echo "Waiting until snap starts"
-	sleep 10
-done
-
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	if [ -e /usr/share/themes/Materia-dark-compact ]; then

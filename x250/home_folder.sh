@@ -97,13 +97,6 @@ unzip ~/Documentos/fonts2.zip
 # Installing NPM packages
 sudo npm install -g @angular/cli @vue/cli 
 
-# Installing lxd
-sudo systemctl restart snapd.socket
-until sudo snap install lxd; do
-	echo "Waiting until snap starts"
-	sleep 10
-done
-
 ## Configuring u2f cards
 hostnm=$(hostname)
 

@@ -230,7 +230,7 @@ if [[ "$2" == "gtk" ]]; then
 fi
 
 # Installing the rest of AUR packages with user link
-sudo -u link yay -S --noconfirm android-studio pamac-all protontricks eclipse-jee mednaffe xampp
+sudo -u link yay -S --noconfirm android-studio pamac-flatpak protontricks eclipse-jee mednaffe xampp
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

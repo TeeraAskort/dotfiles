@@ -222,10 +222,10 @@ fi
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]; then
-	pacman -S --noconfirm kvantum-qt5 kvantum-theme-materia
+	pacman -S --noconfirm qt6gtk2 qt5gtk2
 
 	# Setting environment variable
-	echo "QT_STYLE_OVERRIDE=kvantum" | tee -a /etc/environment
+	echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
 fi
 
 # Installing the rest of AUR packages with user link

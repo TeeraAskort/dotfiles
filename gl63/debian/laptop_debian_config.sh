@@ -33,13 +33,13 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# apt remove -y firefox-esr
 
 	# Installing strawberry
-	curl -s https://api.github.com/repos/strawberrymusicplayer/strawberry/releases/latest |
-		grep "browser_download_url" |
-		grep "strawberry_" |
-		grep "bullseye" |
-		cut -d '"' -f 4 |
-		wget -O strawberry.deb -qi -
-	apt install -y ./strawberry.deb
+	# curl -s https://api.github.com/repos/strawberrymusicplayer/strawberry/releases/latest |
+	# 	grep "browser_download_url" |
+	#	grep "strawberry_" |
+	#	grep "bullseye" |
+	#	cut -d '"' -f 4 |
+	#	wget -O strawberry.deb -qi -
+	# apt install -y ./strawberry.deb
 
 	# Installing wine
 	wget -nc https://dl.winehq.org/wine-builds/winehq.key
@@ -69,8 +69,13 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt update
 	apt install -y lutris
 
+	# Installing minecraft
+	curl -L "https://launcher.mojang.com/download/Minecraft.deb" > minecraft.deb
+	apt install ./minecraft.deb
+	rm minecraft.deb
+
 	# Installing required applications
-	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe telegram-desktop neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk pamu2fcfg libpam-u2f zip unzip nodejs npm php snapd filezilla virtualbox virtualbox-ext-pack
+	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe telegram-desktop neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk pamu2fcfg libpam-u2f zip unzip nodejs npm php snapd filezilla virtualbox virtualbox-ext-pack clementine snapd composer wget
 
 	systemctl enable thermald
 
@@ -131,18 +136,21 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	#Install flatpak applications
-	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio org.eclipse.Java io.dbeaver.DBeaverCommunity com.axosoft.GitKraken com.jetbrains.IntelliJ-IDEA-Community rest.insomnia.Insomnia
+	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio org.eclipse.Java io.dbeaver.DBeaverCommunity com.axosoft.GitKraken com.jetbrains.IntelliJ-IDEA-Community rest.insomnia.Insomnia io.github.shiftey.Desktop
 
 	# Updating grub
 	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub
 	sed -i 's/#GRUB_GFXMODE=640x480/GRUB_GFXMODE=1920x1080x32/g' /etc/default/grub
 	update-grub
 
-	# Setting hexagon_2 plymouth theme
-	curl -LO "https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_2/hexagon_2.tar.gz"
-	tar xzvf hexagon_2.tar.gz
-	cp -r hexagon_2 /usr/share/plymouth/themes
-	plymouth-set-default-theme -R hexagon_2
+	# Setting rings plymouth theme
+	until wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_4/rings.tar.gz; do
+		echo "Download failed, retrying"
+	done
+	tar xzvf rings.tar.gz
+	mv rings /usr/share/plymouth/themes/
+	plymouth-set-default-theme -R rings
+	rm rings.tar.gz
 
 	# Copying prime-run script
 	cp $directory/../dotfiles/prime-run /usr/bin/prime-run
@@ -156,6 +164,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	chmod 755 xampp.run
 	./xampp.run --unattendedmodeui minimal --mode unattended
 	rm xampp.run
+
+	# Setting hostname properly for xampp
+	echo "127.0.0.1    link-gl63-8rc" | tee -a /etc/hosts
 
 else
 	echo "Accepted paramenters:"

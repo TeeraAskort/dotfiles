@@ -29,10 +29,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo 'net.core.default_qdisc = fq_pie' | tee /etc/sysctl.d/90-override.conf
 
 	# Adding vivaldi repo
-	wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
-	add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main'
-	apt update
-	apt install -y vivaldi-stable
+	# wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
+	# add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main'
+	# apt update
+	# apt install -y vivaldi-stable
 	# apt remove -y firefox-esr
 
 	# Installing strawberry
@@ -43,6 +43,34 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	#	cut -d '"' -f 4 |
 	#	wget -O strawberry.deb -qi -
 	# apt install -y ./strawberry.deb
+
+	# Installing insomnia
+	echo "deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all" \
+    		| sudo tee -a /etc/apt/sources.list.d/insomnia.list
+	apt update
+	apt install insomnia
+
+	# Installing github desktop
+	wget -qO - https://packagecloud.io/shiftkey/desktop/gpgkey | sudo tee /etc/apt/trusted.gpg.d/shiftkey-desktop.asc > /dev/null
+	echo "deb [arch=amd64] https://packagecloud.io/shiftkey/desktop/any/ any main" | tee /etc/apt/sources.list.d/packagecloud-shiftky-desktop.list
+	apt update
+	apt install github-desktop
+
+	# Installing dbeaver
+	wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | apt-key add -
+	echo "deb https://dbeaver.io/debs/dbeaver-ce /" | tee /etc/apt/sources.list.d/dbeaver.list
+	apt-get update && apt-get install dbeaver-ce
+
+	# Installing LBRY
+	ver="0.51.2"
+	curl -L "https://github.com/lbryio/lbry-desktop/releases/download/v${ver}/LBRY_${ver}.deb" > $directory/lbry.deb
+	apt install $directory/lbry.deb
+	rm $directory/lbry.deb
+
+	# Installing gitkraken
+	curl -L "https://release.gitkraken.com/linux/gitkraken-amd64.deb" > $directory/gitkraken.deb
+	apt install $directory/gitkraken.deb
+	rm $directory/gitkraken.deb
 
 	# Installing wine
 	wget -nc https://dl.winehq.org/wine-builds/winehq.key
@@ -158,7 +186,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	#Install flatpak applications
-	flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio org.eclipse.Java io.dbeaver.DBeaverCommunity com.axosoft.GitKraken com.jetbrains.IntelliJ-IDEA-Community rest.insomnia.Insomnia io.github.shiftey.Desktop
+	flatpak install -y flathub com.discordapp.Discord org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio 
 
 	# Updating grub
 	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1 splash"/' /etc/default/grub
@@ -182,6 +210,41 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	# Setting hostname properly for xampp
 	echo "127.0.0.1    link-gl63-8rc" | tee -a /etc/hosts
+
+	# Installing lxd from snap store
+	systemctl restart snapd.socket
+	until snap install lxd; do
+		echo "Waiting for lxd to install"
+		sleep 10;
+	done
+
+		# Installing eclipse natively
+	ver="2021-09"
+	until curl -L "https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/${ver}/R/eclipse-jee-${ver}-R-linux-gtk-x86_64.tar.gz" > $directory/eclipse.tar.gz; do
+		echo "Failed to download eclipse, retrying"
+	done
+	tar xzvf $directory/eclipse.tar.gz
+	cp -r $directory/eclipse /usr/lib/eclipse
+	ln -s /usr/lib/eclipse/eclipse /usr/bin/eclipse
+	cp $directory/../applications/eclipse.desktop /usr/share/applications/eclipse.desktop
+	for i in 16 22 24 32 48 64 128 256 512 1024 ; do
+		cp $directory/eclipse/plugins/org.eclipse.platform_*/eclipse$i.png \
+			/usr/share/icons/hicolor/${i}x${i}/apps/eclipse.png
+	done
+	rm -r $directory/eclipse*
+
+	# Installing intellij idea
+	ver="2021.2.2"
+	until curl -L "https://download.jetbrains.com/idea/ideaIC-${ver}.tar.gz" > $directory/intellij.tar.gz; do
+		echo "Failed to download eclipse, retrying"
+	done
+	tar xzvf $directory/intellij.tar.gz
+	mkdir -p /opt/intellij
+	cp -R idea-IC*/* /opt/intellij
+	cp /opt/intellij/bin/idea.png /usr/share/pixmaps/intellij.png
+	cp $directory/../../applications/intellij.desktop /usr/share/applications
+	ln -s /opt/intellij/bin/idea.sh /usr/bin/idea
+	rm -r $direcotry/idea*
 else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"

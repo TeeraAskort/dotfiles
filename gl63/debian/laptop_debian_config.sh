@@ -87,7 +87,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	# Installing minecraft
 	curl -L "https://launcher.mojang.com/download/Minecraft.deb" > minecraft.deb
-	apt install ./minecraft.deb
+	apt install -y ./minecraft.deb
 	rm minecraft.deb
 
 	# Installing required applications

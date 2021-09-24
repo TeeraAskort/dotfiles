@@ -41,12 +41,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	#	wget -O strawberry.deb -qi -
 	# apt install -y ./strawberry.deb
 
-	# Installing insomnia
-	echo "deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all" \
-    		| sudo tee -a /etc/apt/sources.list.d/insomnia.list
-	apt update
-	apt install -y insomnia
-
 	# Installing github desktop
 	wget -qO - https://packagecloud.io/shiftkey/desktop/gpgkey | sudo tee /etc/apt/trusted.gpg.d/shiftkey-desktop.asc > /dev/null
 	echo "deb [arch=amd64] https://packagecloud.io/shiftkey/desktop/any/ any main" | tee /etc/apt/sources.list.d/packagecloud-shiftky-desktop.list
@@ -57,12 +51,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | apt-key add -
 	echo "deb https://dbeaver.io/debs/dbeaver-ce /" | tee /etc/apt/sources.list.d/dbeaver.list
 	apt-get update && apt-get install -y dbeaver-ce
-
-	# Installing LBRY
-	ver="0.51.2"
-	curl -L "https://github.com/lbryio/lbry-desktop/releases/download/v${ver}/LBRY_${ver}.deb" > $directory/lbry.deb
-	apt install -y $directory/lbry.deb
-	rm $directory/lbry.deb
 
 	# Installing gitkraken
 	curl -L "https://release.gitkraken.com/linux/gitkraken-amd64.deb" > $directory/gitkraken.deb
@@ -164,7 +152,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	#Install flatpak applications
-	flatpak install -y flathub com.discordapp.Discord org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio 
+	flatpak install -y flathub com.discordapp.Discord org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio rest.insomnia.Insomnia io.lbry.lbry-app
 
 	# Updating grub
 	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub

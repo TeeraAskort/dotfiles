@@ -98,7 +98,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	rm minecraft.deb
 
 	# Installing required applications
-	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono pcsx2 mednafen mednaffe telegram-desktop neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip nodejs npm php snapd filezilla virtualbox virtualbox-ext-pack clementine snapd composer wget
+	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono pcsx2 mednafen mednaffe telegram-desktop neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip nodejs npm php snapd filezilla virtualbox virtualbox-ext-pack clementine snapd composer wget net-tools
 
 	systemctl enable thermald
 
@@ -210,15 +210,15 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		sleep 10;
 	done
 
-		# Installing eclipse natively
+    # Installing eclipse natively
 	ver="2021-09"
-	until curl -L "https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/${ver}/R/eclipse-jee-${ver}-R-linux-gtk-x86_64.tar.gz" > $directory/eclipse.tar.gz; do
+	until curl -L "https://eclipse.mirror.garr.it/technology/epp/downloads/release/${ver}/R/eclipse-jee-${ver}-R-linux-gtk-x86_64.tar.gz" > $directory/eclipse.tar.gz; do
 		echo "Failed to download eclipse, retrying"
 	done
 	tar xzvf $directory/eclipse.tar.gz
 	cp -r $directory/eclipse /usr/lib/eclipse
 	ln -s /usr/lib/eclipse/eclipse /usr/bin/eclipse
-	cp $directory/../applications/eclipse.desktop /usr/share/applications/eclipse.desktop
+	cp $directory/../../applications/eclipse.desktop /usr/share/applications/eclipse.desktop
 	for i in 16 22 24 32 48 64 128 256 512 1024 ; do
 		cp $directory/eclipse/plugins/org.eclipse.platform_*/eclipse$i.png \
 			/usr/share/icons/hicolor/${i}x${i}/apps/eclipse.png

@@ -45,28 +45,28 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo "deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all" \
     		| sudo tee -a /etc/apt/sources.list.d/insomnia.list
 	apt update
-	apt install insomnia
+	apt install -y insomnia
 
 	# Installing github desktop
 	wget -qO - https://packagecloud.io/shiftkey/desktop/gpgkey | sudo tee /etc/apt/trusted.gpg.d/shiftkey-desktop.asc > /dev/null
 	echo "deb [arch=amd64] https://packagecloud.io/shiftkey/desktop/any/ any main" | tee /etc/apt/sources.list.d/packagecloud-shiftky-desktop.list
 	apt update
-	apt install github-desktop
+	apt install -y github-desktop
 
 	# Installing dbeaver
 	wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | apt-key add -
 	echo "deb https://dbeaver.io/debs/dbeaver-ce /" | tee /etc/apt/sources.list.d/dbeaver.list
-	apt-get update && apt-get install dbeaver-ce
+	apt-get update && apt-get install -y dbeaver-ce
 
 	# Installing LBRY
 	ver="0.51.2"
 	curl -L "https://github.com/lbryio/lbry-desktop/releases/download/v${ver}/LBRY_${ver}.deb" > $directory/lbry.deb
-	apt install $directory/lbry.deb
+	apt install -y $directory/lbry.deb
 	rm $directory/lbry.deb
 
 	# Installing gitkraken
 	curl -L "https://release.gitkraken.com/linux/gitkraken-amd64.deb" > $directory/gitkraken.deb
-	apt install $directory/gitkraken.deb
+	apt install -y $directory/gitkraken.deb
 	rm $directory/gitkraken.deb
 
 	# Installing wine

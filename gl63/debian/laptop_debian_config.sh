@@ -23,7 +23,17 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt update
 
 	# Installing drivers
-	apt install -y linux-headers-amd64 nvidia-driver firmware-misc-nonfree libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386 firmware-linux-nonfree
+	apt install -y linux-headers-amd64 nvidia-driver nvidia-kernel-dkms firmware-misc-nonfree libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386 firmware-linux-nonfree
+	
+	# Adding xanmod kernel
+	echo 'deb http://deb.xanmod.org releases main' | tee /etc/apt/sources.list.d/xanmod-kernel.list
+	wget -qO - https://dl.xanmod.org/gpg.key | apt-key --keyring /etc/apt/trusted.gpg.d/xanmod-kernel.gpg add -
+	apt update
+	apt install -y linux-xanmod-lts intel-microcode iucode-tool
+	echo 'net.core.default_qdisc = fq_pie' | tee /etc/sysctl.d/90-override.conf
+
+	# Configuring nvidia-dkms
+	export IGNORE_CC_MISMATCH=1 && dpkg-reconfigure nvidia-kernel-dkms
 
 	# Adding vivaldi repo
 	# wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -

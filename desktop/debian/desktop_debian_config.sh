@@ -70,6 +70,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo "deb https://dl.winehq.org/wine-builds/debian/ bullseye main" | tee /etc/apt/sources.list.d/wine.list
 	apt update
 	apt install -y winehq-staging winetricks
+	rm winehq.key
 
 	# Installing VSCode
 	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor >packages.microsoft.gpg
@@ -236,7 +237,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	cp /opt/intellij/bin/idea.png /usr/share/pixmaps/intellij.png
 	cp $directory/../../applications/intellij.desktop /usr/share/applications
 	ln -s /opt/intellij/bin/idea.sh /usr/bin/idea
-	rm -r $direcotry/idea*
+	rm -r $directory/idea* $directory/intellij*
 else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"

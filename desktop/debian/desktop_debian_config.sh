@@ -103,6 +103,16 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	systemctl enable thermald
 
+	# Installing mpv-mpris
+	apt install libmpv-dev libglib2.0-dev
+	git clone https://github.com/hoyon/mpv-mpris.git
+	cd mpv-mpris
+	make 
+	mkdir /etc/mpv/scripts
+	cp mpris.so /etc/mpv/scripts
+	cd .. && rm -r mpv-mpris
+	apt remove libmpv-dev libglib2.0-dev
+
 	if [ "$1" == "gnome" ]; then
 		# Installing required packages
 		apt install materia-gtk-theme qt5-qmake qtbase5-private-dev libgtk2.0-0 libx11-6 ffmpegthumbnailer tilix transmission-gtk evolution aisleriot gnome-mahjongg

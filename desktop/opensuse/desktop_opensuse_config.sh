@@ -134,7 +134,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Adding user to vboxusers group
 	user="$SUDO_USER"
-	usermod -aG $user vboxusers
+	usermod -aG vboxusers $user 
 
 else
 	echo "Accepted paramenters:"

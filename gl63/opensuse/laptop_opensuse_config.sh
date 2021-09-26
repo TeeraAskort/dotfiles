@@ -146,6 +146,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Setting hostname properly for xampp
 	echo "127.0.0.1    link-gl63-8rc" | tee -a /etc/hosts
 
+	# Adding user to vboxusers group
+	user="$SUDO_USER"
+	usermod -aG $user vboxusers
+
 	# Copying prime-run
 	cp $directory/../dotfiles/prime-run /usr/bin
 	chmod +x /usr/bin/prime-run

@@ -130,7 +130,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	rm xampp.run
 
 	# Setting hostname properly for xampp
-	echo "127.0.0.1    link-pc" | tee -a /etc/hosts
+	echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
 
 	# Adding user to vboxusers group
 	user="$SUDO_USER"

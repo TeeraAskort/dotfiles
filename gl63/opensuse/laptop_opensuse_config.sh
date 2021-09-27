@@ -6,10 +6,6 @@ directory="$(dirname $_script)"
 
 if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
-	# Copying NLUUG repos
-	cp $directory/../../common/nluug* /etc/zypp/repos.d/
-	rm /etc/zypp/repos.d/download.opensuse.org-non-oss.repo /etc/zypp/repos.d/download.opensuse.org-oss.repo
-
 	# Installing repos
 	zypper ar http://download.opensuse.org/repositories/games/openSUSE_Tumbleweed/games.repo
 	zypper ar http://download.opensuse.org/repositories/Emulators:/Wine/openSUSE_Tumbleweed/Emulators:Wine.repo

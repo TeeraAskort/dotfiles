@@ -1,9 +1,0 @@
-[nluug.nl-oss]
-name=NLUUG (OSS)
-enabled=1
-autorefresh=1
-baseurl=http://download.opensuse.org/tumbleweed/repo/oss/
-path=/
-type=rpm-md
-keeppackages=0
-

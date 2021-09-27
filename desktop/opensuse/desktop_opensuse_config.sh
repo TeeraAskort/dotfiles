@@ -15,6 +15,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper addrepo -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
 	zypper addrepo https://download.opensuse.org/repositories/home:buschmann23/openSUSE_Tumbleweed/home:buschmann23.repo
 	zypper addrepo https://download.opensuse.org/repositories/games:tools/openSUSE_Tumbleweed/games:tools.repo
+	zypper addrepo https://download.opensuse.org/repositories/X11:Pantheon:Apps/openSUSE_Tumbleweed/X11:Pantheon:Apps.repo
 	# zypper ar https://repo.vivaldi.com/archive/vivaldi-suse.repo
 
 	# Adding VSCode repo
@@ -40,7 +41,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded 
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom code patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang pcsx2 php-composer2 lxd minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom code patterns-openSUSE-kvm_server patterns-server-kvm_tools qemu-audio-pa desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang pcsx2 php-composer2 lxd minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel sequeler
 
 	# Enabling thermald service
 	systemctl enable thermald earlyoom libvirtd lxd
@@ -114,7 +115,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community org.eclipse.Java com.github.AmatCoder.mednaffe org.telegram.desktop io.dbeaver.DBeaverCommunity com.axosoft.GitKraken rest.insomnia.Insomnia 
+	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community org.eclipse.Java com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken rest.insomnia.Insomnia 
+
+	# Installing flatpak themes
+	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
+		flatpak install flathub org.gtk.Gtk3theme.Breeze-Dark org.gtk.Gtk3theme.Breeze
+	fi
 
 	# Flatpak overrides
 	flatpak override --filesystem=~/.fonts

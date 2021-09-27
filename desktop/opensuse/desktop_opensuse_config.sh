@@ -118,7 +118,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
-		flatpak install flathub org.gtk.Gtk3theme.Breeze-Dark org.gtk.Gtk3theme.Breeze
+		flatpak install -y flathub org.gtk.Gtk3theme.Breeze-Dark org.gtk.Gtk3theme.Breeze
 	fi
 
 	# Flatpak overrides

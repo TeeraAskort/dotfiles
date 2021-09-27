@@ -100,7 +100,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	touch /.root.key
 	chmod 600 /.root.key
 	dd if=/dev/urandom of=/.root.key bs=1024 count=1
-	clear
+	echo ""
 	echo "Enter disk encryption password"
 	until cryptsetup luksAddKey /dev/${rootDisk}2 /.root.key; do
 		echo "Retrying"

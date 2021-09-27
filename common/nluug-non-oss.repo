@@ -1,0 +1,9 @@
+[nluug.nl-non-oss]
+name=NLUUG (NON-OSS)
+enabled=1
+autorefresh=1
+baseurl=http://ftp1.nluug.nl/os/Linux/distr/opensuse/tumbleweed/repo/non-oss/
+path=/
+type=rpm-md
+keeppackages=0
+

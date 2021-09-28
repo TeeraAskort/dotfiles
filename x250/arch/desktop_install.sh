@@ -230,7 +230,7 @@ if [[ "$2" == "gtk" ]]; then
 fi
 
 # Installing the rest of AUR packages with user link
-sudo -u link yay -S --noconfirm android-studio pamac-flatpak protontricks eclipse-jee mednaffe xampp
+sudo -u link yay -S --noconfirm android-studio pamac-flatpak protontricks eclipse-jee mednaffe 
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder
@@ -250,11 +250,21 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
+# Installing xampp
+curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" >xampp.run
+chmod 755 xampp.run
+./xampp.run --unattendedmodeui minimal --mode unattended
+rm xampp.run
+
+# Setting hostname properly for xampp
+echo "127.0.0.1    link-x250" | tee -a /etc/hosts
+
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 
-# Adding user link to libvirt group
+# Adding user link to groups
 usermod -aG libvirt link
+usermod -aG vboxusers link
 
 # Adding desktop specific final settings
 if [[ "$1" == "gnome" ]]; then

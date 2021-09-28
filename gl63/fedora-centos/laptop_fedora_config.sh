@@ -25,6 +25,9 @@ dnf copr enable alderaeney/mednaffe -y
 #Enabling xanmod repo
 dnf copr enable rmnscnce/kernel-xanmod -y
 
+#Enabling lxc repo
+dnf copr enable ganto/lxc4 -y
+
 #Enabling negativo17 nvidia repo
 dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo
 
@@ -45,9 +48,22 @@ sudo dnf groupinstall "C Development Tools and Libraries" -y
 sudo dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl webp-pixbuf-loader materia-kde materia-gtk-theme brasero desmume kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers unrar gimp mpv-mpris protontricks lpf-mscore-fonts lpf-cleartype-fonts
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe youtube-dl webp-pixbuf-loader materia-kde materia-gtk-theme brasero desmume kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers unrar gimp mpv-mpris protontricks libnsl mod_perl sequeler java-11-openjdk-devel lxd lxc
 
 systemctl enable thermald
+
+# Installing virtualbox
+wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | rpm --import -
+curl -LO "https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo"
+mv virtualbox.repo /etc/yum.repos.d/
+dnf up -y --refresh
+dnf -y install @development-tools
+dnf -y install dkms elfutils-libelf-devel qt5-qtx11extras
+dnf install -y VirtualBox-6.1
+
+# Adding user to vboxusers group
+user="$SUDO_USER"
+usermod -aG vboxusers $user 
 
 # Installing computer specific packages
 dnf in -y nvidia-driver dkms-nvidia nvidia-driver-libs.i686 intel-undervolt libva-intel-hybrid-driver pam-u2f pamu2fcfg
@@ -95,13 +111,24 @@ systemctl enable intel-undervolt
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.telegram.desktop 
+flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.telegram.desktop org.eclipse.Java com.axosoft.GitKraken rest.insomnia.Insomnia com.mojang.Minecraft
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
 
 # Add sysctl config
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Installing xampp
+until curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" > xampp.run; do
+	echo "Retrying"
+done
+chmod 755 xampp.run
+./xampp.run --unattendedmodeui minimal --mode unattended
+rm xampp.run
+
+# Setting hostname properly for xampp
+echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'

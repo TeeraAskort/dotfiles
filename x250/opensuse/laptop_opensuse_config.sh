@@ -119,7 +119,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio com.jetbrains.IntelliJ-IDEA-Community org.eclipse.Java com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken rest.insomnia.Insomnia com.github.alecaddd.sequeler
+	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio org.eclipse.Java com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken rest.insomnia.Insomnia com.github.alecaddd.sequeler
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then

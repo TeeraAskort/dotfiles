@@ -64,8 +64,11 @@ cp $directory/zsh/.solus_alias ~
 mkdir -p ~/.config/pulse
 cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
-cp -r $directory/../common/pipewire ~/.config
-systemctl restart --user pipewire.service
+pipewireS=$(systemctl --user list-unit-files --type service | grep pipewire.service | wc -l)
+if [ $pipewireS -eq 1 ]; then 
+	cp -r $directory/../common/pipewire ~/.config
+	systemctl restart --user pipewire.service;
+fi
 
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~

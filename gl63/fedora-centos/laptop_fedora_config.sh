@@ -68,6 +68,9 @@ usermod -aG vboxusers $user
 # Installing computer specific packages
 dnf in -y nvidia-driver dkms-nvidia nvidia-driver-libs.i686 intel-undervolt libva-intel-hybrid-driver pam-u2f pamu2fcfg
 
+# Enabling services
+systemctl enable intel-undervolt
+
 # Remove unused packages 
 dnf remove -y totem rhythmbox 
 

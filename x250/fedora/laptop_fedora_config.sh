@@ -45,9 +45,9 @@ sudo dnf groupinstall "C Development Tools and Libraries" -y
 sudo dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 clementine chromium-freeworld mednafen mednaffe youtube-dl webp-pixbuf-loader materia-kde materia-gtk-theme brasero desmume kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers unrar gimp mpv-mpris protontricks libnsl mod_perl sequeler java-11-openjdk-devel lxd lxc
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 clementine chromium-freeworld mednafen mednaffe youtube-dl webp-pixbuf-loader materia-kde materia-gtk-theme brasero desmume kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers unrar gimp mpv-mpris protontricks libnsl mod_perl sequeler java-11-openjdk-devel lxd lxc 
 
-systemctl enable thermald acpid
+systemctl enable thermald 
 
 # Installing virtualbox
 wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | rpm --import -
@@ -64,6 +64,9 @@ usermod -aG vboxusers $user
 
 # Installing computer specific packages
 dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver acpid intel-undervolt
+
+# Enabling services
+systemctl enable acpid intel-undervolt
 
 # Remove unused packages 
 dnf remove -y totem rhythmbox 

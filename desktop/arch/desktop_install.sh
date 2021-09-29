@@ -171,16 +171,16 @@ editor   no
 EOF
 cat >/boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux-hardened
+linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-hardened.img
+initrd  /initramfs-linux-zen.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux-hardened
+linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-hardened-fallback.img
+initrd  /initramfs-linux-zen-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update
@@ -229,7 +229,18 @@ if [[ "$2" == "gtk" ]]; then
 fi
 
 # Installing the rest of AUR packages with user link
-sudo -u link yay -S --noconfirm android-studio pamac-flatpak protontricks eclipse-jee mednaffe xampp
+sudo -u link yay -S --noconfirm android-studio pamac-flatpak protontricks eclipse-jee mednaffe 
+
+# Installing xampp
+until curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" > xampp.run; do
+	echo "Retrying"
+done
+chmod 755 xampp.run
+./xampp.run --unattendedmodeui minimal --mode unattended
+rm xampp.run
+
+# Setting hostname properly for xampp
+echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

@@ -244,7 +244,7 @@ fi
 
 ## Configuring git
 git config --global user.name "Alderaeney"
-git config --global user.email "alderaeney@alderaeney.com"
+git config --global user.email "alderaeney@gmail.com"
 git config --global init.defaultBranch master
 git config --global credential.helper store
 

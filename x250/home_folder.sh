@@ -75,6 +75,7 @@ mkdir -p ~/.config/pulse
 cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
 cp -r $directory/../common/pipewire ~/.config
+systemctl restart --user pipewire.service
 
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~

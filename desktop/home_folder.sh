@@ -75,8 +75,7 @@ cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
 pipewireS=$(systemctl --user list-unit-files --type service | grep pipewire.service | wc -l)
 if [ $pipewireS -eq 1 ]; then 
-	cp -r $directory/../common/pipewire ~/.config
-	systemctl restart --user pipewire.service;
+	cp -r $directory/../common/pipewire /etc
 fi
 
 ## Configuring vim/neovim

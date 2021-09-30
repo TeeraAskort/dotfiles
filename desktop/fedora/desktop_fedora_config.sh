@@ -50,7 +50,6 @@ dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-
 systemctl enable thermald
 
 # Installing virtualbox
-wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | rpm --import -
 curl -LO "https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo"
 mv virtualbox.repo /etc/yum.repos.d/
 dnf up -y --refresh

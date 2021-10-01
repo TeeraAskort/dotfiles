@@ -14,6 +14,9 @@ rm lxc4.repo
 # Adding rpmfusion
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
+#Setting up hostname
+hostnamectl set-hostname link-x250
+
 # Updating the system
 rpm-ostree upgrade
 
@@ -41,7 +44,7 @@ sudo -u $user flatpak install -y --user flathub org.gnome.Platform.Compat.i386 o
 sudo -u $user flatpak override --user --filesystem=/home/link/Datos/Games net.lutris.Lutris
 
 # Installing packages
-rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks intel-undervolt fontconfig-font-replacements fontconfig-enhanced-defaults lxd lxc papirus-icon-theme java-11-openjdk-devel protontricks patch dkms nodejs npm pam-u2f pamu2fcfg libva-intel-hybrid-driver google-noto-cjk-fonts google-noto-emoji-fonts webp-pixbuf-loader libnsl mod_perl neovim python-neovim
+rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks intel-undervolt lxd lxc papirus-icon-theme java-11-openjdk-devel protontricks patch dkms nodejs npm pam-u2f pamu2fcfg libva-intel-hybrid-driver google-noto-cjk-fonts google-noto-emoji-fonts webp-pixbuf-loader libnsl mod_perl neovim python-neovim
 
 # Installing xampp
 until curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" > xampp.run; do

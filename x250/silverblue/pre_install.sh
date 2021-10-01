@@ -21,6 +21,9 @@ rpm-ostree upgrade
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
+# Adding flathub-beta repo
+flatpak remote-add --user flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+
 # Removing flatpaks from fedora repo
 flatpak remove 
 
@@ -30,19 +33,18 @@ flatpak install -y flathub org.telegram.desktop com.discordapp.Discord com.trans
 # Steam library override
 sudo -u $user flatpak override --user --filesystem=/home/link/Datos/SteamLibrary com.valvesoftware.Steam
 
-# Installing packages
-rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks intel-undervolt fontconfig-font-replacements fontconfig-enhanced-defaults lxd lxc papirus-icon-theme java-11-openjdk-devel unrar protontricks binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel dkms VirtualBox-6.1 nodejs npm pam-u2f pamu2fcfg libva-intel-hybrid-driver zip unzip google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts libfido2 webp-pixbuf-loader ffmpegthumbnailer ffmpeg libnsl mod_perl 
+# Installing flatpaks from flathub-beta repo
+sudo -u $user flatpak install --user flathub-beta net.lutris.Lutris//beta
+sudo -u $user flatpak install --user flathub org.gnome.Platform.Compat.i386 org.freedesktop.Platform.GL32.default org.freedesktop.Platform.GL.default
 
-# Enabling services
-systemctl enable intel-undervolt
+# Lutris library override
+sudo -u $user flatpak override --user --filesystem=/home/link/Datos/Games net.lutris.Lutris
+
+# Installing packages
+rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks intel-undervolt fontconfig-font-replacements fontconfig-enhanced-defaults lxd lxc papirus-icon-theme java-11-openjdk-devel protontricks binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel dkms VirtualBox-6.1 nodejs npm pam-u2f pamu2fcfg libva-intel-hybrid-driver zip unzip google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts libfido2 webp-pixbuf-loader libnsl mod_perl 
 
 # Adding user to vboxusers group
 usermod -aG vboxusers $user
-
-# Intel undervolt configuration
-sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -75/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-undervolt.conf
 
 # Installing xampp
 until curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" > xampp.run; do

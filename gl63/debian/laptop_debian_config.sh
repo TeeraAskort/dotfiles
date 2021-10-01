@@ -51,12 +51,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	#	wget -O strawberry.deb -qi -
 	# apt install -y ./strawberry.deb
 
-	# Installing github desktop
-	wget -qO - https://packagecloud.io/shiftkey/desktop/gpgkey | sudo tee /etc/apt/trusted.gpg.d/shiftkey-desktop.asc > /dev/null
-	echo "deb [arch=amd64] https://packagecloud.io/shiftkey/desktop/any/ any main" | tee /etc/apt/sources.list.d/packagecloud-shiftky-desktop.list
-	apt update
-	apt install -y github-desktop
-
 	# Installing dbeaver
 	wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | apt-key add -
 	echo "deb https://dbeaver.io/debs/dbeaver-ce /" | tee /etc/apt/sources.list.d/dbeaver.list
@@ -102,7 +96,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	rm minecraft.deb
 
 	# Installing required applications
-	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe telegram-desktop neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv youtube-dl chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk pamu2fcfg libpam-u2f zip unzip nodejs npm php snapd filezilla virtualbox virtualbox-ext-pack clementine snapd composer wget net-tools
+	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk pamu2fcfg libpam-u2f zip unzip nodejs npm php snapd filezilla virtualbox virtualbox-ext-pack clementine snapd composer wget net-tools yt-dlp
 
 	systemctl enable thermald
 
@@ -173,7 +167,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	#Install flatpak applications
-	flatpak install -y flathub com.discordapp.Discord org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio rest.insomnia.Insomnia io.lbry.lbry-app
+	flatpak install -y flathub com.discordapp.Discord org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio io.lbry.lbry-app com.getpostman.Postman org.eclipse.Java org.telegram.desktop
 
 	# Updating grub
 	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub
@@ -197,7 +191,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 	# Installing xampp
-	curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" >xampp.run
+	ver="8.0.11"
+	curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" >xampp.run
 	chmod 755 xampp.run
 	./xampp.run --unattendedmodeui minimal --mode unattended
 	rm xampp.run
@@ -211,35 +206,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		echo "Waiting for lxd to install"
 		sleep 10;
 	done
-	
-	# Installing eclipse natively
-	ver="2021-09"
-	until curl -L "https://eclipse.mirror.garr.it/technology/epp/downloads/release/${ver}/R/eclipse-jee-${ver}-R-linux-gtk-x86_64.tar.gz" > $directory/eclipse.tar.gz; do
-		echo "Failed to download eclipse, retrying"
-	done
-	tar xzvf $directory/eclipse.tar.gz
-	cp -r $directory/eclipse /usr/lib/eclipse
-	ln -s /usr/lib/eclipse/eclipse /usr/bin/eclipse
-	cp $directory/../../applications/eclipse.desktop /usr/share/applications/eclipse.desktop
-	for i in 16 22 24 32 48 64 128 256 512 1024 ; do
-		cp $directory/eclipse/plugins/org.eclipse.platform_*/eclipse$i.png \
-			/usr/share/icons/hicolor/${i}x${i}/apps/eclipse.png
-	done
-	rm -r $directory/eclipse*
-
-	# Installing intellij idea
-	ver="2021.2.2"
-	until curl -L "https://download.jetbrains.com/idea/ideaIC-${ver}.tar.gz" > $directory/intellij.tar.gz; do
-		echo "Failed to download eclipse, retrying"
-	done
-	tar xzvf $directory/intellij.tar.gz
-	mkdir -p /opt/intellij
-	cp -R idea-IC*/* /opt/intellij
-	cp /opt/intellij/bin/idea.png /usr/share/pixmaps/intellij.png
-	cp $directory/../../applications/intellij.desktop /usr/share/applications
-	ln -s /opt/intellij/bin/idea.sh /usr/bin/idea
-	rm -r $directory/idea* $directory/intellij*
-
 else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"

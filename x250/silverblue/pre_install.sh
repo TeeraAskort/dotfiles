@@ -9,8 +9,8 @@ user=$SUDO_USER
 # Adding repos
 curl -L "https://copr.fedorainfracloud.org/coprs/dawid/better_fonts/repo/fedora-35/dawid-better_fonts-fedora-35.repo" > better_fonts.repo
 curl -L "https://copr.fedorainfracloud.org/coprs/ganto/lxc4/repo/fedora-35/ganto-lxc4-fedora-35.repo" > lxc4.repo
-curl -LO "https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo"
 cp better_fonts.repo lxc4.repo virtualbox.repo /etc/yum.repos.d/
+rm better_fonts.repo lxc4.repo virtualbox.repo
 
 # Adding rpmfusion
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
@@ -35,17 +35,14 @@ flatpak install -y flathub org.gnome.Calculator org.gnome.Calendar org.gnome.Cha
 sudo -u $user flatpak override --user --filesystem=/home/link/Datos/SteamLibrary com.valvesoftware.Steam
 
 # Installing flatpaks from flathub-beta repo
-sudo -u $user flatpak install --user flathub-beta net.lutris.Lutris//beta
-sudo -u $user flatpak install --user flathub org.gnome.Platform.Compat.i386 org.freedesktop.Platform.GL32.default org.freedesktop.Platform.GL.default
+sudo -u $user flatpak install -y --user flathub-beta net.lutris.Lutris//beta
+sudo -u $user flatpak install -y --user flathub org.gnome.Platform.Compat.i386 org.freedesktop.Platform.GL32.default org.freedesktop.Platform.GL.default
 
 # Lutris library override
 sudo -u $user flatpak override --user --filesystem=/home/link/Datos/Games net.lutris.Lutris
 
 # Installing packages
-rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks intel-undervolt fontconfig-font-replacements fontconfig-enhanced-defaults lxd lxc papirus-icon-theme java-11-openjdk-devel protontricks binutils gcc make patch libgomp glibc-headers glibc-devel kernel-headers kernel-devel dkms VirtualBox-6.1 nodejs npm pam-u2f pamu2fcfg libva-intel-hybrid-driver zip unzip google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts libfido2 webp-pixbuf-loader libnsl mod_perl 
-
-# Adding user to vboxusers group
-usermod -aG vboxusers $user
+rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks intel-undervolt fontconfig-font-replacements fontconfig-enhanced-defaults lxd lxc papirus-icon-theme java-11-openjdk-devel protontricks patch dkms nodejs npm pam-u2f pamu2fcfg libva-intel-hybrid-driver google-noto-cjk-fonts google-noto-emoji-fonts webp-pixbuf-loader libnsl mod_perl 
 
 # Installing xampp
 until curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" > xampp.run; do

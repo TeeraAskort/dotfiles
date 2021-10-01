@@ -63,6 +63,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/cu
 
 ## Copying dotfiles
 cp $directory/zsh/.zshrc ~
+cp $directory/zsh/.zshenv ~
 cp $directory/zsh/.general_alias ~
 cp $directory/zsh/.arch_alias ~
 cp $directory/zsh/.debian_alias ~

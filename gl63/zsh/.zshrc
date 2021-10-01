@@ -144,3 +144,4 @@ export GAMEMODERUNEXEC=prime-run
 # autoload bashcompinit
 # bashcompinit
 # source /usr/share/bash-completion/completions/eopkg
+

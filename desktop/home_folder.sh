@@ -103,7 +103,12 @@ unzip ~/Documentos/fonts.zip
 unzip ~/Documentos/fonts2.zip
 
 # Installing NPM packages
-sudo npm install -g @angular/cli @vue/cli 
+if command -v rpm-ostree &> /dev/null; then
+	npm config set prefix '~/.node_packages'
+	npm install -g @angular/cli @vue/cli
+else
+	sudo npm install -g @angular/cli @vue/cli
+fi
 
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then

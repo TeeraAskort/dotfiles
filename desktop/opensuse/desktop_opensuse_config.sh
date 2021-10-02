@@ -125,7 +125,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	flatpak override --filesystem=~/.fonts
 
 	# Installing xampp
-	curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" >xampp.run
+	ver="8.0.11"
+	until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do
+		echo "Retrying"
+	done
 	chmod 755 xampp.run
 	./xampp.run --unattendedmodeui minimal --mode unattended
 	rm xampp.run

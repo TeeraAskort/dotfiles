@@ -92,7 +92,12 @@ unzip ~/Documentos/fonts.zip
 unzip ~/Documentos/fonts2.zip
 
 # Installing NPM packages
-sudo npm install -g @angular/cli @vue/cli 
+if command -v rpm-ostree &> /dev/null; then
+	npm config set prefix '~/.node_packages'
+	npm install -g @angular/cli @vue/cli
+else
+	sudo npm install -g @angular/cli @vue/cli
+fi
 
 ## Configuring u2f cards
 hostnm=$(hostname)

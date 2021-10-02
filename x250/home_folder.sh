@@ -79,6 +79,11 @@ if [ $pipewireS -eq 1 ]; then
 	sudo cp -r $directory/../common/pipewire /etc
 fi
 
+# Copying .zshenv on debian
+if [ $(lsb_release -is | grep "debian" | wc -l) -eq 1 ]; then
+	cp $directory/zsh/.zshenv ~
+fi
+
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~
 mkdir -p ~/.config/nvim/

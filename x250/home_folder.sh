@@ -80,7 +80,7 @@ if [ $pipewireS -eq 1 ]; then
 fi
 
 # Copying .zshenv on debian
-if [ $(lsb_release -is | grep "debian" | wc -l) -eq 1 ]; then
+if [ $(lsb_release -is | grep "Debian" | wc -l) -eq 1 ]; then
 	cp $directory/zsh/.zshenv ~
 fi
 

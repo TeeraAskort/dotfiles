@@ -23,7 +23,7 @@ apt-get install -y libgnutls30:i386 libldap-2.4-2:i386 libgpg-error0:i386 libxml
 libsdl2-2.0-0:i386 libfreetype6:i386 libdbus-1-3:i386 libsqlite3-0:i386
 
 # Installing required packages
-apt install -y clementine mpv vim neovim python3-neovim zsh zsh-autosuggestions zsh-syntax-highlighting npm nodejs flatpak telegram-desktop curl wget thermald earlyoom gamemode build-essential xz-utils openjdk-11-jdk pamu2fcfg net-tools fonts-noto-cjk aisleriot gnome-mahjongg transmission-gtk libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 apt-transport-https ffmpegthumbnailer hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us net-tools fonts-noto-color-emoji libfido2-1 libglu1-mesa libpam-u2f tlp mednafen mednaffe ffmpeg zip unzip unrar python3-mutagen rtmpdump phantomjs php8.0 composer chrome-gnome-shell
+apt install -y clementine mpv vim neovim python3-neovim zsh zsh-autosuggestions zsh-syntax-highlighting npm nodejs flatpak curl wget thermald earlyoom gamemode build-essential xz-utils openjdk-11-jdk pamu2fcfg net-tools fonts-noto-cjk aisleriot gnome-mahjongg transmission-gtk libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 apt-transport-https ffmpegthumbnailer hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us net-tools fonts-noto-color-emoji libfido2-1 libglu1-mesa libpam-u2f tlp mednafen mednaffe ffmpeg zip unzip unrar python3-mutagen rtmpdump phantomjs php8.0 composer chrome-gnome-shell
 
 # Removing unwanted applications
 apt remove -y gnome-mines quadrapassel gnome-sudoku pitivi rhythmbox totem
@@ -48,7 +48,7 @@ apt install code -y
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak applications
-flatpak install -y flathub org.eclipse.Java com.axosoft.GitKraken org.jdownloader.JDownloader com.getpostman.Postman com.getpostman.Postman org.chromium.Chromium com.google.AndroidStudio
+flatpak install -y flathub org.eclipse.Java com.axosoft.GitKraken org.jdownloader.JDownloader com.getpostman.Postman com.getpostman.Postman org.chromium.Chromium com.google.AndroidStudio org.telegram.desktop
 
 # Installing yt-dlp
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp

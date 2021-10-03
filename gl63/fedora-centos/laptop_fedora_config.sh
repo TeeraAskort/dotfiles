@@ -22,14 +22,11 @@ dnf copr enable dawid/better_fonts -y
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
-#Enabling xanmod repo
-dnf copr enable rmnscnce/kernel-xanmod -y
-
 #Enabling lxc repo
 dnf copr enable ganto/lxc4 -y
 
 #Enabling negativo17 nvidia repo
-dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo
+# dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo
 
 #Enabling vivaldi repo
 # dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
@@ -48,24 +45,16 @@ sudo dnf groupinstall "C Development Tools and Libraries" -y
 sudo dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 clementine chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel lxd lxc ffmpeg rtmpdump aria2 AtomicParsley
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 clementine chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel lxd lxc ffmpeg rtmpdump aria2 AtomicParsley dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel
 
 systemctl enable thermald
-
-# Installing virtualbox
-curl -LO "https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo"
-mv virtualbox.repo /etc/yum.repos.d/
-dnf up -y --refresh
-dnf -y install @development-tools
-dnf -y install dkms elfutils-libelf-devel qt5-qtx11extras
-dnf install -y VirtualBox-6.1
 
 # Adding user to vboxusers group
 user="$SUDO_USER"
 usermod -aG vboxusers $user 
 
 # Installing computer specific packages
-dnf in -y nvidia-driver dkms-nvidia nvidia-driver-libs.i686 intel-undervolt libva-intel-hybrid-driver pam-u2f pamu2fcfg
+dnf in -y intel-undervolt libva-intel-hybrid-driver pam-u2f pamu2fcfg tlp
 
 # Enabling services
 systemctl enable intel-undervolt
@@ -81,13 +70,12 @@ dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKi
 dnf groupupdate sound-and-video -y
 
 #Install nvidia drivers
-# dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
-# cat > /etc/modprobe.d/nvidia.conf <<EOF
-# Enable DynamicPwerManagement
-# http://download.nvidia.com/XFree86/Linux-x86_64/440.31/README/dynamicpowermanagement.html
-# options nvidia NVreg_DynamicPowerManagement=0x02
-# EOF
-
+dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
+cat > /etc/modprobe.d/nvidia.conf <<EOF
+Enable DynamicPwerManagement
+http://download.nvidia.com/XFree86/Linux-x86_64/440.31/README/dynamicpowermanagement.html
+options nvidia NVreg_DynamicPowerManagement=0x02
+EOF
 
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
@@ -103,11 +91,21 @@ sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-u
 
 systemctl enable intel-undervolt
 
-# Changing tlp config
-# sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
-# sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
+#Installing qogir theme
+curl -L "https://api.github.com/repos/vinceliuice/Qogir-theme/tarball" > Qogir-gtk.tar.gz
+tar xzvf Qogir-gtk.tar.gz && cd *Qogir-theme*
+./install.sh -l fedora -c dark -w square
+cd .. && rm -r *Qogir*
+git clone https://github.com/vinceliuice/Qogir-kde.git
+cd Qogir-kde
+./install.sh
+cd .. && rm -r Qogir-kde
 
-# systemctl enable tlp
+# Changing tlp config
+sed -i "s/#CPU_ENERGY_PERF_POLICY_ON_AC=balance_performance/CPU_ENERGY_PERF_POLICY_ON_AC=balance_power/g" /etc/tlp.conf
+sed -i "s/#SCHED_POWERSAVE_ON_AC=0/SCHED_POWERSAVE_ON_AC=1/g" /etc/tlp.conf
+
+systemctl enable tlp
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

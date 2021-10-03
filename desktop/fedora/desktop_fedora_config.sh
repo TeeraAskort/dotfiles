@@ -22,9 +22,6 @@ dnf copr enable dawid/better_fonts -y
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
-#Enabling xanmod repo
-dnf copr enable rmnscnce/kernel-xanmod -y
-
 #Enabling lxc repo
 dnf copr enable ganto/lxc4 -y
 
@@ -45,17 +42,9 @@ sudo dnf groupinstall "C Development Tools and Libraries" -y
 sudo dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 clementine chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel lxd lxc ffmpeg rtmpdump aria2 AtomicParsley
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 clementine chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel lxd lxc ffmpeg rtmpdump aria2 AtomicParsley VirtualBox dkms elfutils-libelf-devel qt5-qtx11extras kernel-headers kernel-devel
 
 systemctl enable thermald
-
-# Installing virtualbox
-curl -LO "https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo"
-mv virtualbox.repo /etc/yum.repos.d/
-dnf up -y --refresh
-dnf -y install @development-tools
-dnf -y install dkms elfutils-libelf-devel qt5-qtx11extras
-dnf install -y VirtualBox-6.1
 
 # Adding user to vboxusers group
 user="$SUDO_USER"
@@ -73,6 +62,16 @@ dnf groupupdate sound-and-video -y
 
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
+
+#Installing qogir theme
+curl -L "https://api.github.com/repos/vinceliuice/Qogir-theme/tarball" > Qogir-gtk.tar.gz
+tar xzvf Qogir-gtk.tar.gz && cd *Qogir-theme*
+./install.sh -l fedora -c dark -w square
+cd .. && rm -r *Qogir*
+git clone https://github.com/vinceliuice/Qogir-kde.git
+cd Qogir-kde
+./install.sh
+cd .. && rm -r Qogir-kde
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

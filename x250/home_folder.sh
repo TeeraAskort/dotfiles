@@ -237,7 +237,6 @@ fi
 if [[ "$XDG_CURRENT_DESKTOP" == "zorin:GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
-	gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 	gsettings set org.gnome.desktop.privacy disable-camera true
 	gsettings set org.gnome.desktop.privacy disable-microphone true
 	gsettings set org.gnome.desktop.privacy remember-recent-files false
@@ -246,7 +245,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "zorin:GNOME" ]]; then
 	gsettings set org.gnome.desktop.privacy old-files-age 3
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
-	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
 	gsettings set org.gnome.nautilus.icon-view default-zoom-level 'small'
 	gsettings set org.gnome.desktop.peripherals.trackball accel-profile 'flat'
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true

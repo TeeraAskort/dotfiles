@@ -233,7 +233,7 @@ if [[ "$2" == "gtk" ]]; then
 fi
 
 # Installing the rest of AUR packages with user link
-until sudo -u link yay -S --noconfirm android-studio pamac-flatpak protontricks eclipse-jee mednaffe 
+until sudo -u link yay -S --noconfirm android-studio pamac-flatpak protontricks eclipse-jee mednaffe xampp
 do
 	echo "Password timeout, retrying"
 done
@@ -257,13 +257,13 @@ echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Installing xampp
-ver="8.0.11"
-until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do
-	echo "Retrying"
-done
-chmod 755 xampp.run
-./xampp.run --unattendedmodeui minimal --mode unattended
-rm xampp.run
+# ver="8.0.11"
+# until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do
+# 	echo "Retrying"
+# done
+# chmod 755 xampp.run
+# ./xampp.run --unattendedmodeui minimal --mode unattended
+# rm xampp.run
 
 # Setting hostname properly for xampp
 echo "127.0.0.1    link-x250" | tee -a /etc/hosts

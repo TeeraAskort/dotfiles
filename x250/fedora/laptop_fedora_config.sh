@@ -45,17 +45,9 @@ sudo dnf groupinstall "C Development Tools and Libraries" -y
 sudo dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 clementine chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel lxd lxc ffmpeg rtmpdump aria2 AtomicParsley
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 clementine chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel lxd lxc ffmpeg rtmpdump aria2 AtomicParsley dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines
 
 systemctl enable thermald 
-
-# Installing virtualbox
-curl -LO "https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo"
-mv virtualbox.repo /etc/yum.repos.d/
-dnf up -y --refresh
-dnf -y install @development-tools
-dnf -y install dkms elfutils-libelf-devel qt5-qtx11extras
-dnf install -y VirtualBox-6.1
 
 # Adding user to vboxusers group
 user="$SUDO_USER"
@@ -86,6 +78,16 @@ sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf
 sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-undervolt.conf
 
 systemctl enable intel-undervolt
+
+#Installing qogir theme
+curl -L "https://api.github.com/repos/vinceliuice/Qogir-theme/tarball" > Qogir-gtk.tar.gz
+tar xzvf Qogir-gtk.tar.gz && cd *Qogir-theme*
+./install.sh -l fedora -c dark -w square
+cd .. && rm -r *Qogir*
+git clone https://github.com/vinceliuice/Qogir-kde.git
+cd Qogir-kde
+./install.sh
+cd .. && rm -r Qogir-kde
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

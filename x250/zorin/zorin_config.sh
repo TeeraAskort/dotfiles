@@ -31,7 +31,7 @@ apt install -y nodejs
 apt install -y clementine mpv vim neovim python3-neovim zsh zsh-autosuggestions zsh-syntax-highlighting flatpak curl wget thermald earlyoom gamemode build-essential xz-utils openjdk-11-jdk net-tools fonts-noto-cjk aisleriot gnome-mahjongg transmission-gtk libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 apt-transport-https ffmpegthumbnailer hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us net-tools fonts-noto-color-emoji libfido2-1 libglu1-mesa mednafen mednaffe ffmpeg zip unzip unrar python3-mutagen rtmpdump phantomjs php8.0 composer chrome-gnome-shell hplip virtualbox virtualbox-dkms virtualbox-ext-pack lutris desmume filezilla printer-driver-cups-pdf f2fs-tools btrfs-progs exfat-fuse
 
 # Removing unwanted applications
-apt remove -y gnome-mines quadrapassel gnome-sudoku pitivi rhythmbox totem 
+apt remove -y gnome-mines quadrapassel gnome-sudoku pitivi rhythmbox totem youtube-dl
 
 # Install computer specific packages
 apt install -y intel-media-va-driver libpam-u2f tlp pamu2fcfg

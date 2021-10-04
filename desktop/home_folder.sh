@@ -70,6 +70,7 @@ cp $directory/zsh/.silverblue_alias ~
 cp $directory/zsh/.opensuse_alias ~
 cp $directory/zsh/.elementary_alias ~
 cp $directory/zsh/.solus_alias ~
+cp $directory/zsh/.zorin_alias ~
 mkdir -p ~/.config/pulse
 cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
@@ -142,6 +143,25 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
+fi
+
+# Changing zorin config
+if [[ "$XDG_CURRENT_DESKTOP" == "zorin:GNOME" ]]; then
+	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
+	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
+	gsettings set org.gnome.desktop.privacy disable-camera true
+	gsettings set org.gnome.desktop.privacy disable-microphone true
+	gsettings set org.gnome.desktop.privacy remember-recent-files false
+	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
+	gsettings set org.gnome.desktop.privacy remove-old-trash-files  true
+	gsettings set org.gnome.desktop.privacy old-files-age 3
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
+	gsettings set org.gnome.nautilus.icon-view default-zoom-level 'small'
+	gsettings set org.gnome.desktop.peripherals.trackball accel-profile 'flat'
+	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
+	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
 fi
 
 ## Changing Budgie config

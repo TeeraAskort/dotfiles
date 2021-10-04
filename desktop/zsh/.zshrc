@@ -120,6 +120,9 @@ export ARCHFLAGS="-arch x86_64"
 ## Solus alias
 # source ~/.solus_alias
 
+## Zorin alias
+# source ~/.zorin_alias
+
 ## General alias
 source ~/.general_alias
 
@@ -140,4 +143,4 @@ source ~/.general_alias
 ## Solus eopkg config
 # autoload bashcompinit
 # bashcompinit
-# source /usr/share/bash-completion/completions/eopkg 
+# source /usr/share/bash-completion/completions/eopkg

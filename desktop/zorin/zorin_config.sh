@@ -34,7 +34,7 @@ apt install -y clementine mpv vim neovim python3-neovim zsh zsh-autosuggestions 
 apt remove -y gnome-mines quadrapassel gnome-sudoku pitivi rhythmbox totem 
 
 # Install computer specific packages
-apt install -y intel-media-va-driver libpam-u2f tlp pamu2fcfg
+apt install -y mesa-va-drivers
 
 # Installing outsider applications
 curl -L "https://discord.com/api/download?platform=linux&format=deb" > discord.deb

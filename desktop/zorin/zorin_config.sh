@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Changing repository for a spanish one
+sed -i "s/es.archive.ubuntu.com/ftp.udc.es/g" /etc/apt/sources.list
+
 # Adding i386 support
 dpkg --add-architecture i386
 

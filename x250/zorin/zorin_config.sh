@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 # Changing repository for a spanish one
 sed -i "s/es.archive.ubuntu.com/ftp.udc.es/g" /etc/apt/sources.list
 
@@ -31,11 +35,19 @@ rm winehq.key
 curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 apt install -y nodejs
 
+# Installing mongodb
+apt install gnupg
+wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+apt update
+apt install -y mongodb-org
+mongosh farmcrash $directory/mongodb.js
+
 # Disabling youtube-dl installation
 apt-mark hold youtube-dl
 
 # Installing required packages
-apt install -y clementine mpv vim neovim python3-neovim zsh zsh-autosuggestions zsh-syntax-highlighting flatpak curl wget thermald earlyoom gamemode build-essential xz-utils openjdk-11-jdk net-tools fonts-noto-cjk aisleriot gnome-mahjongg transmission-gtk libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 apt-transport-https ffmpegthumbnailer hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us net-tools fonts-noto-color-emoji libfido2-1 libglu1-mesa mednafen mednaffe ffmpeg zip unzip unrar python3-mutagen rtmpdump phantomjs php8.0 composer chrome-gnome-shell hplip virtualbox virtualbox-dkms virtualbox-ext-pack lutris desmume filezilla printer-driver-cups-pdf f2fs-tools btrfs-progs exfat-fuse dbeaver-ce postgresql-12
+apt install -y clementine mpv vim neovim python3-neovim zsh zsh-autosuggestions zsh-syntax-highlighting flatpak curl wget thermald earlyoom gamemode build-essential xz-utils openjdk-11-jdk net-tools fonts-noto-cjk aisleriot gnome-mahjongg transmission-gtk libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 apt-transport-https ffmpegthumbnailer hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us net-tools fonts-noto-color-emoji libfido2-1 libglu1-mesa mednafen mednaffe ffmpeg zip unzip unrar python3-mutagen rtmpdump phantomjs php8.0 composer chrome-gnome-shell hplip virtualbox virtualbox-dkms virtualbox-ext-pack lutris desmume filezilla printer-driver-cups-pdf f2fs-tools btrfs-progs exfat-fuse dbeaver-ce 
 
 # Removing unwanted applications
 apt remove -y gnome-mines quadrapassel gnome-sudoku pitivi rhythmbox totem 

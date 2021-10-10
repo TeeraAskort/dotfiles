@@ -40,20 +40,26 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f qemu-audio-pa desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang pcsx2 php-composer2 lxd minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel 
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f qemu-audio-pa desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 lxd minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client
 
 	# Enabling services
-	systemctl enable thermald intel-undervolt earlyoom libvirtd lxd
+	systemctl enable thermald intel-undervolt earlyoom libvirtd lxd mariadb
 
 	# Installing kvm server
 	zypper install -y -t pattern kvm_server kvm_tools
 
 	# Removing unwanted applications
-	zypper rm -y git-gui vlc vlc-qt vlc-noX
+	zypper rm -y git-gui vlc vlc-qt vlc-noX youtube-dl
 
 	# Block vlc from installing
 	zypper addlock vlc-beta
 	zypper addlock vlc
+	zypper addlock youtube-dl
+
+	# Configuring mariadb
+	mysql -u root -e "CREATE DATABASE farmcrash"
+	mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
+	mysql -u root -e "GRANT ALL PRIVILEGES ON farmcrash.* TO 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications
@@ -134,6 +140,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Add sysctl config
 	echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+	# Installing yt-dlp
+	curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+	chmod a+rx /usr/local/bin/yt-dlp
+	ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
 
 	# Installing xampp
 	ver="8.0.11"

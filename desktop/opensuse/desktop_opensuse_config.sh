@@ -57,6 +57,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper addlock youtube-dl
 
 	# Configuring mariadb
+	systemctl start mariadb
 	mysql -u root -e "CREATE DATABASE farmcrash"
 	mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
 	mysql -u root -e "GRANT ALL PRIVILEGES ON farmcrash.* TO 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"

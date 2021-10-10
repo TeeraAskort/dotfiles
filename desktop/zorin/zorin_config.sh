@@ -53,12 +53,11 @@ mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
 mysql -u root -e "GRANT ALL PRIVILEGES ON farmcrash.* TO 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
 
 # Installing outsider applications
-curl -L "https://discord.com/api/download?platform=linux&format=deb" > discord.deb
 curl -LO "https://cdn.akamai.steamstatic.com/client/installer/steam.deb"
 curl -LO "https://launcher.mojang.com/download/Minecraft.deb"
 curl -L "https://github.com/lbryio/lbry-desktop/releases/download/v0.51.2/LBRY_0.51.2.deb?_ga=2.242496066.1377799971.1633284702-265872098.1633284702" > lbry.deb
-apt install -y ./discord.deb ./steam.deb ./Minecraft.deb ./lbry.deb 
-rm discord.deb steam.deb Minecraft.deb lbry.deb 
+apt install -y ./steam.deb ./Minecraft.deb ./lbry.deb 
+rm steam.deb Minecraft.deb lbry.deb 
 
 # Installing vscode
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -72,7 +71,7 @@ apt install code -y
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak applications
-flatpak install -y flathub org.eclipse.Java com.axosoft.GitKraken org.jdownloader.JDownloader com.getpostman.Postman com.getpostman.Postman org.chromium.Chromium com.google.AndroidStudio org.telegram.desktop 
+flatpak install -y flathub org.eclipse.Java com.axosoft.GitKraken org.jdownloader.JDownloader com.getpostman.Postman com.getpostman.Postman org.chromium.Chromium com.google.AndroidStudio org.telegram.desktop com.discordapp.Discord
 
 # Installing yt-dlp
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp

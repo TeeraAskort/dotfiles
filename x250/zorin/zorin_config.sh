@@ -36,6 +36,7 @@ curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 apt install -y nodejs
 
 # Disabling youtube-dl installation
+apt remove youtube-dl
 apt-mark hold youtube-dl
 
 # Installing required packages

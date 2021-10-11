@@ -41,7 +41,7 @@ apt-mark hold youtube-dl
 cat > /etc/apt/preferences <<EOF
 Package: youtube-dl
 Pin: release *
-Pin-Priority: 1
+Pin-Priority: -1
 EOF
 apt update
 
@@ -93,7 +93,7 @@ flatpak install -y flathub org.eclipse.Java com.axosoft.GitKraken org.jdownloade
 # Installing yt-dlp
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
 chmod a+rx /usr/local/bin/yt-dlp
-ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
+ln -s /usr/local/bin/yt-dlp /usr/bin/youtube-dl
 
 # Installing xampp
 until curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" > xampp.run; do

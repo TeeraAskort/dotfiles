@@ -47,6 +47,16 @@ apt remove -y gnome-mines quadrapassel gnome-sudoku pitivi rhythmbox totem
 # Install computer specific packages
 apt install -y intel-media-va-driver libpam-u2f tlp pamu2fcfg
 
+# Installing mpv-mpris
+apt install -y libmpv-dev libglib2.0-dev
+git clone https://github.com/hoyon/mpv-mpris.git
+cd mpv-mpris
+make 
+mkdir /etc/mpv/scripts
+cp mpris.so /etc/mpv/scripts
+cd .. && rm -r mpv-mpris
+apt remove -y libmpv-dev libglib2.0-dev
+
 # Configuring mariadb
 mysql -u root -e "CREATE DATABASE farmcrash"
 mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"

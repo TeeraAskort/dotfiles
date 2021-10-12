@@ -78,7 +78,7 @@ rm packages-microsoft-prod.deb
 apt update
 apt install -y apt-transport-https && apt update && apt install -y dotnet-sdk-5.0
 apt install -y ./OpenTabletDriver.deb
-rm otd.deb
+rm OpenTabletDriver.deb
 sudo -u $user systemctl --user daemon-reload
 sudo -u $user systemctl --user enable opentabletdriver --now
 

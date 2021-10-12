@@ -41,6 +41,7 @@ sudo apt-mark hold youtube-dl
 echo "Package: youtube-dl" | sudo tee -a /etc/apt/preferences
 echo "Pin: release *" | sudo tee -a /etc/apt/preferences
 echo "Pin-Priority: -1" | sudo tee -a /etc/apt/preferences
+echo "" | sudo tee -a /etc/apt/preferences
 sudo apt update
 
 # Installing required packages

@@ -38,11 +38,9 @@ sudo apt install -y nodejs
 # Disabling youtube-dl installation
 sudo apt remove youtube-dl
 sudo apt-mark hold youtube-dl
-sudo cat > /etc/apt/preferences <<EOF
-Package: youtube-dl
-Pin: release *
-Pin-Priority: -1
-EOF
+echo "Package: youtube-dl" | sudo tee -a /etc/apt/preferences
+echo "Pin: release *" | sudo tee -a /etc/apt/preferences
+echo "Pin-Priority: -1" | sudo tee -a /etc/apt/preferences
 sudo apt update
 
 # Installing required packages

@@ -35,19 +35,6 @@ rm winehq.key
 curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 apt install -y nodejs
 
-# Installing dotnet-sdk and OpenTabletDriver
-user="$SUDO_USER"
-curl -L "https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest/download/OpenTabletDriver.deb" > otd.deb
-wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-dpkg -i packages-microsoft-prod.deb
-rm packages-microsoft-prod.deb
-apt update
-apt install -y apt-transport-https && apt update && apt install -y dotnet-sdk-5.0
-apt install -y ./otd.deb
-rm otd.deb
-sudo -u $user systemctl --user daemon-reload
-sudo -u $user systemctl --user enable opentabletdriver --now
-
 # Disabling youtube-dl installation
 apt remove youtube-dl
 apt-mark hold youtube-dl
@@ -81,6 +68,19 @@ apt remove -y libmpv-dev libglib2.0-dev
 mysql -u root -e "CREATE DATABASE farmcrash"
 mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
 mysql -u root -e "GRANT ALL PRIVILEGES ON farmcrash.* TO 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
+
+# Installing dotnet-sdk and OpenTabletDriver
+user="$SUDO_USER"
+curl -LO "https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest/download/OpenTabletDriver.deb"
+wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+apt update
+apt install -y apt-transport-https && apt update && apt install -y dotnet-sdk-5.0
+apt install -y ./OpenTabletDriver.deb
+rm otd.deb
+sudo -u $user systemctl --user daemon-reload
+sudo -u $user systemctl --user enable opentabletdriver --now
 
 # Installing outsider applications
 curl -LO "https://cdn.akamai.steamstatic.com/client/installer/steam.deb"

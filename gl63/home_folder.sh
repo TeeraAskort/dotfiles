@@ -61,12 +61,18 @@ cp $directory/zsh/.silverblue_alias ~
 cp $directory/zsh/.opensuse_alias ~
 cp $directory/zsh/.elementary_alias ~
 cp $directory/zsh/.solus_alias ~
+cp $directory/zsh/.zorin_alias ~
 mkdir -p ~/.config/pulse
 cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
 pipewireS=$(systemctl --user list-unit-files --type service | grep pipewire.service | wc -l)
 if [ $pipewireS -eq 1 ]; then 
 	cp -r $directory/../common/pipewire /etc
+fi
+
+# Copying .zshenv on debian
+if [ $(lsb_release -is | grep "Debian" | wc -l) -eq 1 ]; then
+	cp $directory/zsh/.zshenv ~
 fi
 
 ## Configuring vim/neovim
@@ -218,6 +224,25 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	fi
 fi
 
+# Changing zorin config
+if [[ "$XDG_CURRENT_DESKTOP" == "zorin:GNOME" ]]; then
+	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
+	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
+	gsettings set org.gnome.desktop.privacy disable-camera true
+	gsettings set org.gnome.desktop.privacy disable-microphone true
+	gsettings set org.gnome.desktop.privacy remember-recent-files false
+	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
+	gsettings set org.gnome.desktop.privacy remove-old-trash-files  true
+	gsettings set org.gnome.desktop.privacy old-files-age 3
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
+	gsettings set org.gnome.nautilus.icon-view default-zoom-level 'small'
+	gsettings set org.gnome.desktop.peripherals.trackball accel-profile 'flat'
+	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
+	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+fi
+
 # XFCE config
 if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
 	xfconf-query -c xfwm4 -p /general/vblank_mode -s glx
@@ -239,7 +264,11 @@ if ! command -v chsh &> /dev/null
 then
 	sudo lchsh link
 else
-	chsh -s /usr/bin/zsh
+	if [ -e /usr/bin/zsh ]; then
+		chsh -s /usr/bin/zsh
+	else
+		chsh -s /bin/zsh
+	fi
 fi
 vim ~/.zshrc
 

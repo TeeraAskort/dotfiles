@@ -112,9 +112,11 @@ then
 fi
 
 # Configuring mariadb
-sudo mysql -u root -e "CREATE DATABASE farmcrash"
-sudo mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
-sudo mysql -u root -e "GRANT ALL PRIVILEGES ON farmcrash.* TO 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
+if command -v mysql &> /dev/null ; then
+	sudo mysql -u root -e "CREATE DATABASE farmcrash"
+	sudo mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
+	sudo mysql -u root -e "GRANT ALL PRIVILEGES ON farmcrash.* TO 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
+fi
 
 ## Configuring u2f cards
 hostnm=$(hostname)

@@ -118,9 +118,6 @@ rm xampp.run
 # Setting hostname properly for xampp
 echo "127.0.0.1    $(hostname)" | sudo tee -a /etc/hosts
 
-# Installing lxd
-sudo snap install lxd
-
 # Setting up grub
 sudo sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1"/' /etc/default/grub
 sudo update-grub

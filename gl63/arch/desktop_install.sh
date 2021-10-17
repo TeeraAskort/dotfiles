@@ -88,11 +88,11 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 
 # Installing desktop environment
 if [[ "$1" == "cinnamon" ]]; then
-	pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme gnome-boxes cinnamon-translations nemo-fileroller blueberry system-config-printer gnome-books gnome-screenshot gnome-disk-utility gnome-calendar
+	pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme cinnamon-translations nemo-fileroller blueberry system-config-printer gnome-books gnome-screenshot gnome-disk-utility gnome-calendar
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution gnome-boxes transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk bubblewrap-suid
+	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk bubblewrap-suid
 
 	# Removing unwanted packages
 	pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-software gdm
@@ -201,10 +201,14 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 clementine pam-u2f yad mednafen virtualbox virtualbox-host-dkms filezilla php chromium composer dbeaver
+pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 clementine pam-u2f yad mednafen virtualbox virtualbox-host-dkms filezilla php chromium composer dbeaver mariadb
 
 # Enabling services
 systemctl enable thermald earlyoom apparmor libvirtd firewalld 
+
+# Configuring mariadb
+mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+systemctl enable mariadb
 
 # Wine dependencies
 pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vkd3d lib32-vkd3d

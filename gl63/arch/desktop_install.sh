@@ -104,7 +104,7 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent thunderbird thunderbird-i18n-es-es gnome-keyring
 
 	# Removing unwanted packages
-	pacman -Rnsc discover oxygen archlinux-appstream-data
+	pacman -Rnsc --noconfirm discover oxygen archlinux-appstream-data
 
 elif [[ "$1" == "xfce" ]]; then
 	# Install xfce

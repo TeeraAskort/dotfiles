@@ -115,6 +115,9 @@ if command -v opentabletdriver &> /dev/null
 then
 	systemctl --user daemon-reload
 	systemctl --user enable opentabletdriver --now
+else
+	sudo cp $directory/../common/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
+	sudo udevadm control --reload-rules
 fi
 
 # Configuring mariadb

@@ -63,16 +63,6 @@ cp mpris.so /etc/mpv/scripts
 cd .. && rm -r mpv-mpris
 apt remove -y libmpv-dev libglib2.0-dev
 
-# Installing dotnet-sdk and OpenTabletDriver
-curl -LO "https://github.com/OpenTabletDriver/OpenTabletDriver/releases/latest/download/OpenTabletDriver.deb"
-wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-dpkg -i packages-microsoft-prod.deb
-rm packages-microsoft-prod.deb
-apt update
-apt install -y apt-transport-https && apt update && apt install -y dotnet-sdk-5.0
-apt install -y ./OpenTabletDriver.deb
-rm OpenTabletDriver.deb
-
 # Installing outsider applications
 curl -LO "https://cdn.akamai.steamstatic.com/client/installer/steam.deb"
 curl -LO "https://launcher.mojang.com/download/Minecraft.deb"

@@ -207,7 +207,7 @@ pacman -S --noconfirm gimp gimp-help-es
 pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 clementine yad mednafen virtualbox virtualbox-host-dkms filezilla php chromium composer dbeaver mariadb
 
 # Enabling services
-systemctl enable thermald earlyoom apparmor libvirtd firewalld 
+systemctl enable thermald earlyoom apparmor firewalld 
 
 # Configuring mariadb
 mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
@@ -263,9 +263,6 @@ echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
-
-# Adding user link to libvirt group
-usermod -aG libvirt link
 
 # Adding desktop specific final settings
 if [[ "$1" == "gnome" ]]; then

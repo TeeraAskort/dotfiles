@@ -139,7 +139,7 @@ if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[
 	sudo -u aurbuilder yay -S --noconfirm plymouth
 
 	# Enable lightdm or sddm
-	if [[ "1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
+	if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 		# Enable sddm
 		systemctl enable sddm-plymouth
 	else

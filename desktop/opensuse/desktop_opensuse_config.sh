@@ -46,6 +46,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Enabling thermald service
 	systemctl enable thermald earlyoom mariadb
 
+	# Starting services
+	systemctl start mariadb
+
 	# Removing unwanted applications
 	zypper rm -y git-gui vlc vlc-qt vlc-noX youtube-dl
 

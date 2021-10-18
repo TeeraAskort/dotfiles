@@ -49,6 +49,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Enabling thermald service
 	systemctl enable thermald intel-undervolt earlyoom mariadb
 
+	# Starting services
+	systemctl start mariadb
+
 	# Install nvidia drivers
 	zypper in --auto-agree-with-licenses -y x11-video-nvidiaG05
 

@@ -31,9 +31,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Updating the system
 	zypper dist-upgrade --from packman --allow-vendor-change -y
 
-	# Installing firefox from mozilla repo
-	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
-
 	# Installing wine-staging from wine repo
 	zypper in -y --from "Wine (openSUSE_Tumbleweed)" wine-staging wine-staging-32bit dxvk dxvk-32bit
 
@@ -44,14 +41,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded 
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom code qemu-audio-pa desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 lxd minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom code desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client
 
 	# Enabling thermald service
-	systemctl enable thermald earlyoom libvirtd lxd mariadb
+	systemctl enable thermald earlyoom mariadb
 
-	# Installing kvm server
-	zypper install -y -t pattern kvm_server kvm_tools
-	
 	# Removing unwanted applications
 	zypper rm -y git-gui vlc vlc-qt vlc-noX youtube-dl
 
@@ -59,12 +53,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper addlock vlc-beta
 	zypper addlock vlc
 	zypper addlock youtube-dl
-
-	# Configuring mariadb
-	systemctl start mariadb
-	mysql -u root -e "CREATE DATABASE farmcrash"
-	mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
-	mysql -u root -e "GRANT ALL PRIVILEGES ON farmcrash.* TO 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications
@@ -99,6 +87,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Adding gnome-keyring to passwd pam setings
 		echo "password	optional	pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 	fi
+
+	# Installing firefox from mozilla repo
+	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
 
 	# Changing plymouth theme
 	until wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_4/rings.tar.gz; do

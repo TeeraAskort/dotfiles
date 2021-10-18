@@ -34,9 +34,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Updating the system
 	zypper dist-upgrade --from packman --allow-vendor-change -y
 
-	# Installing firefox from mozilla repo
-	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
-
 	# Installing wine-staging from wine repo
 	zypper in -y --from "Wine (openSUSE_Tumbleweed)" wine-staging wine-staging-32bit dxvk dxvk-32bit
 
@@ -47,13 +44,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel qemu-audio-pa desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang pcsx2 php-composer2 lxd minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel 
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom pam_u2f xf86-video-intel desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client
 
 	# Enabling thermald service
-	systemctl enable thermald intel-undervolt earlyoom libvirtd lxd
-
-	# Installing kvm server
-	zypper install -y -t pattern kvm_server kvm_tools
+	systemctl enable thermald intel-undervolt earlyoom mariadb
 
 	# Install nvidia drivers
 	zypper in --auto-agree-with-licenses -y x11-video-nvidiaG05
@@ -98,6 +92,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Adding gnome-keyring to passwd pam setings
 		echo "password	optional	pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 	fi
+
+	# Installing firefox from mozilla repo
+	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
 
 	# Changing plymouth theme
 	until wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_4/rings.tar.gz; do
@@ -164,6 +161,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Copying prime-run
 	cp $directory/../dotfiles/prime-run /usr/bin
 	chmod +x /usr/bin/prime-run
+
+	# Preconfiguring prime-select
+	prime-select intel
 
 else
 	echo "Accepted paramenters:"

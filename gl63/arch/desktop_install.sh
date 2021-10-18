@@ -92,10 +92,10 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk 
+	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin
 
 	# Removing unwanted packages
-	pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-software gdm
+	pacman -Rns --noconfirm gnome-music epiphany totem orca gdm
 
 elif [[ "$1" == "mate" ]]; then
 	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird virt-manager gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme blueberry
@@ -104,7 +104,7 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent thunderbird thunderbird-i18n-es-es gnome-keyring
 
 	# Removing unwanted packages
-	pacman -Rnsc --noconfirm discover oxygen archlinux-appstream-data
+	pacman -Rnsc --noconfirm oxygen 
 
 elif [[ "$1" == "xfce" ]]; then
 	# Install xfce
@@ -233,7 +233,7 @@ if [[ "$2" == "gtk" ]]; then
 fi
 
 # Installing the rest of AUR packages with user link
-sudo -u link yay -S --noconfirm android-studio protontricks eclipse-jee mednaffe pamac-flatpak
+sudo -u link yay -S --noconfirm android-studio protontricks eclipse-jee mednaffe 
 
 # Installing xampp
 ver="8.0.11"

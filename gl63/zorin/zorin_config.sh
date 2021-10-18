@@ -101,7 +101,8 @@ chmod a+rx /usr/local/bin/yt-dlp
 ln -s /usr/local/bin/yt-dlp /usr/bin/youtube-dl
 
 # Installing xampp
-until curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" > xampp.run; do
+ver="8.0.11"
+until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do
 	echo "Retrying"
 done
 chmod 755 xampp.run

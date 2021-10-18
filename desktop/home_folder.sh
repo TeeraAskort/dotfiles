@@ -110,6 +110,20 @@ else
 	sudo npm install -g @angular/cli @vue/cli
 fi
 
+# Enabling opentabletdriver service
+if command -v opentabletdriver &> /dev/null
+then
+	systemctl --user daemon-reload
+	systemctl --user enable opentabletdriver --now
+fi
+
+# Configuring mariadb
+if command -v mysql &> /dev/null ; then
+	sudo mysql -u root -e "CREATE DATABASE farmcrash"
+	sudo mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
+	sudo mysql -u root -e "GRANT ALL PRIVILEGES ON farmcrash.* TO 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
+fi
+
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	if [ -e /usr/share/themes/Materia-dark-compact ]; then

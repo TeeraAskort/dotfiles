@@ -79,6 +79,9 @@ rm -f packages.microsoft.gpg
 apt update 
 apt install code -y
 
+# Adding link for vte.sh
+ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
+
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 

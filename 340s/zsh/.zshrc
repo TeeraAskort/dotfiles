@@ -140,6 +140,11 @@ source ~/.general_alias
 ## Autosuggestions arch 
 # source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+## VTE Config
+# if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+#        source /etc/profile.d/vte.sh
+# fi
+
 ## Solus eopkg config
 # autoload bashcompinit
 # bashcompinit

@@ -303,6 +303,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
 fi
 
 ## Adding user to audio group
+user="$USER"
 sudo usermod -aG audio $user
 
 ## Configuring git

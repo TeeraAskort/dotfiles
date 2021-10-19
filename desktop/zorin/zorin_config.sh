@@ -104,8 +104,5 @@ rm xampp.run
 # Setting hostname properly for xampp
 echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
 
-# Installing lxd
-snap install lxd
-
 # Removing uneeded packages
 apt autoremove --purge -y

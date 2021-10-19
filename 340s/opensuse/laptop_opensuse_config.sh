@@ -104,21 +104,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	plymouth-set-default-theme -R rings
 	rm rings.tar.gz
 
-	# Removing double encryption password asking
-	touch /.root.key
-	chmod 600 /.root.key
-	dd if=/dev/urandom of=/.root.key bs=1024 count=1
-	echo ""
-	echo "Enter disk encryption password"
-	until cryptsetup luksAddKey /dev/nvme0n1p2 /.root.key; do
-		echo "Retrying"
-	done
-	sed -i "/WDC_WDS500G2B0C/ s/none/\/.root.key/g" /etc/crypttab
-	echo -e 'install_items+=" /.root.key "' | tee --append /etc/dracut.conf.d/99-root-key.conf >/dev/null
-	echo "/boot/ root:root 700" | tee -a /etc/permissions.local
-	chkstat --system --set
-	mkinitrd
-
 	#Intel undervolt configuration
 	sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -75/g" /etc/intel-undervolt.conf
 	sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf

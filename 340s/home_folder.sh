@@ -23,14 +23,14 @@ echo "/dev/mapper/encrypteddata /home/link/Datos btrfs defaults 0 0" | sudo tee 
 rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent
 
 ## Linking home folders
-ln -s /home/link/Datos/Descargas /home/link
-ln -s /home/link/Datos/Descargas /home/link/Downloads
-ln -s /home/link/Datos/Documentos /home/link
-ln -s /home/link/Datos/Escritorio /home/link
-ln -s /home/link/Datos/Música /home/link
-ln -s /home/link/Datos/Imágenes /home/link
-ln -s /home/link/Datos/Torrent /home/link
-ln -s /home/link/Datos/Nextcloud /home/link
+ln -s /home/link/Datos/Descargas $HOME
+ln -s /home/link/Datos/Descargas $HOME/Downloads
+ln -s /home/link/Datos/Documentos $HOME
+ln -s /home/link/Datos/Escritorio $HOME
+ln -s /home/link/Datos/Música $HOME
+ln -s /home/link/Datos/Imágenes $HOME
+ln -s /home/link/Datos/Torrent $HOME
+ln -s /home/link/Datos/Nextcloud $HOME
 
 ## Overriding xdg-user-dirs
 xdg-user-dirs-update --set DESKTOP $HOME/Datos/Escritorio
@@ -110,6 +110,23 @@ if command -v rpm-ostree &> /dev/null; then
 	npm install -g @angular/cli @vue/cli
 else
 	sudo npm install -g @angular/cli @vue/cli
+fi
+
+# Enabling opentabletdriver service
+if command -v opentabletdriver &> /dev/null
+then
+	systemctl --user daemon-reload
+	systemctl --user enable opentabletdriver --now
+else
+	sudo cp $directory/../common/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
+	sudo udevadm control --reload-rules
+fi
+
+# Configuring mariadb
+if command -v mysql &> /dev/null ; then
+	sudo mysql -u root -e "CREATE DATABASE farmcrash"
+	sudo mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
+	sudo mysql -u root -e "GRANT ALL PRIVILEGES ON farmcrash.* TO 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
 fi
 
 ## Changing GNOME theme
@@ -199,6 +216,9 @@ gsettings set org.gtk.Settings.FileChooser sort-directories-first true
 if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
 	xfconf-query -c xfwm4 -p /general/vblank_mode -s glx
 fi
+
+## Adding user to audio group
+sudo usermod -aG audio $user
 
 ## Configuring git
 git config --global user.name "Alderaeney"

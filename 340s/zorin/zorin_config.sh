@@ -51,7 +51,7 @@ apt install -y clementine mpv vim neovim python3-neovim zsh zsh-autosuggestions 
 apt remove -y gnome-mines quadrapassel gnome-sudoku pitivi rhythmbox totem 
 
 # Install computer specific packages
-apt install -y intel-media-va-driver tlp libvulkan1 libvulkan1:i386 libpam-fprintd
+apt install -y intel-media-va-driver tlp libvulkan1 libvulkan1:i386 libpam-fprintd libpam-u2f pamu2fcfg
 
 # Installing mpv-mpris
 apt install -y libmpv-dev libglib2.0-dev

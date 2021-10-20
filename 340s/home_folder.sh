@@ -245,6 +245,9 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+	gsettings set org.gnome.settings-daemon.plugins.power button-power 'hibernate'
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'hibernate'
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'hibernate'
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
@@ -267,6 +270,9 @@ if [[ "$XDG_CURRENT_DESKTOP" == "zorin:GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+	gsettings set org.gnome.settings-daemon.plugins.power button-power 'hibernate'
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'hibernate'
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'hibernate'
 fi
 
 ## Changing Budgie config
@@ -290,6 +296,9 @@ if [[ "$XDG_CURRENT_DESKTOP" == "Budgie:GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+	gsettings set org.gnome.settings-daemon.plugins.power button-power 'hibernate'
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'hibernate'
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'hibernate'
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi

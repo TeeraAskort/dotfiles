@@ -94,7 +94,7 @@ ln -s /usr/local/bin/yt-dlp /usr/bin/youtube-dl
 
 # Adding resume var to grub
 part=$(blkid | grep swap | cut -d":" -f1)
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 resume=UUID=$(blkid -s UUID -o value $part)"/' /etc/default/grub
+sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 resume=UUID=$(blkid -s UUID -o value $part)\"/" /etc/default/grub
 update-grub
 
 # Installing xampp

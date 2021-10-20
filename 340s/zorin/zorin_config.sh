@@ -92,6 +92,11 @@ curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr
 chmod a+rx /usr/local/bin/yt-dlp
 ln -s /usr/local/bin/yt-dlp /usr/bin/youtube-dl
 
+# Adding resume var to grub
+part=$(blkid | grep swap | cut -d":" -f1)
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 resume=UUID=$(blkid -s UUID -o value $part)"/' /etc/default/grub
+update-grub
+
 # Installing xampp
 ver="8.0.11"
 until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do

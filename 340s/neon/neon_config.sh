@@ -15,6 +15,7 @@ add-apt-repository ppa:lutris-team/lutris -y
 add-apt-repository ppa:kisak/kisak-mesa -y
 add-apt-repository ppa:ondrej/php -y
 add-apt-repository ppa:serge-rider/dbeaver-ce -y
+add-apt-repository ppa:papirus/papirus -y
 
 # Installing wine
 wget -nc https://dl.winehq.org/wine-builds/winehq.key
@@ -118,9 +119,12 @@ update-grub
 echo "RESUME=UUID=$(blkid -s UUID -o value $part)" | tee -a /etc/initramfs-tools/conf.d/resume
 update-initramfs -c -k all
 
+# Copying polkit rules
+cp $directory/hibernate.pkla /etc/polkit-1/localauthority/50-local.d/hibernate.pkla
+
 # Adding systemd overriding of power settings
-echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
-echo "HibernateState=disk" | tee -a /etc/systemd/sleep.conf
+# echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
+# echo "HibernateState=disk" | tee -a /etc/systemd/sleep.conf
 
 # Installing xampp
 ver="8.0.11"

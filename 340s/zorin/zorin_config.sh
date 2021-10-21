@@ -15,7 +15,7 @@ add-apt-repository ppa:lutris-team/lutris -y
 add-apt-repository ppa:kisak/kisak-mesa -y
 add-apt-repository ppa:ondrej/php -y
 add-apt-repository ppa:serge-rider/dbeaver-ce -y
-sudo add-apt-repository ppa:papirus/papirus -y
+add-apt-repository ppa:papirus/papirus -y
 
 # Updating the system
 apt update

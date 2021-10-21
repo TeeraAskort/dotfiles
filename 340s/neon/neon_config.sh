@@ -41,7 +41,7 @@ echo "" | tee -a /etc/apt/preferences
 apt update
 
 # Installing required packages
-apt install -y clementine mpv vim neovim python3-neovim zsh zsh-autosuggestions zsh-syntax-highlighting flatpak curl wget thermald earlyoom gamemode build-essential xz-utils openjdk-11-jdk net-tools fonts-noto-cjk libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 apt-transport-https hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us net-tools fonts-noto-color-emoji libfido2-1 libglu1-mesa mednafen mednaffe ffmpeg zip unzip unrar python3-mutagen rtmpdump phantomjs php8.0 composer hplip virtualbox virtualbox-dkms virtualbox-ext-pack lutris desmume filezilla printer-driver-cups-pdf f2fs-tools btrfs-progs exfat-fuse dbeaver-ce mariadb-server mariadb-client ttf-mscorefonts-installer libasound2-dev tilix cryptsetup libreoffice libreoffice-qt5
+apt install -y clementine mpv vim neovim python3-neovim zsh zsh-autosuggestions zsh-syntax-highlighting flatpak curl wget thermald earlyoom gamemode build-essential xz-utils openjdk-11-jdk net-tools fonts-noto-cjk libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 apt-transport-https hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us net-tools fonts-noto-color-emoji libfido2-1 libglu1-mesa mednafen mednaffe ffmpeg zip unzip unrar python3-mutagen rtmpdump phantomjs php8.0 composer hplip virtualbox virtualbox-dkms virtualbox-ext-pack lutris desmume filezilla printer-driver-cups-pdf f2fs-tools btrfs-progs exfat-fuse dbeaver-ce mariadb-server mariadb-client ttf-mscorefonts-installer libasound2-dev tilix cryptsetup libreoffice libreoffice-qt5 gnome-keyring
 
 # Install computer specific packages
 apt install -y intel-media-va-driver tlp libvulkan1 libvulkan1:i386 libpam-fprintd libpam-u2f pamu2fcfg
@@ -62,6 +62,32 @@ curl -LO "https://launcher.mojang.com/download/Minecraft.deb"
 curl -L "https://github.com/lbryio/lbry-desktop/releases/download/v0.51.2/LBRY_0.51.2.deb?_ga=2.242496066.1377799971.1633284702-265872098.1633284702" > lbry.deb
 apt install -y ./steam.deb ./Minecraft.deb ./lbry.deb
 rm steam.deb Minecraft.deb lbry.deb
+
+# Adding GTK_USE_PORTAL
+echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
+
+# Adding gnome-keyring settings
+cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth     optional       pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+if diff /etc/pam.d/sddm.bak sddm; then
+	awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth     optional       pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+	cp sddm /etc/pam.d/sddm
+else
+	sudo cp sddm /etc/pam.d/sddm
+fi
+rm sddm
+cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
+awk "FNR==NR{ if (/session /) p=NR; next} 1; FNR==p{ print \"session  optional       pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+if diff /etc/pam.d/sddm.bak sddm; then
+	awk "FNR==NR{ if (/session\t/) p=NR; next} 1; FNR==p{ print \"session  optional       pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
+	cp sddm /etc/pam.d/sddm
+else
+	sudo cp sddm /etc/pam.d/sddm
+fi
+rm sddm
+
+# Adding gnome-keyring to passwd pam setings
+echo "password	optional	pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
 # Installing vscode
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg

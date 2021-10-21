@@ -15,7 +15,7 @@ ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
 hwclock --systohc
 
 # Hostname
-echo link-gl63-8rc >/etc/hostname
+echo link-340s >/etc/hostname
 
 # Restricting root login
 sed -i "/pam_wheel.so use_uid/ s/^#//g" /etc/pam.d/su
@@ -54,7 +54,7 @@ systemctl enable NetworkManager haveged bluetooth
 pacman -S --noconfirm alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
 
 # Installing filesystem libraries
-pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs
+pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs cryptsetup
 
 # Installing compresion tools
 pacman -S --noconfirm zip unzip unrar p7zip lzop pigz pbzip2
@@ -156,7 +156,7 @@ plymouth-set-default-theme -R rings
 
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
-sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems resume/g" /etc/mkinitcpio.conf
+sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block filesystems resume/g" /etc/mkinitcpio.conf
 sed -i "s/MODULES=()/MODULES=(i915)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 

@@ -99,14 +99,9 @@ update-grub
 echo "RESUME=UUID=$(blkid -s UUID -o value $part)" | tee -a /etc/initramfs-tools/conf.d/resume
 update-initramfs -c -k all
 
-# Adding systemd overriding of power settings
-echo "HandlePowerKey=hibernate" | tee -a /etc/systemd/logind.conf
-echo "HandleSuspendKey=hibernate" | tee -a /etc/systemd/logind.conf
-echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
-echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
-echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
-echo "SuspendMode=disk" | tee -a /etc/systemd/sleep.conf
-echo "HibernateState=disk" | tee -a /etc/systemd/sleep.conf
+# Copying hibernation config
+cp $directory/com.ubuntu.enable-hibernate.pkla /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla
+systemctl restart polkitd.service
 
 # Installing xampp
 ver="8.0.11"

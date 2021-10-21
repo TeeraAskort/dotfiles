@@ -5,7 +5,7 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 directory="$(dirname $_script)"
 
 # Changing repository for a spanish one
-sed -i "s/es.archive.ubuntu.com/ubuntu.cica.es/g" /etc/apt/sources.list
+sed -i "s/es.archive.ubuntu.com/ftp.udc.es/g" /etc/apt/sources.list
 
 # Adding i386 support
 dpkg --add-architecture i386

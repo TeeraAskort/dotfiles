@@ -26,7 +26,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	mount ${parts[0]} /mnt/boot
 
 	# Install base system
-	pacstrap /mnt base base-devel linux-firmware linux linux-headers lvm2 efibootmgr btrfs-progs vim git f2fs-tools iptables-nft
+	pacstrap /mnt base base-devel linux-firmware linux linux-headers efibootmgr btrfs-progs vim git f2fs-tools iptables-nft
 
 	# Generate fstab
 	genfstab -U /mnt >> /mnt/etc/fstab

@@ -90,6 +90,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 		# Adding gnome-keyring to passwd pam setings
 		echo "password	optional	pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
+	elif [ "$1" == "gnome" ]; then 
+		# Installing DE specific applications
+		zypper in -y 
+
+		# Removing unwanted DE specific applications
+		zypper rm -y 
 	fi
 
 	# Installing firefox from mozilla repo
@@ -118,6 +124,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Installing flatpak themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		flatpak install -y flathub org.gtk.Gtk3theme.Breeze-Dark org.gtk.Gtk3theme.Breeze
+	fi
+
+	if [ "$1" == "gnome" ]; then 
+		flatpak install -y flathub org.gtk.Gtk3theme.Adwaita-dark
 	fi
 
 	# Flatpak overrides

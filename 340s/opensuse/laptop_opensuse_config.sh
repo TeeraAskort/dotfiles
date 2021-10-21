@@ -59,6 +59,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper addlock vlc
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
+		# Installing latest plasma version
+		zypper addrepo https://download.opensuse.org/repositories/KDE:Frameworks5/openSUSE_Factory/KDE:Frameworks5.repo
+		zypper --gpg-auto-import-keys refresh
+		zypper dup --from "KDE Frameworks 5 development repository (openSUSE_Factory)" --allow-vendor-change -y
+
 		# Installing DE specific applications
 		zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird
 

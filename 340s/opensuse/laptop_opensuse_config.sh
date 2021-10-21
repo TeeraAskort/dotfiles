@@ -142,6 +142,17 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	user="$SUDO_USER"
 	usermod -aG vboxusers $user 
 
+	# Adding hibernation support
+	echo "HandlePowerKey=hibernate" | tee -a /etc/systemd/logind.conf
+	echo "HandleSuspendKey=hibernate" | tee -a /etc/systemd/logind.conf
+	echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
+	echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
+	echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
+	echo "SuspendMode=disk" | tee -a /etc/systemd/sleep.conf
+	echo "HibernateState=disk" | tee -a /etc/systemd/sleep.conf
+	echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
+	dracut -f
+
 else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"

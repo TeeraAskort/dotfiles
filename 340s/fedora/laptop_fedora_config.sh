@@ -111,3 +111,20 @@ echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
 chmod a+rx /usr/local/bin/yt-dlp
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
+
+# Configuring hibernate
+part=$(blkid | grep swap | cut -d":" -f1)
+mkdir -p /etc/dracut.conf.d
+echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
+dracut -f
+echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
+echo "HandlePowerKey=hibernate" | tee -a /etc/systemd/logind.conf
+echo "HandleSuspendKey=hibernate" | tee -a /etc/systemd/logind.conf
+echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
+echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
+echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
+echo "SuspendMode=disk" | tee -a /etc/systemd/sleep.conf
+echo "HibernateState=disk" | tee -a /etc/systemd/sleep.conf
+sed -i "s/GRUB_CMDLINE_LINUX=\"\(.*\)\"/GRUB_CMDLINE_LINUX=\"\1 resume=UUID=$(blkid -s UUID -o value $part)\"/" /etc/default/grub
+grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+

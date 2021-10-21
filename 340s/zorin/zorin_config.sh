@@ -100,8 +100,7 @@ echo "RESUME=UUID=$(blkid -s UUID -o value $part)" | tee -a /etc/initramfs-tools
 update-initramfs -c -k all
 
 # Copying hibernation config
-cp $directory/com.ubuntu.enable-hibernate.pkla /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla
-systemctl restart polkitd.service
+cp $directory/hibernate.pkla /etc/polkit-1/localauthority/50-local.d/hibernate.pkla
 
 # Installing xampp
 ver="8.0.11"

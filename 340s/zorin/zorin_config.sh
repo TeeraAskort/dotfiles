@@ -96,6 +96,8 @@ ln -s /usr/local/bin/yt-dlp /usr/bin/youtube-dl
 part=$(blkid | grep swap | cut -d":" -f1)
 sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 resume=UUID=$(blkid -s UUID -o value $part)\"/" /etc/default/grub
 update-grub
+echo "RESUME=UUID=$(blkid -s UUID -o value $part)" | tee -a /etc/initramfs-tools/conf.d/resume
+update-initramfs -c -k all
 
 # Adding systemd overriding of power settings
 echo "HandlePowerKey=hibernate" | tee -a /etc/systemd/logind.conf

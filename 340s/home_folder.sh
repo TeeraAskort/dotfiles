@@ -243,6 +243,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'hibernate'
 	gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'hibernate'
 	gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
+	gsettings set org.gnome.settings-daemon.plugins.power lid-close-battery-action 'hibernate'
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
@@ -270,6 +271,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "zorin:GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'hibernate'
 	gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'hibernate'
 	gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
+	gsettings set org.gnome.settings-daemon.plugins.power lid-close-battery-action 'hibernate'
 fi
 
 ## Changing Budgie config
@@ -298,6 +300,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "Budgie:GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'hibernate'
 	gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'hibernate'
 	gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
+	gsettings set org.gnome.settings-daemon.plugins.power lid-close-battery-action 'hibernate'
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi

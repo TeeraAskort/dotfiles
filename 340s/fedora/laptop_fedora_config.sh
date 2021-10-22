@@ -11,7 +11,7 @@ echo "deltarpm=true" | tee -a /etc/dnf/dnf.conf
 echo "max_parallel_downloads=10" | tee -a /etc/dnf/dnf.conf 
 
 #Setting up hostname
-hostnamectl set-hostname link-x250
+hostnamectl set-hostname link-340s
 
 #Install RPMfusion
 dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
@@ -71,17 +71,19 @@ sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -75/g" /etc/intel-undervolt.conf
 sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf
 sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-undervolt.conf
 
-systemctl enable intel-undervolt
-
-#Installing qogir theme
-curl -L "https://api.github.com/repos/vinceliuice/Qogir-theme/tarball" > Qogir-gtk.tar.gz
-tar xzvf Qogir-gtk.tar.gz && cd *Qogir-theme*
-./install.sh -l fedora -c dark -w square
-cd .. && rm -r *Qogir*
-git clone https://github.com/vinceliuice/Qogir-kde.git
-cd Qogir-kde
-./install.sh
-cd .. && rm -r Qogir-kde
+# Configuring hibernate
+part=$(blkid | grep swap | cut -d":" -f1)
+mkdir -p /etc/dracut.conf.d
+echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
+dracut -f
+echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
+echo "HandleSuspendKey=hibernate" | tee -a /etc/systemd/logind.conf
+echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
+echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
+echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
+echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
+sed -i "s/GRUB_CMDLINE_LINUX=\"\(.*\)\"/GRUB_CMDLINE_LINUX=\"\1 resume=UUID=$(blkid -s UUID -o value $part)\"/" /etc/default/grub
+grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -111,20 +113,3 @@ echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
 chmod a+rx /usr/local/bin/yt-dlp
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
-
-# Configuring hibernate
-part=$(blkid | grep swap | cut -d":" -f1)
-mkdir -p /etc/dracut.conf.d
-echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
-dracut -f
-echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
-echo "HandlePowerKey=hibernate" | tee -a /etc/systemd/logind.conf
-echo "HandleSuspendKey=hibernate" | tee -a /etc/systemd/logind.conf
-echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
-echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
-echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
-echo "SuspendMode=disk" | tee -a /etc/systemd/sleep.conf
-echo "HibernateState=disk" | tee -a /etc/systemd/sleep.conf
-sed -i "s/GRUB_CMDLINE_LINUX=\"\(.*\)\"/GRUB_CMDLINE_LINUX=\"\1 resume=UUID=$(blkid -s UUID -o value $part)\"/" /etc/default/grub
-grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
-

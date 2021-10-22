@@ -83,7 +83,8 @@ flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownload
 flatpak override --filesystem=~/.fonts
 
 # Installing xampp
-until curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" > xampp.run; do
+ver="8.0.12"
+until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do
 	echo "Retrying"
 done
 chmod 755 xampp.run

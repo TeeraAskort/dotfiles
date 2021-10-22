@@ -72,6 +72,9 @@ sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf
 sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-undervolt.conf
 
 # Configuring hibernate
+mkdir -p /etc/dracut.conf.d
+echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
+dracut -f
 echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
 echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
 echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf

@@ -103,6 +103,13 @@ update-initramfs -c -k all
 # Copying hibernation config
 cp $directory/hibernate.pkla /etc/polkit-1/localauthority/50-local.d/hibernate.pkla
 
+# Setting logind.conf hibernate settings
+echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf 
+echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
+echo "HandleLidSwitchDocked=hibernate" | tee -a /etc/systemd/logind.conf
+echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
+echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
+
 # Installing xampp
 ver="8.0.11"
 until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do

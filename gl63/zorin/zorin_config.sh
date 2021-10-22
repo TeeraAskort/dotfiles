@@ -110,5 +110,12 @@ echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1"/' /etc/default/grub
 update-grub
 
+# Copying prime-run script
+cp $directory/../dotfiles/prime-run /usr/bin/prime-run
+chmod +x /usr/bin/prime-run
+
+# Setting up prime-select
+prime-select on-demand
+
 # Removing uneeded packages
 apt autoremove --purge -y

@@ -72,18 +72,11 @@ sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf
 sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-undervolt.conf
 
 # Configuring hibernate
-part=$(blkid | grep swap | cut -d":" -f1)
-mkdir -p /etc/dracut.conf.d
-echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
-dracut -f
 echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
-echo "HandleSuspendKey=hibernate" | tee -a /etc/systemd/logind.conf
 echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
 echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
 echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
 echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
-sed -i "s/GRUB_CMDLINE_LINUX=\"\(.*\)\"/GRUB_CMDLINE_LINUX=\"\1 resume=UUID=$(blkid -s UUID -o value $part)\"/" /etc/default/grub
-grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

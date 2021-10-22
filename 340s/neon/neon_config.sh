@@ -124,7 +124,7 @@ echo "RESUME=UUID=$(blkid -s UUID -o value $part)" | tee -a /etc/initramfs-tools
 update-initramfs -c -k all
 
 # Copying polkit rules
-cp $directory/hibernate.pkla /etc/polkit-1/localauthority/50-local.d/hibernate.pkla
+cp $directory/../common/hibernate-kde.pkla /etc/polkit-1/localauthority/50-local.d/hibernate.pkla
 
 # Adding systemd overriding of power settings
 # echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf

@@ -43,7 +43,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom xf86-video-intel desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client pam_u2f cryptsetup
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald plymouth-plugin-script nodejs npm intel-undervolt python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom xf86-video-intel desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client pam_u2f cryptsetup yt-dlp
 
 	# Enabling thermald service
 	systemctl enable thermald intel-undervolt earlyoom mariadb
@@ -97,10 +97,19 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		echo "password	optional	pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 	elif [ "$1" == "gnome" ]; then 
 		# Installing DE specific applications
-		zypper in -y 
+		zypper in -y adwaita-qt QGnomePlatform
 
 		# Removing unwanted DE specific applications
 		zypper rm -y 
+
+		# Adding gnome theming to qt
+		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
+
+		# Adding hibernate paramaters
+		echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
+		echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
+		echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
+		echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 	fi
 
 	# Installing firefox from mozilla repo
@@ -158,13 +167,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	usermod -aG vboxusers $user 
 
 	# Adding hibernation support
-	echo "HandlePowerKey=hibernate" | tee -a /etc/systemd/logind.conf
-	echo "HandleSuspendKey=hibernate" | tee -a /etc/systemd/logind.conf
-	echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
-	echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
 	echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
-	echo "SuspendMode=disk" | tee -a /etc/systemd/sleep.conf
-	echo "HibernateState=disk" | tee -a /etc/systemd/sleep.conf
 	echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
 	dracut -f
 

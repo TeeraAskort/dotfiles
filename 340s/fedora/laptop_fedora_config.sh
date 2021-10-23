@@ -48,10 +48,7 @@ user="$SUDO_USER"
 usermod -aG vboxusers $user 
 
 # Installing computer specific packages
-dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver intel-undervolt
-
-# Enabling services
-systemctl enable intel-undervolt
+dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver 
 
 # Remove unused packages 
 dnf remove -y totem rhythmbox 
@@ -65,11 +62,6 @@ dnf groupupdate sound-and-video -y
 
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
-
-#Intel undervolt configuration
-sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.conf
-sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
 
 # Configuring hibernate
 mkdir -p /etc/dracut.conf.d

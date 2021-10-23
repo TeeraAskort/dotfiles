@@ -43,20 +43,22 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom xf86-video-intel desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client pam_u2f cryptsetup yt-dlp
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom xf86-video-intel desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client pam_u2f cryptsetup yt-dlp intel-undervolt
 
 	# Enabling thermald service
-	systemctl enable thermald earlyoom mariadb
+	systemctl enable thermald earlyoom mariadb intel-undervolt
 
 	# Starting services
 	systemctl start mariadb
 
 	# Removing unwanted applications
-	zypper rm -y git-gui vlc vlc-qt vlc-noX
+	zypper rm -y git-gui vlc vlc-qt vlc-noX tlp tlp-rdw
 
 	# Block vlc from installing
 	zypper addlock vlc-beta
 	zypper addlock vlc
+	zypper addlock tlp
+	zypper addlock tlp-rdw
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing latest plasma version
@@ -123,6 +125,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	mv rings /usr/share/plymouth/themes/
 	plymouth-set-default-theme -R rings
 	rm rings.tar.gz
+
+	#Intel undervolt configuration
+	sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /etc/intel-undervolt.conf
+	sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.conf
+	sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
 
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

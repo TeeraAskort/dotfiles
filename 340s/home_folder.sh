@@ -39,16 +39,6 @@ xdg-user-dirs-update --set DOWNLOAD $HOME/Datos/Descargas
 xdg-user-dirs-update --set MUSIC $HOME/Datos/Música
 xdg-user-dirs-update --set PICTURES $HOME/Datos/Imágenes
 
-## Adding intel undervolt configuration
-git clone https://github.com/kitsunyan/intel-undervolt.git
-cd intel-undervolt && ./configure --enable-systemd && make && sudo make install
-cd .. && sudo rm -r intel-undervolt
-
-sudo sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -75/g" /etc/intel-undervolt.conf
-sudo sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -75/g" /etc/intel-undervolt.conf
-sudo sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-undervolt.conf
-sudo systemctl enable intel-undervolt
-
 ## Installing vim plugins
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -245,12 +235,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-	gsettings set org.gnome.settings-daemon.plugins.power button-power hibernate
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
-	gsettings set org.gnome.settings-daemon.plugins.power lid-close-battery-action hibernate
 	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"

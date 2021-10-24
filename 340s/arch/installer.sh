@@ -16,7 +16,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	# Format partitions
 	parts=$(blkid | grep nvme0n1 | grep -v -e "$dataDiskUUID" | cut -d":" -f1)
 	mkfs.vfat -F32 /dev/nvme0n1p1
-	mkfs.f2fs -f -L root /dev/nvme0n1p4
+	mkfs.btrfs -f -L root /dev/nvme0n1p4
 	mkswap /dev/nvme0n1p3
 	swapon /dev/nvme0n1p3
 

@@ -15,15 +15,15 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 
 	# Format partitions
 	parts=$(blkid | grep nvme0n1 | grep -v -e "$dataDiskUUID" | cut -d":" -f1)
-	mkfs.vfat -F32 ${parts[0]}
-	mkfs.btrfs -f -L root ${parts[2]}
-	mkswap ${parts[1]}
-	swapon ${parts[1]}
+	mkfs.vfat -F32 /dev/nvme0n1p1
+	mkfs.f2fs -f -L root /dev/nvme0n1p4
+	mkswap /dev/nvme0n1p3
+	swapon /dev/nvme0n1p3
 
 	# Mount paritions
-	mount ${parts[2]} /mnt
+	mount /dev/nvme0n1p4 /mnt
 	mkdir /mnt/boot
-	mount ${parts[0]} /mnt/boot
+	mount /dev/nvme0n1p1 /mnt/boot
 
 	# Install base system
 	pacstrap /mnt base base-devel linux-firmware linux linux-headers efibootmgr btrfs-progs vim git iptables-nft
@@ -36,9 +36,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	git clone https://SariaAskort@bitbucket.org/SariaAskort/dotfiles.git
 
 	if [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
-		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_install.sh "$1" "gtk" "${parts[1]}"
+		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_install.sh "$1" "gtk" "/dev/nvme0n1p3"
 	else
-		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_install.sh "$1" "qt" "${parts[1]}"
+		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_install.sh "$1" "qt" "/dev/nvme0n1p3"
 	fi
 else
 	echo "Available options: "

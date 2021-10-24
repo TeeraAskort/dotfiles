@@ -16,6 +16,8 @@ add-apt-repository ppa:kisak/kisak-mesa -y
 add-apt-repository ppa:ondrej/php -y
 add-apt-repository ppa:serge-rider/dbeaver-ce -y
 add-apt-repository ppa:papirus/papirus -y
+add-apt-repository ppa:mc3man/mpv-tests -y
+add-apt-repository ppa:jonaski/strawberry -y
 
 # Updating the system
 apt update
@@ -50,7 +52,7 @@ echo "virtualbox-ext-pack virtualbox-ext-pack/license select true" | debconf-set
 echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
 
 # Installing required packages
-apt install -y clementine mpv vim neovim python3-neovim zsh zsh-autosuggestions zsh-syntax-highlighting flatpak curl wget thermald earlyoom gamemode build-essential xz-utils openjdk-11-jdk net-tools fonts-noto-cjk aisleriot gnome-mahjongg transmission-gtk libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 apt-transport-https ffmpegthumbnailer hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us net-tools fonts-noto-color-emoji libfido2-1 libglu1-mesa mednafen mednaffe ffmpeg zip unzip unrar python3-mutagen rtmpdump phantomjs php8.0 composer chrome-gnome-shell hplip virtualbox virtualbox-dkms virtualbox-ext-pack lutris desmume filezilla printer-driver-cups-pdf f2fs-tools btrfs-progs exfat-fuse dbeaver-ce mariadb-server mariadb-client ttf-mscorefonts-installer libasound2-dev tilix cryptsetup papirus-icon-theme
+apt install -y strawberry mpv vim neovim python3-neovim zsh zsh-autosuggestions zsh-syntax-highlighting flatpak curl wget thermald earlyoom gamemode build-essential xz-utils openjdk-11-jdk net-tools fonts-noto-cjk aisleriot gnome-mahjongg transmission-gtk libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386 apt-transport-https ffmpegthumbnailer hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us net-tools fonts-noto-color-emoji libfido2-1 libglu1-mesa mednafen mednaffe ffmpeg zip unzip unrar python3-mutagen rtmpdump phantomjs php8.0 composer chrome-gnome-shell hplip virtualbox virtualbox-dkms virtualbox-ext-pack lutris desmume filezilla printer-driver-cups-pdf f2fs-tools btrfs-progs exfat-fuse dbeaver-ce mariadb-server mariadb-client ttf-mscorefonts-installer libasound2-dev cryptsetup papirus-icon-theme neofetch
 
 # Removing unwanted applications
 apt remove -y gnome-mines quadrapassel gnome-sudoku pitivi rhythmbox totem 
@@ -72,8 +74,9 @@ apt remove -y libmpv-dev libglib2.0-dev
 curl -LO "https://cdn.akamai.steamstatic.com/client/installer/steam.deb"
 curl -LO "https://launcher.mojang.com/download/Minecraft.deb"
 curl -L "https://github.com/lbryio/lbry-desktop/releases/download/v0.51.2/LBRY_0.51.2.deb?_ga=2.242496066.1377799971.1633284702-265872098.1633284702" > lbry.deb
-apt install -y ./steam.deb ./Minecraft.deb ./lbry.deb 
-rm steam.deb Minecraft.deb lbry.deb 
+curl -L "https://release.gitkraken.com/linux/gitkraken-amd64.deb" > gitkraken.deb
+apt install -y ./steam.deb ./Minecraft.deb ./lbry.deb ./gitkraken.deb
+rm steam.deb Minecraft.deb lbry.deb gitkraken.deb
 
 # Installing vscode
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -90,7 +93,7 @@ ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak applications
-flatpak install -y flathub org.eclipse.Java com.axosoft.GitKraken org.jdownloader.JDownloader com.getpostman.Postman org.chromium.Chromium com.google.AndroidStudio org.telegram.desktop com.discordapp.Discord
+flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.chromium.Chromium org.telegram.desktop com.discordapp.Discord
 
 # Installing yt-dlp
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
@@ -108,6 +111,12 @@ rm xampp.run
 
 # Setting hostname properly for xampp
 echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
+
+# Installing eclipse
+curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
+tar xzvf eclipse-jee.tar.gz -C /opt
+rm eclipse-jee.tar.gz
+desktop-file-install $directory/../common/eclipse.desktop
 
 # Removing uneeded packages
 apt autoremove --purge -y

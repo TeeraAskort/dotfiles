@@ -6,12 +6,12 @@ dataDiskUUID="8c5af7a6-3e34-4815-b7d3-31600c0c3c28"
 if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]]; then
 	# Create partitions
 	parts=$(blkid | grep nvme0n1 | grep -v -e "$dataDiskUUID" | cut -d":" -f1)
-	for part in $parts; do
-		parted /dev/nvme0n1 -- rm $(echo "$part" | cut -d"p" -f2)
+	for part in $(echo "$parts" | cut -d"p" -f2); do
+		parted /dev/nvme0n1 -- rm $part
 	done
 	parted /dev/nvme0n1 -- mkpart primary 1M 512M
-	parted /dev/nvme0n1 -- mkpart primary 512M 19456M
-	parted /dev/nvme0n1 -- mkpart primary 19456M 100G
+	parted /dev/nvme0n1 -- mkpart primary 512M 18G
+	parted /dev/nvme0n1 -- mkpart primary 18G 100G
 
 	# Format partitions
 	parts=$(blkid | grep nvme0n1 | grep -v -e "$dataDiskUUID" | cut -d":" -f1)

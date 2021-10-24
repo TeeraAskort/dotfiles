@@ -12,7 +12,7 @@ dpkg --add-architecture i386
 
 # Adding repositories
 add-apt-repository ppa:lutris-team/lutris -y
-add-apt-repository ppa:oibaf/graphics-drivers -y
+add-apt-repository ppa:kisak/kisak-mesa -y
 add-apt-repository ppa:ondrej/php -y
 add-apt-repository ppa:serge-rider/dbeaver-ce -y
 add-apt-repository ppa:papirus/papirus -y

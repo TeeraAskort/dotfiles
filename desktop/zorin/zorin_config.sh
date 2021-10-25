@@ -61,14 +61,9 @@ apt remove -y gnome-mines quadrapassel gnome-sudoku pitivi rhythmbox totem
 apt install -y mesa-va-drivers
 
 # Installing mpv-mpris
-apt install -y libmpv-dev libglib2.0-dev
-git clone https://github.com/hoyon/mpv-mpris.git
-cd mpv-mpris
-make 
-mkdir /etc/mpv/scripts
-cp mpris.so /etc/mpv/scripts
-cd .. && rm -r mpv-mpris
-apt remove -y libmpv-dev libglib2.0-dev
+curl -LO "https://github.com/hoyon/mpv-mpris/releases/latest/download/mpris.so"
+mkdir -p /etc/mpv/scripts
+mv mpris.so /etc/mpv/scripts/mpris.so
 
 # Installing outsider applications
 curl -LO "https://cdn.akamai.steamstatic.com/client/installer/steam.deb"
@@ -86,14 +81,17 @@ rm -f packages.microsoft.gpg
 apt update 
 apt install code -y
 
-# Adding link for vte.sh
-ln -s /etc/profile.d/vte-2.91.sh /etc/profile.d/vte.sh
+# Installing chrome
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | tee -a /etc/apt/sources.list.d/google-chrome.list
+apt update 
+apt install -y google-chrome-stable
 
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak applications
-flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.chromium.Chromium org.telegram.desktop com.discordapp.Discord
+flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord
 
 # Installing yt-dlp
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp

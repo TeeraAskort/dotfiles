@@ -43,7 +43,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client pam_u2f cryptsetup yt-dlp 
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client pam_u2f cryptsetup yt-dlp 
 
 	# Enabling thermald service
 	systemctl enable thermald earlyoom mariadb 
@@ -125,11 +125,13 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio org.eclipse.Java com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity
+	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		flatpak install -y flathub org.gtk.Gtk3theme.Breeze-Dark org.gtk.Gtk3theme.Breeze
+		user="$SUDO_USER"
+		sudo -u $user flatpak override --user --filesystem=/home/$user/.local/share/color-schemes
 	fi
 
 	if [ "$1" == "gnome" ]; then 
@@ -137,7 +139,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	fi
 
 	# Flatpak overrides
-	flatpak override --filesystem=~/.fonts
+	user="$SUDO_USER"
+	sudo -u $user flatpak override --user --filesystem=/home/$user/.fonts
 
 	# Add sysctl config
 	echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
@@ -153,6 +156,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Setting hostname properly for xampp
 	echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
+
+	# Installing eclipse
+	curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
+	tar xzvf eclipse-jee.tar.gz -C /opt
+	rm eclipse-jee.tar.gz
+	cp $directory/../common/eclipse.desktop /usr/share/applications
 
 	# Adding user to vboxusers group
 	user="$SUDO_USER"

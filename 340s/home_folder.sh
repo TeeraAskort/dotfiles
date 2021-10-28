@@ -120,6 +120,10 @@ if command -v mysql &> /dev/null ; then
 	sudo mysql -u root -e "CREATE USER projectes_andreuFurio@localhost IDENTIFIED BY 'projectes_andreuFurio'"
 	sudo mysql -u root -e "CREATE DATABASE projectes_andreuFurio"
 	sudo mysql -u root -e "GRANT ALL PRIVILEGES ON projectes_andreuFurio.* TO 'projectes_andreuFurio'@localhost IDENTIFIED BY 'projectes_andreuFurio'"
+	sudo mysql projectes_andreuFurio -u root -e "CREATE TABLE alumnat (idalum integer auto_increment NOT NULL, nom VARCHAR(30) NOT NULL, cognoms VARCHAR(30) NOT NULL, email VARCHAR(50) NOT NULL, poblacio VARCHAR(30) NOT NULL, contrasenya VARCHAR(255) NOT NULL, rol ENUM('ROL_ALUMNAT', 'ROL_PROFESSORAT', 'ROL_ADMIN') NOT NULL, data TIMESTAMP NOT NULL, primary key(idalum))"
+	sudo mysql projectes_andreuFurio -u root -e "CREATE TABLE curs(idcurs INTEGER auto_increment NOT NULL, curs VARCHAR(50) NOT NULL, primary key(idcurs))"
+	sudo mysql projectes_andreuFurio -u root -e "CREATE TABLE projecte(idproj INTEGER auto_increment NOT NULL, titol VARCHAR(50) NOT NULL, cicle VARCHAR(50) NOT NULL, curs INTEGER NOT NULL, CONSTRAINT fk_projecte_curs FOREIGN KEY (curs) REFERENCES curs (idcurs) ON DELETE CASCADE ON UPDATE RESTRICT, descripcio MEDIUMTEXT NOT NULL, paraulesclau VARCHAR(255) NOT NULL, data TIMESTAMP NOT NULL, primary key(idproj))"
+	sudo mysql projectes_andreuFurio -u root -e "CREATE TABLE relacioprojecte(idprof INTEGER NOT NULL, CONSTRAINT fk_relacio_professorat FOREIGN KEY (idprof) REFERENCES professorat (idprof) ON DELETE CASCADE ON UPDATE RESTRICT, idalum INTEGER NOT NULL, CONSTRAINT fk_relacio_alumnat FOREIGN KEY (idalum) REFERENCES alumnat (idalum) ON DELETE CASCADE ON UPDATE RESTRICT, idproj INTEGER NOT NULL, CONSTRAINT fk_relacio_projecte FOREIGN KEY (idproj) REFERENCES projecte (idproj) ON DELETE CASCADE ON UPDATE RESTRICT, idcurs INTEGER NOT NULL, CONSTRAINT fk_relacio_curs FOREIGN KEY (idcurs) REFERENCES curs (idcurs) ON DELETE CASCADE ON UPDATE RESTRICT, data TIMESTAMP NOT NULL)"
 fi
 
 ## Configuring u2f cards

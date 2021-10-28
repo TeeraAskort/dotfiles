@@ -117,6 +117,9 @@ if command -v mysql &> /dev/null ; then
 	sudo mysql -u root -e "CREATE DATABASE farmcrash"
 	sudo mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
 	sudo mysql -u root -e "GRANT ALL PRIVILEGES ON farmcrash.* TO 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
+	sudo mysql -u root -e "CREATE USER projectes_andreuFurio@localhost IDENTIFIED BY 'projectes_andreuFurio'"
+	sudo mysql -u root -e "CREATE DATABASE projectes_andreuFurio"
+	sudo mysql -u root -e "GRANT ALL PRIVILEGES ON projectes_andreuFurio.* TO 'projectes_andreuFurio'@localhost IDENTIFIED BY 'projectes_andreuFurio'"
 fi
 
 ## Configuring u2f cards

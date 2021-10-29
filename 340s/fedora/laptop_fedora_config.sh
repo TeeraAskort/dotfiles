@@ -101,6 +101,12 @@ rm xampp.run
 # Setting hostname properly for xampp
 echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
 
+# Copying php project
+cd /opt/lampp/htdocs
+git clone https://TeeraAskort@github.com/TeeraAskort/projecte-php.git
+chown -R link:users projecte-php
+chmod -R 755 projecte-php
+
 # Installing yt-dlp
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
 chmod a+rx /usr/local/bin/yt-dlp

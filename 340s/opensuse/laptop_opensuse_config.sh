@@ -171,6 +171,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	chown -R link:users projecte-php
 	chmod -R 755 projecte-php
 
+	# Overriding phpstorm config
+	user="$SUDO_USER"
+	sudo -u $user flatpak override --user --filesystem=/opt/lampp/htdocs com.jetbrains.PhpStorm
+
 	# Installing eclipse
 	curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
 	tar xzvf eclipse-jee.tar.gz -C /opt

@@ -107,6 +107,10 @@ git clone https://TeeraAskort@github.com/TeeraAskort/projecte-php.git
 chown -R link:users projecte-php
 chmod -R 755 projecte-php
 
+# Overriding phpstorm config
+user="$SUDO_USER"
+sudo -u $user flatpak override --user --filesystem=/opt/lampp/htdocs com.jetbrains.PhpStorm
+
 # Installing yt-dlp
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
 chmod a+rx /usr/local/bin/yt-dlp

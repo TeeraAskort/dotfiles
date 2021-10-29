@@ -121,7 +121,7 @@ export ARCHFLAGS="-arch x86_64"
 # source ~/.solus_alias
 
 ## Zorin alias
-# source ~/.zorin_alias
+# source ~/.ubuntu_alias
 
 ## General alias
 source ~/.general_alias

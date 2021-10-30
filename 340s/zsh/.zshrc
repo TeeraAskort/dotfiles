@@ -120,7 +120,7 @@ export ARCHFLAGS="-arch x86_64"
 ## Solus alias
 # source ~/.solus_alias
 
-## Zorin alias
+## Ubuntu alias
 # source ~/.ubuntu_alias
 
 ## General alias

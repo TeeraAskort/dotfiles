@@ -43,10 +43,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client cryptsetup yt-dlp pcsx2
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client cryptsetup yt-dlp pcsx2 apache2 php8 php8-mysql php8-gd php8-mbstring apache2-mod_php8
 
 	# Enabling thermald service
-	systemctl enable thermald earlyoom mariadb 
+	systemctl enable thermald earlyoom mariadb apache2
 
 	# Starting services
 	systemctl start mariadb
@@ -64,11 +64,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper addlock tlp-rdw
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
-		# Updating plasma
-		zypper addrepo https://download.opensuse.org/repositories/KDE:Frameworks5/openSUSE_Factory/KDE:Frameworks5.repo
-		zypper --gpg-auto-import-keys refresh
-		zypper dup -y --from "KDE Frameworks 5 development repository (openSUSE_Factory)" --allow-vendor-change
-
 		# Installing DE specific applications
 		zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird
 
@@ -153,27 +148,20 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Add sysctl config
 	echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
-	# Installing xampp
-	ver="8.0.12"
-	until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do
-		echo "Retrying"
-	done
-	chmod 755 xampp.run
-	./xampp.run --unattendedmodeui minimal --mode unattended
-	rm xampp.run
-
-	# Setting hostname properly for xampp
-	echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
+	# Configuring apache2
+	firewall-cmd --permanent --add-service=http --add-service=https
+	firewall-cmd --reload
+	a2enmod php8
 
 	# Copying php project
-	cd /opt/lampp/htdocs
+	cd /srv/www/htdocs
 	git clone https://TeeraAskort@github.com/TeeraAskort/projecte-php.git
 	chown -R link:users projecte-php
 	chmod -R 755 projecte-php
 
 	# Overriding phpstorm config
 	user="$SUDO_USER"
-	sudo -u $user flatpak override --user --filesystem=/opt/lampp/htdocs com.jetbrains.PhpStorm
+	sudo -u $user flatpak override --user --filesystem=/srv/www/htdocs com.jetbrains.PhpStorm
 
 	# Installing eclipse
 	curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz

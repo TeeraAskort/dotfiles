@@ -41,10 +41,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded 
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris clementine flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts earlyoom code desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch php8 virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client cryptsetup yt-dlp pcsx2 apache2 php8 php8-mysql php8-gd php8-mbstring apache2-mod_php8
 
 	# Enabling thermald service
-	systemctl enable thermald earlyoom mariadb
+	systemctl enable thermald earlyoom mariadb apache2
 
 	# Starting services
 	systemctl start mariadb
@@ -89,6 +89,16 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 		# Adding gnome-keyring to passwd pam setings
 		echo "password	optional	pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
+		
+	elif [ "$1" == "gnome" ]; then 
+ 		# Installing DE specific applications
+ 		zypper in -y adwaita-qt QGnomePlatform
+ 
+ 		# Removing unwanted DE specific applications
+ 		zypper rm -y 
+ 
+ 		# Adding gnome theming to qt
+		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
 	fi
 
 	# Installing firefox from mozilla repo
@@ -103,51 +113,50 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	plymouth-set-default-theme -R rings
 	rm rings.tar.gz
 
-	# Removing double encryption password asking
-	touch /.root.key
-	chmod 600 /.root.key
-	dd if=/dev/urandom of=/.root.key bs=1024 count=1
-	echo ""
-	echo "Enter disk encryption password"
-	until cryptsetup luksAddKey /dev/${rootDisk}2 /.root.key; do
-		echo "Retrying"
-	done
-	sed -i "/WDC_WDS120G2G0B-00EPW0/ s/none/\/.root.key/g" /etc/crypttab
-	echo -e 'install_items+=" /.root.key "' | tee --append /etc/dracut.conf.d/99-root-key.conf >/dev/null
-	echo "/boot/ root:root 700" | tee -a /etc/permissions.local
-	chkstat --system --set
-	mkinitrd
-
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.google.AndroidStudio org.eclipse.Java com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity
+	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.PhpStorm
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		flatpak install -y flathub org.gtk.Gtk3theme.Breeze-Dark org.gtk.Gtk3theme.Breeze
+	 	user="$SUDO_USER"
+		sudo -u $user flatpak override --user --filesystem=/home/$user/.local/share/color-schemes
+	fi
+
+	if [ "$1" == "gnome" ]; then 
+ 		flatpak install -y flathub org.gtk.Gtk3theme.Adwaita-dark
 	fi
 
 	# Flatpak overrides
-	flatpak override --filesystem=~/.fonts
-
-	# Installing yt-dlp
-	curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
-	chmod a+rx /usr/local/bin/yt-dlp
-	ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
-
-	# Installing xampp
-	ver="8.0.12"
-	until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do
-		echo "Retrying"
-	done
-	chmod 755 xampp.run
-	./xampp.run --unattendedmodeui minimal --mode unattended
-	rm xampp.run
+	user="$SUDO_USER"
+ 	sudo -u $user flatpak override --user --filesystem=/home/$user/.fonts
 
 	# Setting hostname properly for xampp
 	echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
+
+	# Configuring apache2
+ 	firewall-cmd --permanent --add-service=http --add-service=https
+ 	firewall-cmd --reload
+ 	a2enmod php8
+ 
+ 	# Copying php project
+ 	cd /srv/www/htdocs
+ 	git clone https://TeeraAskort@github.com/TeeraAskort/projecte-php.git
+ 	chown -R link:users projecte-php
+ 	chmod -R 755 projecte-php
+ 
+ 	# Overriding phpstorm config
+ 	user="$SUDO_USER"
+ 	sudo -u $user flatpak override --user --filesystem=/srv/www/htdocs com.jetbrains.PhpStorm
+ 
+ 	# Installing eclipse
+ 	curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
+ 	tar xzvf eclipse-jee.tar.gz -C /opt
+ 	rm eclipse-jee.tar.gz
+ 	desktop-file-install $directory/../common/eclipse.desktop
 
 	# Adding user to vboxusers group
 	user="$SUDO_USER"

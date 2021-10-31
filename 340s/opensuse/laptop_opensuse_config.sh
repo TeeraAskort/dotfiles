@@ -148,6 +148,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Add sysctl config
 	echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
+	# Setting hostname properly for xampp
+	echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
+
 	# Configuring apache2
 	firewall-cmd --permanent --add-service=http --add-service=https
 	firewall-cmd --reload

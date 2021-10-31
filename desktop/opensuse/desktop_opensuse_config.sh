@@ -2,6 +2,10 @@
 
 if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
+	_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+	directory="$(dirname $_script)"
+
 	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDC_WDS120G2G0B-00EPW0 | cut -d" " -f1)
 
 	# Installing repos

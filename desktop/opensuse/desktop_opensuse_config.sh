@@ -50,12 +50,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	systemctl start mariadb
 
 	# Removing unwanted applications
-	zypper rm -y git-gui vlc vlc-qt vlc-noX youtube-dl
+	zypper rm -y git-gui vlc vlc-qt vlc-noX 
 
 	# Block vlc from installing
 	zypper addlock vlc-beta
 	zypper addlock vlc
-	zypper addlock youtube-dl
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications

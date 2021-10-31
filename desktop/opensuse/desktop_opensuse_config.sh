@@ -104,15 +104,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Installing firefox from mozilla repo
 	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
 
-	# Changing plymouth theme
-	until wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_4/rings.tar.gz; do
-		echo "Download failed, retrying"
-	done
-	tar xzvf rings.tar.gz
-	mv rings /usr/share/plymouth/themes/
-	plymouth-set-default-theme -R rings
-	rm rings.tar.gz
-
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 

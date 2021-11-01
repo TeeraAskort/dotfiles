@@ -81,7 +81,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt-get install -y nodejs
 
 	# Installing required packages
-	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip apache2 filezilla virtualbox virtualbox-ext-pack composer wget yt-dlp pcsx2 cryptsetup mariadb-server mariadb-client 
+	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip apache2 filezilla virtualbox virtualbox-ext-pack wget yt-dlp pcsx2 cryptsetup mariadb-server mariadb-client 
 
 	# Enabling services
 	systemctl enable thermald 
@@ -210,7 +210,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
  | tee /etc/apt/sources.list.d/sury-php.list
 	wget -qO - https://packages.sury.org/php/apt.gpg | apt-key add -
 	apt update
-	apt install php8.0 php8.0-mysql libapache2-mod-php8.0 php8.0-cli php8.0-cgi php8.0-gd php8.0-fpm libapache2-mod-fcgid
+	apt install php8.0 php8.0-mysql libapache2-mod-php8.0 php8.0-cli php8.0-cgi php8.0-gd php8.0-fpm libapache2-mod-fcgid composer
 
 	# Configuring apache for php
 	a2enmod proxy_fcgi setenvif

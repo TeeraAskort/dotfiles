@@ -35,7 +35,7 @@ libsdl2-2.0-0:i386 libfreetype6:i386 libdbus-1-3:i386 libsqlite3-0:i386
 rm winehq.key
 
 # Installing nodejs 16
-curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
 apt install -y nodejs
 
 # Disabling youtube-dl installation

@@ -94,14 +94,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	mkdir -p /etc/mpv/scripts
 	mv mpris.so /etc/mpv/scripts/mpris.so
 
-	# Adding resume var to grub
-	part=$(blkid | grep swap | cut -d":" -f1)
-	sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 resume=UUID=$(blkid -s UUID -o value $part)\"/" /etc/default/grub
-	update-grub
-	echo "RESUME=UUID=$(blkid -s UUID -o value $part)" | tee -a /etc/initramfs-tools/conf.d/resume
-	update-initramfs -c -k all
-
-		if [ "$1" == "gnome" ]; then
+	if [ "$1" == "gnome" ]; then
 		# Installing required packages
 		apt install materia-gtk-theme qt5-qmake qtbase5-private-dev libgtk2.0-0 libx11-6 ffmpegthumbnailer tilix transmission-gtk evolution aisleriot gnome-mahjongg
 
@@ -187,7 +180,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	sed -i 's/#GRUB_GFXMODE=640x480/GRUB_GFXMODE=1920x1080x32/g' /etc/default/grub
 	update-grub
 
-		# Setting rings plymouth theme
+	# Setting rings plymouth theme
 	until wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_4/rings.tar.gz; do
 		echo "Download failed, retrying"
 	done

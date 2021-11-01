@@ -206,7 +206,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
  | tee /etc/apt/sources.list.d/sury-php.list
 	wget -qO - https://packages.sury.org/php/apt.gpg | apt-key add -
 	apt update
-	apt install php8.0 php8.0-mysql libapache2-mod-php8.0 php8.0-cli php8.0-cgi php8.0-gd php8.0-fpm libapache2-mod-fcgid composer
+	apt install -y php8.0 php8.0-mysql libapache2-mod-php8.0 php8.0-cli php8.0-cgi php8.0-gd php8.0-fpm libapache2-mod-fcgid composer
 
 	# Configuring apache for php
 	a2enmod proxy_fcgi setenvif

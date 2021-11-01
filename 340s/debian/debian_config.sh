@@ -31,6 +31,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		cut -d '"' -f 4 |
 		wget -O strawberry.deb -qi -
 	apt install -y ./strawberry.deb
+	rm strawberry.deb
 
 	# Installing dbeaver
 	wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | apt-key add -
@@ -80,8 +81,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
 	apt-get install -y nodejs
 
+	# Pre accepting licenses
+	echo "steam steam/question select I AGREE" | debconf-set-selections
+	echo "virtualbox-ext-pack virtualbox-ext-pack/license select true" | debconf-set-selections
+
 	# Installing required packages
-	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip apache2 filezilla virtualbox virtualbox-ext-pack wget yt-dlp pcsx2 cryptsetup mariadb-server mariadb-client 
+	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip apache2 filezilla virtualbox virtualbox-ext-pack wget yt-dlp pcsx2 cryptsetup mariadb-server mariadb-client ttf-mscorefonts-installer
 
 	# Enabling services
 	systemctl enable thermald 
@@ -111,9 +116,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	elif [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing required packages
 		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird thunderbird-l10n-es-es yakuake gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect plasma-browser-integration xdg-desktop-portal-kde ffmpegthumbs kde-config-tablet dolphin-plugins k3b kio-audiocd libreoffice-qt5 libreoffice-kf5 xdg-desktop-portal
-
-		# Adding user to libvirt group
-		adduser $user libvirt
 
 		# Remove unwanted applications
 		apt remove -y konversation akregator kmail konqueror dragonplayer juk kaddressbook korganizer vlc

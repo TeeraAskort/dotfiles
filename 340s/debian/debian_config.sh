@@ -83,6 +83,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	# Pre accepting licenses
 	echo "steam steam/question select I AGREE" | debconf-set-selections
+	echo steam steam/license note '' | debconf-set-selections
 	echo "virtualbox-ext-pack virtualbox-ext-pack/license select true" | debconf-set-selections
 
 	# Installing required packages

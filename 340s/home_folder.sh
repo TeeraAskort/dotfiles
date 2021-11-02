@@ -65,10 +65,6 @@ cp $directory/zsh/.ubuntu_alias ~
 mkdir -p ~/.config/pulse
 cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 pulseaudio -k
-pipewireS=$(systemctl --user list-unit-files --type service | grep pipewire.service | wc -l)
-if [ $pipewireS -eq 1 ]; then 
-	sudo cp -r $directory/../common/pipewire /etc
-fi
 
 # Copying .zshenv on debian
 if [ $(lsb_release -is | grep "Debian" | wc -l) -eq 1 ]; then

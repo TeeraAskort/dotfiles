@@ -69,6 +69,7 @@ mkdir -p /etc/dracut.conf.d
 echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
 dracut -f
 echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
+echo "HibernateMode=shutdown" | tee -a /etc/systemd/sleep.conf
 echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
 echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
 echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf

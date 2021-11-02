@@ -39,13 +39,13 @@ sudo dnf groupinstall "C Development Tools and Libraries" -y
 sudo dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg rtmpdump aria2 AtomicParsley dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel discord pcsx2 mariadb-server neofetch
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg rtmpdump aria2 AtomicParsley dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel discord pcsx2 mariadb-server neofetch httpd php php-common php-mysqlnd php-xml php-json php-gd php-mbstring
 
 # Enabling services
-systemctl enable thermald mariadb
+systemctl enable thermald mariadb httpd
 
 # Starting services
-systemctl start mariadb
+systemctl start mariadb httpd
 
 # Adding user to vboxusers group
 user="$SUDO_USER"
@@ -89,27 +89,22 @@ flatpak override --filesystem=~/.fonts
 # Add sysctl config
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
-# Installing xampp
-ver="8.0.12"
-until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do
-	echo "Retrying"
-done
-chmod 755 xampp.run
-./xampp.run --unattendedmodeui minimal --mode unattended
-rm xampp.run
-
-# Setting hostname properly for xampp
+# Setting hostname properly for apache
 echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
 
+# Configuring apache
+firewall-cmd --add-service=http --add-service=https --permanent
+firewall-cmd --reload
+
 # Copying php project
-cd /opt/lampp/htdocs
+cd /var/www/html
 git clone https://TeeraAskort@github.com/TeeraAskort/projecte-php.git
 chown -R link:users projecte-php
 chmod -R 755 projecte-php
 
 # Overriding phpstorm config
 user="$SUDO_USER"
-sudo -u $user flatpak override --user --filesystem=/opt/lampp/htdocs com.jetbrains.PhpStorm
+sudo -u $user flatpak override --user --filesystem=/var/www/html com.jetbrains.PhpStorm
 
 # Installing yt-dlp
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp

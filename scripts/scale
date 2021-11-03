@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+if [ "$1" == "-r" ]; then
+
+	SAVEIFS=$IFS
+	IFS=$(echo -en "\n\b")
+
+	cd $3
+
+	for file in $(ls $3); do
+		cp $file ${file}-copy
+		convert ${file}-copy -scale $2 ${file}
+	done
+	IFS=$SAVEIFS
+
+elif [ "$1" == "-h" ]; then
+	echo "Options:"
+	echo "scale [-r] [size] [image/folder]"
+	echo "-r to make the contents of the folder a cbz instead of the folder itself"
+	echo "Use -h to see this help"
+else
+	SAVEIFS=$IFS
+	IFS=$(echo -en "\n\b")
+	count=$(echo "$1" | sed 's/[^/]//g' | wc -m)
+	filename=$(echo "$1" | cut -d "/" -f $count)
+
+	cd "$(dirname $1)"
+	cp $filename ${filename}-copy
+	convert ${filename}-copy -scale $1 $filename
+	IFS=$SAVEIFS
+fi

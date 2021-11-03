@@ -8,15 +8,15 @@ if [ "$1" == "-r" ]; then
 	cd $3
 
 	for file in $(ls $3); do
-		cp $file ${file}-copy
-		convert ${file}-copy -scale $2 ${file}
+		cp $file ${file}-old
+		convert ${file}-old -scale $2 ${file}
 	done
 	IFS=$SAVEIFS
 
 elif [ "$1" == "-h" ]; then
 	echo "Options:"
 	echo "scale [-r] [size] [image/folder]"
-	echo "-r to make the contents of the folder a cbz instead of the folder itself"
+	echo "-r to scale the contents of a folder instead of a single image"
 	echo "Use -h to see this help"
 else
 	SAVEIFS=$IFS
@@ -25,7 +25,7 @@ else
 	filename=$(echo "$1" | cut -d "/" -f $count)
 
 	cd "$(dirname $1)"
-	cp $filename ${filename}-copy
-	convert ${filename}-copy -scale $1 $filename
+	cp $filename ${filename}-old
+	convert ${filename}-old -scale $1 $filename
 	IFS=$SAVEIFS
 fi

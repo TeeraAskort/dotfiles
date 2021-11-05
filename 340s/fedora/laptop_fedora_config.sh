@@ -19,6 +19,12 @@ dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
+#Enabling xanmod repo
+dnf copr enable rmnscnce/kernel-xanmod -y
+
+# Installing xanmod kernel
+dnf in -y kernel-xanmod-edge kernel-xanmod-edge-headers kernel-xanmod-edge-devel
+
 #Enabling vivaldi repo
 # dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
 

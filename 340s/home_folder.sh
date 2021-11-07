@@ -4,7 +4,6 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
-
 dataDiskUUID="8c5af7a6-3e34-4815-b7d3-31600c0c3c28"
 dataDiskPartUUID="f5bfc5e5-583a-4605-9ac0-3e7981727239"
 

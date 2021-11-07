@@ -67,11 +67,10 @@ mv mpris.so /etc/mpv/scripts/mpris.so
 
 # Installing outsider applications
 curl -LO "https://cdn.akamai.steamstatic.com/client/installer/steam.deb"
-curl -LO "https://launcher.mojang.com/download/Minecraft.deb"
 curl -L "https://github.com/lbryio/lbry-desktop/releases/download/v0.51.2/LBRY_0.51.2.deb?_ga=2.242496066.1377799971.1633284702-265872098.1633284702" > lbry.deb
 curl -L "https://release.gitkraken.com/linux/gitkraken-amd64.deb" > gitkraken.deb
-apt install -y ./steam.deb ./Minecraft.deb ./lbry.deb ./gitkraken.deb 
-rm steam.deb Minecraft.deb lbry.deb gitkraken.deb
+apt install -y ./steam.deb ./lbry.deb ./gitkraken.deb 
+rm steam.deb lbry.deb gitkraken.deb
 
 # Installing vscode
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -102,7 +101,7 @@ echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak applications
-flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord com.jetbrains.PhpStorm org.chromium.Chromium
+flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord com.jetbrains.PhpStorm org.chromium.Chromium com.google.AndroidStudio io.gdevs.GDLauncher
 
 # Installing yt-dlp
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp

@@ -110,4 +110,4 @@ ln -s /usr/local/bin/yt-dlp /usr/bin/youtube-dl
 curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
 tar xzvf eclipse-jee.tar.gz -C /opt
 rm eclipse-jee.tar.gz
-cp $directory/../common/eclipse.desktop /usr/share/applications
+desktop-file-install $directory/../common/eclipse.desktop

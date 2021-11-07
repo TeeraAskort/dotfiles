@@ -84,9 +84,6 @@ flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader org.tele
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
 
-# Add sysctl config
-echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
-
 # Setting hostname properly for apache
 echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
 

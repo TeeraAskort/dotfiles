@@ -61,8 +61,11 @@ dnf remove -y totem rhythmbox
 dnf groupupdate core -y
 
 #Install multimedia codecs
-dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y --allowerasing
 dnf groupupdate sound-and-video -y
+dnf install -y libdvdcss
+dnf install -y gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel ffmpeg gstreamer-ffmpeg
+dnf install -y lame\* --exclude=lame-devel
+dnf group upgrade -y --with-optional Multimedia
 
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 

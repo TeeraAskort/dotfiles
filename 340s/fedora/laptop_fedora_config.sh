@@ -39,7 +39,7 @@ sudo dnf groupinstall "C Development Tools and Libraries" -y
 sudo dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg rtmpdump aria2 AtomicParsley dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel discord pcsx2 mariadb-server neofetch httpd php php-common php-mysqlnd php-xml php-json php-gd php-mbstring unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller composer
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg rtmpdump aria2 AtomicParsley dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel discord pcsx2 mariadb-server neofetch httpd php php-common php-mysqlnd php-xml php-json php-gd php-mbstring unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller composer materia-gtk-theme materia-kde
 
 # Enabling services
 systemctl enable thermald mariadb httpd
@@ -114,3 +114,11 @@ curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downl
 tar xzvf eclipse-jee.tar.gz -C /opt
 rm eclipse-jee.tar.gz
 desktop-file-install $directory/../common/eclipse.desktop
+
+# Adding sound input & output device chooser
+user="$SUDO_USER"
+sudo -u $user mkdir -p /home/$user/.local/share/gnome-shell/extensions/
+cd /home/$user/.local/share/gnome-shell/extensions/
+sudo -u $user git clone https://github.com/kgshank/gse-sound-output-device-chooser.git
+sudo -u $user cp -r gse-sound-output-device-chooser/sound-output-device-chooser@kgshank.net .
+sudo -u $user rm -rf "gse-sound-output-device-chooser"

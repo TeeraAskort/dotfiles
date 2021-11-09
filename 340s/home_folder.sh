@@ -122,6 +122,10 @@ if command -v mysql &> /dev/null ; then
 	sudo mysql projectes_andreuFurio -u root -e "CREATE TABLE relacioprojecte(idprof INTEGER NOT NULL, CONSTRAINT fk_relacio_professorat FOREIGN KEY (idprof) REFERENCES professorat (idprof) ON DELETE CASCADE ON UPDATE RESTRICT, idalum INTEGER NOT NULL, CONSTRAINT fk_relacio_alumnat FOREIGN KEY (idalum) REFERENCES alumnat (idalum) ON DELETE CASCADE ON UPDATE RESTRICT, idproj INTEGER NOT NULL, CONSTRAINT fk_relacio_projecte FOREIGN KEY (idproj) REFERENCES projecte (idproj) ON DELETE CASCADE ON UPDATE RESTRICT, idcurs INTEGER NOT NULL, CONSTRAINT fk_relacio_curs FOREIGN KEY (idcurs) REFERENCES curs (idcurs) ON DELETE CASCADE ON UPDATE RESTRICT, data TIMESTAMP NOT NULL)"
 fi
 
+## Copying ssh key
+mkdir ~/.ssh
+cp ~/Documentos/id_rsa* ~/.ssh
+
 ## Configuring u2f cards
 hostnm=$(hostname)
 

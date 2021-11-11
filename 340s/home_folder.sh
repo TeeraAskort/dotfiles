@@ -109,7 +109,7 @@ fi
 
 ## Configuring docker
 cd $directory/common
-sudo docker-composer -f compose.yml up -d
+sudo docker-compose -f compose.yml up -d
 
 ## Copying ssh key
 mkdir ~/.ssh

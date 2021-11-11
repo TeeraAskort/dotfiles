@@ -1,0 +1,18 @@
+version: '3'
+services:
+  DB:
+    image: 'mariadb:latest'
+    restart: always
+    ports: 
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+  php-apache-environment:
+    container_name: php-apache
+    image: 'php:8.0-apache'
+    volumes:
+      - /home/link/Nextcloud/htdocs:/var/www/html/
+    ports:
+      - 80:80

@@ -119,6 +119,14 @@ else
 	sudo udevadm control --reload-rules
 fi
 
+## Configuring docker
+cd $directory/../common
+sudo docker-compose -f compose.yml up -d --build
+
+## Copying ssh key
+mkdir ~/.ssh
+cp ~/Documentos/id_rsa* ~/.ssh
+
 # Configuring mariadb
 if command -v mysql &> /dev/null ; then
 	sudo mysql -u root -e "CREATE DATABASE farmcrash"

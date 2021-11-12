@@ -16,14 +16,11 @@ hostnamectl set-hostname link-pc
 #Install RPMfusion
 dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 
-#Better font rendering cpor
-dnf copr enable dawid/better_fonts -y
+#Installing tainted repos
+dnf in -y rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
 
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
-
-#Enabling lxc repo
-dnf copr enable ganto/lxc4 -y
 
 #Enabling vivaldi repo
 # dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
@@ -31,6 +28,9 @@ dnf copr enable ganto/lxc4 -y
 #Install VSCode
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
+
+# Adding docker repo
+dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 
 # Upgrade system
 dnf upgrade -y --refresh
@@ -42,9 +42,12 @@ sudo dnf groupinstall "C Development Tools and Libraries" -y
 sudo dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 clementine chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel lxd lxc ffmpeg rtmpdump aria2 AtomicParsley VirtualBox dkms elfutils-libelf-devel qt5-qtx11extras kernel-headers kernel-devel
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg rtmpdump aria2 AtomicParsley dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel discord pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller composer docker-ce docker-ce-cli containerd.io docker-compose
 
-systemctl enable thermald
+systemctl enable thermald docker
+
+# Starting services
+systemctl start docker
 
 # Adding user to vboxusers group
 user="$SUDO_USER"
@@ -57,48 +60,38 @@ dnf remove -y totem rhythmbox
 dnf groupupdate core -y
 
 #Install multimedia codecs
-dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y --allowerasing
 dnf groupupdate sound-and-video -y
+dnf install -y libdvdcss
+dnf install -y gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel ffmpeg gstreamer-ffmpeg
+dnf install -y lame\* --exclude=lame-devel
+dnf group upgrade -y --with-optional Multimedia
 
 #Disable wayland
 sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
-
-#Installing qogir theme
-curl -L "https://api.github.com/repos/vinceliuice/Qogir-theme/tarball" > Qogir-gtk.tar.gz
-tar xzvf Qogir-gtk.tar.gz && cd *Qogir-theme*
-./install.sh -l fedora -c dark -w square
-cd .. && rm -r *Qogir*
-git clone https://github.com/vinceliuice/Qogir-kde.git
-cd Qogir-kde
-./install.sh
-cd .. && rm -r Qogir-kde
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app org.jdownloader.JDownloader org.telegram.desktop com.google.AndroidStudio org.eclipse.Java com.axosoft.GitKraken com.mojang.Minecraft com.getpostman.Postman io.dbeaver.DBeaverCommunity
+flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity org.gtk.Gtk3theme.Adwaita-dark com.jetbrains.PhpStorm com.google.AndroidStudio io.gdevs.GDLauncher io.github.sharkwouter.Minigalaxy
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
 
-# Installing xampp
-ver="8.0.12"
-until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do
-	echo "Retrying"
-done
-chmod 755 xampp.run
-./xampp.run --unattendedmodeui minimal --mode unattended
-rm xampp.run
-
-# Setting hostname properly for xampp
-echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
-
 # Installing yt-dlp
-curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
-chmod a+rx /usr/local/bin/yt-dlp
+dnf --enablerepo=updates-testing install yt-dlp -y
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
 
-# Add intel_idle.max_cstate=1 to grub and update
-grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
-grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+# Installing eclipse
+curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
+tar xzvf eclipse-jee.tar.gz -C /opt
+rm eclipse-jee.tar.gz
+desktop-file-install $directory/../../common/eclipse.desktop
+
+# Adding sound input & output device chooser
+user="$SUDO_USER"
+sudo -u $user mkdir -p /home/$user/.local/share/gnome-shell/extensions/
+cd /home/$user/.local/share/gnome-shell/extensions/
+sudo -u $user git clone https://github.com/kgshank/gse-sound-output-device-chooser.git
+sudo -u $user cp -r gse-sound-output-device-chooser/sound-output-device-chooser@kgshank.net .
+sudo -u $user rm -rf "gse-sound-output-device-chooser"

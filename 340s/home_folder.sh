@@ -108,7 +108,7 @@ else
 fi
 
 ## Configuring docker
-cd $directory/common
+cd $directory/../common
 sudo docker-compose -f compose.yml up -d --build
 
 ## Copying ssh key

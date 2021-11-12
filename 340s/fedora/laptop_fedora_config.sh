@@ -93,33 +93,15 @@ flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader org.tele
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
 
-# Setting hostname properly for apache
-echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
-
-# Configuring apache
-firewall-cmd --add-service=http --add-service=https --permanent
-firewall-cmd --reload
-
-# Copying php project
-cd /var/www/html
-git clone https://TeeraAskort@github.com/TeeraAskort/projecte-php.git
-chown -R link:users projecte-php
-chmod -R 755 projecte-php
-
-# Overriding phpstorm config
-user="$SUDO_USER"
-sudo -u $user flatpak override --user --filesystem=/var/www/html com.jetbrains.PhpStorm
-
 # Installing yt-dlp
-curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
-chmod a+rx /usr/local/bin/yt-dlp
-ln -s /usr/local/bin/yt-dlp /usr/bin/youtube-dl
+dnf --enablerepo=updates-testing install yt-dlp -y
+ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
 
 # Installing eclipse
 curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
 tar xzvf eclipse-jee.tar.gz -C /opt
 rm eclipse-jee.tar.gz
-desktop-file-install $directory/../common/eclipse.desktop
+desktop-file-install $directory/../../common/eclipse.desktop
 
 # Adding sound input & output device chooser
 user="$SUDO_USER"

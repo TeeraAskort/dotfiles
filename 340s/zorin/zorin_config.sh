@@ -66,6 +66,10 @@ apt remove -y gnome-mines quadrapassel gnome-sudoku pitivi rhythmbox totem remmi
 # Install computer specific packages
 apt install -y intel-media-va-driver libvulkan1 libvulkan1:i386 libpam-fprintd libpam-u2f pamu2fcfg libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386
 
+# Adding user to docker group
+user="$SUDO_USER"
+usermod -aG docker $user
+
 # Installing mpv-mpris
 curl -LO "https://github.com/hoyon/mpv-mpris/releases/latest/download/mpris.so"
 mkdir -p /etc/mpv/scripts
@@ -119,10 +123,6 @@ curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downl
 tar xzvf eclipse-jee.tar.gz -C /opt
 rm eclipse-jee.tar.gz
 desktop-file-install $directory/../../common/eclipse.desktop
-
-# Adding user to docker group
-user="$SUDO_USER"
-usermod -aG docker $user
 
 # Removing uneeded packages
 apt autoremove --purge -y

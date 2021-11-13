@@ -38,6 +38,12 @@ rm winehq.key
 curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
 apt install -y nodejs
 
+# Adding docker repo
+apt-get install -y ca-certificates curl gnupg lsb-release
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+
 # Disabling youtube-dl installation
 apt remove youtube-dl
 apt-mark hold youtube-dl
@@ -52,7 +58,7 @@ echo "virtualbox-ext-pack virtualbox-ext-pack/license select true" | debconf-set
 echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
 
 # Installing required packages
-apt install -y strawberry mpv vim neovim python3-neovim zsh zsh-autosuggestions zsh-syntax-highlighting flatpak curl wget thermald earlyoom gamemode build-essential xz-utils openjdk-11-jdk fonts-noto-cjk aisleriot gnome-mahjongg transmission-gtk apt-transport-https ffmpegthumbnailer hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us fonts-noto-color-emoji libfido2-1 libglu1-mesa mednafen mednaffe ffmpeg zip unzip unrar python3-mutagen rtmpdump phantomjs php8.0 composer chrome-gnome-shell hplip virtualbox virtualbox-dkms virtualbox-ext-pack lutris desmume filezilla printer-driver-cups-pdf f2fs-tools btrfs-progs exfat-fuse dbeaver-ce mariadb-server mariadb-client ttf-mscorefonts-installer libasound2-dev cryptsetup papirus-icon-theme neofetch apache2 php8.0-mysql libapache2-mod-php8.0 php8.0-cli php8.0-cgi php8.0-gd php8.0-fpm libapache2-mod-fcgid pcsx2
+apt install -y strawberry mpv vim neovim python3-neovim zsh zsh-autosuggestions zsh-syntax-highlighting flatpak curl wget thermald earlyoom gamemode build-essential xz-utils openjdk-11-jdk fonts-noto-cjk aisleriot gnome-mahjongg transmission-gtk apt-transport-https ffmpegthumbnailer hunspell-es hunspell-en-us aspell-es aspell-en mythes-es mythes-en-us fonts-noto-color-emoji libfido2-1 libglu1-mesa mednafen mednaffe ffmpeg zip unzip unrar python3-mutagen rtmpdump phantomjs composer chrome-gnome-shell hplip virtualbox virtualbox-dkms virtualbox-ext-pack lutris desmume filezilla printer-driver-cups-pdf f2fs-tools btrfs-progs exfat-fuse dbeaver-ce ttf-mscorefonts-installer libasound2-dev cryptsetup papirus-icon-theme neofetch pcsx2 docker-ce docker-ce-cli containerd.io docker-compose
 
 # Removing unwanted applications
 apt remove -y gnome-mines quadrapassel gnome-sudoku pitivi rhythmbox totem remmina
@@ -101,36 +107,22 @@ echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak applications
-flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord com.jetbrains.PhpStorm org.chromium.Chromium com.google.AndroidStudio io.gdevs.GDLauncher
+flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord com.jetbrains.PhpStorm org.chromium.Chromium com.google.AndroidStudio io.gdevs.GDLauncher io.github.sharkwouter.Minigalaxy
 
 # Installing yt-dlp
 curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
 chmod a+rx /usr/local/bin/yt-dlp
 ln -s /usr/local/bin/yt-dlp /usr/bin/youtube-dl
 
-# Configuring apache for php
-a2enmod proxy_fcgi setenvif
-a2enconf php8.0-fpm
-systemctl restart apache2
-
-# Copying php project
-cd /var/www/html
-git clone https://TeeraAskort@github.com/TeeraAskort/projecte-php.git
-chown -R link:users projecte-php
-chmod -R 755 projecte-php
-
-# Overriding phpstorm config
-user="$SUDO_USER"
-sudo -u $user flatpak override --user --filesystem=/var/www/html com.jetbrains.PhpStorm
-
-# Setting hostname properly for xampp
-echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
-
 # Installing eclipse
 curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
 tar xzvf eclipse-jee.tar.gz -C /opt
 rm eclipse-jee.tar.gz
-desktop-file-install $directory/../common/eclipse.desktop
+desktop-file-install $directory/../../common/eclipse.desktop
+
+# Adding user to docker group
+user="$SUDO_USER"
+usermod -aG docker $user
 
 # Removing uneeded packages
 apt autoremove --purge -y

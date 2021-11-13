@@ -109,3 +109,7 @@ cd /home/$user/.local/share/gnome-shell/extensions/
 sudo -u $user git clone https://github.com/kgshank/gse-sound-output-device-chooser.git
 sudo -u $user cp -r gse-sound-output-device-chooser/sound-output-device-chooser@kgshank.net .
 sudo -u $user rm -rf "gse-sound-output-device-chooser"
+
+# Adding user to docker group
+user="$SUDO_USER"
+usermod -aG docker $user

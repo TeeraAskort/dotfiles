@@ -44,6 +44,7 @@ sudo dnf groupinstall "Development Tools" -y
 #Install required packages
 dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel discord pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller composer docker-ce docker-ce-cli containerd.io docker-compose yt-dlp
 
+# Enabling services
 systemctl enable thermald docker
 
 # Starting services
@@ -52,6 +53,10 @@ systemctl start docker
 # Adding user to vboxusers group
 user="$SUDO_USER"
 usermod -aG vboxusers $user
+
+# Adding user to docker group
+user="$SUDO_USER"
+usermod -aG docker $user
 
 # Remove unused packages 
 dnf remove -y totem rhythmbox 

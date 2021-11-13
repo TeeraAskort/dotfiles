@@ -34,7 +34,7 @@ apt-get install -y libgnutls30:i386 libldap-2.4-2:i386 libgpg-error0:i386 libxml
 libsdl2-2.0-0:i386 libfreetype6:i386 libdbus-1-3:i386 libsqlite3-0:i386
 rm winehq.key
 
-# Installing nodejs 16
+# Installing nodejs 17
 curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
 apt install -y nodejs
 
@@ -42,7 +42,6 @@ apt install -y nodejs
 apt-get install -y ca-certificates curl gnupg lsb-release
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-
 
 # Disabling youtube-dl installation
 apt remove youtube-dl

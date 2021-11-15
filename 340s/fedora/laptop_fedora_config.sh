@@ -105,11 +105,3 @@ curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downl
 tar xzvf eclipse-jee.tar.gz -C /opt
 rm eclipse-jee.tar.gz
 desktop-file-install $directory/../../common/eclipse.desktop
-
-# Adding sound input & output device chooser
-user="$SUDO_USER"
-sudo -u $user mkdir -p /home/$user/.local/share/gnome-shell/extensions/
-cd /home/$user/.local/share/gnome-shell/extensions/
-sudo -u $user git clone https://github.com/kgshank/gse-sound-output-device-chooser.git
-sudo -u $user cp -r gse-sound-output-device-chooser/sound-output-device-chooser@kgshank.net .
-sudo -u $user rm -rf "gse-sound-output-device-chooser"

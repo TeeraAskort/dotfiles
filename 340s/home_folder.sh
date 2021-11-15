@@ -4,8 +4,8 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
-dataDiskUUID="8c5af7a6-3e34-4815-b7d3-31600c0c3c28"
-dataDiskPartUUID="f5bfc5e5-583a-4605-9ac0-3e7981727239"
+dataDiskUUID="c16e4bcf-d97a-40aa-b825-41e041b99d68"
+dataDiskPartUUID="85a85370-e75a-44c5-a67f-61643a631e47"
 
 ## Adjusting keymap
 sudo localectl set-x11-keymap es
@@ -16,7 +16,7 @@ mkdir $HOME/Datos
 sudo mount /dev/mapper/encrypteddata $HOME/Datos
 sudo cp /home/link/Datos/.keyfile /root/.keyfile
 echo "encrypteddata UUID=${dataDiskUUID} /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
-echo "/dev/mapper/encrypteddata /home/link/Datos btrfs defaults 0 0" | sudo tee -a /etc/fstab
+echo "/dev/mapper/encrypteddata /home/link/Datos xfs defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders
 rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent

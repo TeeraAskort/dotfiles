@@ -105,3 +105,7 @@ curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downl
 tar xzvf eclipse-jee.tar.gz -C /opt
 rm eclipse-jee.tar.gz
 desktop-file-install $directory/../../common/eclipse.desktop
+
+# Add intel_idle.max_cstate=1 to grub and update
+grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
+grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg

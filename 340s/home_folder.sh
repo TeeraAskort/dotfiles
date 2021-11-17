@@ -113,7 +113,8 @@ sudo docker-compose -f compose.yml up -d --build
 
 ## Copying ssh key
 mkdir ~/.ssh
-cp ~/Documentos/id_rsa* ~/.ssh
+cp ~/Documentos/id_ed25519* ~/.ssh
+ssh-add ~/.ssh/id_ed25519
 
 ## Configuring u2f cards
 hostnm=$(hostname)

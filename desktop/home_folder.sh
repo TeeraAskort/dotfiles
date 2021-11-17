@@ -12,7 +12,9 @@ sudo localectl set-x11-keymap es
 
 ## Configuring data disk
 echo "Enter data disk password: "
-sudo cryptsetup open /dev/${dataDisk}1 encrypteddata
+until sudo cryptsetup open /dev/${dataDisk}1 encrypteddata; do 
+	echo "Bad password, retrying"
+done
 mkdir $HOME/Datos
 sudo mount /dev/mapper/encrypteddata $HOME/Datos
 sudo cp $HOME/Datos/.keyfile /root/.keyfile
@@ -41,7 +43,9 @@ xdg-user-dirs-update --set PICTURES $HOME/Datos/Imágenes
 ## Configuring Torrent disk
 clear
 echo "Enter Torrent disk password:"
-sudo cryptsetup open /dev/${torrentDisk}1 torrent
+until sudo cryptsetup open /dev/${torrentDisk}1 torrent; do
+	echo "Bad password, retrying"
+done
 mkdir $HOME/Torrent
 sudo mount /dev/mapper/torrent $HOME/Torrent
 sudo cp $HOME/Torrent/.torrentkey /root/.torrentkey
@@ -126,7 +130,9 @@ sudo docker-compose -f compose.yml up -d --build
 ## Copying ssh key
 mkdir ~/.ssh
 cp ~/Documentos/id_ed25519* ~/.ssh
-ssh-add ~/.ssh/id_ed25519
+until ssh-add ~/.ssh/id_ed25519; do
+	echo "Bad password, retrying"
+done
 
 # Configuring mariadb
 if command -v mysql &> /dev/null ; then

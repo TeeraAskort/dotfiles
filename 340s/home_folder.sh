@@ -11,7 +11,9 @@ dataDiskPartUUID="85a85370-e75a-44c5-a67f-61643a631e47"
 sudo localectl set-x11-keymap es
 
 ## Configuring data disk
-sudo cryptsetup open /dev/disk/by-uuid/${dataDiskUUID} encrypteddata
+until sudo cryptsetup open /dev/disk/by-uuid/${dataDiskUUID} encrypteddata; do
+	echo "Bad password, retrying"
+done
 mkdir $HOME/Datos
 sudo mount /dev/mapper/encrypteddata $HOME/Datos
 sudo cp /home/link/Datos/.keyfile /root/.keyfile
@@ -114,7 +116,9 @@ sudo docker-compose -f compose.yml up -d --build
 ## Copying ssh key
 mkdir ~/.ssh
 cp ~/Documentos/id_ed25519* ~/.ssh
-ssh-add ~/.ssh/id_ed25519
+until ssh-add ~/.ssh/id_ed25519; do
+	echo "Bad password, retrying"
+done
 
 ## Configuring u2f cards
 hostnm=$(hostname)

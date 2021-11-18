@@ -18,6 +18,7 @@ services:
       - /home/link/Nextcloud/htdocs:/var/www/html/
     ports:
       - 80:80
+      - 5000:5000
     build:
       context: ./docker
       dockerfile: Dockerfile

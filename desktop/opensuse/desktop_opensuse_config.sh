@@ -45,13 +45,20 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded 
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch virtualbox filezilla net-tools net-tools-deprecated net-tools-lang php-composer2 minecraft-launcher virtualbox-host-source kernel-devel kernel-default-devel mariadb mariadb-client cryptsetup yt-dlp pcsx2 apache2 php8 php8-mysql php8-gd php8-mbstring apache2-mod_php8
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 alsa-plugins-pulse.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service
 
 	# Enabling thermald service
-	systemctl enable thermald earlyoom mariadb apache2
+	systemctl enable thermald earlyoom docker
 
 	# Starting services
-	systemctl start mariadb
+	systemctl start docker
+
+	# Adding current user to docker group
+	user="$SUDO_USER"
+	usermod -G docker -a $user
+
+	# Installing computer specific applications
+	zypper in -y kernel-firmware-amdgpu libdrm_amdgpu1 libdrm_amdgpu1-32bit libdrm_radeon1 libdrm_radeon1-32bit libvulkan_radeon libvulkan_radeon-32bit libvulkan1 libvulkan1-32bit
 
 	# Removing unwanted applications
 	zypper rm -y git-gui vlc vlc-qt vlc-noX 
@@ -111,7 +118,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.PhpStorm
+	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.PhpStorm com.google.AndroidStudio io.gdevs.GDLauncher
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
@@ -128,29 +135,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	user="$SUDO_USER"
  	sudo -u $user flatpak override --user --filesystem=/home/$user/.fonts
 
-	# Setting hostname properly for xampp
-	echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
-
-	# Configuring apache2
- 	firewall-cmd --permanent --add-service=http --add-service=https
- 	firewall-cmd --reload
- 	a2enmod php8
- 
- 	# Copying php project
- 	cd /srv/www/htdocs
- 	git clone https://TeeraAskort@github.com/TeeraAskort/projecte-php.git
- 	chown -R link:users projecte-php
- 	chmod -R 755 projecte-php
- 
- 	# Overriding phpstorm config
- 	user="$SUDO_USER"
- 	sudo -u $user flatpak override --user --filesystem=/srv/www/htdocs com.jetbrains.PhpStorm
- 
  	# Installing eclipse
  	curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
  	tar xzvf eclipse-jee.tar.gz -C /opt
  	rm eclipse-jee.tar.gz
- 	desktop-file-install $directory/../common/eclipse.desktop
+ 	desktop-file-install $directory/../../common/eclipse.desktop
 
 	# Adding user to vboxusers group
 	user="$SUDO_USER"

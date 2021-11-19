@@ -43,13 +43,16 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 alsa-plugins-pulse.x86_64 docker python3-docker-compose minigalaxy
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald plymouth-plugin-script nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 alsa-plugins-pulse.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service
 
 	# Enabling thermald service
 	systemctl enable thermald earlyoom docker
 
 	# Starting services
 	systemctl start docker
+
+	# Starting zram service
+	zramswapon
 
 	# Adding current user to docker group
 	user="$SUDO_USER"

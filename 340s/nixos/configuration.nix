@@ -13,10 +13,6 @@ let
     es
     en
   ]);
-  useRADV = pkgs.writeShellScriptBin "useRADV" ''
-    export AMD_VULKAN_ICD=RADV
-    exec -a "$0" "$@"
-  '';
 in
 {
   imports =
@@ -37,7 +33,7 @@ in
     useDHCP = false; 
     networkmanager.enable = true;
     interfaces = {
-      enp2s0.useDHCP = true;
+      wlo1.useDHCP = true;
     };
     extraHosts = ''
       ${builtins.readFile blockedHosts}
@@ -55,6 +51,11 @@ in
 
   # Allow nonfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # Package overrides
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
@@ -79,7 +80,6 @@ in
     adwaita-qt
     jetbrains.phpstorm postman android-studio gitkraken
     docker-compose
-    useRADV 
   ];
 
   # Environment variables
@@ -157,12 +157,13 @@ in
     driSupport32Bit = true;
     driSupport = true;
     extraPackages = with pkgs; [
-      amdvlk
-      rocm-opencl-icd
-      rocm-opencl-runtime
+      intel-media-driver
+      vaapiIntel
+      vaapiVdpau
+      libvdpau-va-gl
     ];
     extraPackages32 = with pkgs; [
-      driversi686Linux.amdvlk
+      vaapiIntel
     ];
   };
 
@@ -204,6 +205,18 @@ in
     support32Bit = true;
   };
 
+  # Systemd sleep config
+  systemd.sleep.extraConfig = [ "AllowHibernation=yes" "HibernateMode=shutdown" ];
+
+  # Systemd logind config
+  services.logind.lidSwitch = "hibernate";
+  services.logind.lidSwitchDocked = "hibernate";
+  services.logind.lidSwitchExternalPower = "hibernate";
+  services.logind.extraConfig = [
+    "IdleAction=hibernate"
+    "IdleActionSec=15min"
+  ]
+
   # Enabling xwayland
   programs.xwayland.enable = true;
 
@@ -220,9 +233,6 @@ in
 
     # Wacom tablet support
     wacom.enable = true;
-
-    # AMDGPU drivers
-    videoDrivers = [ "amdgpu" ];
 
     # Gnome3 desktop configuration
     displayManager = {
@@ -258,6 +268,24 @@ in
           [org.gnome.settings-daemon.plugins.power]
           sleep-inactive-ac-timeout = 1800
           sleep-inactive-battery-timeout = 900
+          sleep-inactive-ac-type = "hibernate";
+          sleep-inactive-battery-type = "hibernate";
+          power-button-action = "hibernate";
+
+          [org.gnome.gedit.preferences.editor]
+          scheme = 'oblivion';
+
+          [org.gnome.nautilus.icon-view]
+          default-zoom-level = 'small';
+
+          [org.gnome.settings-daemon.plugins.color]
+          night-light-enabled = true;
+          night-light-temperature = 3700;
+
+          [org.gnome.desktop.peripherals.touchpad]
+          tap-to-click = true;
+
+          
         '';
       };
     };

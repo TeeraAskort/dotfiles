@@ -6,24 +6,25 @@ directory="$(dirname $_script)"
 
 if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 
-	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep MZVLQ512HALU-000H1 | cut -d" " -f1)
-	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep DT01ACA300 | cut -d" " -f1)
-	torrentDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep DT01ABA300 | cut -d" " -f1)
+	dataDiskUUID="c16e4bcf-d97a-40aa-b825-41e041b99d68"
 
 	# Create partitions
-	parted /dev/$rootDisk -- mklabel gpt
-	parted /dev/$rootDisk -- mkpart ESP fat32 1M 512M
-	parted /dev/$rootDisk -- set 1 boot on
-	parted /dev/$rootDisk -- mkpart primary 512M 100%
+	parts=$(blkid | grep nvme0n1 | grep -v -e "$dataDiskUUID" | cut -d":" -f1)
+	for part in $(echo "$parts" | cut -d"p" -f2); do
+		parted /dev/nvme0n1 -- rm $part
+	done
+	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
+	parted /dev/nvme0n1 -- set 1 boot on
+	parted /dev/nvme0n1 -- mkpart primary 512M 100G
 
 	# Loop until cryptsetup succeeds formatting the partition
-	until cryptsetup luksFormat /dev/${rootDisk}2 
+	until cryptsetup luksFormat /dev/nvme0n1p3
 	do 
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the patition
-	until cryptsetup open /dev/${rootDisk}2 luks
+	until cryptsetup open /dev/nvme0n1p3 luks
 	do
 		echo "Cryptsetup failed, trying again"
 	done
@@ -36,14 +37,14 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 
 	# Format partitions
 	mkfs.xfs -f -L root /dev/lvm/root
-	mkfs.vfat -F32 /dev/${rootDisk}1
+	mkfs.vfat -F32 /dev/nvme0n1p1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
 
 	# Mount paritions
 	mount /dev/lvm/root /mnt
 	mkdir /mnt/boot
-	mount /dev/${rootDisk}1 /mnt/boot
+	mount /dev/nvme0n1p1 /mnt/boot
 
 	# Generate configs
 	nixos-generate-config --root /mnt
@@ -63,7 +64,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	# Copy key from secondary drive to root partition
 	clear 
 	echo "Enter data disk password"
-	until cryptsetup open /dev/${dataDisk}1 datos
+	until cryptsetup open /dev/nvme0n1p2 datos
 	do
 		echo "Cryptsetup failed opening the secondary drive"
 	done
@@ -71,29 +72,12 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	mount /dev/mapper/datos $directory/datos
 	cp $directory/datos/.keyfile /mnt
 
-	# Copy key from torrent disk to root partition
-	clear
-	echo "Enter torrent disk password"
-	until cryptsetup open /dev/${torrentDisk}1 torrent
-	do
-		echo "Cryptsetup failed opening the torrent disk"
-	done
-	mkdir $directory/torrent
-	mount /dev/mapper/torrent $directory/torrent
-	cp $directory/torrent/.torrentkey /mnt
-
 	# Put correct UUID on hardware-configuration.nix
-	uuid=$(blkid -o value -s UUID /dev/${rootDisk}2)
+	uuid=$(blkid -o value -s UUID /dev/nvme0n1p3)
 	sed -i "s/UUIDchangeme/$uuid/g" $directory/hardware-configuration.nix
 
-	# Add data disk UUID to hardware-config
-	sed -i "s/dataDiskChangeme/$(blkid -s UUID -o value /dev/${dataDisk}1)/g" $directory/hardware-configuration.nix
-
-	# Add torrent disk UUID to hardware-config
-	sed -i "s/torrentDiskChangeme/$(blkid -s UUID -o value /dev/${torrentDisk}1)/g" $directory/hardware-configuration.nix
-
 	# Add boot partition to hardware-config
-	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${rootDisk}1)/g" $directory/hardware-configuration.nix
+	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/nvme0n1p1)/g" $directory/hardware-configuration.nix
 
 	# Add swap partition to hardware-config
 	sed -i "s/swapChangeme/$(blkid -s UUID -o value /dev/lvm/swap)/g" $directory/hardware-configuration.nix

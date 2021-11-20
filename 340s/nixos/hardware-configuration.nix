@@ -35,24 +35,13 @@
 
   fileSystems."/home/link/Datos" = {
     encrypted = {
-      blkDev = "/dev/disk/by-uuid/dataDiskChangeme";
+      blkDev = "/dev/disk/by-uuid/c16e4bcf-d97a-40aa-b825-41e041b99d68";
       enable = true;
       keyFile = "/mnt-root/.keyfile";
       label = "encrypteddata";
     };
     device = "/dev/mapper/encrypteddata";
-    fsType = "btrfs";
-  };
-
-  fileSystems."/home/link/Torrent" = {
-    encrypted = {
-      blkDev = "/dev/disk/by-uuid/torrentDiskChangeme";
-      enable = true;
-      keyFile = "/mnt-root/.torrentkey";
-      label = "torrent";
-    };
-    device = "/dev/mapper/torrent";
-    fsType = "btrfs";
+    fsType = "xfs";
   };
 
   swapDevices =

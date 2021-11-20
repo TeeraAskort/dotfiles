@@ -77,7 +77,7 @@ in
     firefox-wayland lbry gnome.gnome-boxes
     myAspell mythes gimp steam pcsx2
     adwaita-qt
-    jetbrains.phpstorm postman android-studio gitkraken
+    jetbrains.phpstorm postman android-studio gitkraken dbeaver eclipses.eclipse-jee
     docker-compose
     useRADV 
   ];

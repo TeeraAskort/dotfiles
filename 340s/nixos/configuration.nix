@@ -78,7 +78,7 @@ in
     firefox-wayland lbry gnome.gnome-boxes
     myAspell mythes gimp steam pcsx2
     adwaita-qt
-    jetbrains.phpstorm postman android-studio gitkraken
+    jetbrains.phpstorm postman android-studio gitkraken eclipses.eclipse-jee dbeaver
     docker-compose
   ];
 
@@ -133,6 +133,14 @@ in
   # Enable apparmor
   security.apparmor.enable = true;
   services.dbus.apparmor = "enabled";
+
+  # PAM FIDO2 support
+  security.pam.u2f.enable = true;
+  security.pam.services = {
+    gdm.u2fAuth = true;
+    sudo.u2fAuth = true;
+    su.u2fAuth = true;
+  };
 
   #Haveged daemon
   services.haveged.enable = true;

@@ -7,7 +7,7 @@
 let
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "changeme";
+    sha256 = "097iw4wiwm8bxkxcvz0wjxs76y63mgq5p0j4fwzqb2qshw9gbcvl";
   };
   myAspell = pkgs.aspellWithDicts(ps: with ps; [
     es
@@ -223,7 +223,7 @@ in
   services.logind.extraConfig = [
     "IdleAction=hibernate"
     "IdleActionSec=15min"
-  ]
+  ];
 
   # Enabling xwayland
   programs.xwayland.enable = true;

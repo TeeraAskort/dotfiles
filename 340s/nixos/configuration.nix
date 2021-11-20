@@ -85,8 +85,10 @@ in
   # Environment variables
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
-    QT_STYLE_OVERRIDE = "adwaita-dark";
   };
+  
+  # Qt5 theming
+  qt5.style = "adwaita-dark";
 
   # Font configuration
   fonts.fonts = with pkgs; [
@@ -214,16 +216,13 @@ in
   };
 
   # Systemd sleep config
-  systemd.sleep.extraConfig = [ "AllowHibernation=yes" "HibernateMode=shutdown" ];
+  systemd.sleep.extraConfig = "AllowHibernation=yes\nHibernateMode=shutdown";
 
   # Systemd logind config
   services.logind.lidSwitch = "hibernate";
   services.logind.lidSwitchDocked = "hibernate";
   services.logind.lidSwitchExternalPower = "hibernate";
-  services.logind.extraConfig = [
-    "IdleAction=hibernate"
-    "IdleActionSec=15min"
-  ];
+  services.logind.extraConfig = "IdleAction=hibernate\nIdleActionSec=15min";
 
   # Enabling xwayland
   programs.xwayland.enable = true;

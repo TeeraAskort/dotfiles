@@ -130,6 +130,7 @@ sudo docker-compose -f compose.yml up -d --build
 ## Copying ssh key
 mkdir ~/.ssh
 cp ~/Documentos/id_ed25519* ~/.ssh
+eval `ssh-agent -s`
 until ssh-add ~/.ssh/id_ed25519; do
 	echo "Bad password, retrying"
 done

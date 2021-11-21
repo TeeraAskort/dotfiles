@@ -7,7 +7,7 @@
 let
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "097iw4wiwm8bxkxcvz0wjxs76y63mgq5p0j4fwzqb2qshw9gbcvl";
+    sha256 = "changeme";
   };
   myAspell = pkgs.aspellWithDicts(ps: with ps; [
     es

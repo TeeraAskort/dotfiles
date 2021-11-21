@@ -7,7 +7,7 @@
 let
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "changeme";
+    sha256 = "097iw4wiwm8bxkxcvz0wjxs76y63mgq5p0j4fwzqb2qshw9gbcvl";
   };
   myAspell = pkgs.aspellWithDicts(ps: with ps; [
     es
@@ -63,7 +63,7 @@ in
     gnome.gnome-terminal celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
-    git etcher brasero nicotine-plus dolphin-emu-beta
+    git etcher brasero nicotine-plus dolphinEmu
     zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify yt-dlp
     chromium ffmpegthumbnailer 
@@ -214,16 +214,13 @@ in
   };
 
   # Systemd sleep config
-  systemd.sleep.extraConfig = [ "AllowHibernation=yes" "HibernateMode=shutdown" ];
+  systemd.sleep.extraConfig = "AllowHibernation=yes\nHibernateMode=shutdown";
 
   # Systemd logind config
   services.logind.lidSwitch = "hibernate";
   services.logind.lidSwitchDocked = "hibernate";
   services.logind.lidSwitchExternalPower = "hibernate";
-  services.logind.extraConfig = [
-    "IdleAction=hibernate"
-    "IdleActionSec=15min"
-  ]
+  services.logind.extraConfig = "IdleAction=hibernate\nIdleActionSec=15min";
 
   # Enabling xwayland
   programs.xwayland.enable = true;

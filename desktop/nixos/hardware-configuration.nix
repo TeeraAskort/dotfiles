@@ -59,5 +59,5 @@
     [ { device = "/dev/disk/by-uuid/swapChangeme"; }
     ];
 
-  nix.maxJobs = lib.mkDefault 4;
+  nix.maxJobs = lib.mkDefault 12;
 }

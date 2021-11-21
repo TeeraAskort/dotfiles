@@ -74,10 +74,10 @@ in
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
     mednafen mednaffe 
-    firefox-wayland lbry gnome.gnome-boxes
+    firefox lbry gnome.gnome-boxes
     myAspell mythes gimp steam pcsx2
     adwaita-qt
-    jetbrains.phpstorm postman android-studio gitkraken dbeaver eclipses.eclipse-jee
+    jetbrains.phpstorm postman android-studio gitkraken eclipses.eclipse-jee dbeaver
     docker-compose
     useRADV 
   ];
@@ -227,6 +227,7 @@ in
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
+        wayland = false;
         enable = true;
       };
     };
@@ -258,6 +259,19 @@ in
           [org.gnome.settings-daemon.plugins.power]
           sleep-inactive-ac-timeout = 1800
           sleep-inactive-battery-timeout = 900
+
+          [org.gnome.gedit.preferences.editor]
+          scheme = 'oblivion';
+
+          [org.gnome.nautilus.icon-view]
+          default-zoom-level = 'small';
+
+          [org.gnome.settings-daemon.plugins.color]
+          night-light-enabled = true;
+          night-light-temperature = 3700;
+
+          [org.gnome.desktop.peripherals.touchpad]
+          tap-to-click = true;
         '';
       };
     };

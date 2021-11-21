@@ -7,7 +7,7 @@
 let
   blockedHosts = pkgs.fetchurl {
     url = "https://someonewhocares.org/hosts/zero/hosts";
-    sha256 = "097iw4wiwm8bxkxcvz0wjxs76y63mgq5p0j4fwzqb2qshw9gbcvl";
+    sha256 = "changeme";
   };
   myAspell = pkgs.aspellWithDicts(ps: with ps; [
     es
@@ -75,7 +75,7 @@ in
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
     mednafen mednaffe 
-    firefox-wayland lbry gnome.gnome-boxes
+    firefox lbry gnome.gnome-boxes
     myAspell mythes gimp steam pcsx2
     adwaita-qt
     jetbrains.phpstorm postman android-studio gitkraken eclipses.eclipse-jee dbeaver
@@ -85,10 +85,8 @@ in
   # Environment variables
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
+    QT_STYLE_OVERRIDE = "adwaita-dark";
   };
-  
-  # Qt5 theming
-  qt5.style = "adwaita-dark";
 
   # Font configuration
   fonts.fonts = with pkgs; [
@@ -216,13 +214,16 @@ in
   };
 
   # Systemd sleep config
-  systemd.sleep.extraConfig = "AllowHibernation=yes\nHibernateMode=shutdown";
+  systemd.sleep.extraConfig = [ "AllowHibernation=yes" "HibernateMode=shutdown" ];
 
   # Systemd logind config
   services.logind.lidSwitch = "hibernate";
   services.logind.lidSwitchDocked = "hibernate";
   services.logind.lidSwitchExternalPower = "hibernate";
-  services.logind.extraConfig = "IdleAction=hibernate\nIdleActionSec=15min";
+  services.logind.extraConfig = [
+    "IdleAction=hibernate"
+    "IdleActionSec=15min"
+  ]
 
   # Enabling xwayland
   programs.xwayland.enable = true;
@@ -244,6 +245,7 @@ in
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
+        wayland = false;
         enable = true;
       };
     };
@@ -291,8 +293,6 @@ in
 
           [org.gnome.desktop.peripherals.touchpad]
           tap-to-click = true;
-
-          
         '';
       };
     };

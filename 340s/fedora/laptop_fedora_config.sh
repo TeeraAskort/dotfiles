@@ -22,6 +22,9 @@ dnf in -y rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
+# Enabling touchegg repo
+dnf copr enable jose_exposito/touchegg -y
+
 #Enabling vivaldi repo
 # dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
 
@@ -59,7 +62,7 @@ user="$SUDO_USER"
 usermod -aG docker $user
 
 # Installing computer specific packages
-dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver 
+dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver touchegg
 
 # Remove unused packages 
 dnf remove -y totem rhythmbox 

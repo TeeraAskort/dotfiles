@@ -9,24 +9,41 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	for part in $(echo "$parts" | cut -d"p" -f2); do
 		parted /dev/nvme0n1 -- rm $part
 	done
-	parted /dev/nvme0n1 -- mkpart primary 1M 512M
-	parted /dev/nvme0n1 -- mkpart primary 512M 18G
-	parted /dev/nvme0n1 -- mkpart primary 18G 100G
+	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
+	parted /dev/nvme0n1 -- set 1 boot on
+	parted /dev/nvme0n1 -- mkpart primary 512M 100G
+
+	# Loop until cryptsetup succeeds formatting the partition
+	until cryptsetup luksFormat /dev/nvme0n1p3
+	do 
+		echo "Cryptsetup failed, trying again"
+	done
+
+	# Loop until cryptsetup succeeds opening the patition
+	until cryptsetup open /dev/nvme0n1p3 luks
+	do
+		echo "Cryptsetup failed, trying again"
+	done
+
+	# Configure LVM
+	pvcreate /dev/mapper/luks
+	vgcreate lvm /dev/mapper/luks
+	lvcreate -L 16G -n swap lvm
+	lvcreate -l 100%FREE -n root lvm
 
 	# Format partitions
-	parts=$(blkid | grep nvme0n1 | grep -v -e "$dataDiskUUID" | cut -d":" -f1)
+	mkfs.xfs -f -L root /dev/lvm/root
 	mkfs.vfat -F32 /dev/nvme0n1p1
-	mkfs.xfs -L root /dev/nvme0n1p4
-	mkswap /dev/nvme0n1p3
-	swapon /dev/nvme0n1p3
+	mkswap /dev/lvm/swap
+	swapon /dev/lvm/swap
 
 	# Mount paritions
-	mount /dev/nvme0n1p4 /mnt
+	mount /dev/lvm/root /mnt
 	mkdir /mnt/boot
 	mount /dev/nvme0n1p1 /mnt/boot
 
 	# Install base system
-	pacstrap /mnt base base-devel linux-firmware linux linux-headers efibootmgr btrfs-progs vim git iptables-nft
+	pacstrap /mnt base base-devel linux-firmware linux linux-headers efibootmgr btrfs-progs vim git iptables-nft cryptsetup lvm2
 
 	# Generate fstab
 	genfstab -U /mnt >> /mnt/etc/fstab

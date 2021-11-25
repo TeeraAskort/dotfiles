@@ -6,7 +6,7 @@ directory="$(dirname $_script)"
 
 if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 
-	dataDiskUUID="c16e4bcf-d97a-40aa-b825-41e041b99d68"
+	dataDiskUUID="0ce68d6c-69ab-49a0-8f3c-fc02b034a8d3"
 
 	# Create partitions
 	parts=$(blkid | grep nvme0n1 | grep -v -e "$dataDiskUUID" | cut -d":" -f1)

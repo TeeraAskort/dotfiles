@@ -22,6 +22,9 @@ dnf in -y rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
+# Enabling better_fonts repo
+dnf copr enable aldrich/better_fonts -y
+
 #Enabling vivaldi repo
 # dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
 
@@ -42,7 +45,7 @@ sudo dnf groupinstall "C Development Tools and Libraries" -y
 sudo dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel discord pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller composer docker-ce docker-ce-cli containerd.io docker-compose yt-dlp minigalaxy obs-studio
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel discord pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller composer docker-ce docker-ce-cli containerd.io docker-compose yt-dlp minigalaxy obs-studio fontconfig-font-replacements fontconfig-enhanced-defaults
 
 # Enabling services
 systemctl enable thermald docker
@@ -72,7 +75,7 @@ dnf install -y lame\* --exclude=lame-devel
 dnf group upgrade -y --with-optional Multimedia
 
 #Disable wayland
-# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
+sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

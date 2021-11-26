@@ -211,7 +211,7 @@ systemctl enable thermald earlyoom apparmor firewalld
 pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vkd3d lib32-vkd3d
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin aic94xx-firmware wd719x-firmware mpv-mpris lbry-app-bin jdownloader2 visual-studio-code-bin pfetch yt-dlp-drop-in postman-bin gitkraken 
+sudo -u aurbuilder yay -S --noconfirm dxvk-bin aic94xx-firmware wd719x-firmware mpv-mpris lbry-app-bin jdownloader2 visual-studio-code-bin pfetch postman-bin gitkraken gdlauncher-bin minigalaxy virtualbox-ext-oracle
 
 # Installing desktop specific AUR packages
 if [[ "$1" == "gnome" ]]; then
@@ -232,6 +232,9 @@ fi
 # Installing the rest of AUR packages with user link
 sudo -u link yay -S --noconfirm android-studio protontricks eclipse-jee mednaffe 
 
+# Linking yt-dlp to youtube-dl
+ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
+
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder
 userdel aurbuilder
@@ -239,9 +242,6 @@ rm -r /tmp/aurbuilder
 
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-# Installing flatpak applications
-flatpak install flathub -y io.gdevs.GDLauncher io.github.sharkwouter.Minigalaxy
 
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf

@@ -72,7 +72,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications
-		zypper in -y --allow-vendor-change yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird
+		zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird
 
 		# Removing unwanted DE specific applications
 		zypper rm -y konversation kmines ksudoku kreversi
@@ -117,6 +117,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Installing firefox from mozilla repo
 	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
+
+	# Adding kde connect firewall rule
+	firewall-cmd --zone=public --permanent --add-service=kdeconnect-kde
+	firewall-cmd --reload
 
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

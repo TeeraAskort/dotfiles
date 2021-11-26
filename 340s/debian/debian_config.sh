@@ -72,11 +72,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt update
 	apt install -y lutris
 
-	# Installing minecraft
-	curl -L "https://launcher.mojang.com/download/Minecraft.deb" > minecraft.deb
-	apt install -y ./minecraft.deb
-	rm minecraft.deb
-
 	# Installing nodejs
 	curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
 	apt-get install -y nodejs
@@ -87,7 +82,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo "virtualbox-ext-pack virtualbox-ext-pack/license select true" | debconf-set-selections
 
 	# Installing required packages
-	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip apache2 filezilla virtualbox virtualbox-ext-pack wget yt-dlp pcsx2 cryptsetup mariadb-server mariadb-client ttf-mscorefonts-installer chromium
+	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip filezilla virtualbox virtualbox-ext-pack wget yt-dlp pcsx2 cryptsetup ttf-mscorefonts-installer chromium
 
 	# Enabling services
 	systemctl enable thermald 
@@ -125,7 +120,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
 
 		# Adding gnome-keyring settings
-		cp /etc/pam.d/login /etc/pam.d/login.bak
 		awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth     optional       pam_gnome_keyring.so\" }" /etc/pam.d/login /etc/pam.d/login >login
 		if diff /etc/pam.d/login.bak login; then
 			awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth     optional       pam_gnome_keyring.so\" }" /etc/pam.d/login /etc/pam.d/login >login
@@ -134,7 +128,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 			sudo cp login /etc/pam.d/login
 		fi
 		rm login
-		cp /etc/pam.d/login /etc/pam.d/login.bak
 		awk "FNR==NR{ if (/session /) p=NR; next} 1; FNR==p{ print \"session  optional       pam_gnome_keyring.so auto_start\" }" /etc/pam.d/login /etc/pam.d/login >login
 		if diff /etc/pam.d/login.bak login; then
 			awk "FNR==NR{ if (/session\t/) p=NR; next} 1; FNR==p{ print \"session  optional       pam_gnome_keyring.so auto_start\" }" /etc/pam.d/login /etc/pam.d/login >login
@@ -179,7 +172,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	fi
 
 	# Updating grub
-	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"/' /etc/default/grub
+	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1 splash"/' /etc/default/grub
 	sed -i 's/#GRUB_GFXMODE=640x480/GRUB_GFXMODE=1920x1080x32/g' /etc/default/grub
 	update-grub
 
@@ -192,39 +185,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	plymouth-set-default-theme -R rings
 	rm rings.tar.gz
 
-	# Putting sysctl options
-	echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
-
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 	
 	# Installing flatpak applications
 	flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord com.jetbrains.PhpStorm 
-
-	# Installing php8.0
-	echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main"\
- | tee /etc/apt/sources.list.d/sury-php.list
-	wget -qO - https://packages.sury.org/php/apt.gpg | apt-key add -
-	apt update
-	apt install -y php8.0 php8.0-mysql libapache2-mod-php8.0 php8.0-cli php8.0-cgi php8.0-gd php8.0-fpm libapache2-mod-fcgid composer
-
-	# Configuring apache for php
-	a2enmod proxy_fcgi setenvif
-	a2enconf php8.0-fpm
-	systemctl restart apache2
-
-	# Copying php project
-	cd /var/www/html
-	git clone https://TeeraAskort@github.com/TeeraAskort/projecte-php.git
-	chown -R link:users projecte-php
-	chmod -R 755 projecte-php
-
-	# Overriding phpstorm config
-	user="$SUDO_USER"
-	sudo -u $user flatpak override --user --filesystem=/var/www/html com.jetbrains.PhpStorm
-
-	# Setting hostname properly for xampp
-	echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
 
 	# Installing eclipse
 	curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz

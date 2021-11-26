@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
-
-	_script="$(readlink -f ${BASH_SOURCE[0]})"
-
-	directory="$(dirname $_script)"
-
-	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDC_WDS120G2G0B-00EPW0 | cut -d" " -f1)
 
 	# Installing repos
 	zypper ar http://download.opensuse.org/repositories/games/openSUSE_Tumbleweed/games.repo
@@ -45,7 +43,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded 
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 alsa-plugins-pulse.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service nicotine-plus
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 alsa-plugins-pulse.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service
 
 	# Enabling thermald service
 	systemctl enable thermald earlyoom docker
@@ -112,11 +110,15 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Installing firefox from mozilla repo
 	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
 
+	# Adding kde connect firewall rule
+	firewall-cmd --zone=public --permanent --add-service=kdeconnect-kde
+	firewall-cmd --reload
+
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.PhpStorm com.google.AndroidStudio io.gdevs.GDLauncher
+	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.PhpStorm com.google.AndroidStudio io.gdevs.GDLauncher com.obsproject.Studio org.nicotine_plus.Nicotine
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then

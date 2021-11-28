@@ -57,7 +57,7 @@ systemctl enable NetworkManager haveged
 pacman -S --noconfirm alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
 
 # Installing filesystem libraries
-pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs
+pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs cryptsetup f2fs-tools xfsprogs
 
 # Installing compresion tools
 pacman -S --noconfirm zip unzip unrar p7zip lzop pigz pbzip2
@@ -95,7 +95,7 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin
+	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin
 
 	# Removing unwanted packages
 	pacman -Rns --noconfirm gnome-music epiphany totem orca gdm
@@ -204,20 +204,16 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 clementine yad mednafen virtualbox virtualbox-host-dkms filezilla php chromium composer dbeaver mariadb
+pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 strawberry pam-u2f yad mednafen virtualbox virtualbox-host-dkms filezilla php chromium composer dbeaver nicotine+ yt-dlp
 
 # Enabling services
 systemctl enable thermald earlyoom apparmor firewalld 
-
-# Configuring mariadb
-mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-systemctl enable mariadb
 
 # Wine dependencies
 pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vkd3d lib32-vkd3d
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin aic94xx-firmware wd719x-firmware mpv-mpris lbry-app-bin jdownloader2 visual-studio-code-bin pfetch youtube-dlp-bin yt-dlp-drop-in postman-bin minecraft-launcher gitkraken 
+sudo -u aurbuilder yay -S --noconfirm dxvk-bin aic94xx-firmware wd719x-firmware mpv-mpris lbry-app-bin jdownloader2 visual-studio-code-bin pfetch postman-bin gitkraken gdlauncher-bin minigalaxy virtualbox-ext-oracle
 
 # Installing desktop specific AUR packages
 if [[ "$1" == "gnome" ]]; then
@@ -238,17 +234,8 @@ fi
 # Installing the rest of AUR packages with user link
 sudo -u link yay -S --noconfirm android-studio protontricks eclipse-jee mednaffe 
 
-# Installing xampp
-ver="8.0.11"
-until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do
- 	echo "Retrying"
-done
-chmod 755 xampp.run
-./xampp.run --unattendedmodeui minimal --mode unattended
-rm xampp.run
-
-# Setting hostname properly for xampp
-echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
+# Linking yt-dlp to youtube-dl
+ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder

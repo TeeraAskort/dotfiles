@@ -54,7 +54,7 @@ systemctl enable NetworkManager haveged bluetooth
 pacman -S --noconfirm alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
 
 # Installing filesystem libraries
-pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs cryptsetup f2fs-tools
+pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs cryptsetup f2fs-tools xfsprogs
 
 # Installing compresion tools
 pacman -S --noconfirm zip unzip unrar p7zip lzop pigz pbzip2

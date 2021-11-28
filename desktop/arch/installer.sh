@@ -3,7 +3,7 @@
 # Checking if arguments are passed
 if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "mate" ]]; then
 
-	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDS120G2G0B-00EPW0 | cut -d" " -f1)
+	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep MZVLQ512HALU-000H1 | cut -d" " -f1)
 	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_DT01ACA300 | cut -d" " -f1)
 
 	# Create partitions
@@ -14,14 +14,14 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 
 	# Loop until cryptsetup succeeds formatting the partition
 	echo "Enter passphrase for root disk"
-	until cryptsetup luksFormat /dev/${rootDisk}2
+	until cryptsetup luksFormat /dev/${rootDisk}p2
 	do
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the partition
 	echo "Enter passphrase for root disk"
-	until cryptsetup open /dev/${rootDisk}2 luks
+	until cryptsetup open /dev/${rootDisk}p2 luks
 	do
 		echo "Cryptsetup failed, trying again"
 	done
@@ -33,18 +33,18 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 	lvcreate -l 100%FREE -n root lvm
 
 	# Format partitions
-	mkfs.f2fs -f -l root -O extra_attr,inode_checksum,sb_checksum /dev/lvm/root
-	mkfs.vfat -F32 /dev/${rootDisk}1
+	mkfs.xfs -f -L root /dev/lvm/root
+	mkfs.vfat -F32 /dev/${rootDisk}p1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
 
 	# Mount paritions
 	mount /dev/lvm/root /mnt
 	mkdir /mnt/boot
-	mount /dev/${rootDisk}1 /mnt/boot
+	mount /dev/${rootDisk}p1 /mnt/boot
 
 	# Install base system
-	pacstrap /mnt base base-devel linux-firmware linux linux-headers lvm2 efibootmgr btrfs-progs vim git f2fs-tools iptables-nft
+	pacstrap /mnt base base-devel linux-firmware linux linux-headers lvm2 efibootmgr btrfs-progs vim git xfsprogs 
 
 	# Generate fstab
 	genfstab -U /mnt >> /mnt/etc/fstab

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 # Configuring locales
 sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen
 sed -i "s/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g" /etc/locale.gen
@@ -88,7 +92,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 
 # Installing desktop environment
 if [[ "$1" == "cinnamon" ]]; then
-	pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme cinnamon-translations nemo-fileroller blueberry system-config-printer gnome-books gnome-screenshot gnome-disk-utility gnome-calendar
+	pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller blueberry system-config-printer gnome-books gnome-screenshot gnome-disk-utility gnome-calendar
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
@@ -98,7 +102,7 @@ elif [[ "$1" == "gnome" ]]; then
 	pacman -Rns --noconfirm gnome-music epiphany totem orca gdm
 
 elif [[ "$1" == "mate" ]]; then
-	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird virt-manager gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme blueberry
+	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird virt-manager gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw blueberry
 
 elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent thunderbird thunderbird-i18n-es-es gnome-keyring
@@ -108,7 +112,7 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 
 elif [[ "$1" == "xfce" ]]; then
 	# Install xfce
-	pacman -S --noconfirm xfce4 xfce4-goodies xcape pavucontrol network-manager-applet virt-manager thunderbird playerctl gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme blueberry system-config-printer xarchiver
+	pacman -S --noconfirm xfce4 xfce4-goodies xcape pavucontrol network-manager-applet virt-manager thunderbird playerctl gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw blueberry system-config-printer xarchiver
 
 	# Remove unwanted applications
 	pacman -Rns --noconfirm parole
@@ -175,14 +179,14 @@ title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux.img
-options resume=UUID=$(blkid -s UUID -o value $3) cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p3):luks:allow-discards apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
+options resume=UUID=$(blkid -s UUID -o value $3) cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p3):luks:allow-discards root=/dev/lvm/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux-fallback.img
-options resume=UUID=$(blkid -s UUID -o value $3) cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p3):luks:allow-discards apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
+options resume=UUID=$(blkid -s UUID -o value $3) cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p3):luks:allow-discards root=/dev/lvm/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update
 
@@ -223,7 +227,10 @@ fi
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm qt6gtk2 qt5gtk2
+	mkdir -p /etc/qogir-gtk-theme
+	cp $directory/options.txt /etc/qogir-gtk-theme/options.txt
+
+	sudo -u aurbuilder yay -S --noconfirm qt6gtk2 qt5gtk2 qogir-gtk-theme
 
 	# Setting environment variable
 	echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
@@ -263,9 +270,6 @@ if [[ "$1" == "gnome" ]]; then
 	echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
 	echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
 	echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
-
-	# Installing flatpak themes
-	flatpak install flathub -y org.gtk.Gtk3theme.Adwaita-dark
 
 elif [[ "$1" == "xfce" ]]; then
 	# Adding xprofile to user link

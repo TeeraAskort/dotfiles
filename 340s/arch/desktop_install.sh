@@ -4,6 +4,8 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
+rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDS100T3X0C-00SJG0 | cut -d" " -f1)
+
 # Configuring locales
 sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen
 sed -i "s/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g" /etc/locale.gen
@@ -179,14 +181,14 @@ title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux.img
-options resume=UUID=$(blkid -s UUID -o value $3) cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p3):luks:allow-discards root=/dev/lvm/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p3):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value $3) intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux-fallback.img
-options resume=UUID=$(blkid -s UUID -o value $3) cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p3):luks:allow-discards root=/dev/lvm/root intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p3):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value $3) intel_idle.max_cstate=1 apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update
 
@@ -304,3 +306,4 @@ fi
 # Copying dotfiles folder to link
 mv /dotfiles /home/link
 chown -R link:users /home/link/dotfiles
+nvme0n1   disk WDS100T3X0C-00SJG0

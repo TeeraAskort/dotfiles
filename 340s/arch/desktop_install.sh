@@ -221,7 +221,7 @@ sudo -u aurbuilder yay -S --noconfirm dxvk-bin aic94xx-firmware wd719x-firmware 
 
 # Installing desktop specific AUR packages
 if [[ "$1" == "gnome" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm chrome-gnome-shell touchegg
+	sudo -u aurbuilder yay -S --noconfirm chrome-gnome-shell 
 
 elif [[ "$1" == "mate" ]]; then
 	sudo -u aurbuilder yay -S --noconfirm mate-tweak brisk-menu

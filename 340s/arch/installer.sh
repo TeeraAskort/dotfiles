@@ -43,7 +43,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	mount /dev/nvme0n1p1 /mnt/boot
 
 	# Install base system
-	pacstrap /mnt base base-devel linux-firmware linux linux-headers efibootmgr btrfs-progs vim git iptables-nft cryptsetup lvm2
+	pacstrap /mnt base base-devel linux-firmware linux linux-headers efibootmgr btrfs-progs vim git cryptsetup lvm2
 
 	# Generate fstab
 	genfstab -U /mnt >> /mnt/etc/fstab
@@ -53,9 +53,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	git clone https://SariaAskort@bitbucket.org/SariaAskort/dotfiles.git
 
 	if [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
-		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_install.sh "$1" "gtk" "$(blkid -o value -s UUID /dev/nvme0n1p3)"
+		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_install.sh "$1" "gtk" 
 	else
-		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_install.sh "$1" "qt" "$(blkid -o value -s UUID /dev/nvme0n1p3)"
+		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_install.sh "$1" "qt" 
 	fi
 else
 	echo "Available options: "

@@ -154,11 +154,11 @@ if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[
 	fi
 fi
 
-# Installing plymouth theme
-sudo -u aurbuilder yay -S --noconfirm plymouth-theme-rings-git
+# Setting default plymouth theme
+plymouth-set-default-theme -R BGRT
 
-# Making hexagon_2 theme default
-plymouth-set-default-theme -R rings
+# Copying arch logo for the plymouth theme
+cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
 
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
@@ -214,10 +214,10 @@ pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop fla
 systemctl enable thermald earlyoom apparmor firewalld 
 
 # Wine dependencies
-pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vkd3d lib32-vkd3d
+pacman -S --needed wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin aic94xx-firmware wd719x-firmware mpv-mpris lbry-app-bin jdownloader2 visual-studio-code-bin pfetch postman-bin gitkraken gdlauncher-bin minigalaxy virtualbox-ext-oracle
+sudo -u aurbuilder yay -S --noconfirm dxvk-bin aic94xx-firmware wd719x-firmware mpv-mpris jdownloader2 visual-studio-code-bin pfetch postman-bin gdlauncher-bin minigalaxy virtualbox-ext-oracle
 
 # Installing desktop specific AUR packages
 if [[ "$1" == "gnome" ]]; then
@@ -265,7 +265,7 @@ pacman -Qtdq | pacman -Rns --noconfirm -
 # Adding desktop specific final settings
 if [[ "$1" == "gnome" ]]; then
 	# Disabling wayland
-	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+	# sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
 
 	# Adding hibernate options
 	echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
@@ -306,4 +306,3 @@ fi
 # Copying dotfiles folder to link
 mv /dotfiles /home/link
 chown -R link:users /home/link/dotfiles
-nvme0n1   disk WDS100T3X0C-00SJG0

@@ -45,6 +45,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	# Install base system
 	pacstrap /mnt base base-devel linux-firmware linux linux-headers efibootmgr btrfs-progs vim git cryptsetup lvm2
 
+	# Executing partprobe
+	partprobe /dev/nvme0n1
+
 	# Generate fstab
 	genfstab -U /mnt >> /mnt/etc/fstab
 

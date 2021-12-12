@@ -56,9 +56,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	git clone https://SariaAskort@bitbucket.org/SariaAskort/dotfiles.git
 
 	if [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
-		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_install.sh "$1" "gtk" "$(blkid -g -p -s UUID -o value /dev/nvme0n1p3)"
+		arch-chroot /mnt bash /dotfiles/340s/arch/desktop_install.sh "$1" "gtk" "$(blkid -g -p -s UUID -o value /dev/nvme0n1p3)"
 	else
-		arch-chroot /mnt bash /dotfiles/gl63/arch/desktop_install.sh "$1" "qt" "$(blkid -g -p -s UUID -o value /dev/nvme0n1p3)"
+		arch-chroot /mnt bash /dotfiles/340s/arch/desktop_install.sh "$1" "qt" "$(blkid -g -p -s UUID -o value /dev/nvme0n1p3)"
 	fi
 else
 	echo "Available options: "

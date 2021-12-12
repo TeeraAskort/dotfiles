@@ -229,10 +229,7 @@ fi
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]; then
-	mkdir -p /etc/qogir-gtk-theme
-	cp $directory/options.txt /etc/qogir-gtk-theme/options.txt
-
-	sudo -u aurbuilder yay -S --noconfirm qt6gtk2 qt5gtk2 qogir-gtk-theme
+	sudo -u aurbuilder yay -S --noconfirm qt6gtk2 qt5gtk2 
 
 	# Setting environment variable
 	echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment

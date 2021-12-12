@@ -54,9 +54,9 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 	git clone https://SariaAskort@bitbucket.org/SariaAskort/dotfiles.git
 
 	if [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
-		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_install.sh "$1" "gtk"
+		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_install.sh "$1" "gtk" "$(blkid -g -p -s UUID -o value /dev/${rootDisk}p2)"
 	else
-		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_install.sh "$1" "qt"
+		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_install.sh "$1" "qt" "$(blkid -g -p -s UUID -o value /dev/${rootDisk}p2)"
 	fi
 else
 	echo "Available options: "

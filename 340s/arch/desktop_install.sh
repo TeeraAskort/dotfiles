@@ -259,6 +259,12 @@ echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
 echo "HibernateMode=shutdown" | tee -a /etc/systemd/sleep.conf
 
+# Adding user to vboxusers group
+usermod -aG vboxusers link
+
+# Adding user to docker group
+usermod -aG docker link
+
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 

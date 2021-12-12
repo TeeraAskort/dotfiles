@@ -252,6 +252,12 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 
+# Adding user to vboxusers group
+usermod -aG vboxusers link
+
+# Adding user to docker group
+usermod -aG docker link
+
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 

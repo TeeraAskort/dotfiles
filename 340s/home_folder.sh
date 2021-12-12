@@ -113,6 +113,8 @@ fi
 cd $directory/../common
 sudo systemctl restart docker
 sudo docker-compose -f compose.yml up -d --build
+sudo docker start mariadb php-apache
+sudo docker container prune -f
 
 ## Copying ssh key
 mkdir ~/.ssh

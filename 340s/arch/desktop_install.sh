@@ -172,7 +172,7 @@ mkinitcpio -P
 # Install and configure systemd-boot
 pacman -S --noconfirm --needed efibootmgr
 bootctl install
-efibootmgr --create --disk /dev/nvme0n1 --part 1 --loader "\EFI\systemd\systemd-bootx64.efi" --label "Linux Boot Manager"
+# efibootmgr --create --disk /dev/nvme0n1 --part 1 --loader "\EFI\systemd\systemd-bootx64.efi" --label "Linux Boot Manager"
 mkdir -p /boot/loader/entries
 cat >/boot/loader/loader.conf <<EOF
 default  arch.conf

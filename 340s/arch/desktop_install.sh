@@ -235,10 +235,10 @@ fi
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm qt6gtk2 qt5gtk2 
+	sudo -u aurbuilder yay -S --noconfirm adwaita-qt adwaita-qt6
 
 	# Setting environment variable
-	echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
+	echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
 fi
 
 # Installing the rest of AUR packages with user link

@@ -63,9 +63,11 @@ cp $directory/zsh/.opensuse_alias ~
 cp $directory/zsh/.elementary_alias ~
 cp $directory/zsh/.solus_alias ~
 cp $directory/zsh/.ubuntu_alias ~
-mkdir -p ~/.config/pulse
-cp $directory/dotfiles/daemon.conf ~/.config/pulse/
-pulseaudio -k
+if command -v pulseaudio &> /dev/null ; then
+	mkdir -p ~/.config/pulse
+	cp $directory/dotfiles/daemon.conf ~/.config/pulse/
+	pulseaudio -k
+fi
 
 # Copying .zshenv on debian
 if [ $(lsb_release -is | grep "Debian" | wc -l) -eq 1 ]; then

@@ -75,12 +75,10 @@ cp $directory/zsh/.opensuse_alias ~
 cp $directory/zsh/.elementary_alias ~
 cp $directory/zsh/.solus_alias ~
 cp $directory/zsh/.ubuntu_alias ~
-mkdir -p ~/.config/pulse
-cp $directory/dotfiles/daemon.conf ~/.config/pulse/
-pulseaudio -k
-pipewireS=$(systemctl --user list-unit-files --type service | grep pipewire.service | wc -l)
-if [ $pipewireS -eq 1 ]; then 
-	cp -r $directory/../common/pipewire /etc
+if command -v pulseaudio &> /dev/null; then 
+	mkdir -p ~/.config/pulse
+	cp $directory/dotfiles/daemon.conf ~/.config/pulse/
+	pulseaudio -k
 fi
 
 ## Configuring vim/neovim

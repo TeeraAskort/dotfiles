@@ -274,8 +274,6 @@ if [[ "$1" == "gnome" ]]; then
 	# sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
 
 	# Adding hibernate options
-	echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
-	echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
 	echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
 	echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 

@@ -166,7 +166,7 @@ cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermar
 
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
-sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
+sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems resume/g" /etc/mkinitcpio.conf
 sed -i "s/MODULES=()/MODULES=(amdgpu)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
@@ -184,14 +184,14 @@ title   Arch Linux
 linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
 initrd  /initramfs-linux-zen.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
 linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
 initrd  /initramfs-linux-zen-fallback.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update
 
@@ -255,6 +255,10 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 
+# Adding hibernate options
+echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
+echo "HibernateMode=shutdown" | tee -a /etc/systemd/sleep.conf
+
 # Adding user to vboxusers group
 usermod -aG vboxusers link
 
@@ -265,7 +269,17 @@ usermod -aG docker link
 pacman -Qtdq | pacman -Rns --noconfirm -
 
 # Adding desktop specific final settings
-if [[ "$1" == "xfce" ]]; then
+if [[ "$1" == "gnome" ]]; then
+	# Disabling wayland
+	# sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+
+	# Adding hibernate options
+	echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
+	echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
+	echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
+	echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
+
+elif [[ "$1" == "xfce" ]]; then
 	# Adding xprofile to user link
 	sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/link/.xprofile
 

@@ -81,6 +81,17 @@ dnf group upgrade -y --with-optional Multimedia
 #Disable wayland
 # sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
 
+# Configuring hibernate
+mkdir -p /etc/dracut.conf.d
+echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
+dracut -f
+echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
+echo "HibernateMode=shutdown" | tee -a /etc/systemd/sleep.conf
+echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
+echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
+echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
+echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
+
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
@@ -94,7 +105,12 @@ flatpak override --filesystem=~/.fonts
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
 
 # Installing eclipse
-curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
+ver="2021-12"
+curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/${ver}/R/eclipse-jee-${ver}-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
 tar xzvf eclipse-jee.tar.gz -C /opt
 rm eclipse-jee.tar.gz
 desktop-file-install $directory/../../common/eclipse.desktop
+
+# Add intel_idle.max_cstate=1 to grub and update
+grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'
+grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg

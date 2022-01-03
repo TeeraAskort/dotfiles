@@ -111,7 +111,8 @@ flatpak override --filesystem=~/.fonts
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
 
 # Installing eclipse
-curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
+ver="2021-12"
+curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/${ver}/R/eclipse-jee-${ver}-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
 tar xzvf eclipse-jee.tar.gz -C /opt
 rm eclipse-jee.tar.gz
 desktop-file-install $directory/../../common/eclipse.desktop

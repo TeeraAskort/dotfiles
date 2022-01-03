@@ -145,12 +145,13 @@ fi
 
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
-	if [ -e /usr/share/themes/Materia-dark-compact ]; then
+		if [ -e /usr/share/themes/Materia-dark-compact ]; then
 		gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark-compact"
+
 	elif [ -e /usr/share/themes/Qogir-win-dark ]; then
 		gsettings set org.gnome.desktop.interface gtk-theme "Qogir-win-dark"
 	else
-		if [ -e /usr/share/themes/Materia-dark ]; then
+		if [ -e /usr/share/themes/Materia-dark ]; then 
 			gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark"
 		else
 			gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
@@ -163,16 +164,18 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.privacy disable-microphone true
 	gsettings set org.gnome.desktop.privacy remember-recent-files false
 	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
-	gsettings set org.gnome.desktop.privacy remove-old-trash-files true
+	gsettings set org.gnome.desktop.privacy remove-old-trash-files  true
 	gsettings set org.gnome.desktop.privacy old-files-age 3
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
 	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
 	gsettings set org.gnome.nautilus.icon-view default-zoom-level 'small'
-	gsettings set org.gnome.desktop.peripherals.trackball accel-profile 'flat'
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
+	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi

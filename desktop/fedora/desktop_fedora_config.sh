@@ -29,8 +29,8 @@ dnf copr enable aldrich/better_fonts -y
 # dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
 
 #Adding brave repo
-# dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/x86_64/
-# rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/x86_64/
+rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
 
 #Install VSCode
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -49,7 +49,7 @@ dnf groupinstall "C Development Tools and Libraries" -y
 dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel discord pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller composer docker-ce docker-ce-cli containerd.io docker-compose yt-dlp minigalaxy obs-studio fontconfig-font-replacements fontconfig-enhanced-defaults 
+dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel discord pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller composer docker-ce docker-ce-cli containerd.io docker-compose yt-dlp minigalaxy obs-studio fontconfig-font-replacements fontconfig-enhanced-defaults brave-browser
 
 # Enabling services
 systemctl enable thermald docker
@@ -80,17 +80,6 @@ dnf group upgrade -y --with-optional Multimedia
 
 #Disable wayland
 # sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
-
-# Configuring hibernate
-mkdir -p /etc/dracut.conf.d
-echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
-dracut -f
-echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
-echo "HibernateMode=shutdown" | tee -a /etc/systemd/sleep.conf
-echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
-echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
-echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
-echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

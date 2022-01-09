@@ -69,7 +69,7 @@ user="$SUDO_USER"
 usermod -aG docker $user
 
 # Installing computer specific packages
-dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver # touchegg
+dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver touchegg
 
 # Remove unused packages 
 dnf remove -y totem rhythmbox 

@@ -221,7 +221,7 @@ systemctl enable thermald earlyoom apparmor firewalld docker
 pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader openssl-1.0
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin aic94xx-firmware wd719x-firmware mpv-mpris jdownloader2 visual-studio-code-bin pfetch postman-bin gdlauncher-bin minigalaxy virtualbox-ext-oracle brave-bin
+sudo -u aurbuilder yay -S --noconfirm dxvk-bin aic94xx-firmware wd719x-firmware mpv-mpris jdownloader2 visual-studio-code-bin pfetch postman-bin gdlauncher-bin minigalaxy virtualbox-ext-oracle 
 
 # Installing desktop specific AUR packages
 if [[ "$1" == "gnome" ]]; then
@@ -270,7 +270,11 @@ usermod -aG docker link
 pacman -Qtdq | pacman -Rns --noconfirm -
 
 # Adding desktop specific final settings
-if [[ "$1" == "xfce" ]]; then
+if [[ "$1" == "gnome" ]]; then
+	# Disabling wayland
+	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+
+elif [[ "$1" == "xfce" ]]; then
 	# Adding xprofile to user link
 	sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/link/.xprofile
 

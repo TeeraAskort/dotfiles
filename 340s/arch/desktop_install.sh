@@ -236,10 +236,10 @@ fi
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm adwaita-qt adwaita-qt6
+	sudo -u aurbuilder yay -S --noconfirm qgnomeplatform orchis-theme-git orchis-kde-theme-git
 
 	# Setting environment variable
-	echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
+	echo "QT_STYLE_OVERRIDE=gnome" | tee -a /etc/environment
 fi
 
 # Installing the rest of AUR packages with user link

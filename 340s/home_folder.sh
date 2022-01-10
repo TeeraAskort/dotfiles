@@ -147,6 +147,10 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 
 	elif [ -e /usr/share/themes/Qogir-win-dark ]; then
 		gsettings set org.gnome.desktop.interface gtk-theme "Qogir-win-dark"
+
+	elif [ -e /usr/share/themes/Orchis-grey-dark-compact/ ]; then
+		gsettings set org.gnome.desktop.interface gtk-theme "Orchis-grey-dark-compact"
+
 	else
 		if [ -e /usr/share/themes/Materia-dark ]; then 
 			gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark"

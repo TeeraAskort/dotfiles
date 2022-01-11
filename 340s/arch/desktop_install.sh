@@ -236,7 +236,7 @@ fi
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm qgnomeplatform adwaita-qt adwaita-qt6
+	sudo -u aurbuilder yay -S --noconfirm qgnomeplatform qgnomeplatform-qt6 adwaita-qt adwaita-qt6
 
 	# Setting environment variable
 	echo "QT_STYLE_OVERRIDE=gnome" | tee -a /etc/environment

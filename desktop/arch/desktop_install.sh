@@ -270,11 +270,7 @@ usermod -aG docker link
 pacman -Qtdq | pacman -Rns --noconfirm -
 
 # Adding desktop specific final settings
-if [[ "$1" == "gnome" ]]; then
-	# Disabling wayland
-	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
-
-elif [[ "$1" == "xfce" ]]; then
+if [[ "$1" == "xfce" ]]; then
 	# Adding xprofile to user link
 	sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/link/.xprofile
 

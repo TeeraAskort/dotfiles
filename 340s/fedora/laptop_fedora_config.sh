@@ -23,7 +23,7 @@ dnf in -y rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
 dnf copr enable alderaeney/mednaffe -y
 
 # Enabling touchegg repo
-dnf copr enable jose_exposito/touchegg -y
+# dnf copr enable jose_exposito/touchegg -y
 
 # Enabling better_fonts repo
 dnf copr enable aldrich/better_fonts -y
@@ -69,7 +69,7 @@ user="$SUDO_USER"
 usermod -aG docker $user
 
 # Installing computer specific packages
-dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver touchegg
+dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver # touchegg
 
 # Remove unused packages 
 dnf remove -y totem rhythmbox 
@@ -85,7 +85,7 @@ dnf install -y lame\* --exclude=lame-devel
 dnf group upgrade -y --with-optional Multimedia
 
 #Disable wayland
-sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
+# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
 
 # Configuring hibernate
 mkdir -p /etc/dracut.conf.d

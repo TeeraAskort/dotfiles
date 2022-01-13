@@ -87,7 +87,7 @@ dnf group upgrade -y --with-optional Multimedia
 #Disable wayland
 # sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
 
-# Configuring hibernate
+a Configuring hibernate
 mkdir -p /etc/dracut.conf.d
 echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
 dracut -f
@@ -102,7 +102,7 @@ echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman io.dbeaver.DBeaverCommunity org.gtk.Gtk3theme.Adwaita-dark com.jetbrains.PhpStorm com.google.AndroidStudio io.gdevs.GDLauncher org.telegram.desktop
+flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman io.dbeaver.DBeaverCommunity org.gtk.Gtk3theme.Adwaita-dark com.jetbrains.PhpStorm com.google.AndroidStudio io.gdevs.GDLauncher org.telegram.desktop com.axosoft.GitKraken
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
@@ -111,11 +111,11 @@ flatpak override --filesystem=~/.fonts
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
 
 # Installing eclipse
-ver="2021-12"
-curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/${ver}/R/eclipse-jee-${ver}-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
-tar xzvf eclipse-jee.tar.gz -C /opt
-rm eclipse-jee.tar.gz
-desktop-file-install $directory/../../common/eclipse.desktop
+# ver="2021-12"
+# curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/${ver}/R/eclipse-jee-${ver}-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
+# tar xzvf eclipse-jee.tar.gz -C /opt
+# rm eclipse-jee.tar.gz
+# desktop-file-install $directory/../../common/eclipse.desktop
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'

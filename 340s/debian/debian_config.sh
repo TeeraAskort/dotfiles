@@ -97,14 +97,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	if [ "$1" == "gnome" ]; then
 		# Installing required packages
-		apt install materia-gtk-theme qt5-qmake qtbase5-private-dev libgtk2.0-0 libx11-6 ffmpegthumbnailer tilix transmission-gtk evolution aisleriot gnome-mahjongg
-
-		# Installing qt5gtk2
-		git clone https://bitbucket.org/trialuser02/qt5gtk2.git
-		cd qt5gtk2
-		qmake && make && make install
-		cd .. && rm -r qt5gtk2
-		echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
+		apt install ffmpegthumbnailer tilix transmission-gtk evolution aisleriot gnome-mahjongg
 
 		# Remove unwanted applications
 		apt remove -y totem rhythmbox
@@ -140,14 +133,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	elif [ "$1" == "xfce" ]; then
 		# Installing required packages
-		apt install -y tilix gvfs gvfs-backends thunderbird materia-gtk-theme qt5-qmake qtbase5-private-dev libgtk2.0-0 libx11-6 ffmpegthumbnailer tumbler tumbler-plugins-extra transmission-gtk
-
-		# Installing qt5gtk2
-		git clone https://bitbucket.org/trialuser02/qt5gtk2.git
-		cd qt5gtk2
-		qmake && make && make install
-		cd .. && rm -r qt5gtk2
-		echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
+		apt install -y tilix gvfs gvfs-backends thunderbird ffmpegthumbnailer tumbler tumbler-plugins-extra transmission-gtk
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Installing required packages
@@ -176,26 +162,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	sed -i 's/#GRUB_GFXMODE=640x480/GRUB_GFXMODE=1920x1080x32/g' /etc/default/grub
 	update-grub
 
-	# Setting rings plymouth theme
-	until wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_4/rings.tar.gz; do
-		echo "Download failed, retrying"
-	done
-	tar xzvf rings.tar.gz
-	mv rings /usr/share/plymouth/themes/
-	plymouth-set-default-theme -R rings
-	rm rings.tar.gz
-
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 	
 	# Installing flatpak applications
 	flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord com.jetbrains.PhpStorm 
-
-	# Installing eclipse
-	curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
-	tar xzvf eclipse-jee.tar.gz -C /opt
-	rm eclipse-jee.tar.gz
-	desktop-file-install $directory/../common/eclipse.desktop
 
 	# Removing uneeded packages
 	apt autoremove --purge -y

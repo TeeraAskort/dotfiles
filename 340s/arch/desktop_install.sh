@@ -243,7 +243,7 @@ if [[ "$2" == "gtk" ]]; then
 fi
 
 # Installing the rest of AUR packages with user link
-sudo -u link yay -S --noconfirm android-studio protontricks eclipse-jee mednaffe phpstorm
+sudo -u link yay -S --noconfirm android-studio protontricks mednaffe phpstorm
 
 # Linking yt-dlp to youtube-dl
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl

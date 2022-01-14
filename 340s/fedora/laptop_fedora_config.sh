@@ -87,7 +87,7 @@ dnf group upgrade -y --with-optional Multimedia
 #Disable wayland
 # sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
 
-a Configuring hibernate
+# Configuring hibernate
 mkdir -p /etc/dracut.conf.d
 echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
 dracut -f

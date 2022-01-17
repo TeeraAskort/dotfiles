@@ -18,6 +18,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper addrepo https://download.opensuse.org/repositories/home:buschmann23/openSUSE_Tumbleweed/home:buschmann23.repo
 	zypper addrepo https://download.opensuse.org/repositories/games:tools/openSUSE_Tumbleweed/games:tools.repo
 	zypper addrepo https://download.opensuse.org/repositories/mozilla/openSUSE_Tumbleweed/mozilla.repo
+	zypper addrepo https://download.opensuse.org/repositories/home:Alderaeney/openSUSE_Tumbleweed/home:Alderaeney.repo
 	# zypper ar https://repo.vivaldi.com/archive/vivaldi-suse.repo
 
 	# Adding VSCode repo
@@ -45,6 +46,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Installing discord from games:tools repo
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded 
+
+	# Installing strawberry compiled against QT5 from my repo
+	zypper in --from "home:Alderaeney (openSUSE_Tumbleweed)" -y strawberry.x86_64
 
 	# Installing basic packages
 	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 alsa-plugins-pulse.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service 
@@ -102,10 +106,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	elif [ "$1" == "gnome" ]; then 
  		# Installing DE specific applications
- 		zypper in -y adwaita-qt QGnomePlatform
+ 		zypper in -y adwaita-qt QGnomePlatform aisleriot
  
  		# Removing unwanted DE specific applications
- 		zypper rm -y 
+ 		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
  
  		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment

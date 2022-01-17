@@ -130,7 +130,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.PhpStorm com.google.AndroidStudio io.gdevs.GDLauncher com.obsproject.Studio org.nicotine_plus.Nicotine
+	flatpak install -y flathub org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity com.jetbrains.PhpStorm com.obsproject.Studio org.nicotine_plus.Nicotine
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
@@ -146,12 +146,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Flatpak overrides
 	user="$SUDO_USER"
 	sudo -u $user flatpak override --user --filesystem=/home/$user/.fonts
-
-	# Installing eclipse
-	curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
-	tar xzvf eclipse-jee.tar.gz -C /opt
-	rm eclipse-jee.tar.gz
-	desktop-file-install $directory/../../common/eclipse.desktop
 
 	# Adding user to vboxusers group
 	user="$SUDO_USER"

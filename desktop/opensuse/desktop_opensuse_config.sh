@@ -15,7 +15,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper ar https://download.opensuse.org/repositories/Emulators/openSUSE_Tumbleweed/Emulators.repo
 	zypper addrepo https://download.opensuse.org/repositories/hardware/openSUSE_Tumbleweed/hardware.repo
 	zypper addrepo -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
-	zypper addrepo https://download.opensuse.org/repositories/home:buschmann23/openSUSE_Tumbleweed/home:buschmann23.repo
 	zypper addrepo https://download.opensuse.org/repositories/games:tools/openSUSE_Tumbleweed/games:tools.repo
 	zypper addrepo https://download.opensuse.org/repositories/mozilla/openSUSE_Tumbleweed/mozilla.repo
 	zypper addrepo https://download.opensuse.org/repositories/home:Alderaeney/openSUSE_Tumbleweed/home:Alderaeney.repo
@@ -45,13 +44,13 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper install -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 	# Installing discord from games:tools repo
-	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded 
+	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded protontricks 
 
 	# Installing strawberry compiled against QT5 from my repo
 	zypper in --from "home:Alderaeney (openSUSE_Tumbleweed)" -y strawberry.x86_64
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions protontricks neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 alsa-plugins-pulse.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service 
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 alsa-plugins-pulse.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service 
 
 	# Enabling thermald service
 	systemctl enable thermald earlyoom docker

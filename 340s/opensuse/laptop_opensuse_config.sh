@@ -126,7 +126,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
 
 	# Adding kde connect firewall rule
-	firewall-cmd --zone=public --permanent --add-service=kdeconnect-kde
+	firewall-cmd --zone=public --permanent --add-service=kdeconnect
 	firewall-cmd --reload
 
 	# Adding flathub repo

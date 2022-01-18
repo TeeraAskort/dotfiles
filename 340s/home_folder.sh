@@ -69,6 +69,13 @@ if command -v pulseaudio &> /dev/null ; then
 	pulseaudio -k
 fi
 
+## Starting pipewire services
+if command -v pw &> /dev/null ; then
+	systemctl --user enable --now pipewire.socket
+	systemctl --user enable --now pipewire-pulse.{service,socket}
+	systemctl --user enable --now wireplumber.service
+fi
+
 # Copying .zshenv on debian
 if [ $(lsb_release -is | grep "Debian" | wc -l) -eq 1 ]; then
 	cp $directory/zsh/.zshenv ~

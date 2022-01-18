@@ -81,6 +81,13 @@ if command -v pulseaudio &> /dev/null; then
 	pulseaudio -k
 fi
 
+## Starting pipewire services
+if command -v pw &> /dev/null ; then
+	systemctl --user enable --now pipewire.socket
+	systemctl --user enable --now pipewire-pulse.{service,socket}
+	systemctl --user enable --now wireplumber.service
+fi
+
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~
 mkdir -p ~/.config/nvim/

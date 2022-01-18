@@ -70,7 +70,7 @@ if command -v pulseaudio &> /dev/null ; then
 fi
 
 ## Starting pipewire services
-if command -v pw &> /dev/null ; then
+if command -v pw-cli &> /dev/null ; then
 	systemctl --user enable --now pipewire.socket
 	systemctl --user enable --now pipewire-pulse.{service,socket}
 	systemctl --user enable --now wireplumber.service

@@ -49,6 +49,15 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Installing strawberry compiled against QT5 from my repo
 	zypper in --from "home:Alderaeney (openSUSE_Tumbleweed)" -y strawberry.x86_64
 
+	# Installing pipewire
+	zypper --non-interactive in --force-resolution pipewire-pulseaudio pipewire-libjack-0_3 pipewire-alsa
+
+	# Starting pipewire services
+	user=$SUDO_USER
+	sudo -u $user systemctl --user enable --now pipewire.socket
+	sudo -u $user systemctl --user enable --now pipewire-pulse.{service,socket} 
+	sudo -u $user systemctl --user enable --now wireplumber.service
+
 	# Installing basic packages
 	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip dolphin-emu gimp flatpak-zsh-completion zsh-completions neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 alsa-plugins-pulse.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service nextcloud-desktop
 
@@ -69,7 +78,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f
 
 	# Removing unwanted applications
-	zypper rm -y git-gui vlc vlc-qt vlc-noX tlp tlp-rdw
+	zypper rm -y --clean-deps git-gui vlc vlc-qt vlc-noX tlp tlp-rdw
 
 	# Block vlc from installing
 	zypper addlock vlc-beta
@@ -82,7 +91,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird
 
 		# Removing unwanted DE specific applications
-		zypper rm -y konversation kmines ksudoku kreversi
+		zypper rm -y --clean-deps konversation kmines ksudoku kreversi
 
 		# Adding GTK_USE_PORTAL
 		echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
@@ -110,7 +119,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		zypper in -y adwaita-qt5 QGnomePlatform aisleriot
 
 		# Removing unwanted DE specific applications
-		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
+		zypper rm -y --clean-deps gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
 
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment

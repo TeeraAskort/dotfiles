@@ -105,7 +105,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	elif [ "$1" == "gnome" ]; then 
  		# Installing DE specific applications
- 		zypper in -y adwaita-qt QGnomePlatform aisleriot
+ 		zypper in -y adwaita-qt5 QGnomePlatform aisleriot
  
  		# Removing unwanted DE specific applications
  		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku

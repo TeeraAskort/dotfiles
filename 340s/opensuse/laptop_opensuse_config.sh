@@ -66,7 +66,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	usermod -G docker -a $user
 
 	# Installing computer specific applications 
-	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f authselect-compat
+	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f 
 
 	# Removing unwanted applications
 	zypper rm -y --clean-deps git-gui vlc vlc-qt vlc-noX tlp tlp-rdw

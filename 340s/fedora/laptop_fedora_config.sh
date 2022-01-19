@@ -102,7 +102,7 @@ echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman io.dbeaver.DBeaverCommunity org.gtk.Gtk3theme.Adwaita-dark com.jetbrains.PhpStorm org.telegram.desktop com.axosoft.GitKraken
+flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman io.dbeaver.DBeaverCommunity org.gtk.Gtk3theme.Adwaita-dark com.jetbrains.PhpStorm org.telegram.desktop com.axosoft.GitKraken com.mojang.Minecraft
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts

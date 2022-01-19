@@ -9,7 +9,7 @@ if [ -e /etc/pam.d/su ]; then
 fi
 
 if [ -e /etc/pam.d/common-auth ]; then
-	sudo sed -i "s/auth    required        pam_env.so/&\nauth    required        pam_u2f.so      cue/" /etc/pam.d/common-auth
+	sudo sed -i "s/pam_env.so/&\nauth    required        pam_u2f.so      cue/g" /etc/pam.d/common-auth
 fi
 
 if [ -e /etc/pam.d/gdm-password ]; then

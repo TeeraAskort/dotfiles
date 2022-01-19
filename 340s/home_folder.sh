@@ -138,11 +138,7 @@ hostnm=$(hostname)
 
 mkdir -p ~/.config/Yubico
 
-if command -v lsb_release &> /dev/null && [ $(lsb_release -is) = "openSUSE" ]; then
-	sudo authselect select sssd with-pam-u2f-2fa without-nullok --force
-else
-	bash $directory/pam_config.sh
-fi
+bash $directory/pam_config.sh
 
 echo "Insert FIDO2 card and press a key:"
 read -n 1

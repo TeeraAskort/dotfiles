@@ -121,6 +121,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	firewall-cmd --zone=public --permanent --add-service=kdeconnect
 	firewall-cmd --reload
 
+	# Use user password for sudo instead of target user password
+	sed -i "s/Defaults targetpw/Defaults \!targetpw/g" /etc/sudoers
+
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 

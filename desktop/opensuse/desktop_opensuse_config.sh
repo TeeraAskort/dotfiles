@@ -104,12 +104,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		rm sddm
 
 	elif [ "$1" == "gnome" ]; then 
- 		# Installing DE specific applications
- 		zypper in -y adwaita-qt5 QGnomePlatform aisleriot
- 
- 		# Removing unwanted DE specific applications
- 		zypper rm -y --clean-deps gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
- 
+		# Removing unwanted DE specific applications
+		zypper rm -y --clean-deps gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
+
+		# Installing DE specific applications
+		zypper in -y adwaita-qt5 QGnomePlatform aisleriot gnome-session-wayland
+
  		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
 	fi
@@ -121,8 +121,22 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	firewall-cmd --zone=public --permanent --add-service=kdeconnect
 	firewall-cmd --reload
 
+	# Add user to wheel group
+	user=$SUDO_USER
+	usermod -aG wheel $user
+
+	# Add sudo rule to use wheel group
+	if [[ ! -e /etc/sudoers.d ]]; then
+		mkdir -p /etc/sudoers.d
+	fi
+	echo "%wheel ALL=(ALL) ALL" | tee -a /etc/sudoers.d/usewheel
+
 	# Use user password for sudo instead of target user password
-	sed -i "s/Defaults targetpw/Defaults \!targetpw/g" /etc/sudoers
+	sed -i "s/Defaults targetpw/# Defaults targetpw/g" /etc/sudoers
+	sed -i "s/ALL ALL=(ALL) ALL/# ALL ALL=(ALL) ALL/g" /etc/sudoers
+
+	# Using sudo instead of su for graphical sudo
+	echo "Defaults env_keep += \"DISPLAY XAUTHORITY\"" | tee -a /etc/sudoers.d/env_vars
 
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

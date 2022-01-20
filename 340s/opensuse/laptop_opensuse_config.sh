@@ -141,7 +141,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Use user password for sudo instead of target user password
 	sed -i "s/Defaults targetpw/#Defaults targetpw/g" /etc/sudoers
-	sed -i "s/ALL ALL=(ALL) ALL/# ALL ALL=(ALL) ALL/g" /etc/sudoers
+	sed -i "s/ALL   ALL=(ALL) ALL/# ALL ALL=(ALL) ALL/g" /etc/sudoers
 
 	# Using sudo instead of su for graphical sudo
 	echo "Defaults env_keep += \"DISPLAY XAUTHORITY\"" | tee -a /etc/sudoers.d/env_vars

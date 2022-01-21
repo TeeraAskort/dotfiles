@@ -69,7 +69,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f 
 
 	# Removing unwanted applications
-	zypper rm -y --clean-deps git-gui vlc vlc-qt vlc-noX tlp tlp-rdw
+	zypper rm -y  git-gui vlc vlc-qt vlc-noX tlp tlp-rdw
 
 	# Block vlc from installing
 	zypper addlock vlc-beta
@@ -82,7 +82,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird
 
 		# Removing unwanted DE specific applications
-		zypper rm -y --clean-deps konversation kmines ksudoku kreversi
+		zypper rm -y  konversation kmines ksudoku kreversi
 
 		# Adding GTK_USE_PORTAL
 		echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
@@ -107,10 +107,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	elif [ "$1" == "gnome" ]; then 
 		# Removing unwanted DE specific applications
-		zypper rm -y --clean-deps gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
+		zypper rm -y  gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 QGnomePlatform aisleriot gnome-session-wayland
+		zypper in -y adwaita-qt5 QGnomePlatform aisleriot 
 
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment

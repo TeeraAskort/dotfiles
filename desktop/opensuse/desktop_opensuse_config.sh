@@ -139,8 +139,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	echo "Defaults env_keep += \"DISPLAY XAUTHORITY\"" | tee -a /etc/sudoers.d/env_vars
 
 	# Configuring policykit
-	cp /usr/share/polkit-1/rules.d/50-default.rules /usr/share/polkit-1/rules.d/40-default.rules
-	sed -i "s/user:0/group:wheel/g" /usr/share/polkit-1/rules.d/40-default.rules
+	sed -i "s/user:0/group:wheel/g" /usr/share/polkit-1/rules.d/50-default.rules
 
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

@@ -146,6 +146,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Using sudo instead of su for graphical sudo
 	echo "Defaults env_keep += \"DISPLAY XAUTHORITY\"" | tee -a /etc/sudoers.d/env_vars
 
+	# Configuring policykit
+	echo -e "polkit.addAdminRule(function(action, subject) {\n\treturn ["unix-group:wheel"];\n});" | tee -a /etc/polkit-1/rules.d/10-sudo.rules > /dev/null 
+
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 

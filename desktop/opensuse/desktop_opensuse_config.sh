@@ -169,13 +169,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Decrease swappiness
 	echo -e "vm.swappiness=1\nvm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf
 
-	# Add tmpfs
-	ln -s /usr/share/systemd/tmp.mount /etc/systemd/system/
-	echo "tmpfs /tmp tmpfs uid=root,gid=root,mode=1777,size=512M 0 0" | tee -a /etc/fstab
-
-	# Disable /tmp subvolume
-	sed -i "/subvol=@\/tmp/ s/^/# /" /etc/fstab
-
 	# Optimize SSD and HDD performance
 	cat > /etc/udev/rules.d/60-sched.rules <<EOF
 	#set noop scheduler for non-rotating disks

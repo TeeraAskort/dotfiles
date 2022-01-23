@@ -183,7 +183,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# set cfq scheduler for rotating disks
 	ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
-	EOF
+EOF
 
 else
 	echo "Accepted paramenters:"

@@ -274,6 +274,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon panels-height "['1:26']"
 	gsettings set org.cinnamon.muffin tile-maximize true
 	gsettings set org.cinnamon.muffin unredirect-fullscreen-windows true
+	gsettings set org.cinnamon.desktop.interface clock-show-date true
 
 	# Keybindings
 	gsettings set org.cinnamon.desktop.keybindings.media-keys terminal "['<Primary><Alt>t', '<Super>t']"

@@ -134,7 +134,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper in -y xcape playerctl transmission-gtk gvfs gvfs-backends gvfs-backend-samba gvfs-fuse ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg adwaita-qt5 QGnomePlatform aisleriot libgepub-0_6-0 libgsf-1-114 libopenraw1 brasero pavucontrol xarchiver blueberry evince gnome-keyring-pam gnome-keyring
 
 		# Adding gnome theming to qt
-		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
+		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
 
 		# Adding xprofile to user link
 		user="$SUDO_USER"

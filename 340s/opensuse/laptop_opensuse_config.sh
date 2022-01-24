@@ -120,6 +120,17 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
 		echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
 		echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
+
+	elif [ "$1" == "cinnamon" ]; then
+		# Removing unwanted DE specific applications
+		zypper rm -y # TODO
+
+		# Installing DE specific applications
+		zypper in -y adwaita-qt5 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg transmission-gtk 
+		
+		# Adding gnome theming to qt
+		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
+
 	fi
 
 	# Installing firefox from mozilla repo

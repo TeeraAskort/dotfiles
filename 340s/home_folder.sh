@@ -256,6 +256,44 @@ if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
 	xfconf-query -c xfwm4 -p /general/vblank_mode -s glx
 fi
 
+# Cinnamon config
+if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
+	gsettings set org.cinnamon.settings-daemon.peripherals.touchpad tap-to-click true
+	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
+	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-ac-action 'hibernate'
+	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-battery-action 'hibernate'
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-type 'hibernate'
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-type 'hibernate'
+	gsettings set org.cinnamon.settings-daemon.plugins.power button-power 'hibernate'
+	gsettings set org.cinnamon.settings-daemon.plugins.power button-suspend 'hibernate'
+	gsettings set org.cinnamon.settings-daemon.plugins.power critical-battery-action 'hibernate'
+	gsettings set org.cinnamon.settings-daemon.plugins.power lock-on-suspend true
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-ac 900
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-battery 300
+	gsettings set org.cinnamon.settings-daemon.plugins.power idle-dim-battery true
+	gsettings set org.cinnamon.settings-daemon.plugins.power idle-dim-time 90
+	gsettings set org.cinnamon.settings-daemon.peripherals.keyboard numlock-state 'on'
+	gsettings set org.cinnamon.desktop.privacy remember-recent-files false
+	gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y'
+	gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
+	gsettings set org.cinnamon.desktop.interface icon-theme 'Papirus-Dark'
+	gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
+	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
+	gsettings set org.cinnamon hotcorner-layout "['scale:true:150', 'scale:false:0', 'scale:false:0', 'desktop:false:0']"
+	gsettings set org.cinnamon panels-height "['1:26']"
+
+	# Keybindings
+	gsettings set org.cinnamon.desktop.keybindings.media-keys terminal "['<Primary><Alt>t', '<Super>t']"
+	gsettings set org.cinnamon.desktop.keybindings.media-keys www "['XF86WWW', '<Super>w']"
+	gsettings set org.cinnamon.desktop.keybindings.media-keys play "['XF86AudioPlay', '<Super>z']"
+	gsettings set org.cinnamon.desktop.keybindings.media-keys next "['XF86AudioNext', '<Super>c']"
+	gsettings set org.cinnamon.desktop.keybindings.media-keys previous "['XF86AudioPrev', '<Super>x']"
+	gsettings set org.cinnamon.desktop.keybindings looking-glass-keybinding "[]"
+	gsettings set org.cinnamon.desktop.keybindings.media-keys screensaver "['<Control><Alt>l', 'XF86ScreenSaver', '<Super>l']"
+fi
+
 ## Adding user to audio group
 user="$USER"
 sudo usermod -aG audio $user

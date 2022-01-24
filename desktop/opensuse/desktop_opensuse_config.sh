@@ -112,6 +112,16 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
  		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
+
+	elif [ "$1" == "cinnamon" ]; then
+		# Removing unwanted DE specific applications
+		zypper rm -y # TODO
+
+		# Installing DE specific applications
+		zypper in -y adwaita-qt5 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg transmission-gtk
+
+		# Adding gnome theming to qt
+		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
 	fi
 
 	# Installing firefox from mozilla repo

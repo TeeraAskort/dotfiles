@@ -283,6 +283,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
 	gsettings set org.cinnamon hotcorner-layout "['scale:true:150', 'scale:false:0', 'scale:false:0', 'desktop:false:0']"
 	gsettings set org.cinnamon panels-height "['1:26']"
+	gsettings set org.cinnamon.muffin tile-maximize true
+	gsettings set org.cinnamon.muffin unredirect-fullscreen-windows true
 
 	# Keybindings
 	gsettings set org.cinnamon.desktop.keybindings.media-keys terminal "['<Primary><Alt>t', '<Super>t']"

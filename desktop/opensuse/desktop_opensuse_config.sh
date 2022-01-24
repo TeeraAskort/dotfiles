@@ -4,7 +4,7 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
-if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
+if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "cinnamon" ]; then
 
 	# Installing repos
 	zypper ar http://download.opensuse.org/repositories/games/openSUSE_Tumbleweed/games.repo
@@ -192,4 +192,5 @@ else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"
 	echo "gnome - to configure the GNOME desktop"
+	echo "cinnamon - to configure the Cinnamon desktop"
 fi

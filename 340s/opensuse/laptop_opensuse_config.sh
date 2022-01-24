@@ -4,7 +4,7 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
-if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "cinnamon" ]; then
+if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "cinnamon" ] || [ "$1" == "xfce" ]; then
 
 	# Installing repos
 	zypper ar http://download.opensuse.org/repositories/games/openSUSE_Tumbleweed/games.repo
@@ -18,6 +18,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper addrepo https://download.opensuse.org/repositories/games:tools/openSUSE_Tumbleweed/games:tools.repo
 	zypper addrepo https://download.opensuse.org/repositories/mozilla/openSUSE_Tumbleweed/mozilla.repo
 	zypper addrepo https://download.opensuse.org/repositories/home:Alderaeney/openSUSE_Tumbleweed/home:Alderaeney.repo
+	if [ "$1" == "xfce" ]; then
+		zypper addrepo https://download.opensuse.org/repositories/X11:xfce/openSUSE_Tumbleweed/X11:xfce.repo
+	fi
 	# zypper ar https://repo.vivaldi.com/archive/vivaldi-suse.repo
 
 	# Adding VSCode repo
@@ -131,6 +134,23 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
 
+	elif [ "$1" == "xfce" ]; then
+		# Removing unwanted DE specific applications
+		zypper rm -y #TODO
+
+		# Installing DE specific applications
+		zypper in -y xcape playerctl transmission-gtk gvfs gvfs-backends gvfs-backend-samba gvfs-fuse ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg adwaita-qt5 QGnomePlatform aisleriot libgepub-0_6-0 libgsf-1-114 libopenraw1 lightdm-slick-greeter brasero pavucontrol xarchiver blueberry evince
+
+		# Adding gnome theming to qt
+		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
+
+		# Adding xprofile to user link
+		user="$SUDO_USER"
+		sudo -u $user echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/$user/.xprofile
+
+		# Setting cursor size in Xresources
+		sudo -u $user echo "Xcursor.size: 16" | tee -a /home/$user/.Xresources
+
 	fi
 
 	# Installing firefox from mozilla repo
@@ -173,7 +193,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		sudo -u $user flatpak override --user --filesystem=/home/$user/.local/share/color-schemes
 	fi
 
-	if [ "$1" == "gnome" ]; then 
+	if [ "$1" == "gnome" ] || [ "$1" == "cinnamon" ] || [ "$1" == "xfce" ]; then 
 		flatpak install -y flathub org.gtk.Gtk3theme.Adwaita-dark
 	fi
 

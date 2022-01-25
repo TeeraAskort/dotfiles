@@ -281,6 +281,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon.desktop.interface icon-theme 'Papirus-Dark'
 	gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
 	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
+	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
 	gsettings set org.cinnamon hotcorner-layout "['scale:true:150', 'scale:false:0', 'scale:false:0', 'desktop:false:0']"
 	gsettings set org.cinnamon panels-height "['1:26']"
 	gsettings set org.cinnamon.muffin tile-maximize true
@@ -294,7 +295,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon.desktop.keybindings.media-keys next "['XF86AudioNext', '<Super>c']"
 	gsettings set org.cinnamon.desktop.keybindings.media-keys previous "['XF86AudioPrev', '<Super>x']"
 	gsettings set org.cinnamon.desktop.keybindings looking-glass-keybinding "[]"
-	gsettings set org.cinnamon.desktop.keybindings.media-keys screensaver "['<Control><Alt>l', 'XF86ScreenSaver', '<Super>l']"
+	gsettings set org.cinnamon.desktop.keybindings.media-keys screensaver "['<Super>l', 'XF86ScreenSaver']"
 fi
 
 ## Adding user to audio group

@@ -287,6 +287,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon.muffin tile-maximize true
 	gsettings set org.cinnamon.muffin unredirect-fullscreen-windows true
 	gsettings set org.cinnamon.desktop.interface clock-show-date true
+	gsettings set org.nemo.icon-view default-zoom-level 'small'
+	gsettings set org.nemo.preferences thumbnail-limit 8589934592
 
 	# Keybindings
 	gsettings set org.cinnamon.desktop.keybindings.media-keys terminal "['<Primary><Alt>t', '<Super>t']"

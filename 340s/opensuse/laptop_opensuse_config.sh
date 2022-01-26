@@ -134,10 +134,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		# Adding gnome theming to qt
 		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
 
-		# Adding hibernate paramaters
-		echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
-		echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
-
 	elif [ "$1" == "xfce" ]; then
 		# Removing unwanted DE specific applications
 		zypper rm -y blueman parole pidgin remmina pragha

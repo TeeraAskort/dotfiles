@@ -42,6 +42,22 @@ EDITOR=vim visudo
 sed -i "s/#Color/Color/g" /etc/pacman.conf
 sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 
+# Adding home OBS repo
+cat >> /etc/pacman.conf <<EOF
+[home_Alderaeney_Arch]
+Server = https://download.opensuse.org/repositories/home:/Alderaeney/Arch/$arch
+EOF
+
+# Adding home OBS repo key
+key=$(curl -fsSL https://download.opensuse.org/repositories/home:Alderaeney/Arch/$(uname -m)/home_Alderaeney_Arch.key)
+fingerprint=$(gpg --quiet --with-colons --import-options show-only --import --fingerprint <<< "${key}" | awk -F: '$1 == "fpr" { print $10 }')
+
+pacman-key --init
+pacman-key --add - <<< "${key}"
+pacman-key --lsign-key "${fingerprint}"
+
+pacman -Syu --noconfirm
+
 # Enabling multilib repo
 sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
@@ -98,7 +114,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 
 # Installing desktop environment
 if [[ "$1" == "cinnamon" ]]; then
-	pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller blueberry system-config-printer gnome-books gnome-screenshot gnome-disk-utility gnome-calendar
+	pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller nemo-image-converter nemo-preview nemo-share blueberry system-config-printer gnome-books gnome-screenshot gnome-disk-utility gnome-calendar home_Alderaeney_Arch/mint-themes
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
@@ -212,7 +228,7 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 strawberry yad mednafen virtualbox virtualbox-host-dkms filezilla php chromium composer dbeaver nicotine+ yt-dlp docker docker-compose pcsx2 nextcloud-client
+pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 home_Alderaeney_Arch/strawberry-qt5 yad mednafen virtualbox virtualbox-host-dkms filezilla php chromium composer dbeaver nicotine+ yt-dlp docker docker-compose pcsx2 nextcloud-client
 
 # Enabling services
 systemctl enable thermald earlyoom apparmor firewalld docker
@@ -238,8 +254,13 @@ fi
 if [[ "$2" == "gtk" ]]; then
 	sudo -u aurbuilder yay -S --noconfirm qgnomeplatform qgnomeplatform-qt6 adwaita-qt adwaita-qt6
 
-	# Setting environment variable
-	echo "QT_STYLE_OVERRIDE=gnome" | tee -a /etc/environment
+	if [ "$1" == "gnome" ]; then
+		# Setting environment variable
+		echo "QT_STYLE_OVERRIDE=gnome" | tee -a /etc/environment
+	else
+		# Adding gnome theming to qt
+		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
+	fi
 fi
 
 # Installing themes for non gnome gtk desktops
@@ -273,6 +294,18 @@ usermod -aG vboxusers link
 
 # Adding user to docker group
 usermod -aG docker link
+
+# Decrease swappiness
+echo -e "vm.swappiness=1\nvm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Optimize SSD and HDD performance
+cat > /etc/udev/rules.d/60-sched.rules <<EOF
+#set noop scheduler for non-rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
+
+# set cfq scheduler for rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
+EOF
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -

@@ -53,7 +53,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in --from "home:Alderaeney (openSUSE_Tumbleweed)" -y strawberry.x86_64
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service nextcloud-desktop alsa-plugins-pulse.x86_64 minecraft-launcher 
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris strawberry flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service nextcloud-desktop alsa-plugins-pulse.x86_64 minecraft-launcher php8 php8-iconv
 
 	# Enabling thermald service
 	systemctl enable thermald earlyoom docker
@@ -163,6 +163,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Add user to wheel group
 	user=$SUDO_USER
 	usermod -aG wheel $user
+
+	# Uncommenting iconv extension
+	sed -i "s/;extension=iconv/extension=iconv/g" /etc/php/php.ini
 
 	# Add sudo rule to use wheel group
 	if [[ ! -e /etc/sudoers.d ]]; then

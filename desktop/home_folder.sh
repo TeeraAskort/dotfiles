@@ -135,6 +135,10 @@ sudo docker-compose -f compose.yml up -d --build
 sudo docker start mariadb php-apache
 sudo docker container prune -f
 
+## Installing symfony
+wget https://get.symfony.com/cli/installer -O - | bash
+sudo mv $HOME/.symfony/bin/symfony /usr/local/bin/symfony
+
 ## Copying ssh key
 mkdir ~/.ssh
 cp ~/Documentos/id_ed25519* ~/.ssh

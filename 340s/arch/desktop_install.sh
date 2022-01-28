@@ -58,6 +58,9 @@ pacman-key --lsign-key "${fingerprint}"
 
 pacman -Syu --noconfirm
 
+# Updating keyring
+pacman -Syu --noconfirm archlinux-keyring
+
 # Enabling multilib repo
 sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf

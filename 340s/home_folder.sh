@@ -302,6 +302,10 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon.desktop.keybindings.media-keys previous "['XF86AudioPrev', '<Super>x']"
 	gsettings set org.cinnamon.desktop.keybindings looking-glass-keybinding "[]"
 	gsettings set org.cinnamon.desktop.keybindings.media-keys screensaver "['<Super>l', 'XF86ScreenSaver']"
+
+	if [ -e ~/Imágenes/pape.jpg ]; then
+		sudo cp ~/Imágenes/pape.jpg /usr/share/backgrounds
+	fi
 fi
 
 ## Adding user to audio group

@@ -48,6 +48,13 @@ if [ -e /etc/pam.d/lightdm ]; then
 	rm lightdm
 fi
 
+if [ -e /etc/pam.d/cinnamon-screensaver ]; then
+	sudo cp /etc/pam.d/cinnamon-screensaver /etc/pam.d/cinnamon-screensaver.bak
+	awk -v exclude="#" '($0 !~ exclude) &&  FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth            required      pam_u2f.so nouserok cue" }' /etc/pam.d/cinnamon-screensaver /etc/pam.d/cinnamon-screensaver > cinnamon-screensaver
+	sudo cp cinnamon-screensaver /etc/pam.d/cinnamon-screensaver
+	rm cinnamon-screensaver
+fi
+
 if [ -e /etc/pam.d/sddm ]; then
 	sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
 	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm

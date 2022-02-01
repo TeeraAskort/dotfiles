@@ -353,6 +353,9 @@ elif [[ "$1" == "xfce" ]]; then
 	sed -i "s/auth_admin/yes/g" /usr/share/polkit-1/actions/org.xfce.power.policy
 
 elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
+	# Adding GTK_USE_PORTAL=1 to /etc/environment
+	echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
+
 	# Configuring sddm
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 

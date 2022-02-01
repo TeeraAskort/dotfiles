@@ -352,8 +352,6 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/login
 	mv $directory/login /etc/pam.d/login
 
-	# Installing bash language server
-	npm i -g bash-language-server
 fi
 
 # Copying dotfiles folder to link

@@ -103,9 +103,9 @@ unzip ~/Documentos/fonts2.zip
 # Installing NPM packages
 if command -v rpm-ostree &> /dev/null; then
 	npm config set prefix '~/.node_packages'
-	npm install -g @angular/cli @vue/cli @ionic/cli sass
+	npm install -g @angular/cli @vue/cli @ionic/cli sass bash-language-server
 else
-	sudo npm install -g @angular/cli @vue/cli @ionic/cli sass
+	sudo npm install -g @angular/cli @vue/cli @ionic/cli sass bash-language-server
 fi
 
 # Enabling opentabletdriver service

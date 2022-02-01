@@ -281,7 +281,7 @@ fi
 sed -i "s/;extension=iconv/extension=iconv/g" /etc/php/php.ini
 
 # Installing the rest of AUR packages with user link
-sudo -u link yay -S --noconfirm protontricks mednaffe phpstorm
+sudo -u link yay -S --noconfirm protontricks mednaffe 
 
 # Linking yt-dlp to youtube-dl
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl

@@ -24,3 +24,5 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - DB
+    env_file:
+      - ./docker/.env

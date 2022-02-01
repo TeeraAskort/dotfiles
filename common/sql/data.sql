@@ -10,3 +10,14 @@ CREATE TABLE curs(idcurs INTEGER auto_increment NOT NULL, curs VARCHAR(50) NOT N
 CREATE TABLE projecte(idproj INTEGER auto_increment NOT NULL, titol VARCHAR(50) NOT NULL, cicle VARCHAR(50) NOT NULL, curs INTEGER NOT NULL, CONSTRAINT fk_projecte_curs FOREIGN KEY (curs) REFERENCES curs (idcurs) ON DELETE CASCADE ON UPDATE RESTRICT, descripcio MEDIUMTEXT NOT NULL, paraulesclau VARCHAR(255) NOT NULL, data TIMESTAMP NOT NULL, primary key(idproj));
 CREATE TABLE professorat(idprof INTEGER auto_increment NOT NULL, nom VARCHAR(30) NOT NULL, cognoms VARCHAR(30) NOT NULL, email VARCHAR(50) NOT NULL, poblacio VARCHAR(30) NOT NULL, contrasenya VARCHAR(255) NOT NULL, rol ENUM('ROL_ALUMNAT', 'ROL_PROFESSORAT', 'ROL_ADMIN') NOT NULL, data TIMESTAMP NOT NULL, imatgeperfil VARCHAR(255) NOT NULL DEFAULT 'imatgedefecte.png', primary key(idprof));
 CREATE TABLE relacioprojecte(idprof INTEGER NOT NULL, CONSTRAINT fk_relacio_professorat FOREIGN KEY (idprof) REFERENCES professorat (idprof) ON DELETE CASCADE ON UPDATE RESTRICT, idalum INTEGER NOT NULL, CONSTRAINT fk_relacio_alumnat FOREIGN KEY (idalum) REFERENCES alumnat (idalum) ON DELETE CASCADE ON UPDATE RESTRICT, idproj INTEGER NOT NULL, CONSTRAINT fk_relacio_projecte FOREIGN KEY (idproj) REFERENCES projecte (idproj) ON DELETE CASCADE ON UPDATE RESTRICT, idcurs INTEGER NOT NULL, CONSTRAINT fk_relacio_curs FOREIGN KEY (idcurs) REFERENCES curs (idcurs) ON DELETE CASCADE ON UPDATE RESTRICT, data TIMESTAMP NOT NULL);
+
+INSERT curs VALUES ('1', '11/12');
+INSERT curs VALUES ('2', '12/13');
+INSERT curs VALUES ('3', '14/15');
+INSERT curs VALUES ('4', '15/16');
+INSERT curs VALUES ('5', '16/17');
+INSERT curs VALUES ('6', '17/18');
+INSERT curs VALUES ('7', '18/19');
+INSERT curs VALUES ('8', '19/20');
+INSERT curs VALUES ('9', '20/21');
+INSERT curs VALUES ('10', '21/22');

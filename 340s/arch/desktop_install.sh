@@ -364,6 +364,9 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' $directory/login $directory/login | tee $directory/login
 	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/login
 	mv $directory/login /etc/pam.d/login
+
+	# Installing bash language server
+	npm i -g bash-language-server
 fi
 
 # Copying dotfiles folder to link

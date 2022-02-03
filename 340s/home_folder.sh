@@ -314,11 +314,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	fi
 fi
 
-# KDE config
-if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then
-	cp $directory/../common/konsolerc $HOME/.config
-fi
-
 ## Adding user to audio group
 user="$USER"
 sudo usermod -aG audio $user

@@ -79,7 +79,7 @@ pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode b
 systemctl enable NetworkManager haveged bluetooth
 
 # Installing sound libraries
-pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
+pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack
 
 # Enabling pipewire service
 sudo -u link systemctl --user enable pipewire.socket

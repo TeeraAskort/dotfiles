@@ -303,6 +303,11 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	fi
 fi
 
+# KDE config
+if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then
+	cp $directory/../common/konsolerc $HOME/.config
+fi
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@gmail.com"

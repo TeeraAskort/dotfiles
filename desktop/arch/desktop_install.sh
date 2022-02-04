@@ -37,7 +37,7 @@ until passwd link; do
 done
 
 # Sudo configuration
-EDITOR=vim visudo
+echo "%wheel ALL=(ALL) ALL" | tee -a /etc/sudoers.d/usewheel
 
 # Enabling colors in pacman
 sed -i "s/#Color/Color/g" /etc/pacman.conf

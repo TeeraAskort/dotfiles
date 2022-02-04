@@ -46,7 +46,7 @@ sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 # Adding home OBS repo
 cat >> /etc/pacman.conf <<EOF
 [home_Alderaeney_Arch]
-Server = Server = https://ftp.gwdg.de/pub/opensuse/repositories/home:/Alderaeney/Arch/\$arch
+Server = https://ftp.gwdg.de/pub/opensuse/repositories/home:/Alderaeney/Arch/\$arch
 EOF
 
 # Adding home OBS repo key

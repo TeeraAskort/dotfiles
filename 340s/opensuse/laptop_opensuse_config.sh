@@ -38,7 +38,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper dup -y
 
 	# Updating the system
-	zypper dist-upgrade --from packman --allow-vendor-change -y
+	# zypper dist-upgrade --from packman --allow-vendor-change -y
 
 	# Installing wine-staging from wine repo
 	zypper in -y --from "Wine (openSUSE_Tumbleweed)" wine-staging wine-staging-32bit dxvk dxvk-32bit

@@ -157,6 +157,12 @@ echo "Remove FIDO2 car and insert another, then press a key:"
 read -n 1
 pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" -n >> ~/.config/Yubico/u2f_keys
 
+if command -v lsb_release &> /dev/null && [[ $(lsb_release -cs) == "OpenSUSE" ]]; then
+	sudo mkdir -p /etc/Yubico
+	sudo mv  ~/.config/Yubico/u2f_keys /etc/Yubico/u2f_keys
+	sudo chown root.root /etc/Yubico/u2f_keys
+fi
+
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	if [ -e /usr/share/themes/Materia-dark-compact ]; then

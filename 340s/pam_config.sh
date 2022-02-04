@@ -1,4 +1,5 @@
 hostnm=$(hostname)
+common_auth=False
 
 if [ -e /etc/pam.d/sudo ]; then
 	sudo sed -i "2i auth            sufficient      pam_u2f.so origin=pam://$hostnm appid=pam://$hostnm cue" /etc/pam.d/sudo
@@ -9,7 +10,8 @@ if [ -e /etc/pam.d/su ]; then
 fi
 
 if [ -e /etc/pam.d/common-auth ]; then
-	sudo sed -i "s/pam_env.so/&\nauth    required        pam_u2f.so      cue/g" /etc/pam.d/common-auth
+	sudo sed -i "s/pam_gnome_keyring.so/&\nauth required pam_u2f.so authfile=/etc/Yubico/u2f_keys cue/g" /etc/pam.d/common-auth
+	common_auth=True
 fi
 
 if [ -e /etc/pam.d/gdm-password ]; then
@@ -67,7 +69,7 @@ if [ -e /etc/pam.d/sddm ]; then
 	rm sddm
 fi
 
-if [ -e /etc/pam.d/kde ]; then
+if [ -e /etc/pam.d/kde ] && [ $common_auth = False ]; then
 	sudo cp /etc/pam.d/kde /etc/pam.d/kde.bak
 	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/kde /etc/pam.d/kde > kde
 	if diff /etc/pam.d/kde.bak kde ; then

@@ -196,8 +196,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		sudo -u $user flatpak override --user --filesystem=/home/$user/.local/share/color-schemes
 	fi
 
-	if [ "$1" == "gnome" ] || [ "$1" == "cinnamon" ] || [ "$1" == "xfce" ]; then 
+	if [ "$1" == "gnome" ] || [ "$1" == "xfce" ]; then 
 		flatpak install -y flathub org.gtk.Gtk3theme.Adwaita-dark
+	fi
+
+	if [ "$1" == "cinnamon" ]; then
+		flatpak install -y flathub org.gtk.Gtk3theme.Mint-Y-Dark
 	fi
 
 	# Flatpak overrides

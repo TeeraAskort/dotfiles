@@ -121,7 +121,7 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 
 # Installing desktop environment
 if [[ "$1" == "cinnamon" ]]; then
-	pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller nemo-image-converter nemo-share blueberry system-config-printer gnome-screenshot gnome-disk-utility gnome-calendar home_Alderaeney_Arch/mint-themes evince kdeconnect
+	pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller nemo-image-converter nemo-share blueberry system-config-printer gnome-screenshot gnome-disk-utility gnome-calendar home_Alderaeney_Arch/mint-themes evince kdeconnect zenity
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
@@ -254,8 +254,6 @@ if [[ "$1" == "gnome" ]]; then
 
 elif [[ "$1" == "mate" ]]; then
 	sudo -u aurbuilder yay -S --noconfirm mate-tweak mate-menu
-elif [[ "$1" == "cinnamon" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm indicator-kdeconnect-git
 fi
 
 # Installing GTK styling

@@ -301,6 +301,16 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	if [ -e ~/Imágenes/pape.jpg ]; then
 		sudo cp ~/Imágenes/pape.jpg /usr/share/backgrounds
 	fi
+
+	if [ ! -e ~/.local/share/cinnamon/applets  ]; then
+		mkdir -p ~/.local/share/cinnamon/applets
+	fi
+
+	curl -L "https://cinnamon-spices.linuxmint.com/files/applets/kdecapplet@joejoetv.zip" > $directory/kdeapplet.zip
+	cd ~/.local/share/cinnamon/applets/
+	unzip $directory/kdeapplet.zip
+	rm $directory/kdeapplet.zip
+
 fi
 
 ## Configuring git

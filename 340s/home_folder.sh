@@ -21,7 +21,7 @@ echo "encrypteddata UUID=${dataDiskUUID} /root/.keyfile luks,discard" | sudo tee
 echo "/dev/mapper/encrypteddata /home/link/Datos xfs defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders
-rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent
+rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent ~/Sync
 
 ## Linking home folders
 ln -s /home/link/Datos/Descargas $HOME
@@ -32,6 +32,7 @@ ln -s /home/link/Datos/Música $HOME
 ln -s /home/link/Datos/Imágenes $HOME
 ln -s /home/link/Datos/Torrent $HOME
 ln -s /home/link/Datos/Nextcloud $HOME
+ln -s /home/link/Datos/Sync $HOME
 
 ## Overriding xdg-user-dirs
 xdg-user-dirs-update --set DESKTOP $HOME/Datos/Escritorio

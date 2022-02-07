@@ -22,7 +22,7 @@ echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${dataDisk}1) /root/
 echo "/dev/mapper/encrypteddata $HOME/Datos btrfs defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders
-rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent
+rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent ~/Sync
 
 ## Linking home folders
 ln -s /home/link/Datos/Descargas /home/link
@@ -32,6 +32,7 @@ ln -s /home/link/Datos/Escritorio /home/link
 ln -s /home/link/Datos/Música /home/link
 ln -s /home/link/Datos/Imágenes /home/link
 ln -s /home/link/Datos/Nextcloud /home/link
+ln -s /home/link/Datos/Sync $HOME
 
 ## Overriding xdg-user-dirs
 xdg-user-dirs-update --set DESKTOP $HOME/Datos/Escritorio

@@ -10,7 +10,7 @@ if [ -e /etc/pam.d/su ]; then
 fi
 
 if [ -e /etc/pam.d/common-auth ]; then
-	sudo sed -i "s/pam_gnome_keyring.so/&\nauth required pam_u2f.so authfile=\/etc\/Yubico\/u2f_keys cue/g" /etc/pam.d/common-auth
+	sudo sed -i "s/pam_gnome_keyring.so/&\nauth required pam_u2f.so cue/g" /etc/pam.d/common-auth
 	common_auth=True
 fi
 

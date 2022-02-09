@@ -154,11 +154,12 @@ until ssh-add ~/.ssh/id_ed25519; do
 	echo "Bad password, retrying"
 done
 
-# Configuring mariadb
-if command -v mysql &> /dev/null ; then
-	sudo mysql -u root -e "CREATE DATABASE farmcrash"
-	sudo mysql -u root -e "CREATE USER 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
-	sudo mysql -u root -e "GRANT ALL PRIVILEGES ON farmcrash.* TO 'farmcrash'@localhost IDENTIFIED BY 'farmcrash'"
+## Enabling firewall services
+if command -v firewall-cmd &> /dev/null ; then
+	sudo firewall-cmd --zone=public --permanent --add-service=kdeconnect
+	sudo firewall-cmd --zone=public --permanent --add-service=syncthing
+	sudo firewall-cmd --zone=public --permanent --add-service=syncthing-gui
+	sudo firewall-cmd --reload
 fi
 
 ## Changing GNOME theme

@@ -157,10 +157,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Installing firefox from mozilla repo
 	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
 
-	# Adding kde connect firewall rule
-	firewall-cmd --zone=public --permanent --add-service=kdeconnect
-	firewall-cmd --reload
-
 	# Add user to wheel group
 	user=$SUDO_USER
 	usermod -aG wheel $user

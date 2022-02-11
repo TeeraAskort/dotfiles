@@ -83,10 +83,18 @@ if command -v pulseaudio &> /dev/null; then
 fi
 
 ## Starting pipewire services
-if command -v pw-cli &> /dev/null ; then
+if command -v pipewire &> /dev/null ; then
 	systemctl --user enable --now pipewire.socket
 	systemctl --user enable --now pipewire-pulse.{service,socket}
 	systemctl --user enable --now wireplumber.service
+fi
+
+## Configuring pipewire
+if command -v pipewire &> /dev/null ; then
+	mkdir -p ~/.config/pipewire
+	cd $directory/../common/
+	cp -r client.conf.d pipewire-pulse.conf.d pipewire.conf.d ~/.config/pipewire/
+	systemctl --user restart pipewire.service pipewire-pulse.socket
 fi
 
 ## Configuring vim/neovim

@@ -86,15 +86,20 @@ fi
 if command -v pipewire &> /dev/null ; then
 	systemctl --user enable --now pipewire.socket
 	systemctl --user enable --now pipewire-pulse.{service,socket}
-	systemctl --user enable --now wireplumber.service
+	if command -v wireplumber &> /dev/null ; then
+		systemctl --user enable --now wireplumber.service
+	fi
 fi
 
 ## Configuring pipewire
 if command -v pipewire &> /dev/null ; then
-	mkdir -p ~/.config/pipewire
 	cd $directory/../common/
-	cp -r client.conf.d pipewire-pulse.conf.d pipewire.conf.d ~/.config/pipewire/
+	cp -r pipewire ~/.config/
 	systemctl --user restart pipewire.service pipewire-pulse.socket
+	if command -v wireplumber &> /dev/null ; then
+		cp -r wireplumber ~/.config/
+		systemctl --user restart wireplumber
+	fi
 fi
 
 ## Configuring vim/neovim

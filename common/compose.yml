@@ -20,6 +20,7 @@ services:
     ports:
       - 80:80
       - 5000:5000
+      - 8000:8000
     build:
       context: ./docker
       dockerfile: Dockerfile

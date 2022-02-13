@@ -325,6 +325,10 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
 
+# Adding mysql support for php
+sed -i "s/;extension=mysqli/extension=mysqli/g" /etc/php/php.ini
+sed -i "s/;extension=pdo_mysql/extension=pdo_mysql/g" /etc/php/php.ini
+
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 

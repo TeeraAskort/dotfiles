@@ -79,6 +79,17 @@ if command -v pipewire &> /dev/null ; then
 	fi
 fi
 
+## Configuring pipewire
+if command -v pipewire &> /dev/null ; then
+	cd $directory/../common/
+	cp -r pipewire ~/.config/
+	systemctl --user restart pipewire.service pipewire-pulse.socket
+	if command -v wireplumber &> /dev/null ; then 
+		cp -r wireplumber ~/.config/
+		systemctl --user restart wireplumber
+	fi
+fi
+
 # Copying .zshenv on debian
 if [ $(lsb_release -is | grep "Debian" | wc -l) -eq 1 ]; then
 	cp $directory/zsh/.zshenv ~

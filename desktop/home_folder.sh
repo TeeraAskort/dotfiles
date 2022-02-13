@@ -155,6 +155,9 @@ sudo docker-compose -f compose.yml up -d --build
 sudo docker start mariadb php-apache
 sudo docker container prune -f
 
+## Adding hosts config
+echo "127.0.0.1 symfony.contactesAndreuFurio symfony.llibresAndreuFurio" | tee -a /etc/hosts
+
 ## Installing symfony
 wget https://get.symfony.com/cli/installer -O - | bash
 sudo mv $HOME/.symfony/bin/symfony /usr/local/bin/symfony

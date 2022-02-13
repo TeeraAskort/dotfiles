@@ -146,7 +146,7 @@ sudo docker start mariadb php-apache
 sudo docker container prune -f
 
 ## Adding hosts config
-echo "127.0.0.1 symfony.contactesAndreuFurio symfony.llibresAndreuFurio" | sudo tee -a /etc/hosts
+echo "127.0.0.1 symfony.contactesandreufurio symfony.llibresandreufurio" | sudo tee -a /etc/hosts
 
 ## Installing symfony
 wget https://get.symfony.com/cli/installer -O - | bash

@@ -14,6 +14,7 @@ services:
   php-apache-environment:
     container_name: php-apache
     image: 'php:8.0-apache'
+    restart: always
     volumes:
       - /home/link/Nextcloud/htdocs:/var/www/html/
     ports:

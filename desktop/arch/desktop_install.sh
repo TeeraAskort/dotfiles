@@ -243,7 +243,7 @@ pacman -S --noconfirm gimp gimp-help-es
 pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen virtualbox virtualbox-host-dkms filezilla php chromium composer dbeaver nicotine+ yt-dlp docker docker-compose pcsx2 syncthing zram-generator home_Alderaeney_Arch/strawberry-qt5
 
 # Enabling services
-systemctl enable thermald earlyoom apparmor firewalld docker syncthing@link.service systemd-oomd.service
+systemctl enable thermald apparmor firewalld docker syncthing@link.service systemd-oomd.service
 
 # Configuring zram
 cat > /etc/systemd/zram-generator.conf <<EOF

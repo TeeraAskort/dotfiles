@@ -32,7 +32,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	lvcreate -l 100%FREE -n root lvm
 
 	# Format partitions
-	mkfs.xfs -f -L root /dev/lvm/root
+	mkfs.ext4 -L root /dev/lvm/root
 	mkfs.vfat -F32 /dev/nvme0n1p1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
@@ -43,7 +43,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	mount /dev/nvme0n1p1 /mnt/boot
 
 	# Install base system
-	pacstrap /mnt base base-devel linux-firmware linux linux-headers efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs
+	pacstrap /mnt base base-devel linux-firmware linux-zen linux-zen-headers efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs
 
 	# Executing partprobe
 	partprobe /dev/nvme0n1

@@ -322,7 +322,6 @@ echo -e "vm.swappiness=1\nvm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sy
 # Virtual memory tuning
 echo "vm.dirty_ratio = 3" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "vm.dirty_background_ratio = 2" | tee -a /etc/sysctl.d/99-sysctl.conf
-echo "vm.vfs_cache_pressure = 50" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Optimize SSD and HDD performance
 cat > /etc/udev/rules.d/60-sched.rules <<EOF

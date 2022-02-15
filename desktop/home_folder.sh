@@ -331,6 +331,12 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 
 fi
 
+## KDE config
+if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then
+	mkdir ~/.local/share/kservices5
+	sed 's/EnabledByDefault=true$/EnabledByDefault=false/' /usr/share/kservices5/plasma-runner-bookmarks.desktop > ~/.local/share/kservices5/plasma-runner-bookmarks.desktop
+fi
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@gmail.com"

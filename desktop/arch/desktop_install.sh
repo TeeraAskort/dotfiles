@@ -317,7 +317,8 @@ usermod -aG vboxusers link
 usermod -aG docker link
 
 # Decrease swappiness
-echo -e "vm.swappiness=1\nvm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.swappiness = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.vfs_cache_pressure = 50" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Virtual memory tuning
 echo "vm.dirty_ratio = 3" | tee -a /etc/sysctl.d/99-sysctl.conf

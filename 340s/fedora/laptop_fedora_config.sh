@@ -109,7 +109,7 @@ echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman io.dbeaver.DBeaverCommunity org.gtk.Gtk3theme.Adwaita-dark org.telegram.desktop com.axosoft.GitKraken com.mojang.Minecraft
+flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman io.dbeaver.DBeaverCommunity org.gtk.Gtk3theme.Adwaita-dark org.telegram.desktop com.mojang.Minecraft
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
@@ -117,15 +117,9 @@ flatpak override --filesystem=~/.fonts
 # Installing yt-dlp
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
 
-# Installing eclipse
-# ver="2021-12"
-# curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/${ver}/R/eclipse-jee-${ver}-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
-# tar xzvf eclipse-jee.tar.gz -C /opt
-# rm eclipse-jee.tar.gz
-# desktop-file-install $directory/../../common/eclipse.desktop
-
 # Decrease swappiness
-echo -e "vm.swappiness=1\nvm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Virtual memory tuning
 echo "vm.dirty_ratio = 3" | tee -a /etc/sysctl.d/99-sysctl.conf

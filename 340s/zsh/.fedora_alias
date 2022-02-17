@@ -2,4 +2,7 @@ alias dnfi="sudo dnf install"
 alias dnfr="sudo dnf remove"
 alias dnfar="sudo dnf autoremove"
 alias dnfs="sudo dnf search"
-alias dnfu="sudo dnf up"
+function dnfu() {
+	sudo dnf up -y;
+	flatpak update;
+}

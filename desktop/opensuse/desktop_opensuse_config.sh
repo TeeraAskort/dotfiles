@@ -53,7 +53,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in --from "home:Alderaeney (openSUSE_Tumbleweed)" -y strawberry.x86_64
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service syncthing alsa-plugins-pulse.x86_64 minecraft-launcher php8 php8-iconv
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service syncthing alsa-plugins-pulse.x86_64 minecraft-launcher php8 php8-iconv 7zip
 
 	# Enabling thermald service
 	user="$SUDO_USER"
@@ -176,7 +176,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity com.obsproject.Studio org.nicotine_plus.Nicotine org.DolphinEmu.dolphin-emu
+	flatpak install -y flathub org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.getpostman.Postman io.dbeaver.DBeaverCommunity com.obsproject.Studio org.nicotine_plus.Nicotine org.DolphinEmu.dolphin-emu
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then

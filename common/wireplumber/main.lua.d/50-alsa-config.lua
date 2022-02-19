@@ -107,11 +107,11 @@ alsa_monitor.rules = {
       ["audio.rate"]             = 192000,
       --["audio.allowed-rates"]    = "32000,96000"
       --["audio.position"]         = "FL,FR",
-      --["api.alsa.period-size"]   = 1024,
-      ["api.alsa.headroom"]      = 128,
+      ["api.alsa.period-size"]   = 256,
+      ["api.alsa.headroom"]      = 1024,
       --["api.alsa.disable-mmap"]  = false,
       ["api.alsa.disable-batch"] = true,
-      --["session.suspend-timeout-seconds"] = 5,  -- 0 disables suspend
+      ["session.suspend-timeout-seconds"] = 0,  -- 0 disables suspend
     },
   },
 }

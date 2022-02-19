@@ -331,6 +331,10 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 
 fi
 
+if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then
+	sudo cp ~/Imágenes/pape.jpg /usr/share/wallpapers/
+fi
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@gmail.com"

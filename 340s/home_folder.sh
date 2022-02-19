@@ -348,6 +348,10 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	rm $directory/kdeapplet.zip
 fi
 
+if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then
+	sudo cp ~/Imágenes/pape.jpg /usr/share/wallpapers/
+fi 
+
 ## Adding user to audio group
 user="$USER"
 sudo usermod -aG audio $user

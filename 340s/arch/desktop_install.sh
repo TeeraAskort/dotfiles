@@ -345,9 +345,6 @@ EOF
 sed -i "s/;extension=mysqli/extension=mysqli/g" /etc/php/php.ini
 sed -i "s/;extension=pdo_mysql/extension=pdo_mysql/g" /etc/php/php.ini
 
-# Setting x11-keymap
-sudo -u link setxkbmap es
-
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 

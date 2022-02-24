@@ -37,6 +37,7 @@ in
     };
     extraHosts = ''
       ${builtins.readFile blockedHosts}
+      127.0.0.1 symfony.contactesandreufurio symfony.llibresandreufurio
     '';
 
   };
@@ -74,12 +75,14 @@ in
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
-    mednafen mednaffe 
-    firefox lbry gnome.gnome-boxes
+    mednafen mednaffe minecraft
+    firefox gnome.gnome-boxes
     myAspell mythes gimp steam pcsx2
     adwaita-qt
-    jetbrains.phpstorm postman android-studio gitkraken eclipses.eclipse-jee dbeaver
-    docker-compose
+    postman android-studio dbeaver filezilla
+    docker-compose 
+    php php80Extensions.pdo php80Extensions.iconv php80Extensions.pdo_mysql
+    symfony-cli
   ];
 
   # Environment variables
@@ -123,6 +126,39 @@ in
     };
   };
 
+  # ZramSwap
+  zramSwap.enable = true;
+
+  # Syncthing configuration
+  services.syncthing.enable = true;
+
+  # Firewall config
+  networking.firewall.allowedTCPPorts = [
+	22
+	80
+	443
+        22000
+  ];
+  networking.firewall.allowedUDPPorts = [
+	22
+	80
+	443
+	22000
+	21027
+  ];
+  networking.firewall.allowedTCPPortRanges = [
+    {
+      from = 1714;
+      to = 1764;
+    }
+  ];
+  networking.firewall.allowedUDPPortRanges = [
+    {
+      from = 1714;
+      to = 1764;
+    }
+  ];
+
   # Automatic garbage collection
   nix.gc.automatic = true;
   nix.gc.dates = "22:00";
@@ -151,10 +187,6 @@ in
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
-
-  # Virtualbox config
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.host.enableExtensionPack = true;
 
   # Docker config
   virtualisation.docker.enable = true;
@@ -242,7 +274,7 @@ in
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
-        wayland = false;
+        wayland = true;
         enable = true;
       };
     };

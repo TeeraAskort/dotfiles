@@ -127,12 +127,12 @@ unzip ~/Documentos/fonts2.zip
 # Installing NPM packages
 if command -v rpm-ostree &> /dev/null; then
 	npm config set prefix '~/.node_packages'
-	npm install -g @angular/cli @vue/cli @ionic/cli sass 
+	npm install -g @angular/cli 
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then
 		npm install -g bash-language-server
 	fi
 else
-	sudo npm install -g @angular/cli @vue/cli @ionic/cli sass 
+	sudo npm install -g @angular/cli 
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then
 		sudo npm install -g bash-language-server
 	fi

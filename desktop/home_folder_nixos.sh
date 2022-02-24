@@ -5,15 +5,17 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 directory="$(dirname $_script)"
 
 ## Configuring home folders
-sudo rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads 
+sudo rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Sync
 
-ln -s /home/link/Datos/Descargas /home/link
-ln -s /home/link/Datos/Descargas /home/link/Downloads
-ln -s /home/link/Datos/Documentos /home/link
-ln -s /home/link/Datos/Escritorio /home/link
-ln -s /home/link/Datos/Música /home/link
-ln -s /home/link/Datos/Imágenes /home/link
-ln -s /home/link/Datos/Nextcloud /home/link
+ln -s $HOME/Datos/Descargas $HOME
+ln -s $HOME/Datos/Descargas $HOME/Downloads
+ln -s $HOME/Datos/Documentos $HOME
+ln -s $HOME/Datos/Escritorio $HOME
+ln -s $HOME/Datos/Música $HOME
+ln -s $HOME/Datos/Imágenes $HOME
+ln -s $HOME/Datos/Nextcloud $HOME
+ln -s $HOME/Datos/Torrent $HOME
+ln -s $HOME/Datos/Sync $HOME
 
 ## Downloading Plug for vim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
@@ -21,6 +23,9 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+## Copying chromium config
+cp $directory/dotfiles/chromium-flags.conf ~/.config
 
 ## Configuring mpv
 mkdir -p ~/.config/mpv/shaders/
@@ -31,7 +36,7 @@ cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
 ## Configuring git
 git config --global user.name "Alderaeney"
-git config --global user.email "alderaeney@alderaeney.com"
+git config --global user.email "alderaeney@gmail.com"
 git config --global init.defaultBranch master
 git config --global credential.helper store
 
@@ -61,4 +66,10 @@ done
 
 ## Installing NPM packages
 npm config set prefix '~/.node_packages'
-npm install -g @angular/cli @vue/cli @ionic/cli
+npm install -g @angular/cli
+
+## Configuring docker
+cd $directory/../common
+docker-compose -f compose.yml up -d --build
+docker start mariadb php-apache
+docker container prune -f

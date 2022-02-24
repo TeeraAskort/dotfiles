@@ -17,13 +17,13 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	parted /dev/$rootDisk -- mkpart primary 512M 100%
 
 	# Loop until cryptsetup succeeds formatting the partition
-	until cryptsetup luksFormat /dev/${rootDisk}2 
+	until cryptsetup luksFormat /dev/${rootDisk}p2 
 	do 
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the patition
-	until cryptsetup open /dev/${rootDisk}2 luks
+	until cryptsetup open /dev/${rootDisk}p2 luks
 	do
 		echo "Cryptsetup failed, trying again"
 	done
@@ -43,7 +43,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	# Mount paritions
 	mount /dev/lvm/root /mnt
 	mkdir /mnt/boot
-	mount /dev/${rootDisk}1 /mnt/boot
+	mount /dev/${rootDisk}p1 /mnt/boot
 
 	# Generate configs
 	nixos-generate-config --root /mnt
@@ -83,7 +83,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	cp $directory/torrent/.torrentkey /mnt
 
 	# Put correct UUID on hardware-configuration.nix
-	uuid=$(blkid -o value -s UUID /dev/${rootDisk}2)
+	uuid=$(blkid -o value -s UUID /dev/${rootDisk}p2)
 	sed -i "s/UUIDchangeme/$uuid/g" $directory/hardware-configuration.nix
 
 	# Add data disk UUID to hardware-config
@@ -93,7 +93,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	sed -i "s/torrentDiskChangeme/$(blkid -s UUID -o value /dev/${torrentDisk}1)/g" $directory/hardware-configuration.nix
 
 	# Add boot partition to hardware-config
-	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${rootDisk}1)/g" $directory/hardware-configuration.nix
+	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${rootDisk}p1)/g" $directory/hardware-configuration.nix
 
 	# Add swap partition to hardware-config
 	sed -i "s/swapChangeme/$(blkid -s UUID -o value /dev/lvm/swap)/g" $directory/hardware-configuration.nix

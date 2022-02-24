@@ -37,7 +37,7 @@ in
     useDHCP = false; 
     networkmanager.enable = true;
     interfaces = {
-      enp2s0.useDHCP = true;
+      enp4s0.useDHCP = true;
     };
     extraHosts = ''
       ${builtins.readFile blockedHosts}

@@ -40,6 +40,33 @@ git config --global user.email "alderaeney@gmail.com"
 git config --global init.defaultBranch master
 git config --global credential.helper store
 
+## Changing GNOME theme
+if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
+	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
+	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
+	gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
+	gsettings set org.gnome.desktop.privacy disable-camera true
+	gsettings set org.gnome.desktop.privacy disable-microphone true
+	gsettings set org.gnome.desktop.privacy remember-recent-files false
+	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
+	gsettings set org.gnome.desktop.privacy remove-old-trash-files  true
+	gsettings set org.gnome.desktop.privacy old-files-age 3
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
+	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
+	gsettings set org.gnome.nautilus.icon-view default-zoom-level 'small'
+	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
+	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
+	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
+	gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+fi
+
+gsettings set org.gtk.Settings.FileChooser sort-directories-first true
+
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub org.jdownloader.JDownloader io.gdevs.GDLauncher io.github.sharkwouter.Minigalaxy

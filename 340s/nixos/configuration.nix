@@ -285,47 +285,6 @@ in
       xterm.enable = false;
       gnome = {
         enable = true;
-        extraGSettingsOverrides = ''
-          [org.gnome.desktop.interface]
-          gtk-theme = "Adwaita-dark"
-          icon-theme = "Papirus-Dark"
-	  monospace-font-name = "Rec Mono Semicasual Regular 11"
-
-          [org.gnome.desktop.wm.preferences]
-          theme = "Adwaita-dark"
-          button-layout = "appmenu:minimize,maximize,close"
-
-	  [org.gnome.desktop.peripherals.mouse]
-	  accel-profile = "flat"
-
-	  [org.gnome.desktop.privacy]
-	  disable-camera = true
-	  disable-microphone = true
-	  remember-recent-files = false
-	  remove-old-temp-files = true
-	  remove-old-trash-files = true
-	  old-files-age = 3
-
-          [org.gnome.settings-daemon.plugins.power]
-          sleep-inactive-ac-timeout = 1800
-          sleep-inactive-battery-timeout = 900
-          sleep-inactive-ac-type = "hibernate";
-          sleep-inactive-battery-type = "hibernate";
-          power-button-action = "hibernate";
-
-          [org.gnome.gedit.preferences.editor]
-          scheme = 'oblivion';
-
-          [org.gnome.nautilus.icon-view]
-          default-zoom-level = 'small';
-
-          [org.gnome.settings-daemon.plugins.color]
-          night-light-enabled = true;
-          night-light-temperature = 3700;
-
-          [org.gnome.desktop.peripherals.touchpad]
-          tap-to-click = true;
-        '';
       };
     };
   };
@@ -335,6 +294,11 @@ in
     [ pkgs.epiphany pkgs.gnome.gnome-music
       pkgs.gnome.gnome-software pkgs.gnome.totem
     ];
+
+  # Session paths
+  services.xserver.desktopManager.gnome.sessionPath = [
+    pkgs.gnome.gedit
+  ];
 
   # EarlyOOM
   services.earlyoom = {

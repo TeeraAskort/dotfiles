@@ -91,6 +91,9 @@ in
     QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
+  # QT5 Style
+  qt5.style = "adwaita-dark";
+
   # Font configuration
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })

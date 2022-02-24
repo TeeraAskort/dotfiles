@@ -18,7 +18,7 @@
   };
 
   boot.initrd.luks.devices."luks" = {
-    device = "/dev/disk/by-uuid/64bae9a2-99bb-41ce-ab62-52d8d8717846";
+    device = "/dev/disk/by-uuid/UUIDchangeme";
     allowDiscards = true;
     preLVM = true;
   };
@@ -29,7 +29,7 @@
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/587B-DE40";
+    { device = "/dev/disk/by-uuid/bootChangeme";
       fsType = "vfat";
     };
 
@@ -45,7 +45,7 @@
   };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/cab84cbb-5c33-4449-b8a2-d1980134f73a"; }
+    [ { device = "/dev/disk/by-uuid/swapChangeme"; }
     ];
 
   nix.maxJobs = lib.mkDefault 8;

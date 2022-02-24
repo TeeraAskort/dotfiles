@@ -63,7 +63,7 @@ in
     gnome.gnome-terminal celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
-    git etcher brasero nicotine-plus dolphinEmu
+    git brasero nicotine-plus dolphinEmu
     zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify yt-dlp
     chromium ffmpegthumbnailer 
@@ -209,36 +209,20 @@ in
   };
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio = {
+  security.rtkit.enable = true;
+  services.pipewire = {
     enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    jack.enable = true;
 
-    daemon.config = {
-      lfe-crossover-freq = 20;
-      default-sample-format = "float32le";
-      default-sample-rate = 192000;
-      alternate-sample-rate = 48000;
-      default-sample-channels = 2;
-      default-channel-map = "front-left,front-right";
-      default-fragments = 2;
-      default-fragment-size-msec = 125;
-      resample-method = "speex-float-5";
-      remixing-produce-lfe = "no";
-      remixing-consume-lfe = "no";
-      high-priority = "yes";
-      nice-level = -11;
-      realtime-scheduling = "yes";
-      realtime-priority = 9;
-      rlimit-rtprio = 9;
-      daemonize = "no";
-    };
-
-    # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
-    # Only the full build has Bluetooth support, so it must be selected here.
-    extraModules = [ pkgs.pulseaudio-modules-bt ];
-    package = pkgs.pulseaudioFull;
-    support32Bit = true;
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
   };
+  hardware.pulseaudio.enable = false;
 
   # Enabling xwayland
   programs.xwayland.enable = true;

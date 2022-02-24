@@ -24,7 +24,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "link-pc"; # Define your hostname.
+  networking.hostName = "link-340s"; # Define your hostname.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -83,6 +83,7 @@ in
     docker-compose 
     php php80Extensions.pdo php80Extensions.iconv php80Extensions.pdo_mysql
     symfony-cli
+    gnomeExtensions.gsconnect
   ];
 
   # Environment variables

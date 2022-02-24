@@ -14,7 +14,6 @@ ln -s $HOME/Datos/Escritorio $HOME
 ln -s $HOME/Datos/Música $HOME
 ln -s $HOME/Datos/Imágenes $HOME
 ln -s $HOME/Datos/Nextcloud $HOME
-ln -s $HOME/Datos/Torrent $HOME
 ln -s $HOME/Datos/Sync $HOME
 
 ## Downloading Plug for vim

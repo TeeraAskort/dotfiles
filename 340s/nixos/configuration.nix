@@ -78,7 +78,7 @@ in
     firefox gnome.gnome-boxes
     myAspell mythes gimp steam pcsx2
     adwaita-qt
-    gnomeExtensions.gsconnect
+    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser gnomeExtensions.hibernate-status-button
   ];
 
   # Environment variables
@@ -242,7 +242,7 @@ in
   services.logind.lidSwitch = "hibernate";
   services.logind.lidSwitchDocked = "hibernate";
   services.logind.lidSwitchExternalPower = "hibernate";
-  services.logind.extraConfig = "IdleAction=hibernate\nIdleActionSec=15min";
+  services.logind.extraConfig = "IdleAction=hibernate\nIdleActionSec=15min\nHandlePowerKey=hibernate\nHandleSuspendKey=hibernate\nPowerKeyIgnoreInhibited=yes\nSuspendKeyIgnoreInhibited=yes";
 
   # Enabling xwayland
   programs.xwayland.enable = true;

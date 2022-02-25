@@ -63,15 +63,6 @@ in
   # Package overrides
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-    steam = pkgs.steam.override {
-      extraPkgs = pkgs: [
-        pkgs.ibus
-      ];
-    };
-   # vivaldi = pkgs.vivaldi.override {
-   #   proprietaryCodecs = true;
-   #   enableWidevine = true;
-   # };
   };
 
   # List packages installed in system profile. To search, run:
@@ -80,9 +71,9 @@ in
     gnome.gnome-terminal celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
-    git etcher brasero
+    git brasero nicotine-plus dolphinEmu
     zip p7zip unzip unrar gnome.gnome-calendar 
-    steam-run systembus-notify
+    steam-run systembus-notify yt-dlp
     chromium ffmpegthumbnailer 
     obs-studio libfido2 pfetch
     gtk-engine-murrine lm_sensors
@@ -90,12 +81,12 @@ in
     ffmpeg-full nodejs nodePackages.npm
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
-    gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
-    android-studio libsForQt5.qtstyleplugin-kvantum
-    mednafen mednaffe 
-    firefox lbry gnome.gnome-boxes
-    myAspell mythes gimp steam
-    adwaita-qt   
+    gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
+    mednafen mednaffe minecraft
+    firefox gnome.gnome-boxes
+    myAspell mythes gimp steam pcsx2
+    adwaita-qt
+    gnomeExtensions.gsconnect
     nvidia-offload
   ];
 
@@ -105,6 +96,10 @@ in
     QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
+  # QT5 Style
+  qt5.style = "adwaita-dark";
+
+  # Font configuration
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
     noto-fonts-cjk
@@ -112,6 +107,9 @@ in
     noto-fonts
     recursive
   ];
+
+  # Enabling thermald
+  services.thermald.enable = true;
 
   # Enabling virtualization
   virtualisation.libvirtd.enable = true;
@@ -135,6 +133,39 @@ in
       theme = "frisk";
     };
   };
+
+  # ZramSwap
+  zramSwap.enable = true;
+
+  # Syncthing configuration
+  services.syncthing.enable = true;
+
+  # Firewall config
+  networking.firewall.allowedTCPPorts = [
+	22
+	80
+	443
+        22000
+  ];
+  networking.firewall.allowedUDPPorts = [
+	22
+	80
+	443
+	22000
+	21027
+  ];
+  networking.firewall.allowedTCPPortRanges = [
+    {
+      from = 1714;
+      to = 1764;
+    }
+  ];
+  networking.firewall.allowedUDPPortRanges = [
+    {
+      from = 1714;
+      to = 1764;
+    }
+  ];
 
   # Automatic garbage collection
   nix.gc.automatic = true;
@@ -169,7 +200,6 @@ in
   services.flatpak.enable = true;
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # Steam dependencies
@@ -192,36 +222,20 @@ in
   };
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio = {
+  security.rtkit.enable = true;
+  services.pipewire = {
     enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    jack.enable = true;
 
-    daemon.config = {
-      lfe-crossover-freq = 20;
-      default-sample-format = "float32le";
-      default-sample-rate = 192000;
-      alternate-sample-rate = 48000;
-      default-sample-channels = 2;
-      default-channel-map = "front-left,front-right";
-      default-fragments = 2;
-      default-fragment-size-msec = 125;
-      resample-method = "speex-float-5";
-      remixing-produce-lfe = "no";
-      remixing-consume-lfe = "no";
-      high-priority = "yes";
-      nice-level = -11;
-      realtime-scheduling = "yes";
-      realtime-priority = 9;
-      rlimit-rtprio = 9;
-      daemonize = "no";
-    };
- 
-    # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
-    # Only the full build has Bluetooth support, so it must be selected here.
-    extraModules = [ pkgs.pulseaudio-modules-bt ];
-    package = pkgs.pulseaudioFull;
-    support32Bit = true;
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
   };
+  hardware.pulseaudio.enable = false;
 
   # Enable bluetooth
   hardware.bluetooth = {
@@ -232,6 +246,8 @@ in
   # Nvidia config
   hardware.nvidia = {
     nvidiaPersistenced = true;
+    powerManagement.enable = true;
+    modesetting.enable = true;
     prime = {
       offload.enable = true;
 
@@ -263,7 +279,8 @@ in
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
-        wayland = false;
+        wayland = true;
+	nvidiaWayland = true;
         enable = true;
       };
     };
@@ -272,31 +289,6 @@ in
       xterm.enable = false;
       gnome = {
         enable = true;
-        extraGSettingsOverrides = ''
-          [org.gnome.desktop.interface]
-          gtk-theme = "Adwaita-dark"
-          icon-theme = "Papirus-Dark"
-	  monospace-font-name = "Rec Mono Semicasual Regular 11"
-
-          [org.gnome.desktop.wm.preferences]
-          theme = "Adwaita-dark"
-          button-layout = "appmenu:minimize,maximize,close"
-
-	  [org.gnome.desktop.peripherals.mouse]
-	  accel-profile = "flat"
-
-	  [org.gnome.desktop.privacy]
-	  disable-camera = true
-	  disable-microphone = true
-	  remember-recent-files = false
-	  remove-old-temp-files = true
-	  remove-old-trash-files = true
-	  old-files-age = 3
-
-          [org.gnome.settings-daemon.plugins.power]
-          sleep-inactive-ac-timeout = 1800
-          sleep-inactive-battery-timeout = 900
-        '';
       };
     };
   };
@@ -306,6 +298,11 @@ in
     [ pkgs.epiphany pkgs.gnome.gnome-music
       pkgs.gnome.gnome-software pkgs.gnome.totem
     ];
+
+  # Session paths
+  services.xserver.desktopManager.gnome.sessionPath = [
+    pkgs.gnome.gedit
+  ];
 
   # EarlyOOM
   services.earlyoom = {

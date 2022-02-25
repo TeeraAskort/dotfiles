@@ -37,7 +37,6 @@ in
     };
     extraHosts = ''
       ${builtins.readFile blockedHosts}
-      127.0.0.1 symfony.contactesandreufurio symfony.llibresandreufurio
     '';
 
   };
@@ -79,10 +78,6 @@ in
     firefox gnome.gnome-boxes
     myAspell mythes gimp steam pcsx2
     adwaita-qt
-    postman android-studio dbeaver filezilla
-    docker-compose 
-    php php80Extensions.pdo php80Extensions.iconv php80Extensions.pdo_mysql
-    symfony-cli
     gnomeExtensions.gsconnect
   ];
 
@@ -182,7 +177,7 @@ in
     su.u2fAuth = true;
   };
 
-  #Haveged daemon
+  # Haveged daemon
   services.haveged.enable = true;
 
   # Flatpak support
@@ -190,9 +185,6 @@ in
   xdg.portal = {
     enable = true;
   };
-
-  # Docker config
-  virtualisation.docker.enable = true;
 
   # Steam dependencies
   hardware.opengl = {
@@ -293,7 +285,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "docker" "vboxusers" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

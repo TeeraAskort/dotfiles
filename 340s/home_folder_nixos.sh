@@ -107,9 +107,3 @@ done
 ## Installing NPM packages
 npm config set prefix '~/.node_packages'
 npm install -g @angular/cli 
-
-## Configuring docker
-cd $directory/../common
-docker-compose -f compose.yml up -d --build
-docker start mariadb php-apache
-docker container prune -f

@@ -18,13 +18,13 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	parted /dev/nvme0n1 -- mkpart primary 512M 100G
 
 	# Loop until cryptsetup succeeds formatting the partition
-	until cryptsetup luksFormat /dev/nvme0n1p3
+	until cryptsetup luksFormat /dev/nvme0n1p2
 	do 
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the patition
-	until cryptsetup open /dev/nvme0n1p3 luks
+	until cryptsetup open /dev/nvme0n1p2 luks
 	do
 		echo "Cryptsetup failed, trying again"
 	done

@@ -138,7 +138,18 @@ in
   zramSwap.enable = true;
 
   # Syncthing configuration
-  services.syncthing.enable = true;
+  services.syncthing = { 
+    enable = true;
+    user = "link";
+    overrideFolders = true;
+    dataDir = "/home/link";
+    configDir = "/home/link/.config/syncthing";
+    folders = {
+      "/home/link/Sync" = {
+        id = "home";
+      };
+    };
+  };
 
   # Firewall config
   networking.firewall.allowedTCPPorts = [

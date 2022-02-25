@@ -18,6 +18,8 @@
     "dev.i915.perf_stream_paranoid" = 0;
   };
 
+  boot.resumeDevice = "/dev/disk/by-uuid/swapChangeme";
+
   boot.initrd.luks.devices."luks" = {
     device = "/dev/disk/by-uuid/UUIDchangeme";
     allowDiscards = true;

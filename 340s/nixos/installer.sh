@@ -74,7 +74,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	cp $directory/datos/.keyfile /mnt
 
 	# Put correct UUID on hardware-configuration.nix
-	uuid=$(blkid -o value -s UUID /dev/nvme0n1p3)
+	uuid=$(blkid -o value -s UUID /dev/nvme0n1p2)
 	sed -i "s/UUIDchangeme/$uuid/g" $directory/hardware-configuration.nix
 
 	# Add boot partition to hardware-config

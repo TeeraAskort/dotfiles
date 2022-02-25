@@ -240,10 +240,10 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen filezilla php chromium composer dbeaver nicotine+ yt-dlp docker docker-compose pcsx2 syncthing zram-generator home_Alderaeney_Arch/strawberry-qt5
+pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen chromium nicotine+ yt-dlp pcsx2 syncthing zram-generator home_Alderaeney_Arch/strawberry-qt5
 
 # Enabling services
-systemctl enable thermald apparmor firewalld docker syncthing@link.service systemd-oomd.service
+systemctl enable thermald apparmor firewalld syncthing@link.service systemd-oomd.service
 
 # Configuring zram
 cat > /etc/systemd/zram-generator.conf <<EOF
@@ -258,7 +258,7 @@ EOF
 pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader openssl-1.0
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin jdownloader2 visual-studio-code-bin pfetch postman-bin minigalaxy minecraft-launcher 
+sudo -u aurbuilder yay -S --noconfirm dxvk-bin jdownloader2 visual-studio-code-bin pfetch minigalaxy minecraft-launcher 
 
 # Installing mpv-mpris
 if [[ ! "$1" == "gnome" ]]; then
@@ -286,16 +286,8 @@ if [[ "$2" == "gtk" ]]; then
 	fi
 fi
 
-# Installing themes for non gnome gtk desktops
-# if [[ "$1" != "gnome" ]] && [[ "$1" != "kde" ]] && [[ "$1" != "plasma" ]]; then
-#	sudo -u aurbuilder yay -S --noconfirm whitesur-gtk-theme-git whitesur-kde-theme-git
-# fi
-
-# Uncommenting iconv extension
-sed -i "s/;extension=iconv/extension=iconv/g" /etc/php/php.ini
-
 # Installing the rest of AUR packages with user link
-sudo -u link yay -S --noconfirm protontricks mednaffe android-studio
+sudo -u link yay -S --noconfirm protontricks mednaffe 
 
 # Linking yt-dlp to youtube-dl
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
@@ -315,12 +307,6 @@ echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
 echo "HibernateMode=shutdown" | tee -a /etc/systemd/sleep.conf
 
-# Adding user to vboxusers group
-usermod -aG vboxusers link
-
-# Adding user to docker group
-usermod -aG docker link
-
 # Decrease swappiness
 echo "vm.swappiness = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "vm.vfs_cache_pressure = 50" | tee -a /etc/sysctl.d/99-sysctl.conf
@@ -337,10 +323,6 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue
 # set cfq scheduler for rotating disks
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
-
-# Adding mysql support for php
-sed -i "s/;extension=mysqli/extension=mysqli/g" /etc/php/php.ini
-sed -i "s/;extension=pdo_mysql/extension=pdo_mysql/g" /etc/php/php.ini
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -

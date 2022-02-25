@@ -25,12 +25,6 @@ dnf copr enable alderaeney/mednaffe -y
 # Enabling better_fonts repo
 dnf copr enable aldrich/better_fonts -y
 
-# Adding php repo
-dnf -y install https://rpms.remirepo.net/fedora/remi-release-35.rpm
-dnf config-manager --set-enabled remi
-
-dnf module install php:remi-8.0 -y
-
 #Enabling vivaldi repo
 # dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
 
@@ -42,9 +36,6 @@ dnf module install php:remi-8.0 -y
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
 
-# Adding docker repo
-dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-
 # Upgrade system
 dnf upgrade -y --refresh
 
@@ -55,22 +46,11 @@ dnf groupinstall "C Development Tools and Libraries" -y
 dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam celluloid flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg dkms elfutils-libelf-devel qt5-qtx11extras gtk-murrine-engine gtk2-engines kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller composer docker-ce docker-ce-cli containerd.io docker-compose yt-dlp minigalaxy fontconfig-font-replacements fontconfig-enhanced-defaults syncthing php-mysqlnd p7zip filezilla
+dnf install -y vim lutris steam celluloid flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg dkms elfutils-libelf-devel qt5-qtx11extras gtk-murrine-engine gtk2-engines kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy fontconfig-font-replacements fontconfig-enhanced-defaults syncthing p7zip 
 
 # Enabling services
 user="$SUDO_USER"
-systemctl enable thermald docker syncthing@${user}.service
-
-# Starting services
-systemctl start docker
-
-# Adding user to vboxusers group
-user="$SUDO_USER"
-usermod -aG vboxusers $user
-
-# Adding user to docker group
-user="$SUDO_USER"
-usermod -aG docker $user
+systemctl enable thermald syncthing@${user}.service
 
 # Remove unused packages 
 dnf remove -y totem rhythmbox 
@@ -92,7 +72,7 @@ dnf group upgrade -y --with-optional Multimedia
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman io.dbeaver.DBeaverCommunity org.gtk.Gtk3theme.Adwaita-dark org.telegram.desktop com.mojang.Minecraft com.discordapp.Discord com.google.AndroidStudio com.obsproject.Studio
+flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark org.telegram.desktop com.mojang.Minecraft com.discordapp.Discord com.obsproject.Studio
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
@@ -116,7 +96,6 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue
 # set cfq scheduler for rotating disks
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
-
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'

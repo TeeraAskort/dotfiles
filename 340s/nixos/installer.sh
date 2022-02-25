@@ -63,8 +63,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 
 	# Copy key from secondary drive to root partition
 	clear 
+	part=$(blkid | grep nvme0n1 | grep -e "$dataDiskUUID" | cut -d":" -f1)
 	echo "Enter data disk password"
-	until cryptsetup open /dev/nvme0n1p2 datos
+	until cryptsetup open $part datos
 	do
 		echo "Cryptsetup failed opening the secondary drive"
 	done

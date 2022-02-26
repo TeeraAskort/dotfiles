@@ -10,7 +10,9 @@ cd /usr/share/applications/YaST2
 for file in $(ls /usr/share/applications/YaST2); do 
 	if [ -f $file ]; then
 		sed -i "s/\"//g" $file
+		sed -i "s/'//g" $file
 		sed -i "s/\/usr\/bin\/xdg-su -c \/sbin\/yast2/\/usr\/local\/sbin\/yast2_polkit/g" $file
+		sed -i "s/xdg-su -c \/sbin\/yast2/\/usr\/local\/sbin\/yast2_polkit/g" $file
 	fi 
 done
 

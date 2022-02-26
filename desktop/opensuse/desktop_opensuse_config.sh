@@ -53,7 +53,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in --from "home:Alderaeney (openSUSE_Tumbleweed)" -y strawberry.x86_64
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service syncthing alsa-plugins-pulse.x86_64 minecraft-launcher 7zip
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service syncthing alsa-plugins-pulse.x86_64 minecraft-launcher 7zip
 
 	# Enabling thermald service
 	user="$SUDO_USER"
@@ -74,7 +74,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications
-		zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird
+		zypper in -y yakuake qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird mpv mpv-mpris
 
 		# Removing unwanted DE specific applications
 		zypper rm -y  konversation kmines ksudoku kreversi
@@ -105,7 +105,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader
+		zypper in -y adwaita-qt5 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader celluloid
 
  		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
@@ -125,7 +125,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper rm -y blueman parole pidgin remmina pragha
 
 		# Installing DE specific applications
-		zypper in -y xcape playerctl transmission-gtk gvfs gvfs-backends gvfs-backend-samba gvfs-fuse ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg adwaita-qt5 QGnomePlatform aisleriot libgepub-0_6-0 libgsf-1-114 libopenraw1 brasero pavucontrol xarchiver blueberry evince gnome-keyring-pam gnome-keyring
+		zypper in -y xcape playerctl transmission-gtk gvfs gvfs-backends gvfs-backend-samba gvfs-fuse ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg adwaita-qt5 QGnomePlatform aisleriot libgepub-0_6-0 libgsf-1-114 libopenraw1 brasero pavucontrol xarchiver blueberry evince gnome-keyring-pam gnome-keyring mpv mpv-mpris
 
 		# Adding gnome theming to qt
 		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment

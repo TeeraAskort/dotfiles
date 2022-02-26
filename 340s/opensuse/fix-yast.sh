@@ -8,8 +8,10 @@ IFS=$(echo -en "\n\b")
 cd /usr/share/applications/YaST2
 
 for file in $(ls /usr/share/applications/YaST2); do 
-	sed -i "s/xdg-su -c/pkexec/g" $file
-	sed -i "s/\"//g" $file
+	if [ -f $file ]; then
+		sed -i "s/xdg-su -c/pkexec/g" $file
+		sed -i "s/\"//g" $file
+	fi 
 done
 
 IFS=$SAVEIFS

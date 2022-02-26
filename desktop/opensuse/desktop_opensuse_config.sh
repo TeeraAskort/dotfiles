@@ -71,6 +71,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Block vlc from installing
 	zypper addlock vlc-beta
 	zypper addlock vlc
+	zypper youtube-dl
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications

@@ -53,21 +53,14 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in --from "home:Alderaeney (openSUSE_Tumbleweed)" -y strawberry.x86_64
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch virtualbox filezilla php-composer2 virtualbox-host-source kernel-devel kernel-default-devel cryptsetup yt-dlp pcsx2 libasound2.x86_64 docker python3-docker-compose minigalaxy systemd-zram-service syncthing alsa-plugins-pulse.x86_64 minecraft-launcher php8 php8-iconv 7zip
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions mpv mpv-mpris flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service syncthing alsa-plugins-pulse.x86_64 minecraft-launcher 7zip
 
 	# Enabling thermald service
 	user="$SUDO_USER"
-	systemctl enable thermald earlyoom docker syncthing@${user}.service
-
-	# Starting services
-	systemctl start docker
+	systemctl enable thermald earlyoom syncthing@${user}.service
 
 	# Starting zram service
 	zramswapon
-
-	# Adding current user to docker group
-	user="$SUDO_USER"
-	usermod -G docker -a $user
 
 	# Installing computer specific applications 
 	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f 
@@ -161,9 +154,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	user=$SUDO_USER
 	usermod -aG wheel $user
 
-	# Uncommenting iconv extension
-	sed -i "s/;extension=iconv/extension=iconv/g" /etc/php/php.ini
-
 	# Add sudo rule to use wheel group
 	if [[ ! -e /etc/sudoers.d ]]; then
 		mkdir -p /etc/sudoers.d
@@ -180,11 +170,21 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Configuring policykit
 	sed -i "s/user:0/group:wheel/g" /usr/share/polkit-1/rules.d/50-default.rules
 
+	# Adding yast2 polkit rule
+	cat >>  /usr/share/polkit-1/actions/org.opensuse.pkexec.yast2.policy <<EOF
+polkit.addRule(function(action, subject) {
+        if (action.id == "org.opensuse.pkexec.yast2" &&
+	       	subject.isInGroup("wheel")) {
+		return polkit.Result.AUTH_SELF_KEEP;
+	}
+});
+EOF
+
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.getpostman.Postman io.dbeaver.DBeaverCommunity com.obsproject.Studio org.nicotine_plus.Nicotine org.DolphinEmu.dolphin-emu
+	flatpak install -y flathub org.jdownloader.JDownloader com.github.AmatCoder.mednaffe org.telegram.desktop com.obsproject.Studio org.nicotine_plus.Nicotine org.DolphinEmu.dolphin-emu
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
@@ -204,10 +204,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Flatpak overrides
 	user="$SUDO_USER"
 	sudo -u $user flatpak override --user --filesystem=/home/$user/.fonts
-
-	# Adding user to vboxusers group
-	user="$SUDO_USER"
-	usermod -aG vboxusers $user 
 
 	# Decrease swappiness
 	echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf

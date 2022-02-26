@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ $(which pkexec) ]; then
+        pkexec --disable-internal-agent "/usr/sbin/yast2" "$@"
+else
+        /usr/sbin/yast2 "$@"
+fi

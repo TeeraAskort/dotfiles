@@ -174,6 +174,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Copy plokit config
 	cp $directory/org.opensuse.pkexec.yast2.policy /usr/share/polkit-1/actions/org.opensuse.pkexec.yast2.policy
 
+	# Copying pkexec bash script
+	cp $directory/yast2_polkit /usr/local/sbin/yast2_polkit
+	chmod +x /usr/local/sbin/yast2_polkit
+
 	# Changing all yast executables to pkexec
 	bash $directory/fix-yast.sh
 

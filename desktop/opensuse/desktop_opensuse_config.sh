@@ -162,15 +162,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Configuring policykit
 	sed -i "s/user:0/group:wheel/g" /usr/share/polkit-1/rules.d/50-default.rules
 
-	# Adding yast2 polkit rule
-	cat >>  /usr/share/polkit-1/actions/org.opensuse.pkexec.yast2.policy <<EOF
-polkit.addRule(function(action, subject) {
-        if (action.id == "org.opensuse.pkexec.yast2" &&
-	       	subject.isInGroup("wheel")) {
-		return polkit.Result.AUTH_SELF_KEEP;
-	}
-});
-EOF
+	# Copy plokit config
+	cp $directory/org.opensuse.pkexec.yast2.policy /usr/share/polkit-1/actions/org.opensuse.pkexec.yast2.policy
+
+	# Changing all yast executables to pkexec
+	bash $directory/fix-yast.sh
 
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

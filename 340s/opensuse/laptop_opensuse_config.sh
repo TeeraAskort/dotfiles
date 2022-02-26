@@ -107,7 +107,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper rm -y  gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader
+		zypper in -y adwaita-qt5 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes
 
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
@@ -170,15 +170,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Configuring policykit
 	sed -i "s/user:0/group:wheel/g" /usr/share/polkit-1/rules.d/50-default.rules
 
-	# Adding yast2 polkit rule
-	cat >>  /usr/share/polkit-1/actions/org.opensuse.pkexec.yast2.policy <<EOF
-polkit.addRule(function(action, subject) {
-        if (action.id == "org.opensuse.pkexec.yast2" &&
-	       	subject.isInGroup("wheel")) {
-		return polkit.Result.AUTH_SELF_KEEP;
-	}
-});
-EOF
+	# Copy plokit config
+	cp $directory/org.opensuse.pkexec.yast2.policy /usr/share/polkit-1/actions/org.opensuse.pkexec.yast2.policy
+
+	# Changing all yast executables to pkexec
+	bash $directory/fix-yast.sh
 
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

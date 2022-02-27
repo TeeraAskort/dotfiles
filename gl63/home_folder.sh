@@ -31,6 +31,7 @@ ln -s $HOME/Datos/Música $HOME
 ln -s $HOME/Datos/Imágenes $HOME
 ln -s $HOME/Datos/Torrent $HOME
 ln -s $HOME/Datos/Nextcloud $HOME
+ln -s $HOME/Datos/Sync $HOME
 
 ## Overriding xdg-user-dirs
 xdg-user-dirs-update --set DESKTOP $HOME/Datos/Escritorio
@@ -71,9 +72,31 @@ cp $directory/zsh/.opensuse_alias ~
 cp $directory/zsh/.elementary_alias ~
 cp $directory/zsh/.solus_alias ~
 cp $directory/zsh/.ubuntu_alias ~
-mkdir -p ~/.config/pulse
-cp $directory/dotfiles/daemon.conf ~/.config/pulse/
-pulseaudio -k
+if command -v pulseaudio &> /dev/null; then 
+	mkdir -p ~/.config/pulse
+	cp $directory/dotfiles/daemon.conf ~/.config/pulse/
+	pulseaudio -k
+fi
+
+## Starting pipewire services
+if command -v pipewire &> /dev/null ; then
+	systemctl --user enable --now pipewire.socket
+	systemctl --user enable --now pipewire-pulse.{service,socket}
+	if command -v wireplumber &> /dev/null ; then
+		systemctl --user enable --now wireplumber.service
+	fi
+fi
+
+## Configuring pipewire
+if command -v pipewire &> /dev/null ; then
+	cd $directory/../common/
+	cp -r pipewire ~/.config/
+	systemctl --user restart pipewire.service pipewire-pulse.socket
+	if command -v wireplumber &> /dev/null ; then 
+		cp -r wireplumber ~/.config/
+		systemctl --user restart wireplumber
+	fi
+fi
 
 # Copying .zshenv on debian
 if [ $(lsb_release -is | grep "Debian" | wc -l) -eq 1 ]; then
@@ -105,9 +128,15 @@ unzip ~/Documentos/fonts2.zip
 # Installing NPM packages
 if command -v rpm-ostree &> /dev/null; then
 	npm config set prefix '~/.node_packages'
-	npm install -g @angular/cli @vue/cli @ionic/cli sass
+	npm install -g @angular/cli
+	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then
+		npm install -g bash-language-server
+	fi
 else
-	sudo npm install -g @angular/cli @vue/cli @ionic/cli sass
+	sudo npm install -g @angular/cli
+	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then
+		sudo npm install -g bash-language-server
+	fi
 fi
 
 # Enabling opentabletdriver service
@@ -133,6 +162,14 @@ until ssh-add ~/.ssh/id_ed25519; do
 	echo "Bad password, retrying"
 done
 
+## Enabling firewall services
+if command -v firewall-cmd &> /dev/null ; then
+	sudo firewall-cmd --zone=public --permanent --add-service=kdeconnect
+	sudo firewall-cmd --zone=public --permanent --add-service=syncthing
+	sudo firewall-cmd --zone=public --permanent --add-service=syncthing-gui
+	sudo firewall-cmd --reload
+fi
+
 ## Configuring u2f cards
 hostnm=$(hostname)
 
@@ -149,11 +186,15 @@ bash $directory/pam_config.sh
 
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
-	if [ -e /usr/share/themes/Materia-dark-compact ]; then
+		if [ -e /usr/share/themes/Materia-dark-compact ]; then
 		gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark-compact"
 
 	elif [ -e /usr/share/themes/Qogir-win-dark ]; then
 		gsettings set org.gnome.desktop.interface gtk-theme "Qogir-win-dark"
+
+	elif [ -e /usr/share/themes/Orchis-grey-dark-compact/ ]; then
+		gsettings set org.gnome.desktop.interface gtk-theme "Orchis-grey-dark-compact"
+
 	else
 		if [ -e /usr/share/themes/Materia-dark ]; then 
 			gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark"
@@ -177,9 +218,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
@@ -251,6 +289,68 @@ if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
 fi
 
 gsettings set org.gtk.Settings.FileChooser sort-directories-first true
+
+# Cinnamon config
+if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
+	gsettings set org.cinnamon.settings-daemon.peripherals.touchpad tap-to-click true
+	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
+	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-ac-action 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-battery-action 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-type 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power button-power 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power button-suspend 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power critical-battery-action 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power lock-on-suspend true
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-ac 900
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-battery 300
+	gsettings set org.cinnamon.settings-daemon.plugins.power idle-dim-battery true
+	gsettings set org.cinnamon.settings-daemon.plugins.power idle-dim-time 90
+	gsettings set org.cinnamon.settings-daemon.peripherals.keyboard numlock-state 'on'
+	gsettings set org.cinnamon.desktop.privacy remember-recent-files false
+	gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y'
+	gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
+	gsettings set org.cinnamon.desktop.interface icon-theme 'Papirus-Dark'
+	gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
+	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
+	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
+	gsettings set org.cinnamon hotcorner-layout "['scale:true:150', 'scale:false:0', 'scale:false:0', 'desktop:false:0']"
+	gsettings set org.cinnamon panels-height "['1:26']"
+	gsettings set org.cinnamon.muffin tile-maximize true
+	gsettings set org.cinnamon.muffin unredirect-fullscreen-windows true
+	gsettings set org.cinnamon.desktop.interface clock-show-date true
+	gsettings set org.nemo.icon-view default-zoom-level 'small'
+	gsettings set org.nemo.preferences thumbnail-limit 8589934592
+
+	# Keybindings
+	gsettings set org.cinnamon.desktop.keybindings.media-keys terminal "['<Primary><Alt>t', '<Super>t']"
+	gsettings set org.cinnamon.desktop.keybindings.media-keys www "['XF86WWW', '<Super>w']"
+	gsettings set org.cinnamon.desktop.keybindings.media-keys play "['XF86AudioPlay', '<Super>z']"
+	gsettings set org.cinnamon.desktop.keybindings.media-keys next "['XF86AudioNext', '<Super>c']"
+	gsettings set org.cinnamon.desktop.keybindings.media-keys previous "['XF86AudioPrev', '<Super>x']"
+	gsettings set org.cinnamon.desktop.keybindings looking-glass-keybinding "[]"
+	gsettings set org.cinnamon.desktop.keybindings.media-keys screensaver "['<Super>l', 'XF86ScreenSaver']"
+
+	if [ -e ~/Imágenes/pape.jpg ]; then
+		sudo cp ~/Imágenes/pape.jpg /usr/share/backgrounds
+	fi
+
+	if [ ! -e ~/.local/share/cinnamon/applets  ]; then
+		mkdir -p ~/.local/share/cinnamon/applets
+	fi
+
+	curl -L "https://cinnamon-spices.linuxmint.com/files/applets/kdecapplet@joejoetv.zip" > $directory/kdeapplet.zip
+	cd ~/.local/share/cinnamon/applets/
+	unzip $directory/kdeapplet.zip
+	rm $directory/kdeapplet.zip
+
+fi
+
+if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then
+	sudo cp ~/Imágenes/pape.jpg /usr/share/wallpapers/
+fi
 
 ## Configuring git
 git config --global user.name "Alderaeney"

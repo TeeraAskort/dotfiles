@@ -25,14 +25,15 @@ echo "/dev/mapper/encrypteddata $HOME/Datos btrfs defaults 0 0" | sudo tee -a /e
 rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent ~/Sync
 
 ## Linking home folders
-ln -s /home/link/Datos/Descargas /home/link
-ln -s /home/link/Datos/Descargas /home/link/Downloads
-ln -s /home/link/Datos/Documentos /home/link
-ln -s /home/link/Datos/Escritorio /home/link
-ln -s /home/link/Datos/Música /home/link
-ln -s /home/link/Datos/Imágenes /home/link
-ln -s /home/link/Datos/Nextcloud /home/link
-ln -s /home/link/Datos/Sync $HOME
+ln -s $HOME/Datos/Descargas $HOME
+ln -s $HOME/Datos/Descargas $HOME/Downloads
+ln -s $HOME/Datos/Documentos $HOME
+ln -s $HOME/Datos/Escritorio $HOME
+ln -s $HOME/Datos/Música $HOME
+ln -s $HOME/Datos/Imágenes $HOME
+ln -s $HOME/Datos/Torrent $HOME
+ln -s $HOME/Datos/Nextcloud $HOME
+ln -s $HOME/Datos/Sync $HOME
 
 ## Overriding xdg-user-dirs
 xdg-user-dirs-update --set DESKTOP $HOME/Datos/Escritorio

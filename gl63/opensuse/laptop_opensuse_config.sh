@@ -120,12 +120,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
 
-		# Adding hibernate paramaters
-		echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
-		echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
-		echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
-		echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
-
 	elif [ "$1" == "cinnamon" ]; then
 		# Removing unwanted DE specific applications
 		zypper rm -y hexchat celluloid rhythmbox xed
@@ -237,11 +231,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# set cfq scheduler for rotating disks
 	ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
-
-	# Adding hibernation support
-	echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
-	echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
-	dracut -f
 
 	# Copying prime-run
 	cp $directory/../dotfiles/prime-run /usr/bin

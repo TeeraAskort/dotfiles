@@ -23,7 +23,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	fi
 	# zypper ar https://repo.vivaldi.com/archive/vivaldi-suse.repo
 
-zypper addrepo --refresh https://download.nvidia.com/opensuse/tumbleweed NVIDIA
+	# Add nvidia repo
+	zypper addrepo --refresh https://download.nvidia.com/opensuse/tumbleweed NVIDIA
+
 	# Adding VSCode repo
 	rpm --import https://packages.microsoft.com/keys/microsoft.asc
 	sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/zypp/repos.d/vscode.repo'

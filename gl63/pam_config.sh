@@ -1,7 +1,19 @@
 hostnm=$(hostname)
+common_auth=False
 
-sudo sed -i "2i auth            sufficient      pam_u2f.so origin=pam://$hostnm appid=pam://$hostnm cue" /etc/pam.d/sudo
-sudo sed -i "/auth.*substack.*system-auth/a auth\tsufficient\tpam_u2f.so cue origin=pam://$hostnm appid=pam://$hostnm cue" /etc/pam.d/su
+if [ -e /etc/pam.d/sudo ]; then
+	sudo sed -i "2i auth            sufficient      pam_u2f.so origin=pam://$hostnm appid=pam://$hostnm cue" /etc/pam.d/sudo
+fi
+
+if [ -e /etc/pam.d/su ]; then
+	sudo sed -i "/auth.*substack.*system-auth/a auth\tsufficient\tpam_u2f.so cue origin=pam://$hostnm appid=pam://$hostnm cue" /etc/pam.d/su
+fi
+
+if [ -e /etc/pam.d/common-auth ]; then
+	sudo sed -i "s/pam_gnome_keyring.so/&\nauth required pam_u2f.so cue/g" /etc/pam.d/common-auth
+	common_auth=True
+fi
+
 if [ -e /etc/pam.d/gdm-password ]; then
 	sudo cp /etc/pam.d/gdm-password /etc/pam.d/gdm-password.bak
 	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/gdm-password /etc/pam.d/gdm-password > gdm-password
@@ -38,6 +50,13 @@ if [ -e /etc/pam.d/lightdm ]; then
 	rm lightdm
 fi
 
+if [ -e /etc/pam.d/cinnamon-screensaver ]; then
+	sudo cp /etc/pam.d/cinnamon-screensaver /etc/pam.d/cinnamon-screensaver.bak
+	awk -v exclude="#" '($0 !~ exclude) &&  FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth            required      pam_u2f.so nouserok cue" }' /etc/pam.d/cinnamon-screensaver /etc/pam.d/cinnamon-screensaver > cinnamon-screensaver
+	sudo cp cinnamon-screensaver /etc/pam.d/cinnamon-screensaver
+	rm cinnamon-screensaver
+fi
+
 if [ -e /etc/pam.d/sddm ]; then
 	sudo cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
 	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/sddm /etc/pam.d/sddm > sddm
@@ -50,7 +69,7 @@ if [ -e /etc/pam.d/sddm ]; then
 	rm sddm
 fi
 
-if [ -e /etc/pam.d/kde ]; then
+if [ -e /etc/pam.d/kde ] && [ $common_auth = False ]; then
 	sudo cp /etc/pam.d/kde /etc/pam.d/kde.bak
 	awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth            required      pam_u2f.so nouserok origin=pam://$hostnm appid=pam://$hostnm\" }" /etc/pam.d/kde /etc/pam.d/kde > kde
 	if diff /etc/pam.d/kde.bak kde ; then

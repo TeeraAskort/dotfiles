@@ -74,6 +74,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Installing computer specific applications
 	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f intel-undervolt
 
+	# Enabling services
+	systemctl enable intel-undervolt
+
 	# Removing unwanted applications
 	zypper rm -y git-gui vlc vlc-qt vlc-noX
 

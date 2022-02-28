@@ -20,7 +20,7 @@ echo "encrypteddata UUID=784ab40a-1cce-4d15-8df2-1cfe9f9dfa5b /root/.keyfile luk
 echo "/dev/mapper/encrypteddata $HOME/Datos btrfs defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders
-rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent
+rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent ~/Sync
 
 ## Linking home folders
 ln -s $HOME/Datos/Descargas $HOME

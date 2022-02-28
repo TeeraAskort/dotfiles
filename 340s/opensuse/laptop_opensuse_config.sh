@@ -209,6 +209,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	user="$SUDO_USER"
 	sudo -u $user flatpak override --user --filesystem=/home/$user/.fonts
 
+	# Add sysctl config
+	echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
+
 	# Decrease swappiness
 	echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 	echo "vm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf

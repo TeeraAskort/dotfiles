@@ -242,9 +242,6 @@ EOF
 	cp $directory/../dotfiles/prime-run /usr/bin
 	chmod +x /usr/bin/prime-run
 
-	# Preconfiguring prime-select
-	prime-select intel
-
 else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"

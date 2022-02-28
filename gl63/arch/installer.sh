@@ -28,8 +28,8 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	lvcreate -l 100%FREE -n home lvm
 
 	# Format partitions
-	mkfs.btrfs -f -L home /dev/lvm/home
-	mkfs.f2fs -f -l root -O extra_attr,inode_checksum,sb_checksum /dev/lvm/root
+	mkfs.xfs -f -L home /dev/lvm/home
+	mkfs.xfs -f -l root -O extra_attr,inode_checksum,sb_checksum /dev/lvm/root
 	mkfs.vfat -F32 /dev/nvme0n1p1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
@@ -41,7 +41,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	mount /dev/nvme0n1p1 /mnt/boot
 
 	# Install base system
-	pacstrap /mnt base base-devel linux-firmware linux linux-headers lvm2 efibootmgr btrfs-progs vim git f2fs-tools iptables-nft
+	pacstrap /mnt base base-devel linux-firmware linux-zen linux-zen-headers efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs
 
 	# Generate fstab
 	genfstab -U /mnt >> /mnt/etc/fstab

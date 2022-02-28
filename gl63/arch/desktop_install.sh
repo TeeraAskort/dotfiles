@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 # Configuring locales
 sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen
 sed -i "s/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/g" /etc/locale.gen
@@ -30,19 +34,41 @@ until passwd link; do
 done
 
 # Sudo configuration
-EDITOR=vim visudo
+echo "%wheel ALL=(ALL) ALL" | tee -a /etc/sudoers.d/usewheel
 
 # Enabling colors in pacman
 sed -i "s/#Color/Color/g" /etc/pacman.conf
 sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
+
+# Adding home OBS repo
+cat >> /etc/pacman.conf <<EOF
+[home_Alderaeney_Arch]
+Server = https://ftp.gwdg.de/pub/opensuse/repositories/home:/Alderaeney/Arch/\$arch
+EOF
+
+# Adding home OBS repo key
+key=$(curl -fsSL https://download.opensuse.org/repositories/home:Alderaeney/Arch/$(uname -m)/home_Alderaeney_Arch.key)
+fingerprint=$(gpg --quiet --with-colons --import-options show-only --import --fingerprint <<< "${key}" | awk -F: '$1 == "fpr" { print $10 }')
+
+pacman-key --init
+pacman-key --add - <<< "${key}"
+pacman-key --lsign-key "${fingerprint}"
+
+pacman -Syu --noconfirm
+
+# Updating keyring
+pacman -Syu --noconfirm archlinux-keyring
 
 # Enabling multilib repo
 sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
+# Installing xorg and xapps
+pacman -S --noconfirm xorg-server xorg-apps
+
 # Installing drivers
-pacman -S --noconfirm nvidia nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver xf86-video-intel
+pacman -S --noconfirm nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver 
 
 # Installing services
 pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
@@ -51,10 +77,17 @@ pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode b
 systemctl enable NetworkManager haveged bluetooth
 
 # Installing sound libraries
-pacman -S --noconfirm alsa-utils alsa-plugins pulseaudio pulseaudio-alsa pulseaudio-bluetooth
+pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
+
+# Enabling pipewire service
+sudo -u link systemctl --user enable pipewire.socket
+sudo -u link systemctl --user enable wireplumber.service
 
 # Installing filesystem libraries
-pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs
+pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs cryptsetup f2fs-tools xfsprogs util-linux
+
+# Enabling weekly trim
+systemctl enable fstrim.timer
 
 # Installing compresion tools
 pacman -S --noconfirm zip unzip unrar p7zip lzop pigz pbzip2
@@ -88,27 +121,27 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 
 # Installing desktop environment
 if [[ "$1" == "cinnamon" ]]; then
-	pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme cinnamon-translations nemo-fileroller blueberry system-config-printer gnome-books gnome-screenshot gnome-disk-utility gnome-calendar
+	pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller nemo-image-converter nemo-share blueberry system-config-printer gnome-screenshot gnome-disk-utility gnome-calendar home_Alderaeney_Arch/mint-themes evince kdeconnect zenity mpv
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin
+	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin celluloid
 
 	# Removing unwanted packages
 	pacman -Rns --noconfirm gnome-music epiphany totem orca gdm
 
 elif [[ "$1" == "mate" ]]; then
-	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird virt-manager gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme blueberry
+	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird virt-manager gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw blueberry home_Alderaeney_Arch/mint-themes mpv
 
 elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
-	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular yakuake kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent thunderbird thunderbird-i18n-es-es gnome-keyring
+	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent gnome-keyring plasma-wayland-session kdepim-addons akonadi kmail mpv qt5-imageformats webp-pixbuf-loader
 
 	# Removing unwanted packages
 	pacman -Rnsc --noconfirm oxygen 
 
 elif [[ "$1" == "xfce" ]]; then
 	# Install xfce
-	pacman -S --noconfirm xfce4 xfce4-goodies xcape pavucontrol network-manager-applet virt-manager thunderbird playerctl gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw materia-gtk-theme blueberry system-config-printer xarchiver
+	pacman -S --noconfirm xfce4 xfce4-goodies xcape pavucontrol network-manager-applet virt-manager thunderbird playerctl gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw blueberry system-config-printer xarchiver mpv
 
 	# Remove unwanted applications
 	pacman -Rns --noconfirm parole
@@ -126,8 +159,11 @@ if [[ "$1" == "gnome" ]]; then
 fi
 
 if [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
-	# Install lightdm-settings and slick-greeter
-	sudo -u aurbuilder yay -S --noconfirm lightdm-settings lightdm-slick-greeter
+	# Installing lightdm-slick-greeter
+	pacman -S --noconfirm lightdm-slick-greeter
+
+	# Installing lightdm-settings
+	sudo -u aurbuilder yay -S --noconfirm lightdm-settings
 
 	# Change lightdm theme
 	sed -i "s/^#greeter-session=.*$/greeter-session=lightdm-slick-greeter/" /etc/lightdm/lightdm.conf
@@ -148,11 +184,11 @@ if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[
 	fi
 fi
 
-# Installing plymouth theme
-sudo -u aurbuilder yay -S --noconfirm plymouth-theme-rings-git
+# Setting default plymouth theme
+plymouth-set-default-theme -R BGRT
 
-# Making hexagon_2 theme default
-plymouth-set-default-theme -R rings
+# Copying arch logo for the plymouth theme
+cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
 
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
@@ -171,16 +207,16 @@ editor   no
 EOF
 cat >/boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux
+linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
-initrd  /initramfs-linux.img
+initrd  /initramfs-linux-zen.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux
+linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-fallback.img
+initrd  /initramfs-linux-zen-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_idle.max_cstate=1 intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 rw
 EOF
 bootctl update
@@ -201,51 +237,60 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm mpv jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald earlyoom systembus-notify apparmor gamemode lib32-gamemode intel-undervolt firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 clementine pam-u2f yad mednafen virtualbox virtualbox-host-dkms filezilla php chromium composer dbeaver mariadb
+pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen chromium nicotine+ yt-dlp pcsx2 syncthing zram-generator home_Alderaeney_Arch/strawberry-qt5
 
 # Enabling services
-systemctl enable thermald earlyoom apparmor firewalld 
+systemctl enable thermald apparmor firewalld syncthing@link.service systemd-oomd.service
 
-# Configuring mariadb
-mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-systemctl enable mariadb
+# Configuring zram
+cat > /etc/systemd/zram-generator.conf <<EOF
+[zram0]
+zram-size = ram / 2
+
+[zram1]
+mount-point = /var/compressed
+EOF
+
+# Installing computer specific packages
+pacman -S --noconfirm pam-u2f intel-undervolt
 
 # Wine dependencies
-pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vkd3d lib32-vkd3d
+pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader openssl-1.0
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin aic94xx-firmware wd719x-firmware mpv-mpris lbry-app-bin jdownloader2 visual-studio-code-bin pfetch youtube-dlp-bin yt-dlp-drop-in postman-bin minecraft-launcher gitkraken 
+sudo -u aurbuilder yay -S --noconfirm dxvk-bin jdownloader2 visual-studio-code-bin pfetch minigalaxy minecraft-launcher # touchegg
+
+# Installing mpv-mpris
+if [[ ! "$1" == "gnome" ]]; then
+	sudo -u aurbuilder yay -S --noconfirm mpv-mpris
+fi 
 
 # Installing desktop specific AUR packages
 if [[ "$1" == "gnome" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm chrome-gnome-shell
+	sudo -u aurbuilder yay -S --noconfirm chrome-gnome-shell 
 
 elif [[ "$1" == "mate" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm mate-tweak brisk-menu
+	sudo -u aurbuilder yay -S --noconfirm mate-tweak mate-menu
 fi
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm qt6gtk2 qt5gtk2
+	sudo -u aurbuilder yay -S --noconfirm qgnomeplatform qgnomeplatform-qt6 adwaita-qt adwaita-qt6
 
-	# Setting environment variable
-	echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
+	if [ "$1" == "gnome" ]; then
+		# Setting environment variable
+		echo "QT_STYLE_OVERRIDE=gnome" | tee -a /etc/environment
+	else
+		# Adding gnome theming to qt
+		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
+	fi
 fi
 
 # Installing the rest of AUR packages with user link
-sudo -u link yay -S --noconfirm android-studio protontricks eclipse-jee mednaffe 
+sudo -u link yay -S --noconfirm protontricks mednaffe
 
-# Installing xampp
-ver="8.0.11"
-until curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" > xampp.run; do
-	echo "Retrying"
-done
-chmod 755 xampp.run
-./xampp.run --unattendedmodeui minimal --mode unattended
-rm xampp.run
-
-# Setting hostname properly for xampp
-echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
+# Linking yt-dlp to youtube-dl
+ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
 
 # Removing aurbuilder
 rm /etc/sudoers.d/aurbuilder
@@ -264,6 +309,23 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Decrease swappiness
+echo "vm.swappiness = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.vfs_cache_pressure = 50" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Virtual memory tuning
+echo "vm.dirty_ratio = 3" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.dirty_background_ratio = 2" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Optimize SSD and HDD performance
+cat > /etc/udev/rules.d/60-sched.rules <<EOF
+#set noop scheduler for non-rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
+
+# set cfq scheduler for rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
+EOF
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
@@ -293,6 +355,9 @@ elif [[ "$1" == "xfce" ]]; then
 	sed -i "s/auth_admin/yes/g" /usr/share/polkit-1/actions/org.xfce.power.policy
 
 elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
+	# Adding GTK_USE_PORTAL=1 to /etc/environment
+	echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
+
 	# Configuring sddm
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 

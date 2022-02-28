@@ -2,9 +2,7 @@ alias dnfi="sudo dnf install"
 alias dnfr="sudo dnf remove"
 alias dnfar="sudo dnf autoremove"
 alias dnfs="sudo dnf search"
-# alias dnfu="sudo dnf up"
 function dnfu() {
-	sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
-	sudo chmod a+rx /usr/local/bin/yt-dlp
-	sudo dnf up
+	sudo dnf up -y;
+	flatpak update;
 }

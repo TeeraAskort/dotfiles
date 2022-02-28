@@ -120,6 +120,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
 
+		# Disabling wayland
+		sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+
 	elif [ "$1" == "cinnamon" ]; then
 		# Removing unwanted DE specific applications
 		zypper rm -y hexchat celluloid rhythmbox xed

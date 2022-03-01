@@ -28,9 +28,6 @@ dnf copr enable jose_exposito/touchegg -y
 # Enabling better_fonts repo
 dnf copr enable aldrich/better_fonts -y
 
-# Adding docker repo
-dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-
 #Enabling negativo17 nvidia repo
 # dnf config-manager --add-repo=https://negativo17.org/repos/fedora-nvidia.repo
 
@@ -51,27 +48,17 @@ dnf groupinstall "C Development Tools and Libraries" -y
 dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel discord pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller composer docker-ce docker-ce-cli containerd.io docker-compose yt-dlp minigalaxy obs-studio fontconfig-font-replacements fontconfig-enhanced-defaults
+dnf install -y vim lutris steam celluloid flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg elfutils-libelf-devel gtk-murrine-engine gtk2-engines kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy fontconfig-font-replacements fontconfig-enhanced-defaults syncthing p7zip 
 
 # Enabling services
-systemctl enable thermald docker
-
-# Starting services
-systemctl start docker
-
-# Adding user to vboxusers group
 user="$SUDO_USER"
-usermod -aG vboxusers $user 
+systemctl enable thermald syncthing@${user}.service
 
 # Installing computer specific packages
 dnf in -y intel-undervolt libva-intel-hybrid-driver pam-u2f pamu2fcfg tlp touchegg
 
 # Enabling services
 systemctl enable intel-undervolt
-
-# Adding user to docker group
-user="$SUDO_USER"
-usermod -aG docker $user
 
 # Remove unused packages 
 dnf remove -y totem rhythmbox 
@@ -116,7 +103,7 @@ systemctl enable tlp
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub io.lbry.lbry-app org.jdownloader.JDownloader org.telegram.desktop com.axosoft.GitKraken com.getpostman.Postman io.dbeaver.DBeaverCommunity org.gtk.Gtk3theme.Adwaita-dark com.jetbrains.PhpStorm com.google.AndroidStudio io.gdevs.GDLauncher
+flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark org.telegram.desktop com.mojang.Minecraft com.discordapp.Discord com.obsproject.Studio
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
@@ -124,11 +111,22 @@ flatpak override --filesystem=~/.fonts
 # Installing yt-dlp
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
 
-# Installing eclipse
-curl -L "https://rhlx01.hs-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/2021-09/R/eclipse-jee-2021-09-R-linux-gtk-x86_64.tar.gz" > eclipse-jee.tar.gz
-tar xzvf eclipse-jee.tar.gz -C /opt
-rm eclipse-jee.tar.gz
-desktop-file-install $directory/../../common/eclipse.desktop
+# Decrease swappiness
+echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Virtual memory tuning
+echo "vm.dirty_ratio = 3" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.dirty_background_ratio = 2" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Optimize SSD and HDD performance
+cat > /etc/udev/rules.d/60-sched.rules <<EOF
+#set noop scheduler for non-rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
+
+# set cfq scheduler for rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
+EOF
 
 # Add intel_idle.max_cstate=1 to grub and update
 grubby --update-kernel=ALL --args='intel_idle.max_cstate=1'

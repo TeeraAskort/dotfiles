@@ -29,7 +29,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 
 	# Format partitions
 	mkfs.xfs -f -L home /dev/lvm/home
-	mkfs.xfs -f -l root -O extra_attr,inode_checksum,sb_checksum /dev/lvm/root
+	mkfs.xfs -f -L root /dev/lvm/root
 	mkfs.vfat -F32 /dev/nvme0n1p1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap

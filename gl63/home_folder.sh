@@ -17,7 +17,7 @@ mkdir $HOME/Datos
 sudo mount /dev/mapper/encrypteddata $HOME/Datos 
 sudo cp $HOME/Datos/.keyfile /root/.keyfile
 echo "encrypteddata UUID=784ab40a-1cce-4d15-8df2-1cfe9f9dfa5b /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
-echo "/dev/mapper/encrypteddata $HOME/Datos btrfs defaults 0 0" | sudo tee -a /etc/fstab
+echo "/dev/mapper/encrypteddata $HOME/Datos xfs defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders
 rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent ~/Sync

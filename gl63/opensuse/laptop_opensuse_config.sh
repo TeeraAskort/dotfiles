@@ -69,7 +69,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zramswapon
 
 	# Install nvidia drivers
-	zypper in --auto-agree-with-licenses -y x11-video-nvidiaG05
+	zypper in --auto-agree-with-licenses -y x11-video-nvidiaG06
 
 	# Installing computer specific applications
 	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f intel-undervolt
@@ -192,6 +192,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -100/g" /etc/intel-undervolt.conf
 	sed -i "s/undervolt 1 'GPU' 0/undervolt 1 'GPU' -100/g" /etc/intel-undervolt.conf
 	sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -100/g" /etc/intel-undervolt.conf
+
+	# Add nvidia drm modeset
+	echo "options nvidia_drm modeset=1" | tee -a /etc/modprobe.d/nvidia-drm-nomodeset.conf
+	dracut -f
 
 	# Adding flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

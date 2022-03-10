@@ -46,7 +46,7 @@ dnf groupinstall "C Development Tools and Libraries" -y
 dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam celluloid flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg dkms elfutils-libelf-devel qt5-qtx11extras gtk-murrine-engine gtk2-engines kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy fontconfig-font-replacements fontconfig-enhanced-defaults syncthing p7zip 
+dnf install -y vim lutris steam celluloid flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg elfutils-libelf-devel gtk-murrine-engine gtk2-engines kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy fontconfig-font-replacements fontconfig-enhanced-defaults syncthing p7zip
 
 # Enabling services
 user="$SUDO_USER"
@@ -72,7 +72,7 @@ dnf group upgrade -y --with-optional Multimedia
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark org.telegram.desktop com.mojang.Minecraft com.discordapp.Discord com.obsproject.Studio
+flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark org.telegram.desktop com.mojang.Minecraft com.discordapp.Discord com.obsproject.Studio rest.insomnia.Insomnia
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts

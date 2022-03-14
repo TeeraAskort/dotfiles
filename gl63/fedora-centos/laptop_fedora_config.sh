@@ -34,6 +34,12 @@ dnf copr enable aldrich/better_fonts -y
 #Enabling vivaldi repo
 # dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
 
+# Adding openrazer repos
+dnf config-manager --add-repo https://download.opensuse.org/repositories/hardware:razer/Fedora_35/hardware:razer.repo
+
+# Adding razergenie repo
+dnf config-manager --add-repo https://download.opensuse.org/repositories/hardware:razer/Fedora_35/hardware:razer.repo
+
 #Install VSCode
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
@@ -48,11 +54,15 @@ dnf groupinstall "C Development Tools and Libraries" -y
 dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam celluloid flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg elfutils-libelf-devel gtk-murrine-engine gtk2-engines kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy fontconfig-font-replacements fontconfig-enhanced-defaults syncthing p7zip
+dnf install -y vim lutris steam celluloid flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg elfutils-libelf-devel gtk-murrine-engine gtk2-engines kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy fontconfig-font-replacements fontconfig-enhanced-defaults syncthing p7zip razergenie openrazer-meta
 
 # Enabling services
 user="$SUDO_USER"
 systemctl enable thermald syncthing@${user}.service
+
+# Adding user to plugdev group
+user="$SUDO_USER"
+usermod -aG plugdev $user
 
 # Installing computer specific packages
 dnf in -y intel-undervolt libva-intel-hybrid-driver pam-u2f pamu2fcfg tlp touchegg

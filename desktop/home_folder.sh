@@ -137,6 +137,13 @@ else
 	sudo udevadm control --reload-rules
 fi
 
+## Configuring docker
+cd $directory/../common
+sudo systemctl restart docker
+sudo docker-compose -f compose.yml up -d --build
+sudo docker start mariadb 
+sudo docker container prune -f
+
 ## Copying ssh key
 mkdir ~/.ssh
 cp ~/Documentos/id_ed25519* ~/.ssh

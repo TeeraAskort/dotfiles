@@ -33,8 +33,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/zypp/repos.d/vscode.repo'
 
 	# Adding brave repo
-	rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-	zypper addrepo https://brave-browser-rpm-release.s3.brave.com/x86_64/ brave-browser
+	# rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+	# zypper addrepo https://brave-browser-rpm-release.s3.brave.com/x86_64/ brave-browser
 
 	# Refreshing the repos
 	zypper --gpg-auto-import-keys refresh
@@ -61,7 +61,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --force-resolution pipewire-pulseaudio pipewire-alsa pipewire-aptx pipewire-libjack-0_3 pipewire wireplumber
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service syncthing minecraft-launcher 7zip mednafen mednaffe openrazer-meta razergenie brave-browser docker python3-docker-compose
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service syncthing minecraft-launcher 7zip mednafen mednaffe openrazer-meta razergenie docker python3-docker-compose
 
 	# Enabling thermald service
 	user="$SUDO_USER"

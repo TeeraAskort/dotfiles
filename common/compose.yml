@@ -11,20 +11,3 @@ services:
       MYSQL_HOST: 'database'
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
-  php-apache-environment:
-    container_name: php-apache
-    image: 'php:8.0-apache'
-    restart: always
-    volumes:
-      - /home/link/Nextcloud/htdocs:/var/www/html/
-    ports:
-      - 80:80
-      - 5000:5000
-      - 8000:8000
-    build:
-      context: ./docker
-      dockerfile: Dockerfile
-    depends_on:
-      - DB
-    env_file:
-      - ./docker/.env

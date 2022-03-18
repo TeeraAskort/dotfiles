@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dataDiskUUID="0ce68d6c-69ab-49a0-8f3c-fc02b034a8d3"
+dataDiskUUID="3888fac5-6fbd-4226-a44d-b39dfd80d430"
 
 # Checking if arguments are passed
 if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]]; then

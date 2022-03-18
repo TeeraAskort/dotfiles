@@ -38,7 +38,7 @@
 
   fileSystems."/home/link/Datos" = {
     encrypted = {
-      blkDev = "/dev/disk/by-uuid/0ce68d6c-69ab-49a0-8f3c-fc02b034a8d3";
+      blkDev = "/dev/disk/by-uuid/3888fac5-6fbd-4226-a44d-b39dfd80d430";
       enable = true;
       keyFile = "/mnt-root/.keyfile";
       label = "encrypteddata";

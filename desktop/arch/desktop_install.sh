@@ -260,6 +260,9 @@ pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-lib
 # Installing AUR packages
 sudo -u aurbuilder yay -S --noconfirm dxvk-bin jdownloader2 visual-studio-code-bin pfetch minigalaxy minecraft-launcher razergenie openrazer-meta
 
+# Adding user to plugdev group
+usermod -aG plugdev link
+
 # Installing mpv-mpris
 if [[ ! "$1" == "gnome" ]]; then
 	sudo -u aurbuilder yay -S --noconfirm mpv-mpris

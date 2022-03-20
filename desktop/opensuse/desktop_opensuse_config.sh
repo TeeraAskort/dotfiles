@@ -90,6 +90,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		# Installing DE specific applications
 		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird mpv mpv-mpris
 
+		# Installing kvm tools
+		zypper in -y -t pattern kvm_server kvm_tools
+
 		# Removing unwanted DE specific applications
 		zypper rm -y  konversation kmines ksudoku kreversi
 

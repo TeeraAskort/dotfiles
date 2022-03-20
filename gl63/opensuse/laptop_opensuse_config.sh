@@ -93,6 +93,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper addlock vlc-beta
 	zypper addlock vlc
 	zypper addlock youtube-dl
+	zypper addlock git-gui
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications

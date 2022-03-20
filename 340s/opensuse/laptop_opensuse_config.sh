@@ -206,6 +206,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop com.obsproject.Studio org.nicotine_plus.Nicotine org.DolphinEmu.dolphin-emu com.getpostman.Postman com.google.AndroidStudio
 
 	# Installing flatpak themes
+	if [ "$1" == "kde" ]; then
+		flatpak install -y flathub org.gtk.Gtk3theme.Breeze
+	fi 
+
 	if [ "$1" == "gnome" ] || [ "$1" == "xfce" ]; then 
 		flatpak install -y flathub org.gtk.Gtk3theme.Adwaita-dark
 	fi

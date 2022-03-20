@@ -315,9 +315,10 @@ fi
 
 if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then
 	sudo cp ~/Imágenes/pape.jpg /usr/share/wallpapers/
+
 	if command -v flatpak &> /dev/null; then
 		flatpak override --user --filesystem=xdg-config/gtk-3.0:ro
-	fi 
+	fi
 fi
 
 ## Configuring git

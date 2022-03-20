@@ -102,6 +102,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
 
 		# Adding gnome-keyring settings
+		cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
 		awk "FNR==NR{ if (/auth /) p=NR; next} 1; FNR==p{ print \"auth     optional       pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
 		if diff /etc/pam.d/sddm.bak sddm; then
 			awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth     optional       pam_gnome_keyring.so\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
@@ -110,6 +111,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 			sudo cp sddm /etc/pam.d/sddm
 		fi
 		rm sddm
+		cp /etc/pam.d/sddm /etc/pam.d/sddm.bak
 		awk "FNR==NR{ if (/session /) p=NR; next} 1; FNR==p{ print \"session  optional       pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm
 		if diff /etc/pam.d/sddm.bak sddm; then
 			awk "FNR==NR{ if (/session\t/) p=NR; next} 1; FNR==p{ print \"session  optional       pam_gnome_keyring.so auto_start\" }" /etc/pam.d/sddm /etc/pam.d/sddm >sddm

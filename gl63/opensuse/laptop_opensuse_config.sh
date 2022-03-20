@@ -215,9 +215,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
-		flatpak install -y flathub org.gtk.Gtk3theme.Breeze-Dark org.gtk.Gtk3theme.Breeze
 		user="$SUDO_USER"
-		sudo -u $user flatpak override --user --filesystem=/home/$user/.local/share/color-schemes
+		sudo -u $user flatpak override --user --filesystem=xdg-config/gtk-3.0:ro
 	fi
 
 	if [ "$1" == "gnome" ] || [ "$1" == "xfce" ]; then

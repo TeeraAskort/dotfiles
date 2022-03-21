@@ -42,8 +42,16 @@ echo "%wheel ALL=(ALL) ALL" | tee -a /etc/sudoers.d/usewheel
 sed -i "s/#Color/Color/g" /etc/pacman.conf
 sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 
-# Adding home OBS repo
+# Adding Chaotic AUR repo
+pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
+pacman-key --lsign-key FBA220DFC880C036
+pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+
+# Adding repos
 cat >> /etc/pacman.conf <<EOF
+[chaotic-aur]
+Include = /etc/pacman.d/chaotic-mirrorlist
+
 [home_Alderaeney_Arch]
 Server = https://ftp.gwdg.de/pub/opensuse/repositories/home:/Alderaeney/Arch/\$arch
 EOF
@@ -127,7 +135,7 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin celluloid
+	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin celluloid chaotic-aur/qgnomeplatform chaotic-aur/adwaita-qt chaotic-aur/adwaita-qt6
 
 	# Removing unwanted packages
 	pacman -Rns --noconfirm gnome-music epiphany totem orca gdm
@@ -281,8 +289,6 @@ fi
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm qgnomeplatform qgnomeplatform-qt6 adwaita-qt adwaita-qt6
-
 	if [ "$1" == "gnome" ]; then
 		# Setting environment variable
 		echo "QT_STYLE_OVERRIDE=gnome" | tee -a /etc/environment

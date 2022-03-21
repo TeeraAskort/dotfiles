@@ -134,7 +134,7 @@ if command -v rpm-ostree &> /dev/null; then
 	fi
 else
 	sudo npm install -g @angular/cli @ionic/cli
-	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then
+	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]] && command -v lsb_release &> /dev/null && [[ $(lsb_release -is) != "openSUSE" ]]; then
 		sudo npm install -g bash-language-server
 	fi
 fi

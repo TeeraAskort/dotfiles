@@ -101,6 +101,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 		# Installing kvm tools
 		zypper in -y -t pattern kvm_server kvm_tools
+		
+		# Enabling services
+		systemctl enable libvirtd
 
 		# Removing unwanted DE specific applications
 		zypper rm -y  konversation kmines ksudoku kreversi

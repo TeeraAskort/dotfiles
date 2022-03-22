@@ -6,7 +6,7 @@ directory="$(dirname $_script)"
 
 if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 
-	dataDiskUUID="3888fac5-6fbd-4226-a44d-b39dfd80d430"
+	dataDiskUUID="c2751a74-8cb3-4692-84f2-7b852089a505"
 
 	# Create partitions
 	parts=$(blkid | grep nvme0n1 | grep -v -e "$dataDiskUUID" | cut -d":" -f1)
@@ -15,16 +15,16 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	done
 	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
 	parted /dev/nvme0n1 -- set 1 boot on
-	parted /dev/nvme0n1 -- mkpart primary 512M 62G
+	parted /dev/nvme0n1 -- mkpart primary 512M 70GiB
 
 	# Loop until cryptsetup succeeds formatting the partition
-	until cryptsetup luksFormat /dev/nvme0n1p2
+	until cryptsetup luksFormat /dev/nvme0n1p3
 	do 
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the patition
-	until cryptsetup open /dev/nvme0n1p2 luks
+	until cryptsetup open /dev/nvme0n1p3 luks
 	do
 		echo "Cryptsetup failed, trying again"
 	done

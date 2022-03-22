@@ -4,7 +4,7 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
-dataDiskUUID="3888fac5-6fbd-4226-a44d-b39dfd80d430"
+dataDiskUUID="c2751a74-8cb3-4692-84f2-7b852089a505"
 dataDiskPartUUID="85a85370-e75a-44c5-a67f-61643a631e47"
 
 ## Adjusting keymap

@@ -74,7 +74,7 @@ in
     mednafen mednaffe minecraft
     firefox gnome.gnome-boxes
     myAspell mythes gimp steam pcsx2
-    adwaita-qt
+    adwaita-qt razergenie docker-compose android-studio postman
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser gnomeExtensions.hibernate-status-button
   ];
 
@@ -165,6 +165,12 @@ in
       to = 1764;
     }
   ];
+
+  # Enable openrazer service
+  hardware.openrazer.enable = true;
+
+  # Enabling docker service
+  virtualisation.docker.enable = true;
 
   # Automatic garbage collection
   nix.gc.automatic = true;
@@ -293,7 +299,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "docker" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

@@ -65,7 +65,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Enabling thermald service
 	user="$SUDO_USER"
-	systemctl enable thermald earlyoom syncthing@${user}.service 
+	systemctl enable thermald earlyoom syncthing@${user}.service docker
 
 	# Starting services
 	systemctl start docker

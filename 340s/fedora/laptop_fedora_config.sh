@@ -64,6 +64,10 @@ systemctl enable thermald syncthing@${user}.service docker
 # Starting services
 systemctl start docker
 
+# Adding user to docker group
+user="$SUDO_USER"
+usermod -aG docker $user
+
 # Adding user to plugdev group
 user="$SUDO_USER"
 usermod -aG plugdev $user

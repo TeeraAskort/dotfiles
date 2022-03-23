@@ -67,6 +67,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Starting services
 	systemctl start docker
 
+	# Adding user to docker group
+	user="$SUDO_USER"
+	usermod -aG docker $user
+
 	# Adding user to plugdev group
 	user="$SUDO_USER"
 	usermod -aG plugdev $user

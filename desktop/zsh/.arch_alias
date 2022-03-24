@@ -1,7 +1,11 @@
 alias pac="sudo pacman"
-alias pacup="sudo pacman -Syu"
 alias pacr="sudo pacman -Rnc"
 alias pacar="pacman -Qtdq | sudo pacman -Rns"
 alias paci="sudo pacman -S"
 alias pacs="sudo pacman -Ss"
 alias vim="nvim"
+
+function pacup() {
+	yay -Syyuu;
+	yay -S --rebuild --answerclean A --answerdiff N $(checkrebuild | cut -d' ' -f2)
+}

@@ -8,7 +8,7 @@ user=$SUDO_USER
 
 #DNF Tweaks
 echo "deltarpm=true" | tee -a /etc/dnf/dnf.conf
-echo "max_parallel_downloads=10" | tee -a /etc/dnf/dnf.conf 
+echo "max_parallel_downloads=10" | tee -a /etc/dnf/dnf.conf
 
 #Setting up hostname
 hostnamectl set-hostname link-340s
@@ -46,7 +46,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 
 # Upgrade system
-dnf upgrade -y --refresh 
+dnf upgrade -y --refresh
 
 # Wine dependencies
 dnf install -y alsa-plugins-pulseaudio.i686 glibc-devel.i686 glibc-devel libgcc.i686 libX11-devel.i686 freetype-devel.i686 libXcursor-devel.i686 libXi-devel.i686 libXext-devel.i686 libXxf86vm-devel.i686 libXrandr-devel.i686 libXinerama-devel.i686 mesa-libGLU-devel.i686 mesa-libOSMesa-devel.i686 libXrender-devel.i686 libpcap-devel.i686 ncurses-devel.i686 libzip-devel.i686 lcms2-devel.i686 zlib-devel.i686 libv4l-devel.i686 libgphoto2-devel.i686 cups-devel.i686 libxml2-devel.i686 openldap-devel.i686 libxslt-devel.i686 gnutls-devel.i686 libpng-devel.i686 flac-libs.i686 json-c.i686 libICE.i686 libSM.i686 libXtst.i686 libasyncns.i686 liberation-narrow-fonts.noarch libieee1284.i686 libogg.i686 libsndfile.i686 libuuid.i686 libva.i686 libvorbis.i686 libwayland-client.i686 libwayland-server.i686 llvm-libs.i686 mesa-dri-drivers.i686 mesa-filesystem.i686 mesa-libEGL.i686 mesa-libgbm.i686 nss-mdns.i686 ocl-icd.i686 pulseaudio-libs.i686 sane-backends-libs.i686 tcp_wrappers-libs.i686 unixODBC.i686 samba-common-tools.x86_64 samba-libs.x86_64 samba-winbind.x86_64 samba-winbind-clients.x86_64 samba-winbind-modules.x86_64 mesa-libGL-devel.i686 fontconfig-devel.i686 libXcomposite-devel.i686 libtiff-devel.i686 openal-soft-devel.i686 mesa-libOpenCL-devel.i686 opencl-utils-devel.i686 alsa-lib-devel.i686 gsm-devel.i686 libjpeg-turbo-devel.i686 pulseaudio-libs-devel.i686 pulseaudio-libs-devel gtk3-devel.i686 libattr-devel.i686 libva-devel.i686 libexif-devel.i686 libexif.i686 glib2-devel.i686 mpg123-devel.i686 mpg123-devel.x86_64 libcom_err-devel.i686 libcom_err-devel.x86_64 libFAudio-devel.i686 libFAudio-devel.x86_64
@@ -55,7 +55,7 @@ dnf groupinstall "C Development Tools and Libraries" -y
 dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam celluloid flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg elfutils-libelf-devel gtk-murrine-engine gtk2-engines kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy fontconfig-font-replacements fontconfig-enhanced-defaults syncthing p7zip razergenie openrazer-meta docker-ce docker-ce-cli containerd.io docker-compose 
+dnf install -y vim lutris steam celluloid flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg elfutils-libelf-devel gtk-murrine-engine gtk2-engines kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy fontconfig-font-replacements fontconfig-enhanced-defaults syncthing p7zip razergenie openrazer-meta docker-ce docker-ce-cli containerd.io docker-compose emacs
 
 # Enabling services
 user="$SUDO_USER"
@@ -75,8 +75,8 @@ usermod -aG plugdev $user
 # Installing computer specific packages
 dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver # touchegg
 
-# Remove unused packages 
-dnf remove -y totem rhythmbox 
+# Remove unused packages
+dnf remove -y totem rhythmbox
 
 #Update Appstream data
 dnf groupupdate core -y
@@ -89,7 +89,7 @@ dnf install -y lame\* --exclude=lame-devel
 dnf group upgrade -y --with-optional Multimedia
 
 #Disable wayland
-# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
+# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 # Configuring hibernate
 mkdir -p /etc/dracut.conf.d

@@ -11,7 +11,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	done
 	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
 	parted /dev/nvme0n1 -- set 1 boot on
-	parted /dev/nvme0n1 -- mkpart primary 512M 62G
+	parted /dev/nvme0n1 -- mkpart primary 512M 70GiB
 
 	# Loop until cryptsetup succeeds formatting the partition
 	until cryptsetup luksFormat /dev/nvme0n1p3

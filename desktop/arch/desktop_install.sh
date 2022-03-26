@@ -240,7 +240,7 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen chromium nicotine+ yt-dlp pcsx2 syncthing zram-generator home_Alderaeney_Arch/strawberry-qt5 docker docker-compose rebuild-detector vivaldi vivaldi-ffmpeg-codecs
+pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen chromium nicotine+ yt-dlp pcsx2 syncthing zram-generator home_Alderaeney_Arch/strawberry-qt5 docker docker-compose rebuild-detector 
 
 # Enabling services
 systemctl enable thermald apparmor firewalld syncthing@link.service systemd-oomd.service docker
@@ -258,7 +258,7 @@ EOF
 pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader openssl-1.0
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin jdownloader2 visual-studio-code-bin pfetch minigalaxy minecraft-launcher razergenie openrazer-meta postman-bin vivaldi-widevine
+sudo -u aurbuilder yay -S --noconfirm dxvk-bin jdownloader2 visual-studio-code-bin pfetch minigalaxy minecraft-launcher razergenie openrazer-meta postman-bin 
 
 # Adding user to plugdev group
 usermod -aG plugdev link

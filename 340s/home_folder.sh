@@ -101,6 +101,12 @@ mkdir -p ~/.config/nvim/
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 nvim +PlugInstall +q +q
 
+## Configuring emacs
+rm ~/.emacs
+curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
+cp $directory/../common/prelude/prelude-modules.el ~/.emacs.d/personal/prelude-modules.el
+emacs &
+
 ## Copying chromium config
 cp $directory/dotfiles/chromium-flags.conf ~/.config
 

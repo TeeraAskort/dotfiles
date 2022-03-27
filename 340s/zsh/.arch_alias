@@ -7,5 +7,5 @@ alias vim="nvim"
 
 function pacup() {
 	yay -Syyuu;
-	yay -S --rebuild --answerclean A --answerdiff N $(checkrebuild | cut -d' ' -f2)
+	yay -S --rebuild --answerclean A --answerdiff N $(checkrebuild | cut -d$'\t' -f2)
 }

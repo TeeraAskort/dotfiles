@@ -103,8 +103,7 @@ nvim +PlugInstall +q +q
 
 ## Configuring emacs
 rm ~/.emacs
-curl -L https://github.com/bbatsov/prelude/raw/master/utils/installer.sh | sh
-cp $directory/../common/prelude/prelude-modules.el ~/.emacs.d/personal/prelude-modules.el
+git clone https://github.com/snackon/Witchmacs ~/.emacs.d
 emacs &
 
 ## Copying chromium config

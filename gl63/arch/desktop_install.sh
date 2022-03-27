@@ -68,7 +68,7 @@ pacman -Syu --noconfirm
 pacman -S --noconfirm xorg-server xorg-apps
 
 # Installing drivers
-pacman -S --noconfirm nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver 
+pacman -S --noconfirm nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader nvidia-prime lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver
 
 # Installing services
 pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
@@ -137,7 +137,7 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent gnome-keyring plasma-wayland-session kdepim-addons akonadi kmail mpv qt5-imageformats webp-pixbuf-loader
 
 	# Removing unwanted packages
-	pacman -Rnsc --noconfirm oxygen 
+	pacman -Rnsc --noconfirm oxygen
 
 elif [[ "$1" == "xfce" ]]; then
 	# Install xfce
@@ -237,10 +237,10 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen chromium nicotine+ yt-dlp pcsx2 syncthing zram-generator home_Alderaeney_Arch/strawberry-qt5 docker docker-compose rebuild-detector emacs
+pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen chromium nicotine+ yt-dlp pcsx2 zram-generator home_Alderaeney_Arch/strawberry-qt5 docker docker-compose rebuild-detector emacs nextcloud-client
 
 # Enabling services
-systemctl enable thermald apparmor firewalld syncthing@link.service systemd-oomd.service docker
+systemctl enable thermald apparmor firewalld systemd-oomd.service docker
 
 # Configuring zram
 cat > /etc/systemd/zram-generator.conf <<EOF
@@ -266,11 +266,11 @@ usermod -aG plugdev link
 # Installing mpv-mpris
 if [[ ! "$1" == "gnome" ]]; then
 	sudo -u aurbuilder yay -S --noconfirm mpv-mpris
-fi 
+fi
 
 # Installing desktop specific AUR packages
 if [[ "$1" == "gnome" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm chrome-gnome-shell 
+	sudo -u aurbuilder yay -S --noconfirm chrome-gnome-shell
 
 elif [[ "$1" == "mate" ]]; then
 	sudo -u aurbuilder yay -S --noconfirm mate-tweak mate-menu

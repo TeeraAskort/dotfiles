@@ -8,7 +8,7 @@ user=$SUDO_USER
 
 #DNF Tweaks
 echo "deltarpm=true" | tee -a /etc/dnf/dnf.conf
-echo "max_parallel_downloads=10" | tee -a /etc/dnf/dnf.conf 
+echo "max_parallel_downloads=10" | tee -a /etc/dnf/dnf.conf
 
 #Setting up hostname
 hostnamectl set-hostname link-gl63-8rc
@@ -58,11 +58,11 @@ dnf groupinstall "C Development Tools and Libraries" -y
 dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam celluloid flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg elfutils-libelf-devel gtk-murrine-engine gtk2-engines kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy fontconfig-font-replacements fontconfig-enhanced-defaults syncthing p7zip razergenie openrazer-meta docker-ce docker-ce-cli containerd.io docker-compose emacs
+dnf install -y vim lutris steam celluloid flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 strawberry chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks libnsl mod_perl java-11-openjdk-devel ffmpeg elfutils-libelf-devel gtk-murrine-engine gtk2-engines kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy fontconfig-font-replacements fontconfig-enhanced-defaults p7zip razergenie openrazer-meta docker-ce docker-ce-cli containerd.io docker-compose emacs nextcloud-client
 
 # Enabling services
 user="$SUDO_USER"
-systemctl enable thermald syncthing@${user}.service docker
+systemctl enable thermald docker
 
 # Starting services
 systemctl start docker
@@ -81,8 +81,8 @@ dnf in -y intel-undervolt libva-intel-hybrid-driver pam-u2f pamu2fcfg tlp touche
 # Enabling services
 systemctl enable intel-undervolt
 
-# Remove unused packages 
-dnf remove -y totem rhythmbox 
+# Remove unused packages
+dnf remove -y totem rhythmbox
 
 #Update Appstream data
 dnf groupupdate core -y
@@ -103,7 +103,7 @@ options nvidia NVreg_DynamicPowerManagement=0x02
 EOF
 
 #Disable wayland
-sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
+sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 #Copying PRIME render offload launcher
 cp $directory/../dotfiles/prime-run /usr/bin

@@ -52,7 +52,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper install -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
 
 	# Installing discord from games:tools repo
-	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded protontricks 
+	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded protontricks
 
 	# Installing strawberry compiled against QT5 from my repo
 	zypper in --from "home:Alderaeney (openSUSE_Tumbleweed)" -y strawberry.x86_64
@@ -61,11 +61,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --force-resolution pipewire-pulseaudio pipewire-alsa pipewire-aptx pipewire-libjack-0_3 pipewire wireplumber
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service syncthing minecraft-launcher 7zip mednafen mednaffe openrazer-meta razergenie docker python3-docker-compose emacs
+	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip mednafen mednaffe openrazer-meta razergenie docker python3-docker-compose emacs nextcloud-desktop
 
 	# Enabling thermald service
 	user="$SUDO_USER"
-	systemctl enable thermald earlyoom syncthing@${user}.service docker
+	systemctl enable thermald earlyoom docker
 
 	# Starting services
 	systemctl start docker
@@ -105,7 +105,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 		# Installing kvm tools
 		zypper in -y -t pattern kvm_server kvm_tools
-		
+
 		# Enabling services
 		systemctl enable libvirtd
 
@@ -133,7 +133,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		fi
 		rm sddm
 
-	elif [ "$1" == "gnome" ]; then 
+	elif [ "$1" == "gnome" ]; then
 		# Removing unwanted DE specific applications
 		zypper rm -y  gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
 
@@ -152,7 +152,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 		# Installing DE specific applications
 		zypper in -y adwaita-qt5 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg transmission-gtk gedit file-roller gvfs gvfs-backends gvfs-backend-samba libgepub-0_6-0 libgsf-1-114 libopenraw1 gnome-sound-recorder nemo-extension-nextcloud nemo-extension-fileroller nemo-extension-preview nemo-extension-share nemo-extension-image-converter books gnome-disk-utility lightdm-slick-greeter brasero geary mpv mpv-mpris
-		
+
 		# Adding gnome theming to qt
 		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
 
@@ -226,7 +226,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	# Installing flatpak themes
 	if [ "$1" == "kde" ]; then
 		flatpak install -y flathub org.gtk.Gtk3theme.Breeze
-	fi 
+	fi
 
 	if [ "$1" == "gnome" ] || [ "$1" == "xfce" ]; then
 		flatpak install -y flathub org.gtk.Gtk3theme.Adwaita-dark

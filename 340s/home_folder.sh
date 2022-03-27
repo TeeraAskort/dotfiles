@@ -101,11 +101,6 @@ mkdir -p ~/.config/nvim/
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 nvim +PlugInstall +q +q
 
-## Configuring emacs
-rm ~/.emacs
-git clone https://github.com/snackon/Witchmacs ~/.emacs.d
-emacs &
-
 ## Copying chromium config
 cp $directory/dotfiles/chromium-flags.conf ~/.config
 

@@ -130,10 +130,13 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin celluloid
+	pacman -S --noconfirm gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin celluloid gdm-plymouth
+
+	# Enabling gdm
+	systemctl enable gdm
 
 	# Removing unwanted packages
-	pacman -Rns --noconfirm gnome-music epiphany totem orca gdm
+	pacman -Rns --noconfirm gnome-music epiphany totem orca 
 
 elif [[ "$1" == "mate" ]]; then
 	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird virt-manager gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw blueberry home_Alderaeney_Arch/mint-themes mpv
@@ -150,16 +153,6 @@ elif [[ "$1" == "xfce" ]]; then
 
 	# Remove unwanted applications
 	pacman -Rns --noconfirm parole
-
-fi
-
-# Installing display-manager
-if [[ "$1" == "gnome" ]]; then
-	# Installing gdm-plymouth
-	pacman -S gdm-plymouth
-
-	# Enabling gdm
-	systemctl enable gdm
 
 fi
 

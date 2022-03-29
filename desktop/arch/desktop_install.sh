@@ -43,8 +43,16 @@ echo "%wheel ALL=(ALL) ALL" | tee -a /etc/sudoers.d/usewheel
 sed -i "s/#Color/Color/g" /etc/pacman.conf
 sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 
+# Adding Chaotic AUR repo
+pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
+pacman-key --lsign-key FBA220DFC880C036
+pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+
 # Adding home OBS repo
 cat >> /etc/pacman.conf <<EOF
+[chaotic-aur]
+Include = /etc/pacman.d/chaotic-mirrorlist
+
 [home_Alderaeney_Arch]
 Server = https://ftp.gwdg.de/pub/opensuse/repositories/home:/Alderaeney/Arch/\$arch
 EOF
@@ -106,10 +114,7 @@ mkdir /tmp/aurbuilder
 chmod 777 /tmp/aurbuilder
 echo "aurbuilder ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/aurbuilder
 echo "root ALL=(aurbuilder) NOPASSWD: ALL" >>/etc/sudoers.d/aurbuilder
-cd /tmp/aurbuilder
-sudo -u aurbuilder git clone https://aur.archlinux.org/yay-bin.git
-cd yay-bin
-sudo -u aurbuilder makepkg -si --noconfirm
+pacman -S --noconfirm yay
 
 # Optimizing aur
 cores=$(nproc)
@@ -154,7 +159,7 @@ fi
 # Installing display-manager
 if [[ "$1" == "gnome" ]]; then
 	# Installing gdm-plymouth
-	sudo -u aurbuilder yay -S --noconfirm --useask gdm-plymouth
+	pacman -S gdm-plymouth
 
 	# Enabling gdm
 	systemctl enable gdm
@@ -166,7 +171,7 @@ if [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; the
 	pacman -S --noconfirm lightdm-slick-greeter
 
 	# Installing lightdm-settings
-	sudo -u aurbuilder yay -S --noconfirm lightdm-settings
+	pacman -S --noconfirm lightdm-settings
 
 	# Change lightdm theme
 	sed -i "s/^#greeter-session=.*$/greeter-session=lightdm-slick-greeter/" /etc/lightdm/lightdm.conf
@@ -175,7 +180,7 @@ fi
 
 if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
 	# Install plymotuh
-	sudo -u aurbuilder yay -S --noconfirm plymouth
+	pacman -S --noconfirm plymouth
 
 	# Enable lightdm or sddm
 	if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
@@ -240,7 +245,7 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen chromium nicotine+ yt-dlp pcsx2 zram-generator home_Alderaeney_Arch/strawberry-qt5 docker docker-compose rebuild-detector nextcloud-client 
+pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen chromium nicotine+ yt-dlp pcsx2 zram-generator home_Alderaeney_Arch/strawberry-qt5 docker docker-compose rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git minigalaxy minecraft-launcher postman-bin protontricks-git mednaffe android-studio
 
 # Enabling services
 systemctl enable thermald apparmor firewalld systemd-oomd.service docker
@@ -258,27 +263,27 @@ EOF
 pacman -S --needed --noconfirm wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader openssl-1.0
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin jdownloader2 visual-studio-code-bin pfetch minigalaxy minecraft-launcher razergenie openrazer-meta postman-bin
+sudo -u aurbuilder yay -S --noconfirm dxvk-bin razergenie openrazer-meta
 
 # Adding user to plugdev group
 usermod -aG plugdev link
 
 # Installing mpv-mpris
 if [[ ! "$1" == "gnome" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm mpv-mpris
+	pacman -S --noconfirm mpv-mpris
 fi
 
 # Installing desktop specific AUR packages
 if [[ "$1" == "gnome" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm chrome-gnome-shell
+	pacman -S --noconfirm chrome-gnome-shell
 
 elif [[ "$1" == "mate" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm mate-tweak mate-menu
+	pacman -S --noconfirm mate-tweak mate-menu
 fi
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm qgnomeplatform qgnomeplatform-qt6 adwaita-qt adwaita-qt6
+	sudo -u aurbuilder yay -S --noconfirm aur/qgnomeplatform aur/qgnomeplatform-qt6 aur/adwaita-qt aur/adwaita-qt6
 
 	if [ "$1" == "gnome" ]; then
 		# Setting environment variable
@@ -288,9 +293,6 @@ if [[ "$2" == "gtk" ]]; then
 		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
 	fi
 fi
-
-# Installing the rest of AUR packages with user link
-sudo -u link yay -S --noconfirm protontricks mednaffe android-studio
 
 # Linking yt-dlp to youtube-dl
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl

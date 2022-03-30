@@ -118,7 +118,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird thunderbird-l10n-es-es gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect plasma-browser-integration xdg-desktop-portal-kde ffmpegthumbs kde-config-tablet dolphin-plugins k3b kio-audiocd libreoffice-qt5 libreoffice-kf5 xdg-desktop-portal
 
 		# Remove unwanted applications
-		apt remove -y konversation akregator kmail konqueror dragonplayer juk kaddressbook korganizer vlc
+		apt remove -y konversation akregator kmail konqueror dragonplayer juk kaddressbook korganizer vlc termit
 
 		# Adding environment variable
 		echo "GTK_USE_PORTAL=1" | tee -a /etc/environment

@@ -184,7 +184,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 	
 	# Installing flatpak applications
-	flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord org.nicotine_plus.Nicotine com.obsproject.Studio
+	flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord org.nicotine_plus.Nicotine com.obsproject.Studio org.DolphinEmu.dolphin-emu com.google.AndroidStudio
 
 	# Installing kde themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then

@@ -12,7 +12,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt update
 
 	# Installing curl
-	apt install -y curl wget software-properties-common
+	apt install -y curl wget software-properties-common pkg-config
 
 	# Adding backports and fasttrack repos
 	echo "deb http://deb.debian.org/debian bullseye-backports main contrib non-free" | tee -a /etc/apt/sources.list
@@ -25,38 +25,20 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Installing drivers
 	apt install -y firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386 mesa-va-drivers
 
-	# Adding xanmod kernel
-	echo 'deb http://deb.xanmod.org releases main' | tee /etc/apt/sources.list.d/xanmod-kernel.list
-	wget -qO - https://dl.xanmod.org/gpg.key | apt-key --keyring /etc/apt/trusted.gpg.d/xanmod-kernel.gpg add -
-	apt update
-	apt install -y linux-xanmod intel-microcode iucode-tool
-	echo 'net.core.default_qdisc = fq_pie' | tee /etc/sysctl.d/90-override.conf
-
-	# Adding vivaldi repo
-	# wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
-	# add-apt-repository 'deb https://repo.vivaldi.com/archive/deb/ stable main'
-	# apt update
-	# apt install -y vivaldi-stable
-	# apt remove -y firefox-esr
-
 	# Installing strawberry
-	# curl -s https://api.github.com/repos/strawberrymusicplayer/strawberry/releases/latest |
-	#	grep "browser_download_url" |
-	#	grep "strawberry_" |
-	#	grep "bullseye" |
-	#	cut -d '"' -f 4 |
-	#	wget -O strawberry.deb -qi -
-	# apt install -y ./strawberry.deb
+	curl -s https://api.github.com/repos/strawberrymusicplayer/strawberry/releases/latest |
+		grep "browser_download_url" |
+		grep "strawberry_" |
+		grep "bullseye" |
+		cut -d '"' -f 4 |
+		wget -O strawberry.deb -qi -
+	apt install -y ./strawberry.deb
+	rm strawberry.deb
 
 	# Installing dbeaver
 	wget -O - https://dbeaver.io/debs/dbeaver.gpg.key | apt-key add -
 	echo "deb https://dbeaver.io/debs/dbeaver-ce /" | tee /etc/apt/sources.list.d/dbeaver.list
 	apt-get update && apt-get install -y dbeaver-ce
-
-	# Installing gitkraken
-	curl -L "https://release.gitkraken.com/linux/gitkraken-amd64.deb" > $directory/gitkraken.deb
-	apt install -y $directory/gitkraken.deb
-	rm $directory/gitkraken.deb
 
 	# Installing wine
 	wget -nc https://dl.winehq.org/wine-builds/winehq.key
@@ -75,61 +57,68 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt install -y code
 
 	# Add deb-multimedia repo
-	echo "deb https://www.deb-multimedia.org bullseye main non-free" | tee /etc/apt/sources.list.d/multimedia.list
+	echo "deb https://www.deb-multimedia.org $(lsb_release -cs) main non-free" | tee /etc/apt/sources.list.d/multimedia.list
 	apt-get update -oAcquire::AllowInsecureRepositories=true
 	apt install deb-multimedia-keyring --allow-unauthenticated
 	apt update
 	apt full-upgrade -y
 
 	# Installing lutris
-	echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_10/ ./" | tee /etc/apt/sources.list.d/lutris.list
-	wget -q https://download.opensuse.org/repositories/home:/strycore/Debian_10/Release.key -O- | sudo apt-key add -
+	echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_11/ ./" | tee /etc/apt/sources.list.d/lutris.list
+	wget -q https://download.opensuse.org/repositories/home:/strycore/Debian_11/Release.key -O- | apt-key add -
 	apt update
 	apt install -y lutris
+
+	# Adding openrazer repos
+	echo 'deb http://download.opensuse.org/repositories/hardware:/razer/Debian_11/ /' | tee /etc/apt/sources.list.d/hardware:razer.list
+	curl -fsSL https://download.opensuse.org/repositories/hardware:razer/Debian_11/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/hardware_razer.gpg > /dev/null
+	apt-get update
+
+	# Installing nodejs
+	curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+	apt-get install -y nodejs
+
+	# Adding docker repos
+	curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+	echo \
+  		"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+  		$(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+	apt-get update
 
 	# Installing minecraft
 	curl -L "https://launcher.mojang.com/download/Minecraft.deb" > minecraft.deb
 	apt install -y ./minecraft.deb
 	rm minecraft.deb
 
-	# Installing required applications
-	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono pcsx2 mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip nodejs npm php snapd filezilla virtualbox virtualbox-ext-pack clementine snapd composer wget net-tools yt-dlp
+	# Pre accepting licenses
+	echo "steam steam/question select I AGREE" | debconf-set-selections
+	echo steam steam/license note '' | debconf-set-selections
+	echo "virtualbox-ext-pack virtualbox-ext-pack/license select true" | debconf-set-selections
 
+	# Installing required applications
+	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip wget yt-dlp pcsx2 cryptsetup chromium minigalaxy openrazer-meta razergenie earlyoom nextcloud-desktop p7zip docker-ce docker-ce-cli containerd.io docker-compose
+
+	# Enabling services
 	systemctl enable thermald
 
 	# Installing mpv-mpris
-	apt install -y libmpv-dev libglib2.0-dev
-	git clone https://github.com/hoyon/mpv-mpris.git
-	cd mpv-mpris
-	make 
-	mkdir /etc/mpv/scripts
-	cp mpris.so /etc/mpv/scripts
-	cd .. && rm -r mpv-mpris
-	apt remove -y libmpv-dev libglib2.0-dev
+	curl -LO "https://github.com/hoyon/mpv-mpris/releases/latest/download/mpris.so"
+ 	mkdir -p /etc/mpv/scripts
+ 	mv mpris.so /etc/mpv/scripts/mpris.so
 
 	if [ "$1" == "gnome" ]; then
 		# Installing required packages
-		apt install materia-gtk-theme qt5-qmake qtbase5-private-dev libgtk2.0-0 libx11-6 ffmpegthumbnailer tilix transmission-gtk evolution aisleriot gnome-mahjongg
-
-		# Installing qt5gtk2
-		git clone https://bitbucket.org/trialuser02/qt5gtk2.git
-		cd qt5gtk2
-		qmake && make && make install
-		cd .. && rm -r qt5gtk2
-		echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
+		apt install ffmpegthumbnailer tilix transmission-gtk evolution aisleriot gnome-mahjongg
 
 		# Remove unwanted applications
 		apt remove -y totem rhythmbox
 
 	elif [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing required packages
-		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird thunderbird-l10n-es-es yakuake gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect plasma-browser-integration qemu-system libvirt-clients libvirt-daemon-system virt-manager xdg-desktop-portal-kde ffmpegthumbs kde-config-tablet dolphin-plugins k3b kio-audiocd libreoffice-qt5 libreoffice-kf5 xdg-desktop-portal
-
-		# Adding user to libvirt group
-		adduser $user libvirt
+		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird thunderbird-l10n-es-es yakuake gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect plasma-browser-integration xdg-desktop-portal-kde ffmpegthumbs kde-config-tablet dolphin-plugins k3b kio-audiocd libreoffice-qt5 libreoffice-kf5 xdg-desktop-portal
 
 		# Remove unwanted applications
-		apt remove -y konversation akregator kmail konqueror dragonplayer juk kaddressbook korganizer xdg-desktop-portal-gtk vlc
+		apt remove -y konversation akregator kmail konqueror dragonplayer juk kaddressbook korganizer vlc
 
 		# Adding environment variable
 		echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
@@ -141,7 +130,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 			awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth     optional       pam_gnome_keyring.so\" }" /etc/pam.d/login /etc/pam.d/login >login
 			cp login /etc/pam.d/login
 		else
-			sudo cp login /etc/pam.d/login
+			cp login /etc/pam.d/login
 		fi
 		rm login
 		cp /etc/pam.d/login /etc/pam.d/login.bak
@@ -150,21 +139,14 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 			awk "FNR==NR{ if (/session\t/) p=NR; next} 1; FNR==p{ print \"session  optional       pam_gnome_keyring.so auto_start\" }" /etc/pam.d/login /etc/pam.d/login >login
 			cp login /etc/pam.d/login
 		else
-			sudo cp login /etc/pam.d/login
+			cp login /etc/pam.d/login
 		fi
 		rm login
 		echo "password	optional	pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
 	elif [ "$1" == "xfce" ]; then
 		# Installing required packages
-		apt install -y tilix gvfs gvfs-backends thunderbird materia-gtk-theme qt5-qmake qtbase5-private-dev libgtk2.0-0 libx11-6 ffmpegthumbnailer tumbler tumbler-plugins-extra transmission-gtk
-
-		# Installing qt5gtk2
-		git clone https://bitbucket.org/trialuser02/qt5gtk2.git
-		cd qt5gtk2
-		qmake && make && make install
-		cd .. && rm -r qt5gtk2
-		echo "QT_QPA_PLATFORMTHEME=qt5gtk2" | tee -a /etc/environment
+		apt install -y tilix gvfs gvfs-backends thunderbird ffmpegthumbnailer tumbler tumbler-plugins-extra transmission-gtk
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Installing required packages
@@ -177,14 +159,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		echo "QT_STYLE_OVERRIDE=kvantum" | tee -a /etc/environment
 	fi
 
-	# Removing unused packages
-	apt autoremove -y
-
 	#Add flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	#Install flatpak applications
-	flatpak install -y flathub com.discordapp.Discord org.jdownloader.JDownloader org.DolphinEmu.dolphin-emu com.google.AndroidStudio io.lbry.lbry-app com.getpostman.Postman org.eclipse.Java org.telegram.desktop
+	flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord org.nicotine_plus.Nicotine com.obsproject.Studio org.DolphinEmu.dolphin-emu com.google.AndroidStudio
 
 	# Installing kde themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then 
@@ -196,31 +175,26 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	sed -i 's/#GRUB_GFXMODE=640x480/GRUB_GFXMODE=1920x1080x32/g' /etc/default/grub
 	update-grub
 
-	# Setting rings plymouth theme
-	until wget https://github.com/adi1090x/files/raw/master/plymouth-themes/themes/pack_4/rings.tar.gz; do
-		echo "Download failed, retrying"
-	done
-	tar xzvf rings.tar.gz
-	mv rings /usr/share/plymouth/themes/
-	plymouth-set-default-theme -R rings
-	rm rings.tar.gz
+	# Decrease swappiness
+ 	echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf
+ 	echo "vm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf
 
-	# Installing xampp
-	ver="8.0.11"
-	curl -L "https://www.apachefriends.org/xampp-files/${ver}/xampp-linux-x64-${ver}-0-installer.run" >xampp.run
-	chmod 755 xampp.run
-	./xampp.run --unattendedmodeui minimal --mode unattended
-	rm xampp.run
+ 	# Virtual memory tuning
+ 	echo "vm.dirty_ratio = 3" | tee -a /etc/sysctl.d/99-sysctl.conf
+ 	echo "vm.dirty_background_ratio = 2" | tee -a /etc/sysctl.d/99-sysctl.conf
 
-	# Setting hostname properly for xampp
-	echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
+ 	# Optimize SSD and HDD performance
+ 	cat > /etc/udev/rules.d/60-sched.rules <<EOF
+#set noop scheduler for non-rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
 
-	# Installing lxd from snap store
-	systemctl restart snapd.socket
-	until snap install lxd; do
-		echo "Waiting for lxd to install"
-		sleep 10;
-	done
+# set cfq scheduler for rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
+EOF
+
+ 	# Removing uneeded packages
+ 	apt autoremove --purge -y
+
 else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"

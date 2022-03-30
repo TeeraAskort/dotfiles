@@ -38,11 +38,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo "deb https://dbeaver.io/debs/dbeaver-ce /" | tee /etc/apt/sources.list.d/dbeaver.list
 	apt-get update && apt-get install -y dbeaver-ce
 
-	# Installing gitkraken
-	curl -L "https://release.gitkraken.com/linux/gitkraken-amd64.deb" > $directory/gitkraken.deb
-	apt install -y $directory/gitkraken.deb
-	rm $directory/gitkraken.deb
-
 	# Installing wine
 	wget -nc https://dl.winehq.org/wine-builds/winehq.key
 	apt-key add winehq.key
@@ -67,22 +62,39 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt full-upgrade -y
 
 	# Installing lutris
-	echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_10/ ./" | tee /etc/apt/sources.list.d/lutris.list
-	wget -q https://download.opensuse.org/repositories/home:/strycore/Debian_10/Release.key -O- | sudo apt-key add -
+	echo "deb http://download.opensuse.org/repositories/home:/strycore/Debian_11/ ./" | tee /etc/apt/sources.list.d/lutris.list
+	wget -q https://download.opensuse.org/repositories/home:/strycore/Debian_11/Release.key -O- | apt-key add -
 	apt update
 	apt install -y lutris
 
+	# Adding openrazer repos
+	echo 'deb http://download.opensuse.org/repositories/hardware:/razer/Debian_11/ /' | tee /etc/apt/sources.list.d/hardware:razer.list
+	curl -fsSL https://download.opensuse.org/repositories/hardware:razer/Debian_11/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/hardware_razer.gpg > /dev/null
+	apt-get update
+
 	# Installing nodejs
-	curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
+	curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
 	apt-get install -y nodejs
+
+	# Adding docker repos
+	curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+	echo \
+  		"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+  		$(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+	apt-get update
 
 	# Pre accepting licenses
 	echo "steam steam/question select I AGREE" | debconf-set-selections
 	echo steam steam/license note '' | debconf-set-selections
 	echo "virtualbox-ext-pack virtualbox-ext-pack/license select true" | debconf-set-selections
 
+	# Installing minecraft
+	curl -L "https://launcher.mojang.com/download/Minecraft.deb" > minecraft.deb
+	apt install -y ./minecraft.deb
+	rm minecraft.deb
+
 	# Installing required packages
-	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip filezilla virtualbox virtualbox-ext-pack wget yt-dlp pcsx2 cryptsetup ttf-mscorefonts-installer chromium
+	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom obs-studio gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip wget yt-dlp pcsx2 cryptsetup chromium minigalaxy openrazer-meta razergenie earlyoom nextcloud-desktop p7zip docker-ce docker-ce-cli containerd.io docker-compose
 
 	# Enabling services
 	systemctl enable thermald 
@@ -102,6 +114,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		# Remove unwanted applications
 		apt remove -y totem rhythmbox
 
+		# Adding hibernate paramaters
+		echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
+		echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
+		echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
+		echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
+
 	elif [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing required packages
 		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird thunderbird-l10n-es-es yakuake gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect plasma-browser-integration xdg-desktop-portal-kde ffmpegthumbs kde-config-tablet dolphin-plugins k3b kio-audiocd libreoffice-qt5 libreoffice-kf5 xdg-desktop-portal
@@ -118,7 +136,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 			awk "FNR==NR{ if (/auth\t/) p=NR; next} 1; FNR==p{ print \"auth     optional       pam_gnome_keyring.so\" }" /etc/pam.d/login /etc/pam.d/login >login
 			cp login /etc/pam.d/login
 		else
-			sudo cp login /etc/pam.d/login
+			cp login /etc/pam.d/login
 		fi
 		rm login
 		awk "FNR==NR{ if (/session /) p=NR; next} 1; FNR==p{ print \"session  optional       pam_gnome_keyring.so auto_start\" }" /etc/pam.d/login /etc/pam.d/login >login
@@ -126,7 +144,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 			awk "FNR==NR{ if (/session\t/) p=NR; next} 1; FNR==p{ print \"session  optional       pam_gnome_keyring.so auto_start\" }" /etc/pam.d/login /etc/pam.d/login >login
 			cp login /etc/pam.d/login
 		else
-			sudo cp login /etc/pam.d/login
+			cp login /etc/pam.d/login
 		fi
 		rm login
 		echo "password	optional	pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
@@ -166,7 +184,35 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 	
 	# Installing flatpak applications
-	flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord com.jetbrains.PhpStorm 
+	flatpak install -y flathub org.jdownloader.JDownloader com.getpostman.Postman org.telegram.desktop com.discordapp.Discord org.nicotine_plus.Nicotine com.obsproject.Studio
+
+	# Installing kde themes
+	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
+		flatpak install -y flathub org.gtk.Gtk3theme.Breeze org.gtk.Gtk3theme.Breeze-Dark
+	fi
+
+	# Add sysctl config
+	echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+	# Adding hibernation support
+	echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
+
+	# Decrease swappiness
+	echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf
+	echo "vm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+	# Virtual memory tuning
+	echo "vm.dirty_ratio = 3" | tee -a /etc/sysctl.d/99-sysctl.conf
+	echo "vm.dirty_background_ratio = 2" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+	# Optimize SSD and HDD performance
+	cat > /etc/udev/rules.d/60-sched.rules <<EOF
+#set noop scheduler for non-rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
+
+# set cfq scheduler for rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
+EOF
 
 	# Removing uneeded packages
 	apt autoremove --purge -y

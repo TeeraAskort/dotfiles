@@ -122,8 +122,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	elif [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing required packages
-		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird thunderbird-l10n-es-es gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect plasma-browser-integration xdg-desktop-portal-kde ffmpegthumbs kde-config-tablet dolphin-plugins k3b kio-audiocd libreoffice-qt5 libreoffice-kf5 xdg-desktop-portal
+		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird thunderbird-l10n-es-es gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect plasma-browser-integration xdg-desktop-portal-kde ffmpegthumbs kde-config-tablet dolphin-plugins k3b kio-audiocd libreoffice-qt5 libreoffice-kf5 xdg-desktop-portal qemu-system libvirt-daemon-system virt-manager
 
+		# Adding user to libvirt group
+		user="$SUDO_USER"
+		usermod -aG libvirt $user
+		
 		# Remove unwanted applications
 		apt remove -y konversation akregator kmail konqueror dragonplayer juk kaddressbook korganizer vlc termit
 

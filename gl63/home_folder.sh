@@ -167,8 +167,6 @@ done
 ## Enabling firewall services
 if command -v firewall-cmd &> /dev/null ; then
 	sudo firewall-cmd --zone=public --permanent --add-service=kdeconnect
-	sudo firewall-cmd --zone=public --permanent --add-service=syncthing
-	sudo firewall-cmd --zone=public --permanent --add-service=syncthing-gui
 	sudo firewall-cmd --reload
 fi
 

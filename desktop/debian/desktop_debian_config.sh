@@ -96,8 +96,15 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo "virtualbox-ext-pack virtualbox-ext-pack/license select true" | debconf-set-selections
 
 	# Installing required applications
-	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip wget yt-dlp pcsx2 cryptsetup minigalaxy openrazer-meta razergenie nextcloud-desktop p7zip docker-ce docker-ce-cli containerd.io docker-compose neofetch
+		apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip wget yt-dlp pcsx2 cryptsetup minigalaxy openrazer-meta razergenie nextcloud-desktop p7zip docker-ce docker-ce-cli containerd.io docker-compose neofetch zstd zram-tools
 
+	# Adding user to docker group
+	user="$SUDO_USER"
+	usermod -aG docker $user
+
+	# Adding user to plugdev group
+	user="$SUDO_USER"
+	usermod -aG plugdev $user
 
 	# Enabling services
 	systemctl enable thermald
@@ -164,6 +171,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		echo "QT_STYLE_OVERRIDE=kvantum" | tee -a /etc/environment
 	fi
 
+	# Updating grub
+	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1 splash"/' /etc/default/grub
+	sed -i 's/#GRUB_GFXMODE=640x480/GRUB_GFXMODE=1920x1080x32/g' /etc/default/grub
+	update-grub
+
 	#Add flathub repo
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
@@ -175,10 +187,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		flatpak install -y flathub org.gtk.Gtk3theme.Breeze org.gtk.Gtk3theme.Breeze-Dark
 	fi
 
-	# Updating grub
-	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1 splash"/' /etc/default/grub
-	sed -i 's/#GRUB_GFXMODE=640x480/GRUB_GFXMODE=1920x1080x32/g' /etc/default/grub
-	update-grub
+	# Configure zram swap
+	cat > /etc/default/zramswap <<EOF
+ALGO=zstd
+PRIORITY=100
+PERCENT=50
+EOF
 
 	# Decrease swappiness
  	echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf

@@ -94,7 +94,15 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	rm minecraft.deb
 
 	# Installing required packages
-	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip wget yt-dlp pcsx2 cryptsetup minigalaxy openrazer-meta razergenie nextcloud-desktop p7zip docker-ce docker-ce-cli containerd.io docker-compose neofetch
+	apt install -y build-essential steam vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g exfat-utils f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom gstreamer1.0-vaapi desmume openjdk-11-jdk zip unzip wget yt-dlp pcsx2 cryptsetup minigalaxy openrazer-meta razergenie nextcloud-desktop p7zip docker-ce docker-ce-cli containerd.io docker-compose neofetch zstd zram-tools
+
+	# Adding user to docker group
+	user="$SUDO_USER"
+	usermod -aG docker $user
+
+	# Adding user to plugdev group
+	user="$SUDO_USER"
+	usermod -aG plugdev $user
 
 	# Enabling services
 	systemctl enable thermald 
@@ -202,6 +210,13 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	# Adding hibernation support
 	echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
+
+	# Configure zram swap
+	cat > /etc/default/zramswap <<EOF
+ALGO=zstd
+PRIORITY=100
+PERCENT=50
+EOF
 
 	# Decrease swappiness
 	echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf

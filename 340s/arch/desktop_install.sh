@@ -132,7 +132,7 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin celluloid gdm-plymouth
+	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin celluloid gdm-plymouth chrome-gnome-shell
 
 	# Enabling gdm
 	systemctl enable gdm
@@ -141,7 +141,7 @@ elif [[ "$1" == "gnome" ]]; then
 	pacman -Rns --noconfirm gnome-music epiphany totem orca 
 
 elif [[ "$1" == "mate" ]]; then
-	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird virt-manager gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw blueberry home_Alderaeney_Arch/mint-themes mpv
+	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird virt-manager gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw blueberry home_Alderaeney_Arch/mint-themes mpv mate-tweak mate-menu 
 
 elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent gnome-keyring plasma-wayland-session kdepim-addons akonadi kmail mpv qt5-imageformats webp-pixbuf-loader ksshaskpass
@@ -156,9 +156,12 @@ elif [[ "$1" == "xfce" ]]; then
 	# Remove unwanted applications
 	pacman -Rns --noconfirm parole
 
+elif [[ "$1" == "el" ]]; then
+	# Install enlightenment
+	pacman -S enlightenment terminology ephoto evince network-manager-applet transmission-gtk lightdm ffmpegthumbnailer libgepub libopenraw libgsf webp-pixbuf-loader xarchiver mpv gnome-calculator gparted virt-manager thunderbird gnome-keyring aisleriot gnome-mahjongg 
 fi
 
-if [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
+if [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "el" ]]; then
 	# Installing lightdm-slick-greeter
 	pacman -S --noconfirm lightdm-slick-greeter
 
@@ -170,7 +173,7 @@ if [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; the
 
 fi
 
-if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
+if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "el" ]]; then
 	# Install plymotuh
 	pacman -S --noconfirm plymouth
 
@@ -269,16 +272,8 @@ if [[ ! "$1" == "gnome" ]]; then
 	pacman -S --noconfirm mpv-mpris
 fi
 
-# Installing desktop specific AUR packages
-if [[ "$1" == "gnome" ]]; then
-	pacman -S --noconfirm chrome-gnome-shell
-
-elif [[ "$1" == "mate" ]]; then
-	pacman -S --noconfirm mate-tweak mate-menu
-fi
-
 # Installing GTK styling
-if [[ "$2" == "gtk" ]]; then
+if [[ "$2" == "gtk" ]] || [[ "$1" == "el" ]]; then
 	sudo -u aurbuilder yay -S --noconfirm aur/qgnomeplatform aur/qgnomeplatform-qt6 aur/adwaita-qt aur/adwaita-qt6
 
 	if [ "$1" == "gnome" ]; then

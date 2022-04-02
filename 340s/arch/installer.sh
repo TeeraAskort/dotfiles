@@ -3,7 +3,7 @@
 dataDiskUUID="c2751a74-8cb3-4692-84f2-7b852089a505"
 
 # Checking if arguments are passed
-if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]]; then
+if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "el" ]]; then
 	# Create partitions
 	parts=$(blkid | grep nvme0n1 | grep -v -e "$dataDiskUUID" | cut -d":" -f1)
 	for part in $(echo "$parts" | cut -d"p" -f2); do
@@ -57,6 +57,8 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 
 	if [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
 		arch-chroot /mnt bash /dotfiles/340s/arch/desktop_install.sh "$1" "gtk" 
+	elif [[ "$1" == "el" ]]; then 
+		arch-chroot /mnt bash /dotfiles/340s/arch/desktop_install.sh "$1"
 	else
 		arch-chroot /mnt bash /dotfiles/340s/arch/desktop_install.sh "$1" "qt" 
 	fi
@@ -67,6 +69,7 @@ else
 	echo "xfce - To install the xfce desktop"
 	echo "cinnamon - To install the cinnamon desktop"
 	echo "mate - To install the mate desktop"
+	echo "el - To install the enlightenment desktop"
 
 fi 
 

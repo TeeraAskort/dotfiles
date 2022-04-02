@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=nm-applet
+Exec=nm-applet --indicator
+Terminal=false

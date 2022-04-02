@@ -354,6 +354,9 @@ if [ "$XDG_CURRENT_DESKTOP" == "Enlightenment" ]; then
 #Set gnome-keyring as the ssh authentication agent
 SSH_AUTH_SOCK=/run/user/${UID}/keyring/ssh
 EOF
+
+	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+
 fi
 
 ## Adding user to audio group

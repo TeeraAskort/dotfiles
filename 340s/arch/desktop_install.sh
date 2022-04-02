@@ -158,7 +158,10 @@ elif [[ "$1" == "xfce" ]]; then
 
 elif [[ "$1" == "el" ]]; then
 	# Install enlightenment
-	pacman -S --noconfirm enlightenment terminology ephoto evince network-manager-applet transmission-gtk lightdm ffmpegthumbnailer libgepub libopenraw libgsf webp-pixbuf-loader xarchiver mpv gnome-calculator gparted virt-manager thunderbird gnome-keyring aisleriot gnome-mahjongg 
+	pacman -S --noconfirm enlightenment terminology ephoto evince network-manager-applet transmission-gtk lightdm ffmpegthumbnailer libgepub libopenraw libgsf webp-pixbuf-loader xarchiver mpv gnome-calculator gparted virt-manager thunderbird gnome-keyring aisleriot gnome-mahjongg acpid xorg-xwayland packagekit geoip-database
+
+	# Enabling services
+	systemctl enable acpid
 fi
 
 if [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "el" ]]; then

@@ -72,7 +72,7 @@ in
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
     mednafen mednaffe minecraft
-    firefox gnome.gnome-boxes
+    firefox gnome.gnome-boxes dbeaver
     myAspell mythes gimp steam pcsx2
     adwaita-qt razergenie docker-compose android-studio postman
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser gnomeExtensions.hibernate-status-button
@@ -124,20 +124,6 @@ in
 
   # ZramSwap
   zramSwap.enable = true;
-
-  # Syncthing configuration
-  services.syncthing = { 
-    enable = true;
-    user = "link";
-    overrideFolders = true;
-    dataDir = "/home/link";
-    configDir = "/home/link/.config/syncthing";
-    folders = {
-      "/home/link/Sync" = {
-        id = "home";
-      };
-    };
-  };
 
   # Firewall config
   networking.firewall.allowedTCPPorts = [

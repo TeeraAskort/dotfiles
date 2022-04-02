@@ -70,11 +70,11 @@ in
     python39Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
-    mednafen mednaffe minecraft
-    firefox gnome.gnome-boxes
+    mednafen mednaffe minecraft nextcloud-client
+    firefox gnome.gnome-boxes dbeaver
     myAspell mythes gimp steam pcsx2
-    adwaita-qt
-    gnomeExtensions.gsconnect
+    adwaita-qt razergenie docker-compose android-studio postman
+    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser
     useRADV 
   ];
 
@@ -125,20 +125,6 @@ in
   # ZramSwap
   zramSwap.enable = true;
 
-  # Syncthing configuration
-  services.syncthing = { 
-    enable = true;
-    user = "link";
-    overrideFolders = true;
-    dataDir = "/home/link";
-    configDir = "/home/link/.config/syncthing";
-    folders = {
-      "/home/link/Sync" = {
-        id = "home";
-      };
-    };
-  };
-
   # Firewall config
   networking.firewall.allowedTCPPorts = [
       22
@@ -166,6 +152,11 @@ in
     }
   ];
 
+  # Enable openrazer service
+  hardware.openrazer.enable = true;
+
+  # Enabling docker service
+  virtualisation.docker.enable = true;
 
   # Automatic garbage collection
   nix.gc.automatic = true;
@@ -279,7 +270,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "docker" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

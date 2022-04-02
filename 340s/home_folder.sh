@@ -347,6 +347,11 @@ if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then
 	fi
 fi 
 
+if [ "$XDG_CURRENT_DESKTOP" == "Enlightenment" ]; then
+	cp $directory/../common/applications/* ~/.e/e/applications/startup
+	cp /etc/xdg/autostart/gnome-keyring* ~/.e/e/applications/startup
+fi
+
 ## Adding user to audio group
 user="$USER"
 sudo usermod -aG audio $user

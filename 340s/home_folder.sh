@@ -350,6 +350,10 @@ fi
 if [ "$XDG_CURRENT_DESKTOP" == "Enlightenment" ]; then
 	cp $directory/../common/applications/* ~/.e/e/applications/startup
 	cp /etc/xdg/autostart/gnome-keyring* ~/.e/e/applications/startup
+	cat > ~/.pam_environment <<EOF
+#Set gnome-keyring as the ssh authentication agent
+SSH_AUTH_SOCK=/run/user/${UID}/keyring/ssh
+EOF
 fi
 
 ## Adding user to audio group

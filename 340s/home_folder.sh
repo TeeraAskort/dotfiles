@@ -355,7 +355,8 @@ if [ "$XDG_CURRENT_DESKTOP" == "Enlightenment" ]; then
 SSH_AUTH_SOCK=/run/user/${UID}/keyring/ssh
 EOF
 
-	cp ~/Imágenes/jowens_kauai.jpg /usr/share/backgrounds/
+	sudo mkdir /usr/share/backgrounds
+	sudo cp ~/Imágenes/jowens_kauai.jpg /usr/share/backgrounds/
 
 fi
 

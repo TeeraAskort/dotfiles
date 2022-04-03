@@ -355,7 +355,7 @@ if [ "$XDG_CURRENT_DESKTOP" == "Enlightenment" ]; then
 SSH_AUTH_SOCK=/run/user/${UID}/keyring/ssh
 EOF
 
-	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+	cp ~/Imágenes/jowens_kauai.jpg /usr/share/backgrounds/
 
 fi
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Checking if arguments are passed
-if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "mate" ]]; then
+if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "el" ]]; then
 
 	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep MZVLQ512HALU-000H1 | cut -d" " -f1)
 	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep TOSHIBA_DT01ACA300 | cut -d" " -f1)
@@ -58,6 +58,8 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 
 	if [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
 		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_install.sh "$1" "gtk" 
+	elif [[ "$1" == "el" ]]; then 
+		arch-chroot /mnt bash /dotfiles/340s/arch/desktop_install.sh "$1"
 	else
 		arch-chroot /mnt bash /dotfiles/desktop/arch/desktop_install.sh "$1" "qt" 
 	fi
@@ -68,5 +70,7 @@ else
 	echo "cinnamon - To install the cinnamon desktop"
 	echo "xfce - To install the xfce desktop"
 	echo "mate - To install the mate desktop"
+	echo "el - To install the enlightenment desktop"
+
 fi 
 

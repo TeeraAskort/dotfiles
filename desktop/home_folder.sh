@@ -319,6 +319,21 @@ if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then
 	fi
 fi
 
+if [ "$XDG_CURRENT_DESKTOP" == "Enlightenment" ]; then
+	cp $directory/../common/applications/* ~/.e/e/applications/startup
+	cp /etc/xdg/autostart/gnome-keyring* ~/.e/e/applications/startup
+	cat > ~/.pam_environment <<EOF
+#Set gnome-keyring as the ssh authentication agent
+SSH_AUTH_SOCK=/run/user/${UID}/keyring/ssh
+EOF
+
+	sudo mkdir /usr/share/backgrounds
+	sudo cp ~/Imágenes/jowens_kauai.jpg /usr/share/backgrounds/
+
+	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
+
+fi
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@gmail.com"

@@ -357,6 +357,8 @@ EOF
 
 	sudo mkdir /usr/share/backgrounds
 	sudo cp ~/Imágenes/jowens_kauai.jpg /usr/share/backgrounds/
+	
+	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
 
 fi
 

@@ -356,6 +356,29 @@ EOF
 
 fi
 
+if [ "$XDG_CURRENT_DESKTOP" == "MATE" ]; then
+
+	gsettings set org.mate.interface gtk-theme 'Mint-Y-Dark'
+	gsettings set org.mate.interface icon-theme 'Papirus-Dark'
+	gsettings set org.mate.interface monospace-font-name 'Rec Mono Semicasual 11'
+	gsettings set org.mate.power-manager button-power 'hibernate'
+	gsettings set org.mate.power-manager idle-dim-ac true
+	gsettings set org.mate.power-manager idle-dim-battery true
+	gsettings set org.mate.power-manager action-critical-battery 'hibernate'
+	gsettings set org.mate.power-manager action-sleep-type-ac 'hibernate'
+	gsettings set org.mate-power-manager action-sleep-type-battery 'hibernate'
+	gsettings set org.mate.power-manager sleep-computer-ac 1800
+	gsettings set org.mate.power-manager sleep-computer-battery 600
+	gsettings set org.mate.peripherals-mouse accel-profile 'flat'
+	gsettings set org.mate.peripherals-touchpad tap-to-click true
+	gsettings set org.mate.peripherals-touchpad tap-button-two-finger 3
+	gsettings set org.mate.peripherals-touchpad tap-button-three-finger 2
+	gsettings set org.mate.peripherals-touchpad natural-scroll true
+	gsettings set org.mate.peripherals-keyboard-xkb.general duplicate-leds true
+
+	sudo cp ~/Imágenes/jowens_kauai.jpg /usr/share/backgrounds/
+fi
+
 ## Adding user to audio group
 user="$USER"
 sudo usermod -aG audio $user

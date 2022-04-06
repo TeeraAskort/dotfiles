@@ -397,6 +397,10 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	# Copying ksshaskpass
 	ln /usr/bin/ksshaskpass /usr/lib/ssh/ssh-askpass
 
+elif [[ "$1" == "cinnamon" ]]; then
+	# Copying ssh-askpass
+	ln /usr/lib/gcr-ssh-askpass /usr/lib/ssh/ssh-askpass
+
 fi
 
 # Copying dotfiles folder to link

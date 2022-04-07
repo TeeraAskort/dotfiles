@@ -143,6 +143,7 @@ sudo systemctl restart docker
 sudo docker-compose -f compose.yml up -d --build
 sudo docker start mariadb 
 sudo docker container prune -f
+sudo docker pull mongo:latest
 
 ## Copying ssh key
 mkdir ~/.ssh

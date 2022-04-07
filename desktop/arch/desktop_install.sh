@@ -131,33 +131,18 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 if [[ "$1" == "cinnamon" ]]; then
 	pacman -S --noconfirm gedit cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller nemo-image-converter nemo-share blueberry system-config-printer gnome-screenshot gnome-disk-utility gnome-calendar mint-themes evince kdeconnect zenity mpv gnome-boxes seahorse
 
-	# Enabling services
-	systemctl enable libvirtd
-
-	# Adding user to libvirt group
-	usermod -aG libvirt link
-
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
 	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin celluloid gdm-plymouth chrome-gnome-shell simple-scan
 
 	# Enabling gdm
-	systemctl enable gdm libvirtd
+	systemctl enable gdm 
 
 	# Removing unwanted packages
 	pacman -Rns --noconfirm gnome-music epiphany totem orca 
 
-	# Adding user to libvirt group
-	usermod -aG libvirt link
-
 elif [[ "$1" == "mate" ]]; then
 	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird gnome-boxes gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw blueberry mint-themes mpv mate-tweak mate-menu simple-scan
-
-	# Enabling services
-	systemctl enable libvirtd
-
-	# Adding user to libvirt group
-	usermod -aG libvirt link
 
 elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent gnome-keyring plasma-wayland-session kdepim-addons akonadi kmail mpv qt5-imageformats webp-pixbuf-loader ksshaskpass
@@ -172,21 +157,13 @@ elif [[ "$1" == "xfce" ]]; then
 	# Remove unwanted applications
 	pacman -Rns --noconfirm parole
 
-	# Enabling services
-	systemctl enable libvirtd
-
-	# Adding user to libvirt group
-	usermod -aG libvirt link
-
 elif [[ "$1" == "el" ]]; then
 	# Install enlightenment
 	pacman -S --noconfirm enlightenment terminology ephoto evince network-manager-applet transmission-gtk lightdm ffmpegthumbnailer libgepub libopenraw libgsf webp-pixbuf-loader xarchiver mpv gnome-calculator gparted thunderbird gnome-keyring aisleriot gnome-mahjongg acpid xorg-xwayland packagekit geoip-database gnome-themes-extra gnome-boxes gedit simple-scan 
 
 	# Enabling services
-	systemctl enable acpid libvirtd
+	systemctl enable acpid 
 
-	# Adding user to libvirt group
-	usermod -aG libvirt link
 fi
 
 if [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]  || [[ "$1" == "el" ]]; then

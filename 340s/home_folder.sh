@@ -175,22 +175,8 @@ pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" -n >> ~/.config/Yubico/u2f_keys
 
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
-	# if [ -e /usr/share/themes/Materia-dark-compact ]; then
-	# 	gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark-compact"
-
-	# elif [ -e /usr/share/themes/Qogir-win-dark ]; then
-	# 	gsettings set org.gnome.desktop.interface gtk-theme "Qogir-win-dark"
-
-	# elif [ -e /usr/share/themes/Orchis-grey-dark-compact/ ]; then
-	# 	gsettings set org.gnome.desktop.interface gtk-theme "Orchis-grey-dark-compact"
-
-	# else
-	# 	if [ -e /usr/share/themes/Materia-dark ]; then 
-	# 		gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark"
-	# 	else
-	 		gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
-	# 	fi
-	# fi
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
 	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
 	gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
@@ -276,6 +262,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "Budgie:GNOME" ]]; then
 fi
 
 gsettings set org.gtk.Settings.FileChooser sort-directories-first true
+gsettings set org.gtk.gtk4.Settings.FileChooser sort-directories-first true
 
 # XFCE config
 if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
@@ -315,6 +302,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon.desktop.interface clock-show-date true
 	gsettings set org.nemo.icon-view default-zoom-level 'small'
 	gsettings set org.nemo.preferences thumbnail-limit 8589934592
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
 	# Keybindings
 	gsettings set org.cinnamon.desktop.keybindings.media-keys terminal "['<Primary><Alt>t', '<Super>t']"

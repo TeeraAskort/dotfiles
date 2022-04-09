@@ -6,6 +6,6 @@ alias pacs="sudo pacman -Ss"
 alias vim="nvim"
 
 function pacup() {
-	yay -Syyuu;
+	yay -Syyuu --noconfirm;
 	yay -S --rebuild --answerclean A --answerdiff N $(checkrebuild | cut -d$'\t' -f2)
 }

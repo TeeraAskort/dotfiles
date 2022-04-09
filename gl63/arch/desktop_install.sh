@@ -276,13 +276,8 @@ fi
 if [[ "$2" == "gtk" ]]; then
 	sudo -u aurbuilder yay -S --noconfirm aur/qgnomeplatform aur/qgnomeplatform-qt6 aur/adwaita-qt aur/adwaita-qt6
 
-	if [ "$1" == "gnome" ]; then
-		# Setting environment variable
-		echo "QT_STYLE_OVERRIDE=gnome" | tee -a /etc/environment
-	else
-		# Adding gnome theming to qt
-		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
-	fi
+	# Adding gnome theming to qt
+	echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
 fi
 
 # Linking yt-dlp to youtube-dl

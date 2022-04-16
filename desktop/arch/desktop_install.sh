@@ -133,7 +133,7 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin gdm-plymouth chrome-gnome-shell simple-scan
+	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine evolution transmission-gtk webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gtk gnome-software-packagekit-plugin gdm-plymouth chrome-gnome-shell simple-scan power-profiles-daemon
 
 	# Enabling gdm
 	systemctl enable gdm 
@@ -273,7 +273,7 @@ usermod -aG plugdev link
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]]  || [[ "$1" == "el" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm aur/qgnomeplatform aur/qgnomeplatform-qt6 aur/adwaita-qt aur/adwaita-qt6
+	sudo -u aurbuilder yay -S --noconfirm aur/adwaita-qt aur/adwaita-qt6
 
 	# Adding gnome theming to qt
 	echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment

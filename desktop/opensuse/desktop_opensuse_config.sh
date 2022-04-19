@@ -33,6 +33,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
 	# zypper addrepo https://brave-browser-rpm-release.s3.brave.com/x86_64/ brave-browser
 
+	# Adding Google Chrome repo
+	wget https://dl.google.com/linux/linux_signing_key.pub
+	rpm --import linux_signing_key.pub
+	zypper ar http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
+
 	# Refreshing the repos
 	zypper --gpg-auto-import-keys refresh
 
@@ -58,7 +63,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --force-resolution pipewire-pulseaudio pipewire-alsa pipewire-aptx pipewire-libjack-0_3 pipewire wireplumber
 
 	# Installing basic packages
-	zypper in -y chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip mednafen mednaffe openrazer-meta razergenie docker python3-docker-compose nextcloud-desktop 
+	zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip mednafen mednaffe openrazer-meta razergenie docker python3-docker-compose nextcloud-desktop yarn
 
 	# Enabling thermald service
 	user="$SUDO_USER"
@@ -77,6 +82,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	# Starting zram service
 	zramswapon
+
+	# Installing mongodb compass
+	curl -L "https://downloads.mongodb.com/compass/mongodb-compass-1.31.2.x86_64.rpm" > compass.rpm
+	zypper in ./compass.rpm -y
+	rm compass.rpm
 
 	# Installing computer specific applications
 	zypper in -y kernel-firmware-amdgpu libdrm_amdgpu1 libdrm_amdgpu1-32bit libdrm_radeon1 libdrm_radeon1-32bit libvulkan_radeon libvulkan_radeon-32bit libvulkan1 libvulkan1-32bit
@@ -131,7 +141,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument
+		zypper in -y adwaita-qt5 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan
 
  		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=gnome" | tee -a /etc/environment
@@ -202,7 +212,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop com.obsproject.Studio org.nicotine_plus.Nicotine org.DolphinEmu.dolphin-emu com.getpostman.Postman com.google.AndroidStudio
+	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop com.obsproject.Studio org.nicotine_plus.Nicotine org.DolphinEmu.dolphin-emu com.getpostman.Postman 
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ]; then

@@ -88,10 +88,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	curl -L "https://github.com/mongodb-js/compass/releases/download/v1.31.2/mongodb-compass-1.31.2-linux-x64.tar.gz" > compass.tar.gz
 	tar xzvf compass.tar.gz 
 	mv MongoDB\ Compass* /usr/lib/mongodb-compass
-	chmod +x /usr/lib/mongodb-compass/"MongoDB Compass"
+	chmod +x /usr/lib/mongodb-compass/"MongoDB Compass"vim pr
 	ln -s /usr/lib/mongodb-compass/"MongoDB Compass" /usr/bin/mongodb-compass
 	cp $directory/../../common/applications/mongodb-compass.desktop /usr/share/applications
-	cp $directory/../../common/applications/pixmap/mongodb-compass.png /usr/share/pixmaps
+	cp $directory/../../common/applications/pixmaps/mongodb-compass.png /usr/share/pixmaps
 	rm compass.tar.gz
 
 	# Installing computer specific applications

@@ -3,5 +3,5 @@ Type=Application
 Version=1.0
 Name=MongoDB Compass
 # Path=/usr/lib/mongodb-compass
-Exec=/usr/lib/mongodb-compass/"MongoDB Compass"
+Exec=mongodb-compass
 Icon=mongodb-compass

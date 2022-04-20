@@ -39,6 +39,7 @@ git config --global credential.helper store
 
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
 	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
@@ -59,10 +60,13 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
 	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
-	gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
+		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	fi
 fi
 
 gsettings set org.gtk.Settings.FileChooser sort-directories-first true
+gsettings set org.gtk.gtk4.Settings.FileChooser sort-directories-first true
 
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -111,6 +115,4 @@ npm install -g @angular/cli @ionic/cli
 ## Configuring docker
 cd $directory/../common
 sudo systemctl restart docker
-sudo docker-compose -f compose.yml up -d --build
-sudo docker start mariadb
-sudo docker container prune -f
+sudo docker pull mongo:latest

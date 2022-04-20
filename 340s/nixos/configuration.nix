@@ -63,7 +63,7 @@ in
     git brasero nicotine-plus dolphinEmu
     zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify yt-dlp
-    chromium ffmpegthumbnailer 
+    google-chrome ffmpegthumbnailer 
     obs-studio libfido2 pfetch
     gtk-engine-murrine lm_sensors
     parallel libreoffice-fresh
@@ -72,9 +72,10 @@ in
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
     mednafen mednaffe minecraft
-    firefox gnome.gnome-boxes dbeaver
+    firefox gnome.gnome-boxes 
+    mongodb-compass yarn nextcloud-client
     myAspell mythes gimp steam pcsx2
-    adwaita-qt razergenie docker-compose android-studio postman
+    adwaita-qt razergenie docker-compose postman
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser gnomeExtensions.hibernate-status-button
   ];
 
@@ -275,6 +276,9 @@ in
   services.xserver.desktopManager.gnome.sessionPath = [
     pkgs.gnome.gedit
   ];
+
+  # Enable power-profiles-daemon
+  services.power-profiles-daemon.enable = true;
 
   # EarlyOOM
   services.earlyoom = {

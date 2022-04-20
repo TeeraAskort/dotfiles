@@ -36,6 +36,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Adding Google Chrome repo
 	wget https://dl.google.com/linux/linux_signing_key.pub
 	rpm --import linux_signing_key.pub
+	rm linux_signing_key.pub
 	zypper ar http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
 
 	# Refreshing the repos
@@ -84,9 +85,14 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zramswapon
 
 	# Installing mongodb compass
-	curl -L "https://downloads.mongodb.com/compass/mongodb-compass-1.31.2.x86_64.rpm" > compass.rpm
-	zypper in ./compass.rpm -y
-	rm compass.rpm
+	curl -L "https://github.com/mongodb-js/compass/releases/download/v1.31.2/mongodb-compass-1.31.2-linux-x64.tar.gz" > compass.tar.gz
+	tar xzvf compass.tar.gz 
+	mv MongoDB\ Compass* /usr/lib/mongodb-compass
+	chmod +x /usr/lib/mongodb-compass/"MongoDB Compass"
+	ln -s /usr/lib/mongodb-compass/"MongoDB Compass" /usr/bin/mongodb-compass
+	cp $directory/../../common/applications/mongodb-compass.desktop /usr/share/applications
+	cp $directory/../../common/applications/pixmap/mongodb-compass.png /usr/share/pixmaps
+	rm compass.tar.gz
 
 	# Installing computer specific applications
 	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f

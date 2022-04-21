@@ -194,6 +194,9 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
 	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
+	gsettings set org.gnome.desktop.peripherals.keyboard numlock-state true
+	gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi

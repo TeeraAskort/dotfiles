@@ -335,6 +335,9 @@ if [[ "$1" == "gnome" ]]; then
 	echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
 	echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 
+	# Setting firefox env var
+	echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
+
 elif [[ "$1" == "xfce" ]]; then
 	# Adding xprofile to user link
 	sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/link/.xprofile

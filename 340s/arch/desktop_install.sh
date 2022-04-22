@@ -248,7 +248,7 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator home_Alderaeney_Arch/strawberry-qt5 docker docker-compose rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git minigalaxy minecraft-launcher postman-bin protontricks-git mednaffe mpv mpv-mpris mongodb-compass yarn libva-vdpau-driver libvdpau-va-gl
+pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator home_Alderaeney_Arch/strawberry-qt5 docker docker-compose rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git minigalaxy minecraft-launcher postman-bin protontricks-git mednaffe mpv mpv-mpris mongodb-compass yarn libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil
 
 # Enabling services
 systemctl enable thermald apparmor firewalld systemd-oomd.service docker
@@ -316,6 +316,23 @@ echo "vm.dirty_background_ratio = 2" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "kernel.kptr_restrict = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "net.core.bpf_jit_harden=2" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "kernel.kexec_load_disabled = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Create apparmor audit group
+groupadd -r audit
+usermod -aG audit link
+
+cat >/etc/xdg/autostart/apparmor-notify.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Name=AppArmor Notify
+Comment=Receive on screen notifications of AppArmor denials
+TryExec=aa-notify
+Exec=aa-notify -p -s 1 -w 60 -f /var/log/audit/audit.log
+StartupNotify=false
+NoDisplay=true
+EOF
+
+sed -i "s/log_group = root/log_group = audit/g" /etc/audit/auditd.conf
 
 # Optimize SSD and HDD performance
 cat > /etc/udev/rules.d/60-sched.rules <<EOF

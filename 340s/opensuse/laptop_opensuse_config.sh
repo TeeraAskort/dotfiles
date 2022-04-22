@@ -85,14 +85,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zramswapon
 
 	# Installing mongodb compass
-	curl -L "https://github.com/mongodb-js/compass/releases/download/v1.31.2/mongodb-compass-1.31.2-linux-x64.tar.gz" > compass.tar.gz
-	tar xzvf compass.tar.gz 
-	mv MongoDB\ Compass* /usr/lib/mongodb-compass
-	chmod +x /usr/lib/mongodb-compass/"MongoDB Compass"vim pr
-	ln -s /usr/lib/mongodb-compass/"MongoDB Compass" /usr/bin/mongodb-compass
-	cp $directory/../../common/applications/mongodb-compass.desktop /usr/share/applications
-	cp $directory/../../common/applications/pixmaps/mongodb-compass.png /usr/share/pixmaps
-	rm compass.tar.gz
+	zypper in gnome-keyring lsb-core-noarch gconf2
+	curl -L "https://github.com/mongodb-js/compass/releases/download/v1.31.2/mongodb-compass-1.31.2.x86_64.rpm" > compass.rpm
+	rpm -ivh --nodeps compass.rpm
+	rm compass.rpm
 
 	# Installing computer specific applications
 	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f

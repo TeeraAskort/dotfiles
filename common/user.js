@@ -1,4 +1,4 @@
-user_pref("gfx.webrender.all", true);
+// user_pref("gfx.webrender.all", true);
 user_pref("media.hardwaremediakeys.enabled", true);
 user_pref("layers.acceleration.force-enabled", true);
 user_pref("media.ffmpeg.vaapi-drm-display.enabled", true);
@@ -140,4 +140,4 @@ user_pref("browser.contentblocking.category", "custom");
 user_pref("privacy.trackingprotection.enabled", true);
 user_pref("privacy.trackingprotection.socialtracking.enabled", true);
 user_pref("dom.storage.next_gen", true); // [DEFAULT: true FF92+]
-user_pref("media.rdd-process.enabled", false);
+// user_pref("media.rdd-process.enabled", false);

@@ -346,15 +346,32 @@ if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then
 	fi
 fi
 
+if [ $(lsb_release -is) == "Arch" ]; then 
+
+	mkdir ~/.config/autostart
+
+cat > .config/autostart/apparmor-notify.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Name=AppArmor Notify
+Comment=Receive on screen notifications of AppArmor denials
+TryExec=aa-notify
+Exec=aa-notify -p -s 1 -w 60 -f /var/log/audit/audit.log
+StartupNotify=false
+NoDisplay=true
+EOF
+
+fi
+
+## Adding user to audio group
+user="$USER"
+sudo usermod -aG audio $user
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@gmail.com"
 git config --global init.defaultBranch master
 git config --global credential.helper store
-
-## Adding user to audio group
-user="$USER"
-sudo usermod -aG audio $user
 
 ## Changing user shell
 if ! command -v chsh &> /dev/null

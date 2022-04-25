@@ -145,7 +145,7 @@ elif [[ "$1" == "mate" ]]; then
 	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird gnome-boxes gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueberry mint-themes mate-tweak mate-menu simple-scan
 
 elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
-	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent gnome-keyring plasma-wayland-session kdepim-addons akonadi kmail qt5-imageformats webp-pixbuf-loader ksshaskpass
+	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind kwrite print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent gnome-keyring plasma-wayland-session kdepim-addons akonadi kmail qt5-imageformats webp-pixbuf-loader ksshaskpass gnome-boxes
 
 	# Removing unwanted packages
 	pacman -Rnsc --noconfirm oxygen
@@ -319,17 +319,6 @@ echo "kernel.kexec_load_disabled = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
 # Create apparmor audit group
 groupadd -r audit
 usermod -aG audit link
-
-cat >/etc/xdg/autostart/apparmor-notify.desktop <<EOF
-[Desktop Entry]
-Type=Application
-Name=AppArmor Notify
-Comment=Receive on screen notifications of AppArmor denials
-TryExec=aa-notify
-Exec=aa-notify -p -s 1 -w 60 -f /var/log/audit/audit.log
-StartupNotify=false
-NoDisplay=true
-EOF
 
 sed -i "s/log_group = root/log_group = audit/g" /etc/audit/auditd.conf
 

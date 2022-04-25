@@ -376,7 +376,7 @@ if [ $(lsb_release -is) == "Arch" ]; then
 
 	mkdir ~/.config/autostart
 
-cat > .config/autostart/apparmor-notify.desktop <<EOF
+cat > ~/.config/autostart/apparmor-notify.desktop <<EOF
 [Desktop Entry]
 Type=Application
 Name=AppArmor Notify

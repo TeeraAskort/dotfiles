@@ -5,6 +5,9 @@ if [ "$1" == "gnome" ]; then
     dpkg --add-architecture i386
     apt update
 
+    ## Changing repository
+    sed -i "s/es.archive.ubuntu.com/ftp.udc.es/g" /etc/apt/sources.list
+
     ## Installing essential build tools and ppa
     apt-get install -y build-essential software-properties-common
 
@@ -45,7 +48,7 @@ Pin: release o=LP-PPA-mozillateam
 Pin-Priority: 501
 EOF
     apt update
-    apt install -t 'o=LP-PPA-mozillateam' firefox
+    apt install -t 'o=LP-PPA-mozillateam' -y firefox
 
     ## Installing docker
     apt-get install -y ca-certificates curl gnupg lsb-release
@@ -164,7 +167,7 @@ EOF
         apt install -y adwaita-qt gedit gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk evince simple-scan xdg-desktop-portal-gtk power-profiles-daemon brasero libopenraw libgsf libgepub
 
         ## Removing desktop specific packages
-        apt remove -y
+        # apt remove -y
 
         ## Adding hibernate options
         echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf

@@ -13,9 +13,6 @@ if [ "$1" == "gnome" ]; then
     apt-get install -y build-essential software-properties-common
 
     ## Installing drivers
-    add-apt-repository ppa:kisak/kisak-mesa -y
-    apt update
-    apt full-upgrade -y
     apt install -y libgl1-mesa-dri:i386 mesa-vulkan-drivers mesa-vulkan-drivers:i386
 
     ## Installing wine

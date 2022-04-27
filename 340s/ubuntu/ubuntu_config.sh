@@ -4,6 +4,7 @@ if [ "$1" == "gnome" ]; then
     ## Adding 32 bit support
     dpkg --add-architecture i386
     apt update
+    apt full-upgrade -y
 
     ## Changing repository
     sed -i "s/es.archive.ubuntu.com/ftp.udc.es/g" /etc/apt/sources.list

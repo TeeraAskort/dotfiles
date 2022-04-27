@@ -203,6 +203,39 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	fi
 fi
 
+## Changing ubuntu GNOME theme
+if [[ "$XDG_CURRENT_DESKTOP" == "ubuntu:GNOME" ]]; then
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
+	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
+	gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
+	gsettings set org.gnome.desktop.privacy disable-camera true
+	gsettings set org.gnome.desktop.privacy disable-microphone true
+	gsettings set org.gnome.desktop.privacy remember-recent-files false
+	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
+	gsettings set org.gnome.desktop.privacy remove-old-trash-files  true
+	gsettings set org.gnome.desktop.privacy old-files-age 3
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
+	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
+	gsettings set org.gnome.nautilus.icon-view default-zoom-level 'small'
+	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
+	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
+	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
+	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
+	gsettings set org.gnome.desktop.peripherals.keyboard numlock-state true
+	gsettings set org.gnome.desktop.interface clock-show-date true
+	gsettings set org.gnome.desktop.calendar show-weekdate true
+	gsettings set org.gnome.desktop.interface enable-hot-corners true
+
+	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
+		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	fi
+fi
+
 # Changing zorin config
 if [[ "$XDG_CURRENT_DESKTOP" == "zorin:GNOME" ]]; then
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then

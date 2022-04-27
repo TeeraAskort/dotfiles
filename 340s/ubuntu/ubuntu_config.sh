@@ -158,7 +158,7 @@ EOF
     ## Final desktop configs
     if [ "$1" == "gnome" ]; then
         ## Installing desktop specific packages
-        apt install -y adwaita-qt gedit gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk evince simple-scan xdg-desktop-portal-gtk power-profiles-daemon brasero libopenraw7 libgsf-1-114 libgepub-0.6-0 gthumb
+        apt install -y adwaita-qt gedit gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk evince simple-scan xdg-desktop-portal-gtk power-profiles-daemon brasero libopenraw7 libgsf-1-114 libgepub-0.6-0 gthumb file-roller gnome-boxes chrome-gnome-shell gnome-photos gnome-keyring gnome-calculator
 
         ## Removing desktop specific packages
         # apt remove -y

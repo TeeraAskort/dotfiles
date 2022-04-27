@@ -57,11 +57,6 @@ EOF
     apt-get update
     apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
-    ## Installing the papirus icon theme
-    add-apt-repository ppa:papirus/papirus -y
-    apt-get update
-    apt-get install -y papirus-icon-theme
-
     ## Installing steam
     curl -LO "https://cdn.akamai.steamstatic.com/client/installer/steam.deb"
     apt install -y ./steam.deb
@@ -114,8 +109,11 @@ EOF
     add-apt-repository multiverse -y
     apt-get install -y ubuntu-restricted-extras
 
+    ## Pre accepting licenses
+    echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+
     ## Installing required packages
-    apt install -y flatpak mpv mpv-mpris dolphin-emu zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji thermald gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config minigalaxy yarnpkg gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es aspell-es mythes-en-us mythes-es hyphen-en-us hyphen-es zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch
+    apt install -y flatpak mpv mpv-mpris zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji thermald gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config minigalaxy yarnpkg gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es aspell-es mythes-en-us mythes-es hyphen-en-us hyphen-es zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch papirus-icon-theme
 
     ## Installing computer specific applications
     apt install -y intel-microcode pamu2fcfg libpam-u2f
@@ -133,7 +131,7 @@ EOF
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
     ## Installing flatpak applications
-    flatpak install -y flathub com.getpostman.Postman com.discordapp.Discord org.telegram.desktop org.jdownloader.JDownloader com.obsproject.Studio org.gtk.Gtk3theme.Adwaita-dark
+    flatpak install -y flathub org.gtk.Gtk3theme.Adwaita-dark com.getpostman.Postman com.discordapp.Discord org.telegram.desktop org.jdownloader.JDownloader com.obsproject.Studio org.DolphinEmu.dolphin-emu
 
     ## Putting this option for the chrome-sandbox bullshit
     echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
@@ -158,13 +156,8 @@ EOF
 
     ## Final desktop configs
     if [ "$1" == "gnome" ]; then
-        ## Adding webp support
-        add-apt-repository ppa:krifa75/eog-ordissimo -y
-        apt update
-        apt install -y webp-pixbuf-loader
-
         ## Installing desktop specific packages
-        apt install -y adwaita-qt gedit gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk evince simple-scan xdg-desktop-portal-gtk power-profiles-daemon brasero libopenraw libgsf libgepub
+        apt install -y adwaita-qt gedit gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk evince simple-scan xdg-desktop-portal-gtk power-profiles-daemon brasero libopenraw7 libgsf-1-114 libgepub-0.6-0 gthumb
 
         ## Removing desktop specific packages
         # apt remove -y

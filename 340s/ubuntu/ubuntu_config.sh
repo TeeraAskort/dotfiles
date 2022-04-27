@@ -48,7 +48,7 @@ Pin: release o=LP-PPA-mozillateam
 Pin-Priority: 501
 EOF
     apt update
-    apt install -t 'o=LP-PPA-mozillateam' -y firefox
+    apt install -t 'o=LP-PPA-mozillateam' -y firefox firefox-locale-es
 
     ## Installing docker
     apt-get install -y ca-certificates curl gnupg lsb-release

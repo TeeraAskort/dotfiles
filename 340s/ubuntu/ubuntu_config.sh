@@ -115,7 +115,7 @@ EOF
     apt-get install -y ubuntu-restricted-extras
 
     ## Installing required packages
-    apt install -y flatpak mpv mpv-mpris dolphin-emu zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji thermald gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config minigalaxy yarnpkg gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es aspell-es mythes-en-us mythes-es hyphen-en-us hyphen-es zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g
+    apt install -y flatpak mpv mpv-mpris dolphin-emu zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji thermald gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config minigalaxy yarnpkg gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es aspell-es mythes-en-us mythes-es hyphen-en-us hyphen-es zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch
 
     ## Installing computer specific applications
     apt install -y intel-microcode pamu2fcfg libpam-u2f
@@ -133,7 +133,7 @@ EOF
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
     ## Installing flatpak applications
-    flatpak install -y flathub com.getpostman.Postman com.discordapp.Discord org.telegram.desktop org.jdownloader.JDownloader com.obsproject.Studio
+    flatpak install -y flathub com.getpostman.Postman com.discordapp.Discord org.telegram.desktop org.jdownloader.JDownloader com.obsproject.Studio org.gtk.Gtk3theme.Adwaita-dark
 
     ## Putting this option for the chrome-sandbox bullshit
     echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf

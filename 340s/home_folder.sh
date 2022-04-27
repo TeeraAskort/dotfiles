@@ -234,6 +234,9 @@ if [[ "$XDG_CURRENT_DESKTOP" == "ubuntu:GNOME" ]]; then
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
+
+	export WEBKIT_FORCE_SANDBOX=0
+	gnome-control-center &
 fi
 
 # Changing zorin config

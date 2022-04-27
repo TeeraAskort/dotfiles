@@ -1,7 +1,7 @@
 alias apti="sudo apt install"
 alias aptr="sudo apt remove"
 alias aptu="sudo apt update"
-alias aptup="sudo apt update ; sudo apt full-upgrade ; sudo yt-dlp -U"
+alias aptup="sudo apt update ; sudo apt full-upgrade -y ; sudo yt-dlp -U"
 alias aptar="sudo apt autoremove"
 alias apts="sudo apt search"
 alias vim="nvim"

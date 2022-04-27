@@ -30,10 +30,6 @@ if [ "$1" == "gnome" ]; then
     apt update
     apt install -y strawberry
 
-    ## Installing nodejs
-    curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
-    apt-get install -y nodejs
-
     ## Installing mongo compass
     curl -L "https://github.com/mongodb-js/compass/releases/download/v1.31.2/mongodb-compass_1.31.2_amd64.deb" >compass.deb
     apt install -y ./compass.deb
@@ -114,7 +110,7 @@ EOF
     echo ttf-mscorefonts-installer msttcorefonts/present-mscorefonts-eula select "" | debconf-set-selections
 
     ## Installing required packages
-    apt install -y flatpak mpv mpv-mpris zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji thermald gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config minigalaxy yarnpkg gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es aspell-es mythes-en-us mythes-es hyphen-en-us hyphen-es zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch papirus-icon-theme
+    apt install -y flatpak mpv mpv-mpris zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji thermald gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config minigalaxy yarnpkg gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es aspell-es mythes-en-us mythes-es hyphen-en-us hyphen-es zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch papirus-icon-theme nodejs npm
 
     ## Installing computer specific applications
     apt install -y intel-microcode pamu2fcfg libpam-u2f

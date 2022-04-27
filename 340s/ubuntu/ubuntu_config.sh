@@ -71,10 +71,7 @@ EOF
     apt update
     apt install -y nicotine
 
-    ## Installing yt-dlp
-    curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
-    chmod a+rx /usr/local/bin/yt-dlp
-    ln -s /usr/local/bin/yt-dlp /usr/local/bin/youtube-dl
+    ## Holding youtube-dl
     apt-mark hold youtube-dl
 
     ## Installing VSCode
@@ -108,10 +105,10 @@ EOF
 
     ## Pre accepting licenses
     echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
-    echo ttf-mscorefonts-installer msttcorefonts/present-mscorefonts-eula select "" | debconf-set-selections
+    echo ttf-mscorefonts-installer msttcorefonts/present-mscorefonts-eula select false | debconf-set-selections
 
     ## Installing required packages
-    apt install -y flatpak mpv mpv-mpris zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji thermald gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config minigalaxy yarnpkg gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es aspell-es mythes-en-us mythes-es hyphen-en-us hyphen-es zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch papirus-icon-theme nodejs npm
+    apt install -y flatpak mpv mpv-mpris zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji thermald gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config minigalaxy yarnpkg gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es aspell-es mythes-en-us mythes-es hyphen-en-us hyphen-es zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch papirus-icon-theme nodejs npm yt-dlp
 
     ## Installing computer specific applications
     apt install -y intel-microcode pamu2fcfg libpam-u2f

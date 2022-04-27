@@ -8,6 +8,7 @@ if [ "$1" == "gnome" ]; then
 
     ## Changing repository
     sed -i "s/es.archive.ubuntu.com/ftp.udc.es/g" /etc/apt/sources.list
+    apt update
 
     ## Installing essential build tools and ppa
     apt-get install -y build-essential software-properties-common

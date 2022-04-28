@@ -40,6 +40,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	mount /dev/lvm/home /mnt/home
 	mount /dev/nvme0n1p1 /mnt/boot
 
+	# Updating keyring
+	pacman -Syu --noconfirm archlinux-keyring
+
 	# Install base system
 	pacstrap /mnt base base-devel linux-firmware linux linux-headers efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs
 

@@ -228,10 +228,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "ubuntu:GNOME" ]]; then
 	gsettings set org.gnome.desktop.calendar show-weekdate true
 	gsettings set org.gnome.desktop.interface enable-hot-corners true
 
-	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
-		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-	fi
-
 fi
 
 # Changing zorin config

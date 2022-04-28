@@ -97,12 +97,12 @@ EOF
     apt update
     apt install -y razergenie
 
+    ## Pre accepting licenses
+    echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
+
     ## Installing multimedia codecs
     add-apt-repository multiverse -y
     apt-get install -y ubuntu-restricted-extras
-
-    ## Pre accepting licenses
-    echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
 
     ## Installing required packages
     apt install -y flatpak mpv mpv-mpris zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji thermald gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config minigalaxy yarnpkg gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es aspell-es mythes-en-us mythes-es hyphen-en-us hyphen-es zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch nodejs npm yt-dlp

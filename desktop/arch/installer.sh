@@ -44,7 +44,7 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 	mount /dev/${rootDisk}p1 /mnt/boot
 
 	# Updating keyring
-	pacman -Syu --noconfirm archlinux-keyring
+	pacman -Sy --noconfirm archlinux-keyring
 
 	# Install base system
 	pacstrap /mnt base base-devel linux-firmware linux linux-headers lvm2 efibootmgr btrfs-progs vim git xfsprogs 

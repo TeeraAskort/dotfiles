@@ -54,7 +54,7 @@ cat >> /etc/pacman.conf <<EOF
 Include = /etc/pacman.d/chaotic-mirrorlist
 
 [home_Alderaeney_Arch]
-Server = https://download.opensuse.org/repositories/home:/Alderaeney/Arch/$arch
+Server = https://download.opensuse.org/repositories/home:/Alderaeney/Arch/\$arch
 EOF
 
 # Adding home OBS repo key

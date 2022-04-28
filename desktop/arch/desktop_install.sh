@@ -90,6 +90,9 @@ systemctl enable NetworkManager haveged
 # Installing sound libraries
 pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire wireplumber pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack
 
+# Configuring pulseaudio
+sed -i "s/load-module module-suspend-on-idle/#load-module module-suspend-on-idle/g" /etc/pulse/default.pa
+
 # Enabling pipewire service
 sudo -u link systemctl --user enable pipewire.socket
 sudo -u link systemctl --user enable wireplumber.service

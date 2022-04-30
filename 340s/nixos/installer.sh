@@ -13,19 +13,17 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	for part in $(echo "$parts" | cut -d"p" -f2); do
 		parted /dev/nvme0n1 -- rm $part
 	done
-	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
+	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512MiB
 	parted /dev/nvme0n1 -- set 1 boot on
-	parted /dev/nvme0n1 -- mkpart primary 512M 70GiB
+	parted /dev/nvme0n1 -- mkpart primary 512MiB 70GiB
 
 	# Loop until cryptsetup succeeds formatting the partition
-	until cryptsetup luksFormat /dev/nvme0n1p3
-	do 
+	until cryptsetup luksFormat /dev/nvme0n1p3; do
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the patition
-	until cryptsetup open /dev/nvme0n1p3 luks
-	do
+	until cryptsetup open /dev/nvme0n1p3 luks; do
 		echo "Cryptsetup failed, trying again"
 	done
 
@@ -62,11 +60,10 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	fi
 
 	# Copy key from secondary drive to root partition
-	clear 
+	clear
 	part=$(blkid | grep nvme0n1 | grep -e "$dataDiskUUID" | cut -d":" -f1)
 	echo "Enter data disk password"
-	until cryptsetup open $part datos
-	do
+	until cryptsetup open $part datos; do
 		echo "Cryptsetup failed opening the secondary drive"
 	done
 	mkdir $directory/datos

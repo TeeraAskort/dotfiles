@@ -68,13 +68,13 @@ in
     gtk-engine-murrine lm_sensors
     parallel libreoffice-fresh
     ffmpeg-full nodejs nodePackages.npm
-    python39Packages.pynvim neovim cmake python39Full gcc gnumake
+    python310Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
     mednafen mednaffe minecraft
-    firefox gnome.gnome-boxes 
+    firefox gnome.gnome-boxes minigalaxy
     mongodb-compass yarn nextcloud-client
-    myAspell mythes gimp steam pcsx2
+    myAspell mythes gimp steam pcsx2 osu-lazer
     adwaita-qt razergenie docker-compose postman
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser gnomeExtensions.hibernate-status-button
   ];
@@ -106,7 +106,7 @@ in
   # Java configuration
   programs.java = {
     enable = true;
-    package = pkgs.jdk11;
+    package = pkgs.jdk;
   };
 
   # Zsh shell
@@ -128,17 +128,17 @@ in
 
   # Firewall config
   networking.firewall.allowedTCPPorts = [
-	22
-	80
-	443
-        22000
+	  22
+	  80
+	  443
+    22000
   ];
   networking.firewall.allowedUDPPorts = [
-	22
-	80
-	443
-	22000
-	21027
+	  22
+	  80
+	  443
+	  22000
+	  21027
   ];
   networking.firewall.allowedTCPPortRanges = [
     {

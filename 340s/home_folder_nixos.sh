@@ -76,9 +76,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface clock-show-date true
 	gsettings set org.gnome.desktop.calendar show-weekdate true
 
-	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
-		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-	fi
+	gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+
 fi
 
 gsettings set org.gtk.Settings.FileChooser sort-directories-first true

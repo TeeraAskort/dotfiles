@@ -46,7 +46,7 @@ pacman-key --lsign-key FBA220DFC880C036
 pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
 # Adding home OBS repo
-cat >> /etc/pacman.conf <<EOF
+cat >>/etc/pacman.conf <<EOF
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
 
@@ -56,10 +56,10 @@ EOF
 
 # Adding home OBS repo key
 key=$(curl -fsSL https://download.opensuse.org/repositories/home:Alderaeney/Arch/$(uname -m)/home_Alderaeney_Arch.key)
-fingerprint=$(gpg --quiet --with-colons --import-options show-only --import --fingerprint <<< "${key}" | awk -F: '$1 == "fpr" { print $10 }')
+fingerprint=$(gpg --quiet --with-colons --import-options show-only --import --fingerprint <<<"${key}" | awk -F: '$1 == "fpr" { print $10 }')
 
 pacman-key --init
-pacman-key --add - <<< "${key}"
+pacman-key --add - <<<"${key}"
 pacman-key --lsign-key "${fingerprint}"
 
 pacman -Syu --noconfirm
@@ -142,7 +142,7 @@ elif [[ "$1" == "gnome" ]]; then
 	systemctl enable gdm
 
 	# Removing unwanted packages
-	pacman -Rns --noconfirm gnome-music epiphany totem orca 
+	pacman -Rns --noconfirm gnome-music epiphany totem orca
 
 elif [[ "$1" == "mate" ]]; then
 	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird gnome-boxes gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueberry mint-themes mate-tweak mate-menu simple-scan
@@ -161,11 +161,11 @@ elif [[ "$1" == "xfce" ]]; then
 	pacman -Rns --noconfirm parole
 
 elif [[ "$1" == "el" ]]; then
- 	# Install enlightenment
- 	pacman -S --noconfirm enlightenment terminology ephoto evince network-manager-applet deluge deluge-gtk libappindicator-gtk3 libnotify lightdm ffmpegthumbnailer libgepub libopenraw libgsf webp-pixbuf-loader xarchiver gnome-calculator gparted thunderbird gnome-keyring aisleriot gnome-mahjongg acpid xorg-xwayland packagekit geoip-database gnome-themes-extra gnome-boxes gedit simple-scan 
- 
- 	# Enabling services
- 	systemctl enable acpid 
+	# Install enlightenment
+	pacman -S --noconfirm enlightenment terminology ephoto evince network-manager-applet deluge deluge-gtk libappindicator-gtk3 libnotify lightdm ffmpegthumbnailer libgepub libopenraw libgsf webp-pixbuf-loader xarchiver gnome-calculator gparted thunderbird gnome-keyring aisleriot gnome-mahjongg acpid xorg-xwayland packagekit geoip-database gnome-themes-extra gnome-boxes gedit simple-scan
+
+	# Enabling services
+	systemctl enable acpid
 
 fi
 
@@ -248,7 +248,7 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry-qt5 docker docker-compose rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git minigalaxy minecraft-launcher postman-bin protontricks-git mednaffe mpv mpv-mpris mongodb-compass yarn libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil
+pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry-qt5 docker docker-compose rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git minigalaxy minecraft-launcher postman-bin protontricks-git mednaffe mpv mpv-mpris mongodb-compass yarn libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer
 
 # Enabling services
 systemctl enable thermald apparmor firewalld systemd-oomd.service docker
@@ -257,7 +257,7 @@ systemctl enable thermald apparmor firewalld systemd-oomd.service docker
 usermod -aG docker link
 
 # Configuring zram
-cat > /etc/systemd/zram-generator.conf <<EOF
+cat >/etc/systemd/zram-generator.conf <<EOF
 [zram0]
 zram-size = ram / 2
 
@@ -326,7 +326,7 @@ usermod -aG audit link
 sed -i "s/log_group = root/log_group = audit/g" /etc/audit/auditd.conf
 
 # Optimize SSD and HDD performance
-cat > /etc/udev/rules.d/60-sched.rules <<EOF
+cat >/etc/udev/rules.d/60-sched.rules <<EOF
 #set noop scheduler for non-rotating disks
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
 

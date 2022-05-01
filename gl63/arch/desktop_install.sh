@@ -342,6 +342,9 @@ if [[ "$1" == "gnome" ]]; then
 	# Disabling wayland
 	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
 
+	# Copying ssh-askpass
+	ln /usr/lib/seahorse/ssh-askpass /usr/lib/ssh/ssh-askpass
+
 elif [[ "$1" == "xfce" ]]; then
 	# Adding xprofile to user link
 	sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/link/.xprofile
@@ -377,7 +380,7 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	# Copying ksshaskpass
 	ln /usr/bin/ksshaskpass /usr/lib/ssh/ssh-askpass
 
-elif [[ "$1" == "cinnamon" ]] || [[ "$1" == "gnome" ]]; then
+elif [[ "$1" == "cinnamon" ]]; then
 	# Copying ssh-askpass
 	ln /usr/lib/seahorse/ssh-askpass /usr/lib/ssh/ssh-askpass
 

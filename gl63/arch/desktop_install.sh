@@ -85,7 +85,7 @@ pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode b
 systemctl enable NetworkManager haveged bluetooth
 
 # Installing sound libraries
-pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire wireplumber pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack
+pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
 
 # Configuring pulseaudio
 sed -i "s/load-module module-suspend-on-idle/#load-module module-suspend-on-idle/g" /etc/pulse/default.pa

@@ -91,7 +91,7 @@ systemctl enable NetworkManager haveged
 pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
 
 # Configuring pulseaudio
-sed -i "s/load-module module-suspend-on-idle/#load-module module-suspend-on-idle/g" /etc/pulse/default.pa
+# sed -i "s/load-module module-suspend-on-idle/#load-module module-suspend-on-idle/g" /etc/pulse/default.pa
 
 # Enabling pipewire service
 sudo -u link systemctl --user enable pipewire.socket

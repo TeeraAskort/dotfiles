@@ -179,7 +179,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.peripherals.keyboard numlock-state true
 	gsettings set org.gnome.desktop.interface clock-show-date true
 	gsettings set org.gnome.desktop.calendar show-weekdate true
-	gsettings set org.gnome.desktop.datetime automatic-timezone true
 
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
@@ -278,7 +277,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.nemo.preferences thumbnail-limit 8589934592
 	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	gsettings set org.cinnamon.desktop.wm.preferences resize-with-right-button true
-	gsettings set org.gnome.desktop.datetime automatic-timezone true
 
 	# Keybindings
 	gsettings set org.cinnamon.desktop.keybindings.media-keys terminal "['<Primary><Alt>t', '<Super>t']"

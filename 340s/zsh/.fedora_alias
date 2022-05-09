@@ -6,3 +6,4 @@ function dnfu() {
 	sudo dnf up -y;
 	flatpak update -y;
 }
+alias gedit="gnome-text-editor"

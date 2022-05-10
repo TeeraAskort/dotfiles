@@ -186,7 +186,9 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.privacy old-files-age 3
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
-	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
+	if command -v gedit &> /dev/null ; then
+		gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
+	fi
 	gsettings set org.gnome.nautilus.icon-view default-zoom-level 'small'
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700

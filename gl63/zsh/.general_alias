@@ -1,7 +1,0 @@
-alias SS="sudo systemctl"
-alias SSenable="sudo systemctl enable"
-alias SSstart="sudo systemctl start"
-alias SSdisable="sudo systemctl disable"
-alias SSstop="sudo systemctl stop"
-alias SSstatus="sudo systemctl status"
-alias SSrestart="sudo systemctl restart"

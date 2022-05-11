@@ -1,9 +1,0 @@
-alias dnfi="sudo dnf install"
-alias dnfr="sudo dnf remove"
-alias dnfar="sudo dnf autoremove"
-alias dnfs="sudo dnf search"
-function dnfu() {
-	sudo dnf up -y;
-	flatpak update -y;
-}
-alias gedit="gnome-text-editor"

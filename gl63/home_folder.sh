@@ -62,16 +62,16 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
 
 ## Copying dotfiles
-cp $directory/zsh/.zshrc ~
-cp $directory/zsh/.general_alias ~
-cp $directory/zsh/.arch_alias ~
-cp $directory/zsh/.debian_alias ~
-cp $directory/zsh/.fedora_alias ~
-cp $directory/zsh/.silverblue_alias ~
-cp $directory/zsh/.opensuse_alias ~
-cp $directory/zsh/.elementary_alias ~
-cp $directory/zsh/.solus_alias ~
-cp $directory/zsh/.ubuntu_alias ~
+cp $directory/../zsh/.zshrc ~
+cp $directory/../zsh/.general_alias ~
+cp $directory/../zsh/.arch_alias ~
+cp $directory/../zsh/.debian_alias ~
+cp $directory/../zsh/.fedora_alias ~
+cp $directory/../zsh/.silverblue_alias ~
+cp $directory/../zsh/.opensuse_alias ~
+cp $directory/../zsh/.elementary_alias ~
+cp $directory/../zsh/.solus_alias ~
+cp $directory/../zsh/.ubuntu_alias ~
 if command -v pulseaudio &> /dev/null; then 
 	mkdir -p ~/.config/pulse
 	cp $directory/dotfiles/daemon.conf ~/.config/pulse/
@@ -100,7 +100,7 @@ fi
 
 # Copying .zshenv on debian
 if [ $(lsb_release -is | grep "Debian" | wc -l) -eq 1 ]; then
-	cp $directory/zsh/.zshenv ~
+	cp $directory/../zsh/.zshenv ~
 fi
 
 ## Configuring vim/neovim

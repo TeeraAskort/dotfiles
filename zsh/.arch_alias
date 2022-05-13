@@ -4,7 +4,7 @@ alias pacar="pacman -Qtdq | sudo pacman -Rns"
 alias paci="sudo pacman -S"
 alias pacs="sudo pacman -Ss"
 alias vim="nvim"
-
+alias gedit="gnome-text-editor"
 function pacup() {
 	yay -Syyuu --noconfirm;
 	yay -S --rebuild --answerclean A --answerdiff N $(checkrebuild | cut -d$'\t' -f2)

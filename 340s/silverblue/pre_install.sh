@@ -11,8 +11,11 @@ user=$SUDO_USER
 ## Openrazer repo
 curl -L "https://download.opensuse.org/repositories/hardware:razer/Fedora_35/hardware:razer.repo" > /etc/yum.repos.d/hardware:razer.repo
 
-## Docker repo
+## Better_fonts repo
 curl -L "https://copr.fedorainfracloud.org/coprs/hyperreal/better_fonts/repo/fedora-36/hyperreal-better_fonts-fedora-36.repo" > /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:hyperreal:better_fonts.repo
+
+## Docker repo
+curl -L "https://download.docker.com/linux/fedora/docker-ce.repo" > /etc/yum.repos.d/docker-ce.repo
 
 # Adding rpmfusion
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
@@ -20,11 +23,11 @@ rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-rele
 #Setting up hostname
 hostnamectl set-hostname link-340s
 
-# First package installation
-rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks papirus-icon-theme java-11-openjdk-devel papirus-icon-theme java-11-openjdk-devel neovim python-neovim seahorse nodejs npm yarnpkg docker-ce docker-ce-cli containerd.io docker-compose brasero simple-scan lutris openrazer-meta pam-u2f pamu2fcfg libfido2 fontconfig-font-replacements fontconfig-enhanced-defaults
-
 # Updating the system
 rpm-ostree upgrade
+
+# First package installation
+rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks papirus-icon-theme java-11-openjdk-devel papirus-icon-theme java-11-openjdk-devel neovim python-neovim seahorse nodejs npm yarnpkg docker-ce docker-ce-cli containerd.io docker-compose brasero simple-scan lutris openrazer-meta pam-u2f pamu2fcfg fontconfig-font-replacements fontconfig-enhanced-defaults
 
 # Installing mongo compass
 rpm-ostree install "https://github.com/mongodb-js/compass/releases/download/v1.31.2/mongodb-compass-1.31.2.x86_64.rpm"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Installing packages from rpmfusion
-rpm-ostree install unrar ffmpeg ffmpegthumbnailer mozilla-openh264 gstreamer1-plugin-openh264 gstreamer1-plugins-bad-freeworld gstreamer1-plugins-ugly gstreamer1-libav gstreamer1-plugins-good-extras gstreamer1-plugins-bad-free-extras
+rpm-ostree install unrar p7zip unzip zip ffmpeg ffmpegthumbnailer mozilla-openh264 gstreamer1-plugin-openh264 gstreamer1-plugins-bad-freeworld gstreamer1-plugins-ugly gstreamer1-libav gstreamer1-plugins-good-extras gstreamer1-plugins-bad-free-extras
 
 # Enabling services
 systemctl enable docker

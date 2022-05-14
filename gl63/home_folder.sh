@@ -150,6 +150,11 @@ else
 	sudo udevadm control --reload-rules
 fi
 
+## Configuring flatpak steam
+if [ $(flatpak list | grep Steam | wc -l) = 1 ]; then
+	flatpak override --user --filesystem=$HOME/Datos com.valvesoftware.Steam	
+fi
+
 ## Configuring docker
 cd $directory/../common
 sudo systemctl restart docker

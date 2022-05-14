@@ -205,6 +205,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface clock-show-date true
 	gsettings set org.gnome.desktop.calendar show-weekdate true
 
+	cp $directory/../common/gtk-4.0 ~/.config
+
 	if command -v gedit &> /dev/null ; then
 		gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
 	fi

@@ -21,7 +21,7 @@ rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-rele
 hostnamectl set-hostname link-340s
 
 # First package installation
-rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks papirus-icon-theme java-11-openjdk-devel papirus-icon-theme java-11-openjdk-devel neovim python-neovim seahorse nodejs npm yarnpkg docker-ce docker-ce-cli containerd.io docker-compose brasero simple-scan lutris openrazer-meta pam-u2f pamu2fcfg libfido2
+rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks papirus-icon-theme java-11-openjdk-devel papirus-icon-theme java-11-openjdk-devel neovim python-neovim seahorse nodejs npm yarnpkg docker-ce docker-ce-cli containerd.io docker-compose brasero simple-scan lutris openrazer-meta pam-u2f pamu2fcfg libfido2 fontconfig-font-replacements fontconfig-enhanced-defaults
 
 # Updating the system
 rpm-ostree upgrade

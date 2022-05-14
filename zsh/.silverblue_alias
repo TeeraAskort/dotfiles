@@ -1,6 +1,3 @@
-alias gedit="flatpak run org.gnome.gedit"
+alias gedit="flatpak run org.gnome.TextEditor"
 alias code="flatpak run com.visualstudio.code"
-alias eclipse="flatpak run org.eclipse.Java"
-alias studio="flatpak run com.google.AndroidStudio"
-alias telegram="flatpak run org.telegram.desktop"
-alias libreoffice="flatpak run org.libreoffice.LibreOffice"
+

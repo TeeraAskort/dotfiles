@@ -155,6 +155,17 @@ if [ $(flatpak list | grep Steam | wc -l) = 1 ]; then
 	flatpak override --user --filesystem=$HOME/Datos com.valvesoftware.Steam	
 fi
 
+## Configuring flatpak minigalaxy
+if [ $(flatpak list | grep Minigalaxy | wc -l) = 1 ]; then
+	flatpak override --user --filesystem=$HOME/Datos/GOG\ Games io.github.sharkwouter.Minigalaxy
+fi
+
+## Configuring flatpak google chrome
+if [ $(flatpak list | grep Chrome | wc -l) = 1 ]; then
+	flatpak override --user --filesystem=$HOME/.local/share/applications com.google.Chrome
+	flatpak override --user --filesystem=$HOME/.local/share/icons com.google.Chrome
+fi
+
 ## Adding prime-run on silverblue
 if command -v rpm-ostree &> /dev/null ; then
 	mkdir ~/bin

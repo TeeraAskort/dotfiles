@@ -150,6 +150,7 @@ fi
 
 ## Configuring flatpak google chrome
 if [ $(flatpak list | grep Chrome | wc -l) = 1 ]; then
+	mkdir -p $HOME/.local/share/applications $HOME/.local/share/icons
 	flatpak override --user --filesystem=$HOME/.local/share/applications com.google.Chrome
 	flatpak override --user --filesystem=$HOME/.local/share/icons com.google.Chrome
 fi

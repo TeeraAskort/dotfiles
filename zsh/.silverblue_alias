@@ -1,3 +1,4 @@
 alias gedit="flatpak run org.gnome.TextEditor"
 alias code="flatpak run com.visualstudio.code"
+alias vim="nvim"
 

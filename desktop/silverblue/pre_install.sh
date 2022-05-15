@@ -26,9 +26,6 @@ rpm-ostree upgrade
 # First package installation
 rpm-ostree install zsh zsh-syntax-highlighting zsh-autosuggestions vim gnome-tweaks papirus-icon-theme java-11-openjdk-devel papirus-icon-theme java-11-openjdk-devel neovim python-neovim seahorse nodejs npm yarnpkg docker-ce docker-ce-cli containerd.io docker-compose brasero simple-scan lutris fontconfig-font-replacements fontconfig-enhanced-defaults google-chrome-stable
 
-# Installing computer specific applications
-rpm-ostree install pam-u2f pamu2fcfg
-
 # Installing mongo compass
 rpm-ostree install "https://github.com/mongodb-js/compass/releases/download/v1.31.2/mongodb-compass-1.31.2.x86_64.rpm"
 
@@ -40,9 +37,6 @@ flatpak remove -y org.fedoraproject.MediaWriter org.gnome.Calculator org.gnome.C
 
 # Installing flatpak applications
 flatpak install flathub -y org.gtk.Gtk3theme.Adwaita-dark com.mojang.Minecraft org.jdownloader.JDownloader sh.ppy.osu net.pcsx2.PCSX2 com.valvesoftware.Steam com.getpostman.Postman com.visualstudio.code com.github.AmatCoder.mednaffe org.telegram.desktop com.discordapp.Discord org.strawberrymusicplayer.strawberry org.DolphinEmu.dolphin-emu io.mpv.Mpv io.github.sharkwouter.Minigalaxy org.gnome.Aisleriot org.gnome.Mahjongg org.desmume.DeSmuME com.obsproject.Studio org.gnome.Boxes org.nicotine_plus.Nicotine org.deluge_torrent.deluge com.nextcloud.desktopclient.nextcloud org.gimp.GIMP org.gnome.Calculator org.gnome.Calendar org.gnome.Characters org.gnome.Contacts org.gnome.Evince org.gnome.Logs org.gnome.Maps org.gnome.NautilusPreviewer org.gnome.TextEditor org.gnome.Weather org.gnome.baobab org.gnome.clocks org.gnome.eog org.gnome.font-viewer org.gnome.Geary org.gnome.FileRoller
-
-# Adding boot parameters
-rpm-ostree kargs --append=intel_idle.max_cstate=1
 
 # Configuring hibernate
 mkdir -p /etc/dracut.conf.d

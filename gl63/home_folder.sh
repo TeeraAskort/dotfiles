@@ -155,6 +155,13 @@ if [ $(flatpak list | grep Steam | wc -l) = 1 ]; then
 	flatpak override --user --filesystem=$HOME/Datos com.valvesoftware.Steam	
 fi
 
+## Adding prime-run on silverblue
+if command -v rpm-ostree &> /dev/null ; then
+	mkdir ~/bin
+	cp $directory/dotfiles/prime-run ~/bin
+	sed -i "s/# export PATH=/export PATH=/g" ~/.zshrc
+fi
+
 ## Configuring docker
 cd $directory/../common
 sudo systemctl restart docker

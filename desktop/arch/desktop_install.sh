@@ -268,7 +268,7 @@ usermod -aG plugdev link
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]] || [[ "$1" == "el" ]]; then
-	sudo -u aurbuilder yay -S --noconfirm aur/adwaita-qt aur/adwaita-qt6
+	pacman -S --noconfirm adwaita-qt5 adwaita-qt6
 
 	# Adding gnome theming to qt
 	echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment

@@ -49,18 +49,7 @@ pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring
 cat >>/etc/pacman.conf <<EOF
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
-
-[home_Alderaeney_Arch]
-Server = https://download.opensuse.org/repositories/home:/Alderaeney/Arch/\$arch
 EOF
-
-# Adding home OBS repo key
-key=$(curl -fsSL https://download.opensuse.org/repositories/home:Alderaeney/Arch/$(uname -m)/home_Alderaeney_Arch.key)
-fingerprint=$(gpg --quiet --with-colons --import-options show-only --import --fingerprint <<<"${key}" | awk -F: '$1 == "fpr" { print $10 }')
-
-pacman-key --init
-pacman-key --add - <<<"${key}"
-pacman-key --lsign-key "${fingerprint}"
 
 pacman -Syu --noconfirm
 

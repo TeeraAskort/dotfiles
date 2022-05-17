@@ -51,18 +51,7 @@ pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring
 cat >>/etc/pacman.conf <<EOF
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
-
-[home_Alderaeney_Arch]
-Server = https://download.opensuse.org/repositories/home:/Alderaeney/Arch/\$arch
 EOF
-
-# Adding home OBS repo key
-key=$(curl -fsSL https://download.opensuse.org/repositories/home:Alderaeney/Arch/$(uname -m)/home_Alderaeney_Arch.key)
-fingerprint=$(gpg --quiet --with-colons --import-options show-only --import --fingerprint <<<"${key}" | awk -F: '$1 == "fpr" { print $10 }')
-
-pacman-key --init
-pacman-key --add - <<<"${key}"
-pacman-key --lsign-key "${fingerprint}"
 
 pacman -Syu --noconfirm
 
@@ -251,7 +240,7 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry-qt5 docker docker-compose rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git minigalaxy minecraft-launcher postman-bin protontricks-git mednaffe mpv mpv-mpris mongodb-compass yarn libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer
+pacman -S --noconfirm jdk11-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry docker docker-compose rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git minigalaxy minecraft-launcher postman-bin protontricks-git mednaffe mpv mpv-mpris mongodb-compass yarn libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer
 
 # Enabling services
 systemctl enable thermald apparmor firewalld systemd-oomd.service docker

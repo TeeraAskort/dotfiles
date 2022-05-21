@@ -231,7 +231,10 @@ pacman -S --noconfirm cups cups-pdf hplip ghostscript
 systemctl enable cups
 
 # Installing office utilities
-pacman -S --noconfirm libreoffice-fresh libreoffice-fresh-es hunspell-en_US hunspell-es_es mythes-en mythes-es hyphen-en hyphen-es aspell aspell-es aspell-en
+pacman -S --noconfirm libreoffice-fresh libreoffice-fresh-es hunspell-en_US hunspell-es_es mythes-en mythes-es hyphen-en hyphen-es aspell aspell-es aspell-en aspell-ca 
+
+# Installing catalonian dictionary
+sudo -u aurbuilder yay -S hunspell-ca mythes-ca hyphen-ca
 
 # Installing multimedia codecs
 pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst-libav

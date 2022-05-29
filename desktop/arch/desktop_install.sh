@@ -338,10 +338,9 @@ if [[ "$1" == "gnome" ]]; then
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
 	# Add keyring unlock on login
-	cp /etc/pam.d/login $directory/login
-	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' $directory/login $directory/login | tee $directory/login
-	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/login
-	mv $directory/login /etc/pam.d/login
+	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' /etc/pam.d/login /etc/pam.d/login | tee $directory/tmp
+	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/tmp
+	mv $directory/tmp /etc/pam.d/login
 
 	# Adding ssh-askpass env var
 	echo "SSH_ASKPASS=/usr/lib/seahorse/ssh-askpass" | tee -a /etc/environment
@@ -357,10 +356,9 @@ elif [[ "$1" == "xfce" ]]; then
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
 	# Add keyring unlock on login
-	cp /etc/pam.d/login $directory/login
-	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' $directory/login $directory/login | tee $directory/login
-	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/login
-	mv $directory/login /etc/pam.d/login
+	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' /etc/pam.d/login /etc/pam.d/login | tee $directory/tmp
+	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/tmp
+	mv $directory/tmp /etc/pam.d/login
 
 	# Fixing xfce power manager
 	sed -i "s/auth_admin/yes/g" /usr/share/polkit-1/actions/org.xfce.power.policy
@@ -373,10 +371,9 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
 	# Add keyring unlock on login
-	cp /etc/pam.d/login $directory/login
-	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' $directory/login $directory/login | tee $directory/login
-	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/login
-	mv $directory/login /etc/pam.d/login
+	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' /etc/pam.d/login /etc/pam.d/login | tee $directory/tmp
+	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/tmp
+	mv $directory/tmp /etc/pam.d/login
 
 	# Copying ksshaskpass
 	ln /usr/bin/ksshaskpass /usr/lib/ssh/ssh-askpass

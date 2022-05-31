@@ -123,7 +123,7 @@ done
 
 ## Installing NPM packages
 npm config set prefix '~/.node_packages'
-npm install -g @angular/cli @ionic/cli
+npm install -g @ionic/cli
 
 ## Configuring docker
 # cd $directory/../common

@@ -71,7 +71,7 @@ in
     python310Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
-    mednafen mednaffe minecraft
+    mednafen mednaffe minecraft android-tools
     firefox gnome.gnome-boxes minigalaxy
     mongodb-compass yarn nextcloud-client
     myAspell mythes gimp steam pcsx2 osu-lazer
@@ -152,6 +152,9 @@ in
       to = 1764;
     }
   ];
+
+  # Enable adb service
+  programs.adb.enable = true;
 
   # Enable openrazer service
   hardware.openrazer.enable = true;
@@ -289,7 +292,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "docker" "adbusers" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

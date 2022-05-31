@@ -74,8 +74,8 @@ in
     mednafen mednaffe minecraft android-tools
     firefox gnome.gnome-boxes minigalaxy
     mongodb-compass yarn nextcloud-client
-    myAspell mythes gimp steam pcsx2 osu-lazer
-    adwaita-qt razergenie docker-compose postman
+    myAspell mythes gimp steam pcsx2 
+    adwaita-qt docker-compose postman
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser gnomeExtensions.hibernate-status-button
   ];
 
@@ -155,9 +155,6 @@ in
 
   # Enable adb service
   programs.adb.enable = true;
-
-  # Enable openrazer service
-  hardware.openrazer.enable = true;
 
   # Enabling docker service
   virtualisation.docker.enable = true;

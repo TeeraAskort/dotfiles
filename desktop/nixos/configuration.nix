@@ -55,25 +55,26 @@ in
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    wget vim tdesktop lutris wineWowPackages.staging vscode gnome.gedit 
-    gnome.gnome-terminal celluloid strawberry gnome.file-roller  
+    wget vim tdesktop lutris wineWowPackages.staging vscode 
+    celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
     git brasero nicotine-plus dolphinEmu
     zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify yt-dlp
-    chromium ffmpegthumbnailer 
+    google-chrome ffmpegthumbnailer 
     obs-studio libfido2 pfetch
     gtk-engine-murrine lm_sensors
     parallel libreoffice-fresh
     ffmpeg-full nodejs nodePackages.npm
-    python39Packages.pynvim neovim cmake python39Full gcc gnumake
+    python310Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
-    mednafen mednaffe minecraft nextcloud-client
-    firefox gnome.gnome-boxes dbeaver
-    myAspell mythes gimp steam pcsx2
-    adwaita-qt razergenie docker-compose android-studio postman
+    mednafen mednaffe minecraft android-tools
+    firefox gnome.gnome-boxes minigalaxy
+    mongodb-compass yarn nextcloud-client
+    myAspell mythes gimp steam pcsx2 
+    adwaita-qt docker-compose postman
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser
     useRADV 
   ];
@@ -105,7 +106,7 @@ in
   # Java configuration
   programs.java = {
     enable = true;
-    package = pkgs.jdk11;
+    package = pkgs.jdk;
   };
 
   # Zsh shell
@@ -127,17 +128,17 @@ in
 
   # Firewall config
   networking.firewall.allowedTCPPorts = [
-      22
-      80
-      443
-      22000
+    22
+    80
+    443
+    22000
   ];
   networking.firewall.allowedUDPPorts = [
-      22
-      80
-      443
-      22000
-      21027
+    22
+    80
+    443
+    22000
+    21027
   ];
   networking.firewall.allowedTCPPortRanges = [
     {
@@ -152,8 +153,8 @@ in
     }
   ];
 
-  # Enable openrazer service
-  hardware.openrazer.enable = true;
+  # Enable adb service
+  programs.adb.enable = true;
 
   # Enabling docker service
   virtualisation.docker.enable = true;
@@ -250,16 +251,17 @@ in
     };
   };
 
+  # Exclude x11 packages
+  services.xserver.excludePackages = [ pkgs.xterm ];
+  
   # Excluded gnome3 packages
   environment.gnome.excludePackages = 
     [ pkgs.epiphany pkgs.gnome.gnome-music
       pkgs.gnome.gnome-software pkgs.gnome.totem
     ];
 
-  # Session paths
-  services.xserver.desktopManager.gnome.sessionPath = [
-    pkgs.gnome.gedit
-  ];
+  # Enable power-profiles-daemon
+  services.power-profiles-daemon.enable = true;
 
   # EarlyOOM
   services.earlyoom = {
@@ -270,7 +272,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "docker" "adbusers" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

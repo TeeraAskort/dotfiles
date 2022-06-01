@@ -177,7 +177,7 @@ in
   # PAM FIDO2 support
   security.pam.u2f.enable = true;
   security.pam.services = {
-    gdm.u2fAuth = true;
+    sddm.u2fAuth = true;
     sudo.u2fAuth = true;
     su.u2fAuth = true;
   };

@@ -132,17 +132,17 @@ in
 
   # Firewall config
   networking.firewall.allowedTCPPorts = [
-	  22
-	  80
-	  443
+    22
+    80
+    443
     22000
   ];
   networking.firewall.allowedUDPPorts = [
-	  22
-	  80
-	  443
-	  22000
-	  21027
+    22
+    80
+    443
+    22000
+    21027
   ];
   networking.firewall.allowedTCPPortRanges = [
     {
@@ -273,7 +273,7 @@ in
   services.power-profiles-daemon.enable = true;
 
   # Exclude packages
-  services.xserver.excludePackages = [ pkgs.libsForQt5.elisa pkgs.libsForQt5.kwrited pkgs.xterm ];
+  services.xserver.excludePackages = [ pkgs.xterm ];
 
   # EarlyOOM
   services.earlyoom = {

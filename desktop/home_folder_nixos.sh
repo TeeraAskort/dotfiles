@@ -64,7 +64,17 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 fi
 
+if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then
+	## Overriding xdg-user-dirs
+	xdg-user-dirs-update --set DESKTOP $HOME/Escritorio
+	xdg-user-dirs-update --set DOCUMENTS $HOME/Documentos
+	xdg-user-dirs-update --set DOWNLOAD $HOME/Descargas
+	xdg-user-dirs-update --set MUSIC $HOME/Música
+	xdg-user-dirs-update --set PICTURES $HOME/Imágenes
+fi
+
 gsettings set org.gtk.Settings.FileChooser sort-directories-first true
+gsettings set org.gtk.gtk4.Settings.FileChooser sort-directories-first true
 
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

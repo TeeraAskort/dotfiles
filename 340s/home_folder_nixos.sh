@@ -97,7 +97,8 @@ nvim +PlugInstall +q +q
 nix-env -iA nixos.hunspellDicts.es_ES nixos.hunspellDicts.en_US
 
 ## Add alias to zsh
-echo "alias vim=\"nvim\"" | tee -a ~/.zshrc
+echo "source ~/.nix-alias" | tee -a ~/.zshrc
+cp $directory/../zsh/.nix-alias ~
 
 ## Copying ssh key
 mkdir ~/.ssh

@@ -59,7 +59,7 @@ in
     wget vim tdesktop lutris wineWowPackages.staging vscode 
     celluloid strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
-    gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
+    gnome.aisleriot gnome.gnome-mahjongg discord 
     git brasero nicotine-plus dolphinEmu
     zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify yt-dlp
@@ -76,7 +76,6 @@ in
     mongodb-compass yarn nextcloud-client
     myAspell mythes gimp steam pcsx2 
     adwaita-qt docker-compose postman
-    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser gnomeExtensions.hibernate-status-button
   ];
 
   # Environment variables
@@ -96,6 +95,9 @@ in
     noto-fonts
     recursive
   ];
+
+  # Enable kdeconnect
+  programs.kdeconnect.enable = true;
 
   # Enabling thermald
   services.thermald.enable = true;
@@ -128,17 +130,17 @@ in
 
   # Firewall config
   networking.firewall.allowedTCPPorts = [
-	  22
-	  80
-	  443
+    22
+    80
+    443
     22000
   ];
   networking.firewall.allowedUDPPorts = [
-	  22
-	  80
-	  443
-	  22000
-	  21027
+    22
+    80
+    443
+    22000
+    21027
   ];
   networking.firewall.allowedTCPPortRanges = [
     {
@@ -228,12 +230,6 @@ in
   # Systemd sleep config
   systemd.sleep.extraConfig = "AllowHibernation=yes\nHibernateMode=shutdown";
 
-  # Systemd logind config
-  services.logind.lidSwitch = "hibernate";
-  services.logind.lidSwitchDocked = "hibernate";
-  services.logind.lidSwitchExternalPower = "hibernate";
-  services.logind.extraConfig = "IdleAction=hibernate\nIdleActionSec=15min\nHandlePowerKey=hibernate\nHandleSuspendKey=hibernate\nPowerKeyIgnoreInhibited=yes\nSuspendKeyIgnoreInhibited=yes";
-
   # Enabling xwayland
   programs.xwayland.enable = true;
 
@@ -253,24 +249,18 @@ in
 
     # Gnome3 desktop configuration
     displayManager = {
-      gdm = {
-        wayland = true;
+      lightdm = {
         enable = true;
+        greeters.enso.enable = true;
       };
     };
     desktopManager = {
       xterm.enable = false;
-      gnome = {
+      cinnamon = {
         enable = true;
       };
     };
   };
-
-  # Excluded gnome3 packages
-  environment.gnome.excludePackages = 
-    [ pkgs.epiphany pkgs.gnome.gnome-music
-      pkgs.gnome.gnome-software pkgs.gnome.totem
-    ];
 
   # Enable power-profiles-daemon
   services.power-profiles-daemon.enable = true;

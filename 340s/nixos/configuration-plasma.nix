@@ -57,11 +57,14 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim tdesktop lutris wineWowPackages.staging vscode 
-    celluloid strawberry gnome.file-roller  
-    papirus-icon-theme transmission-gtk
-    gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
+    mpv mpvScripts.mpris strawberry 
+    papirus-icon-theme qbittorrent 
+    libsForQt5.kpat libsForQt5.ark libsForQt5.konsole libsForQt5.kmahjongg 
+    libsForQt5.kate libsForQt5.gwenview libsForQt5.dolphin libsForQt5.filelight
+    libsForQt5.okular libsForQt5.spectacle libsForQt5.kcalc     
+    discord 
     git brasero nicotine-plus dolphinEmu
-    zip p7zip unzip unrar gnome.gnome-calendar 
+    zip p7zip unzip unrar 
     steam-run systembus-notify yt-dlp
     google-chrome ffmpegthumbnailer 
     obs-studio libfido2 pfetch
@@ -76,7 +79,6 @@ in
     mongodb-compass yarn nextcloud-client
     myAspell mythes gimp steam pcsx2 
     adwaita-qt docker-compose postman
-    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser gnomeExtensions.hibernate-status-button
   ];
 
   # Environment variables
@@ -84,6 +86,9 @@ in
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
     QT_STYLE_OVERRIDE = "adwaita-dark";
   };
+
+  # Make gtk apps use kde filepicker
+  xdg.portal.gtkUsePortal = true;
 
   # QT5 Style
   qt5.style = "adwaita-dark";
@@ -96,6 +101,9 @@ in
     noto-fonts
     recursive
   ];
+
+  # Enable kdeconnect
+  programs.kdeconnect.enable = true;
 
   # Enabling thermald
   services.thermald.enable = true;
@@ -228,11 +236,11 @@ in
   # Systemd sleep config
   systemd.sleep.extraConfig = "AllowHibernation=yes\nHibernateMode=shutdown";
 
-  # Systemd logind config
-  services.logind.lidSwitch = "hibernate";
-  services.logind.lidSwitchDocked = "hibernate";
-  services.logind.lidSwitchExternalPower = "hibernate";
-  services.logind.extraConfig = "IdleAction=hibernate\nIdleActionSec=15min\nHandlePowerKey=hibernate\nHandleSuspendKey=hibernate\nPowerKeyIgnoreInhibited=yes\nSuspendKeyIgnoreInhibited=yes";
+  # Unlock kwallet on login
+  security.pam.services.kwallet = {
+    name = "kwallet";
+    enableKwallet = true;
+  };
 
   # Enabling xwayland
   programs.xwayland.enable = true;
@@ -251,26 +259,22 @@ in
     # Wacom tablet support
     wacom.enable = true;
 
-    # Gnome3 desktop configuration
+    # Plasma5 desktop configuration
     displayManager = {
-      gdm = {
-        wayland = true;
+      sddm = {
         enable = true;
+        theme = mkForce "breeze";
+        autoNumlock = true;
       };
     };
     desktopManager = {
       xterm.enable = false;
-      gnome = {
+      plasma5 = {
         enable = true;
+        runUsingSystemd = true;
       };
     };
   };
-
-  # Excluded gnome3 packages
-  environment.gnome.excludePackages = 
-    [ pkgs.epiphany pkgs.gnome.gnome-music
-      pkgs.gnome.gnome-software pkgs.gnome.totem
-    ];
 
   # Enable power-profiles-daemon
   services.power-profiles-daemon.enable = true;

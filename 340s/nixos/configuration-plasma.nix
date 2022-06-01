@@ -62,7 +62,7 @@ in
     libsForQt5.kpat libsForQt5.ark libsForQt5.konsole libsForQt5.kmahjongg 
     libsForQt5.kate libsForQt5.gwenview libsForQt5.dolphin libsForQt5.filelight
     libsForQt5.okular libsForQt5.spectacle libsForQt5.kcalc libsForQt5.k3b 
-    discord 
+    discord thunderbird-bin
     git nicotine-plus dolphinEmu
     zip p7zip unzip unrar 
     steam-run systembus-notify yt-dlp

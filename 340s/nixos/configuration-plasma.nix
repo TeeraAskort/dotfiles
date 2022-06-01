@@ -61,9 +61,9 @@ in
     papirus-icon-theme qbittorrent 
     libsForQt5.kpat libsForQt5.ark libsForQt5.konsole libsForQt5.kmahjongg 
     libsForQt5.kate libsForQt5.gwenview libsForQt5.dolphin libsForQt5.filelight
-    libsForQt5.okular libsForQt5.spectacle libsForQt5.kcalc     
+    libsForQt5.okular libsForQt5.spectacle libsForQt5.kcalc libsForQt5.k3b 
     discord 
-    git brasero nicotine-plus dolphinEmu
+    git nicotine-plus dolphinEmu
     zip p7zip unzip unrar 
     steam-run systembus-notify yt-dlp
     google-chrome ffmpegthumbnailer 
@@ -78,20 +78,16 @@ in
     firefox gnome.gnome-boxes minigalaxy
     mongodb-compass yarn nextcloud-client
     myAspell mythes gimp steam pcsx2 
-    adwaita-qt docker-compose postman
+    docker-compose postman
   ];
 
   # Environment variables
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
-    QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
   # Make gtk apps use kde filepicker
   xdg.portal.gtkUsePortal = true;
-
-  # QT5 Style
-  qt5.style = "adwaita-dark";
 
   # Font configuration
   fonts.fonts = with pkgs; [
@@ -278,6 +274,9 @@ in
 
   # Enable power-profiles-daemon
   services.power-profiles-daemon.enable = true;
+
+  # Exclude packages
+  services.xserver.excludePackages = [ pkgs.libsForQt5.elisa pkgs.libsForQt5.kwrited pkgs.xterm ];
 
   # EarlyOOM
   services.earlyoom = {

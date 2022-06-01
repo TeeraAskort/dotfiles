@@ -263,7 +263,7 @@ in
     displayManager = {
       sddm = {
         enable = true;
-        theme = mkForce "breeze";
+        theme = "breeze";
         autoNumlock = true;
       };
     };

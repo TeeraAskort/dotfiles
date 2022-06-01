@@ -227,9 +227,6 @@ in
   };
   hardware.pulseaudio.enable = false;
 
-  # Systemd sleep config
-  systemd.sleep.extraConfig = "AllowHibernation=yes\nHibernateMode=shutdown";
-
   # Enabling xwayland
   programs.xwayland.enable = true;
 

@@ -229,11 +229,8 @@ in
   };
   hardware.pulseaudio.enable = false;
 
-  # Systemd sleep config
-  systemd.sleep.extraConfig = "AllowHibernation=yes\nHibernateMode=shutdown";
-
   # Unlock kwallet on login
-  security.pam.services.kwallet = {
+  security.pam.services.sddm = {
     name = "kwallet";
     enableKwallet = true;
   };

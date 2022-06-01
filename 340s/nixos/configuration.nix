@@ -225,9 +225,6 @@ in
   };
   hardware.pulseaudio.enable = false;
 
-  # Systemd sleep config
-  systemd.sleep.extraConfig = "AllowHibernation=yes\nHibernateMode=shutdown";
-
   # Systemd logind config
   services.logind.lidSwitch = "hibernate";
   services.logind.lidSwitchDocked = "hibernate";

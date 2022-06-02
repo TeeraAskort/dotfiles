@@ -4,7 +4,7 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
-if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
+if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "cinnamon" ]]; then
 
 	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep MZVLQ512HALU-000H1 | cut -d" " -f1)
 	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep DT01ACA300 | cut -d" " -f1)
@@ -58,6 +58,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]]; then
 	elif [ "$1" = "gnome" ]; then
 		sed -i "s/changeme/$sha256/g" $directory/configuration.nix
 		cp $directory/configuration.nix /mnt/etc/nixos/configuration.nix
+	elif [ "$1" = "cinnamon" ]; then
+		sed -i "s/changeme/$sha256/g" $directory/configuration-cinnamon.nix
+		cp $directory/configuration-cinnamon.nix /mnt/etc/nixos/configuration.nix
 	fi
 
 	# Copy key from secondary drive to root partition

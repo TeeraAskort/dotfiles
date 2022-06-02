@@ -13,6 +13,10 @@ let
     es
     en
   ]);
+  useRADV = pkgs.writeShellScriptBin "useRADV" ''
+    export AMD_VULKAN_ICD=RADV
+    exec -a "$0" "$@"
+  '';
 in
 {
   imports =
@@ -24,7 +28,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "link-340s"; # Define your hostname.
+  networking.hostName = "link-pc"; # Define your hostname.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -49,11 +53,6 @@ in
   # Allow nonfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Package overrides
-  nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-  };
-
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim tdesktop lutris wineWowPackages.staging vscode 
@@ -76,6 +75,7 @@ in
     mongodb-compass yarn nextcloud-client
     myAspell mythes gimp steam pcsx2 
     adwaita-qt docker-compose postman
+    useRADV
   ];
 
   # Environment variables
@@ -175,14 +175,6 @@ in
   security.apparmor.enable = true;
   services.dbus.apparmor = "enabled";
 
-  # PAM FIDO2 support
-  security.pam.u2f.enable = true;
-  security.pam.services = {
-    lightdm.u2fAuth = true;
-    sudo.u2fAuth = true;
-    su.u2fAuth = true;
-  };
-
   # Haveged daemon
   services.haveged.enable = true;
 
@@ -198,13 +190,12 @@ in
     driSupport32Bit = true;
     driSupport = true;
     extraPackages = with pkgs; [
-      intel-media-driver
-      vaapiIntel
-      vaapiVdpau
-      libvdpau-va-gl
+      amdvlk
+      rocm-opencl-icd
+      rocm-opencl-runtime
     ];
     extraPackages32 = with pkgs; [
-      vaapiIntel
+      driversi686Linux.amdvlk
     ];
   };
 
@@ -246,6 +237,9 @@ in
 
     # Wacom tablet support
     wacom.enable = true;
+
+    # AMDGPU drivers
+    videoDrivers = [ "amdgpu" ];
 
     # cinnamon desktop configuration
     displayManager = {

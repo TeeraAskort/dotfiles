@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   blockedHosts = pkgs.fetchurl {
@@ -85,7 +85,7 @@ in
   };
 
   # QT5 Style
-  qt5.style = "adwaita-dark";
+  qt5.style = lib.mkForce "adwaita-dark";
 
   # Font configuration
   fonts.fonts = with pkgs; [

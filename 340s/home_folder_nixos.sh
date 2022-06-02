@@ -112,7 +112,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon.desktop.interface clock-show-date true
 	gsettings set org.nemo.icon-view default-zoom-level 'small'
 	gsettings set org.nemo.preferences thumbnail-limit 8589934592
-	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	gsettings set org.cinnamon.desktop.wm.preferences resize-with-right-button true
 
 	# Keybindings

@@ -15,6 +15,7 @@ ln -s $HOME/Datos/Música $HOME
 ln -s $HOME/Datos/Imágenes $HOME
 ln -s $HOME/Datos/Nextcloud $HOME
 ln -s $HOME/Datos/Sync $HOME
+ln -s $HOME/Datos/Torrent $HOME
 
 ## Downloading Plug for vim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \

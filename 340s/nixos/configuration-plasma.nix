@@ -58,7 +58,7 @@ in
   environment.systemPackages = with pkgs; [
     wget vim tdesktop lutris wineWowPackages.staging vscode 
     mpv mpvScripts.mpris strawberry 
-    papirus-icon-theme qbittorrent 
+    papirus-icon-theme qbittorrent xdg-user-dirs
     libsForQt5.kpat libsForQt5.ark libsForQt5.konsole libsForQt5.kmahjongg 
     libsForQt5.kate libsForQt5.gwenview libsForQt5.dolphin libsForQt5.filelight
     libsForQt5.okular libsForQt5.spectacle libsForQt5.kcalc libsForQt5.k3b 
@@ -261,7 +261,6 @@ in
       };
     };
     desktopManager = {
-      xterm.enable = false;
       plasma5 = {
         enable = true;
         runUsingSystemd = true;
@@ -294,7 +293,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.11"; # Did you read the comment?
+  system.stateVersion = "22.05"; # Did you read the comment?
 
 }
 

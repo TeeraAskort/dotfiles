@@ -256,7 +256,6 @@ in
       };
     };
     desktopManager = {
-      xterm.enable = false;
       gnome = {
         enable = true;
 	sessionPath = [ pkgs.gtk4 ];

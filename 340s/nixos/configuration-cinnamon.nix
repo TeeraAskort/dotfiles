@@ -57,8 +57,8 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim tdesktop lutris wineWowPackages.staging vscode 
-    celluloid strawberry gnome.file-roller  
-    papirus-icon-theme transmission-gtk
+    celluloid strawberry gnome.file-roller gnome-text-editor
+    papirus-icon-theme transmission-gtk xdg-user-dirs
     gnome.aisleriot gnome.gnome-mahjongg discord 
     git brasero nicotine-plus dolphinEmu
     zip p7zip unzip unrar gnome.gnome-calendar 
@@ -66,7 +66,7 @@ in
     google-chrome ffmpegthumbnailer 
     obs-studio libfido2 pfetch
     gtk-engine-murrine lm_sensors
-    parallel libreoffice-fresh
+    parallel libreoffice-fresh tilix
     ffmpeg-full nodejs nodePackages.npm
     python310Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
@@ -248,16 +248,22 @@ in
     displayManager = {
       lightdm = {
         enable = true;
-        greeters.enso.enable = true;
+        greeters.pantheon.enable = true;
       };
     };
     desktopManager = {
-      xterm.enable = false;
       cinnamon = {
         enable = true;
+        sessionPath = [ pkgs.gtk4 ];
       };
     };
   };
+
+  # Exclude xserver packages
+  services.xserver.excludePackages = [ pkgs.xterm ];
+
+  # Disable cinnamon packages
+  environment.cinnamon.excludePackages = [ pkgs.xplayer pkgs.cinnamon.xreader pkgs.cinnamon.pix pkgs.hexchat  ];
 
   # Enable power-profiles-daemon
   services.power-profiles-daemon.enable = true;
@@ -281,7 +287,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.11"; # Did you read the comment?
+  system.stateVersion = "22.05"; # Did you read the comment?
 
 }
 

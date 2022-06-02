@@ -84,6 +84,9 @@ in
     QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
+  # Using seahorse for ssh-askpass
+  programs.seahorse.enable = true;
+
   # QT5 Style
   qt5.style = lib.mkForce "adwaita-dark";
 

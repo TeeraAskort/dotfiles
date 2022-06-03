@@ -36,9 +36,6 @@ in
   networking = {
     useDHCP = false; 
     networkmanager.enable = true;
-    interfaces = {
-      enp2s0.useDHCP = true;
-    };
     extraHosts = ''
       ${builtins.readFile blockedHosts}
     '';
@@ -56,48 +53,43 @@ in
   # Allow nonfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Package overriding
-  nixpkgs.config.packageOverrides = pkgs: {
-    steam = pkgs.steam.override {
-      extraPkgs = pkgs: [
-        pkgs.ibus
-      ];
-    };
-  };
-
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    plasma-nm plasma-vault breeze-gtk breeze-qt5 sddm-kcm 
-    qbittorrent ark kate strawberry
-    kcalc okular kdialog yakuake thunderbird-bin
-    kdeconnect gimp dolphin libsForQt5.dolphin-plugins
-    libsForQt5.kio-extras wacomtablet konsole kcharselect 
-    libsForQt5.kdegraphics-thumbnailers kgpg ksystemlog
-    libsForQt5.kdenetwork-filesharing gtk-engine-murrine
-    plasma-browser-integration gwenview
-    wget vim steam tdesktop lutris wineWowPackages.staging vscode 
-    mpv papirus-icon-theme discord 
-    git p7zip unzip unrar zip
-    steam-run systembus-notify desmume chromium 
-    libfido2 pfetch
-    obs-studio libreoffice-fresh
+    wget vim tdesktop lutris wineWowPackages.staging vscode 
+    mpv mpvScripts.mpris strawberry 
+    papirus-icon-theme qbittorrent xdg-user-dirs
+    libsForQt5.kpat libsForQt5.ark libsForQt5.konsole libsForQt5.kmahjongg 
+    libsForQt5.kate libsForQt5.gwenview libsForQt5.dolphin libsForQt5.filelight
+    libsForQt5.okular libsForQt5.spectacle libsForQt5.kcalc libsForQt5.k3b 
+    discord thunderbird-bin
+    git nicotine-plus dolphinEmu
+    zip p7zip unzip unrar 
+    steam-run systembus-notify yt-dlp
+    google-chrome ffmpegthumbnailer 
+    obs-studio libfido2 pfetch
+    gtk-engine-murrine lm_sensors
+    parallel libreoffice-fresh
     ffmpeg-full nodejs nodePackages.npm
-    python39Packages.pynvim neovim python39Full 
+    python310Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
-    gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base
-    android-studio
-    mednafen mednaffe lbry
-    virt-manager
-    firefox
-    myAspell mythes
+    gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
+    mednafen mednaffe minecraft android-tools
+    firefox gnome.gnome-boxes minigalaxy
+    mongodb-compass yarn nextcloud-client
+    myAspell mythes gimp steam pcsx2 
+    docker-compose postman
+    useRADV
   ];
 
   # Environment variables
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
-    GTK_USE_PORTAL = "1";
   };
 
+  # Make gtk apps use kde filepicker
+  xdg.portal.gtkUsePortal = true;
+
+  # Font configuration
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
     noto-fonts-cjk
@@ -106,13 +98,19 @@ in
     recursive
   ];
 
+  # Enable kdeconnect
+  programs.kdeconnect.enable = true;
+
+  # Enabling thermald
+  services.thermald.enable = true;
+
   # Enabling virtualization
   virtualisation.libvirtd.enable = true;
 
   # Java configuration
   programs.java = {
     enable = true;
-    package = pkgs.jdk11;
+    package = pkgs.jdk;
   };
 
   # Zsh shell
@@ -129,6 +127,42 @@ in
     };
   };
 
+  # ZramSwap
+  zramSwap.enable = true;
+
+  # Firewall config
+  networking.firewall.allowedTCPPorts = [
+    22
+    80
+    443
+    22000
+  ];
+  networking.firewall.allowedUDPPorts = [
+    22
+    80
+    443
+    22000
+    21027
+  ];
+  networking.firewall.allowedTCPPortRanges = [
+    {
+      from = 1714;
+      to = 1764;
+    }
+  ];
+  networking.firewall.allowedUDPPortRanges = [
+    {
+      from = 1714;
+      to = 1764;
+    }
+  ];
+
+  # Enable adb service
+  programs.adb.enable = true;
+
+  # Enabling docker service
+  virtualisation.docker.enable = true;
+
   # Automatic garbage collection
   nix.gc.automatic = true;
   nix.gc.dates = "22:00";
@@ -140,7 +174,7 @@ in
   security.apparmor.enable = true;
   services.dbus.apparmor = "enabled";
 
-  #Haveged daemon
+  # Haveged daemon
   services.haveged.enable = true;
 
   # Flatpak support
@@ -172,39 +206,29 @@ in
   };
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio = {
+  security.rtkit.enable = true;
+  services.pipewire = {
     enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    jack.enable = true;
 
-    daemon.config = {
-      lfe-crossover-freq = 20;
-      default-sample-format = "float32le";
-      default-sample-rate = 192000;
-      alternate-sample-rate = 48000;
-      default-sample-channels = 2;
-      default-channel-map = "front-left,front-right";
-      default-fragments = 2;
-      default-fragment-size-msec = 125;
-      resample-method = "speex-float-5";
-      remixing-produce-lfe = "no";
-      remixing-consume-lfe = "no";
-      high-priority = "yes";
-      nice-level = -11;
-      realtime-scheduling = "yes";
-      realtime-priority = 9;
-      rlimit-rtprio = 9;
-      daemonize = "no";
-    };
- 
-    # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
-    # Only the full build has Bluetooth support, so it must be selected here.
-    extraModules = [ pkgs.pulseaudio-modules-bt ];
-    package = pkgs.pulseaudioFull;
-    support32Bit = true;
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
+  };
+  hardware.pulseaudio.enable = false;
+
+  # Unlock kwallet on login
+  security.pam.services.sddm = {
+    name = "kwallet";
+    enableKwallet = true;
   };
 
-  # Enable pipewire
-  services.pipewire.enable = true;
+  # Enabling xwayland
+  programs.xwayland.enable = true;
 
   # Xserver configuration
   services.xserver = {
@@ -227,12 +251,23 @@ in
     displayManager = {
       sddm = {
         enable = true;
+        theme = "breeze";
         autoNumlock = true;
       };
     };
-    desktopManager.plasma5.enable = true;
-
+    desktopManager = {
+      plasma5 = {
+        enable = true;
+        runUsingSystemd = true;
+      };
+    };
   };
+
+  # Enable power-profiles-daemon
+  services.power-profiles-daemon.enable = true;
+
+  # Exclude packages
+  services.xserver.excludePackages = [ pkgs.xterm ];
 
   # EarlyOOM
   services.earlyoom = {
@@ -243,7 +278,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "docker" "adbusers" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

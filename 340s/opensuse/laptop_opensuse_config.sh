@@ -64,7 +64,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --force-resolution pipewire-pulseaudio pipewire-alsa pipewire-aptx pipewire-libjack-0_3 pipewire wireplumber
 
 	# Installing basic packages
-	zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip mednafen mednaffe openrazer-meta razergenie docker python3-docker-compose nextcloud-desktop yarn aspell-ca aspell-es aspell-en libmythes texlive-hyphen-catalan texlive-hyphen-english texlive-hyphen-spanish myspell-ca_ES_valencia myspell-es_ES myspell-en_US dolphin-emu obs-studio 
+	zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip mednafen mednaffe openrazer-meta razergenie docker python3-docker-compose nextcloud-desktop yarn aspell-ca aspell-es aspell-en libmythes texlive-hyphen-catalan texlive-hyphen-english texlive-hyphen-spanish myspell-ca_ES_valencia myspell-es_ES myspell-en_US dolphin-emu obs-studio android-tools
 
 	# Enabling thermald service
 	user="$SUDO_USER"
@@ -106,7 +106,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications
-		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird mpv mpv-mpris filelight
+		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird mpv mpv-mpris filelight ksshaskpass5
 
 		# Installing kvm tools
 		zypper in -y -t pattern kvm_server kvm_tools
@@ -139,6 +139,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 			sudo cp sddm /etc/pam.d/sddm
 		fi
 		rm sddm
+		
+		# Adding ssh-askpass env var
+		echo "SSH_ASKPASS=/usr/libexec/ssh/ksshaskpass" | tee -a /etc/environment
 
 	elif [ "$1" == "gnome" ]; then
 		# Removing unwanted DE specific applications
@@ -225,7 +228,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine com.getpostman.Postman
+	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine com.getpostman.Postman sh.ppy.osu
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ]; then

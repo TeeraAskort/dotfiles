@@ -85,7 +85,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zramswapon
 
 	# Installing mongodb compass
-	zypper in gnome-keyring lsb-core-noarch gconf2
+	zypper in -y gnome-keyring lsb-core-noarch gconf2
 	curl -L "https://github.com/mongodb-js/compass/releases/download/v1.32.1/mongodb-compass-1.32.1.x86_64.rpm" > compass.rpm
 	rpm -ivh --nodeps compass.rpm
 	rm compass.rpm

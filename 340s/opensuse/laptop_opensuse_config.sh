@@ -85,7 +85,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zramswapon
 
 	# Installing mongodb compass
-	zypper in -y gnome-keyring lsb-core-noarch gconf2
+	zypper in -y lsb-core-noarch bc ed libfl2 libnotify-tools m4 make make-lang parallel-printer-support site-config at binutils cups-client libcupscgi1 libcupsimage2 libpoppler-cpp0 poppler-tools cups cups-filters ghostscript lsb
 	curl -L "https://github.com/mongodb-js/compass/releases/download/v1.32.1/mongodb-compass-1.32.1.x86_64.rpm" > compass.rpm
 	rpm -ivh --nodeps compass.rpm
 	rm compass.rpm
@@ -106,13 +106,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications
-		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird mpv mpv-mpris filelight ksshaskpass5
-
-		# Installing kvm tools
-		zypper in -y -t pattern kvm_server kvm_tools
-
-		# Enabling services
-		systemctl enable libvirtd
+		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird mpv mpv-mpris filelight ksshaskpass5 gnome-boxes
 
 		# Removing unwanted DE specific applications
 		zypper rm -y  konversation kmines ksudoku kreversi

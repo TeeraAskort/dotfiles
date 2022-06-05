@@ -52,7 +52,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --from "Wine (openSUSE_Tumbleweed)" wine-staging wine-staging-32bit dxvk dxvk-32bit
 
 	# Installing codecs
-	zypper install -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
+	zypper install -y --from packman --allow-vendor-change ffmpeg-3 lame gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full gstreamer-plugins-ugly-orig-addon libavdevice58 gstreamer-plugins-good-extra gstreamer-plugins-bad-orig-addon gstreamer-plugins-ugly-orig-addon 
 
 	# Installing discord from games:tools repo
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change protontricks discord gamemoded

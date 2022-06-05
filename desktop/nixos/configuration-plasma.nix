@@ -236,6 +236,10 @@ in
     enableKwallet = true;
   };
 
+  # Enable gnome keyring
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.gnome-keyring.enableGnomeKeyring = true;
+
   # Enabling xwayland
   programs.xwayland.enable = true;
 

@@ -53,10 +53,19 @@ in
   # Allow nonfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Package overlays
+  nixpkgs.overlays = [
+    (self: super: {
+      mpv = super.mpv-with-scripts.override {
+        scripts = [ self.mpvScripts.mpris ];
+      };
+    })
+  ];
+
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim tdesktop lutris wineWowPackages.staging vscode 
-    mpv mpvScripts.mpris strawberry 
+    mpv strawberry 
     papirus-icon-theme qbittorrent xdg-user-dirs
     libsForQt5.kpat libsForQt5.ark libsForQt5.konsole libsForQt5.kmahjongg 
     libsForQt5.kate libsForQt5.gwenview libsForQt5.dolphin libsForQt5.filelight

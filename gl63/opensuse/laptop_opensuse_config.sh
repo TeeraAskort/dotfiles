@@ -87,7 +87,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zramswapon
 
 	# Installing mongodb compass
-	curl -L "https://downloads.mongodb.com/compass/mongodb-compass-1.31.2.x86_64.rpm" > compass.rpm
+	curl -L "https://github.com/mongodb-js/compass/releases/download/v1.32.2/mongodb-compass-1.32.2.x86_64.rpm" > compass.rpm
 	zypper in ./compass.rpm -y
 
 	# Install nvidia drivers

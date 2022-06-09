@@ -73,7 +73,7 @@ usermod -aG plugdev $user
 dnf remove -y totem rhythmbox
 
 # Installing mongodb compass
-dnf in -y "https://github.com/mongodb-js/compass/releases/download/v1.31.2/mongodb-compass-1.31.2.x86_64.rpm"
+dnf in -y "https://github.com/mongodb-js/compass/releases/download/v1.32.2/mongodb-compass-1.32.2.x86_64.rpm"
 
 #Update Appstream data
 dnf groupupdate core -y

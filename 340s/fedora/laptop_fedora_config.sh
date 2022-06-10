@@ -42,9 +42,6 @@ dnf config-manager --add-repo https://download.opensuse.org/repositories/hardwar
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
 
-# Adding docker repo
-dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-
 # Upgrade system
 dnf upgrade -y --refresh
 
@@ -55,18 +52,11 @@ dnf groupinstall "C Development Tools and Libraries" -y
 dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv mpv-mpris flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg geary python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy p7zip razergenie openrazer-meta docker-ce docker-ce-cli containerd.io docker-compose nextcloud-client yarnpkg google-chrome-stable sqlite deluge deluge-gtk telegram-desktop obs-studio seahorse fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools
+dnf install -y vim lutris steam mpv mpv-mpris flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg geary python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp minigalaxy p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite deluge deluge-gtk telegram-desktop obs-studio seahorse fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper
 
 # Enabling services
 user="$SUDO_USER"
-systemctl enable thermald docker
-
-# Starting services
-systemctl start docker
-
-# Adding user to docker group
-user="$SUDO_USER"
-usermod -aG docker $user
+systemctl enable thermald 
 
 # Adding user to plugdev group
 user="$SUDO_USER"
@@ -77,9 +67,6 @@ dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver # touchegg
 
 # Remove unused packages
 dnf remove -y totem rhythmbox
-
-# Installing mongodb compass
-dnf in -y "https://github.com/mongodb-js/compass/releases/download/v1.32.2/mongodb-compass-1.32.2.x86_64.rpm"
 
 #Update Appstream data
 dnf groupupdate core -y

@@ -117,12 +117,12 @@ unzip ~/Documentos/fonts2.zip
 # Installing NPM packages
 if command -v rpm-ostree &> /dev/null; then
 	npm config set prefix '~/.node_packages'
-	npm install -g @ionic/cli
+	# npm install -g @ionic/cli
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]] && command -v lsb_release &> /dev/null && [[ $(lsb_release -is) != "openSUSE" ]]; then
 		npm install -g bash-language-server
 	fi
 else
-	sudo npm install -g @ionic/cli
+	# sudo npm install -g @ionic/cli
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]] && command -v lsb_release &> /dev/null && [[ $(lsb_release -is) != "openSUSE" ]]; then
 		sudo npm install -g bash-language-server
 	fi
@@ -154,11 +154,6 @@ if [ $(flatpak list | grep Chrome | wc -l) = 1 ]; then
 	flatpak override --user --filesystem=$HOME/.local/share/applications com.google.Chrome
 	flatpak override --user --filesystem=$HOME/.local/share/icons com.google.Chrome
 fi
-
-## Configuring docker
-cd $directory/../common
-sudo systemctl restart docker
-sudo docker pull mongo:latest
 
 ## Copying ssh key
 mkdir ~/.ssh

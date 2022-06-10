@@ -96,7 +96,7 @@ echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark com.mojang.Minecraft com.getpostman.Postman sh.ppy.osu com.discordapp.Discord
+flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark com.mojang.Minecraft sh.ppy.osu com.discordapp.Discord
 
 # Installing yt-dlp
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl

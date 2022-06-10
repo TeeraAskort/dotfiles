@@ -347,6 +347,10 @@ if [[ "$1" == "gnome" ]]; then
 	# Adding ssh-askpass env var
 	echo "SSH_ASKPASS=/usr/lib/seahorse/ssh-askpass" | tee -a /etc/environment
 
+	# Add gnome-keyring to pam
+	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
+	sed -i '1h;1!H;$!d;x;s/.*auth[^\n]*/&\nauth optional pam_gnome_keyring.so/' /etc/pam.d/login
+	sed -i '1h;1!H;$!d;x;s/.*session[^\n]*/&\nsession optional pam_gnome_keyring.so auto_start/' /etc/pam.d/login
 elif [[ "$1" == "xfce" ]]; then
 	# Adding xprofile to user link
 	sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/link/.xprofile

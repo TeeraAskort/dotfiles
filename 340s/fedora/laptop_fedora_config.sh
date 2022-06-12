@@ -101,6 +101,9 @@ flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita
 # Installing yt-dlp
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
 
+# Setting intel performance options
+echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
+
 # Decrease swappiness
 echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "vm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf

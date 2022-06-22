@@ -365,7 +365,7 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	mv $directory/tmp /etc/pam.d/login
 
 	# Copying ksshaskpass
-	ln /usr/bin/ksshaskpass /usr/lib/ssh/ssh-askpass
+	echo "SSH_ASKPASS=/usr/bin/ksshaskpass" | tee -a /etc/environment
 
 elif [[ "$1" == "cinnamon" ]]; then
 	# Adding ssh-askpass env var

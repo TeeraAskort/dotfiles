@@ -59,7 +59,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --force-resolution pipewire-pulseaudio pipewire-alsa pipewire-aptx pipewire-libjack-0_3 pipewire wireplumber
 
 	# Installing basic packages
-	zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip openrazer-meta razergenie nextcloud-desktop aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs strawberry piper solaar
+	zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip openrazer-meta razergenie nextcloud-desktop aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs strawberry piper solaar zpaq
 
 	# Enabling thermald service
 	user="$SUDO_USER"

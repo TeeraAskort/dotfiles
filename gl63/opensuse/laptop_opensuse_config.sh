@@ -17,8 +17,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper addrepo -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/' packman
 	zypper addrepo https://download.opensuse.org/repositories/games:tools/openSUSE_Tumbleweed/games:tools.repo
 	zypper addrepo https://download.opensuse.org/repositories/mozilla/openSUSE_Tumbleweed/mozilla.repo
-	zypper addrepo https://download.opensuse.org/repositories/home:Alderaeney/openSUSE_Tumbleweed/home:Alderaeney.repo
-	zypper addrepo https://download.opensuse.org/repositories/home:KAMiKAZOW:Emulators/openSUSE_Tumbleweed/home:KAMiKAZOW:Emulators.repo
 	zypper addrepo https://download.opensuse.org/repositories/hardware:razer/openSUSE_Tumbleweed/hardware:razer.repo
 	if [ "$1" == "xfce" ]; then
 		zypper addrepo https://download.opensuse.org/repositories/X11:xfce/openSUSE_Tumbleweed/X11:xfce.repo
@@ -40,6 +38,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	wget https://dl.google.com/linux/linux_signing_key.pub
 	rpm --import linux_signing_key.pub
 	zypper ar http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
+	rm linux_signing_key.pub
 
 	# Refreshing the repos
 	zypper --gpg-auto-import-keys refresh
@@ -54,30 +53,20 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	zypper in -y --from "Wine (openSUSE_Tumbleweed)" wine-staging wine-staging-32bit dxvk dxvk-32bit
 
 	# Installing codecs
-	zypper install -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-{good,bad,ugly,libav} libavcodec-full
+	zypper in -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-bad gstreamer-plugins-libav gstreamer-plugins-ugly libavcodec-full vlc-codecs
 
 	# Installing discord from games:tools repo
-	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change discord gamemoded protontricks
-
-	# Installing strawberry compiled against QT5 from my repo
-	zypper in --from "home:Alderaeney (openSUSE_Tumbleweed)" -y strawberry.x86_64
+	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change protontricks gamemoded
 
 	# Replacing pulseaudio with pipewire
 	zypper in -y --force-resolution pipewire-pulseaudio pipewire-alsa pipewire-aptx pipewire-libjack-0_3 pipewire wireplumber
 
 	# Installing basic packages
-	zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip mednafen mednaffe openrazer-meta razergenie docker python3-docker-compose nextcloud-desktop yarn aspell-ca aspell-es aspell-en libmythes texlive-hyphen-catalan texlive-hyphen-english texlive-hyphen-spanish myspell-ca_ES_valencia myspell-es_ES myspell-en_US dolphin-emu obs-studio
+	zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip openrazer-meta razergenie nextcloud-desktop aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs strawberry piper solaar zpaq
 
 	# Enabling thermald service
 	user="$SUDO_USER"
-	systemctl enable thermald earlyoom docker
-
-	# Starting services
-	systemctl start docker
-
-	# Adding user to docker group
-	user="$SUDO_USER"
-	usermod -aG docker $user
+	systemctl enable thermald earlyoom 
 
 	# Adding user to plugdev group
 	user="$SUDO_USER"
@@ -85,10 +74,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 
 	# Starting zram service
 	zramswapon
-
-	# Installing mongodb compass
-	curl -L "https://github.com/mongodb-js/compass/releases/download/v1.32.2/mongodb-compass-1.32.2.x86_64.rpm" > compass.rpm
-	zypper in ./compass.rpm -y
 
 	# Install nvidia drivers
 	zypper in --auto-agree-with-licenses -y x11-video-nvidiaG06
@@ -111,12 +96,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications
 		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird mpv mpv-mpris filelight
-
-		# Installing kvm tools
-		zypper in -y -t pattern kvm_server kvm_tools
-
-		# Enabling services
-		systemctl enable libvirtd
 
 		# Removing unwanted DE specific applications
 		zypper rm -y  konversation kmines ksudoku kreversi
@@ -142,12 +121,15 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		fi
 		rm sddm
 
+		# Adding ssh-askpass env var
+                echo "SSH_ASKPASS=/usr/libexec/ssh/ksshaskpass" | tee -a /etc/environment
+
 	elif [ "$1" == "gnome" ]; then
 		# Removing unwanted DE specific applications
 		zypper rm -y  gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse
+		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse
 
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=adwaita-dark" | tee -a /etc/environment
@@ -163,7 +145,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		zypper rm -y hexchat celluloid rhythmbox xed
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg transmission-gtk gedit file-roller gvfs gvfs-backends gvfs-backend-samba libgepub-0_6-0 libgsf-1-114 libopenraw1 gnome-sound-recorder nemo-extension-nextcloud nemo-extension-fileroller nemo-extension-preview nemo-extension-share nemo-extension-image-converter books gnome-disk-utility lightdm-slick-greeter brasero geary mpv mpv-mpris
+		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg transmission-gtk gedit file-roller gvfs gvfs-backends gvfs-backend-samba libgepub-0_6-0 libgsf-1-114 libopenraw1 gnome-sound-recorder nemo-extension-nextcloud nemo-extension-fileroller nemo-extension-preview nemo-extension-share nemo-extension-image-converter books gnome-disk-utility lightdm-slick-greeter brasero geary mpv mpv-mpris
 
 		# Adding gnome theming to qt
 		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
@@ -233,7 +215,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine com.getpostman.Postman
+	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine sh.ppy.osu com.discordapp.Discord com.github.AmatCoder.mednaffe org.DolphinEmu.dolphin-emu
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ]; then
@@ -280,4 +262,5 @@ else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"
 	echo "gnome - to configure the GNOME desktop"
+	echo "cinnamon - to configure the Cinnamon desktop"
 fi

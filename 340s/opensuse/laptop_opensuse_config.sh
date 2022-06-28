@@ -244,7 +244,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 EOF
 
 	# Adding hibernation support
-	echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
 	echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
 	dracut -f
 

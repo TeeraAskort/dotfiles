@@ -344,10 +344,14 @@ if [[ "$1" == "gnome" ]]; then
 	# Adding ssh-askpass env var
 	echo "SSH_ASKPASS=/usr/lib/seahorse/ssh-askpass" | tee -a /etc/environment
 
-	# Add gnome-keyring to pam
+	# Adding gnome-keyring to pam
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
-	sed -i '1h;1!H;$!d;x;s/.*auth[^\n]*/&\nauth optional pam_gnome_keyring.so/' /etc/pam.d/login
-	sed -i '1h;1!H;$!d;x;s/.*session[^\n]*/&\nsession optional pam_gnome_keyring.so auto_start/' /etc/pam.d/login
+
+	# Add keyring unlock on login
+	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' /etc/pam.d/login /etc/pam.d/login | tee $directory/tmp
+	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/tmp
+	mv $directory/tmp /etc/pam.d/login
+
 elif [[ "$1" == "xfce" ]]; then
 	# Adding xprofile to user link
 	sudo -u link echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/link/.xprofile
@@ -370,7 +374,7 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	# Adding GTK_USE_PORTAL=1 to /etc/environment
 	echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
 
-	# Configuring sddm
+	# Adding gnome-keyring to pam
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
 	# Add keyring unlock on login
@@ -384,6 +388,15 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 elif [[ "$1" == "cinnamon" ]]; then
 	# Adding ssh-askpass env var
 	echo "SSH_ASKPASS=/usr/lib/seahorse/ssh-askpass" | tee -a /etc/environment
+
+	# Adding gnome-keyring to pam
+	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
+
+	# Add keyring unlock on login
+	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' /etc/pam.d/login /etc/pam.d/login | tee $directory/tmp
+	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/tmp
+	mv $directory/tmp /etc/pam.d/login
+
 fi
 
 # Copying dotfiles folder to link

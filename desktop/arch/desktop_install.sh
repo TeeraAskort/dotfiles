@@ -370,6 +370,14 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 elif [[ "$1" == "cinnamon" ]]; then
 	# Adding ssh-askpass env var
 	echo "SSH_ASKPASS=/usr/lib/seahorse/ssh-askpass" | tee -a /etc/environment
+	
+	# Adding gnome-keyring to pam
+	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
+
+	# Add keyring unlock on login
+	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' /etc/pam.d/login /etc/pam.d/login | tee $directory/tmp
+	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/tmp
+	mv $directory/tmp /etc/pam.d/login
 
 fi
 

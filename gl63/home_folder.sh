@@ -391,6 +391,8 @@ StartupNotify=false
 NoDisplay=true
 EOF
 
+	systemctl disable --now --user gnome-keyring-daemon.socket gnome-keyring-daemon.service
+
 fi
 
 ## Adding user to audio group

@@ -334,8 +334,8 @@ if [[ "$1" == "gnome" ]]; then
 	# Adding ssh-askpass env var
 	echo "SSH_ASKPASS=/usr/lib/seahorse/ssh-askpass" | tee -a /etc/environment
 
-	# Removing keyring duplicates
-	sed -i "/keyring/d" /etc/pam.d/gdm
+	# Adding gnome-keyring to pam
+	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
 elif [[ "$1" == "xfce" ]]; then
 	# Adding xprofile to user link
@@ -377,8 +377,6 @@ elif [[ "$1" == "cinnamon" ]]; then
 	# Adding gnome-keyring to pam
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
-	# Removing keyring duplicates
-	sed -i "/keyring/d" /etc/pam.d/lightdm
 fi
 
 # Copying dotfiles folder to link

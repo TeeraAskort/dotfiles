@@ -323,6 +323,9 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
 
+# Auto enable bluetooth on startup
+sed -i "s/#AutoEnable=false/AutoEnable=true/g" /etc/bluetooth/main.conf
+
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 

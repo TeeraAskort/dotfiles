@@ -310,7 +310,7 @@ gsettings set org.gtk.Settings.FileChooser sort-directories-first true
 
 # Cinnamon config
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
-	gsettings set org.cinnamon.settings-daemon.peripherals.touchpad tap-to-click true
+	gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click true
 	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
 	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-ac-action 'suspend'
 	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-battery-action 'suspend'
@@ -332,7 +332,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
 	gsettings set org.cinnamon.desktop.interface icon-theme 'Papirus-Dark'
 	gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
-	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
 	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
 	gsettings set org.cinnamon hotcorner-layout "['scale:true:150', 'scale:false:0', 'scale:false:0', 'desktop:false:0']"
 	gsettings set org.cinnamon panels-height "['1:26']"

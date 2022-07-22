@@ -320,6 +320,9 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
 
+# Setting up variable refresh rate on X11
+sed -i '/Driver/a Option "VariableRefresh" "true"' /usr/share/X11/xorg.conf.d/10-amdgpu.conf
+
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 

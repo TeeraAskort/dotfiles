@@ -145,6 +145,9 @@ source ~/.general_alias
 #        source /etc/profile.d/vte.sh
 # fi
 
+export ANDROID_HOME=$HOME/Datos/Android
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
 ## Solus eopkg config
 # autoload bashcompinit
 # bashcompinit

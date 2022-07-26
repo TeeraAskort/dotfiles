@@ -118,12 +118,12 @@ unzip ~/Documentos/fonts2.zip
 # Installing NPM packages
 if command -v rpm-ostree &> /dev/null; then
 	npm config set prefix '~/.node_packages'
-	npm install -g @ionic/cli electron-installer-flatpak
+	npm install -g electron-installer-flatpak @vue/cli
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]] && command -v lsb_release &> /dev/null && [[ $(lsb_release -is) != "openSUSE" ]]; then
 		npm install -g bash-language-server
 	fi
 else
-	sudo npm install -g @ionic/cli electron-installer-flatpak
+	sudo npm install -g electron-installer-flatpak @vue/cli
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]] && command -v lsb_release &> /dev/null && [[ $(lsb_release -is) != "openSUSE" ]]; then
 		sudo npm install -g bash-language-server
 	fi

@@ -313,6 +313,10 @@ gsettings set org.gtk.gtk4.Settings.FileChooser sort-directories-first true
 # XFCE config
 if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
 	xfconf-query -c xfwm4 -p /general/vblank_mode -s glx
+
+	if [ -e ~/Imágenes/pape.jpg ]; then
+		sudo cp ~/Imágenes/pape.jpg /usr/share/backgrounds
+	fi
 fi
 
 # Cinnamon config

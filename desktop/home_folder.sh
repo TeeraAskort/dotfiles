@@ -4,43 +4,53 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
-dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep DT01ACA300 | cut -d" " -f1)
-torrentDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep DT01ABA300 | cut -d" " -f1)
+torrentDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep DT01ACA300 | cut -d" " -f1)
+dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep SNVS2000G | cut -d" " -f1)
 
 ## Adjusting keymap
 sudo localectl set-x11-keymap es
 
-## Configuring data disk
+## Configuring torrent disk
 echo "Enter data disk password: "
-until sudo cryptsetup open /dev/${dataDisk}1 encrypteddata; do 
+until sudo cryptsetup open /dev/${dataDisk}p1 datos; do 
 	echo "Bad password, retrying"
 done
 mkdir $HOME/Datos
-sudo mount /dev/mapper/encrypteddata $HOME/Datos
-sudo cp $HOME/Datos/.keyfile /root/.keyfile
-echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${dataDisk}1) /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
-echo "/dev/mapper/encrypteddata $HOME/Datos btrfs defaults 0 0" | sudo tee -a /etc/fstab
+sudo mount /dev/mapper/datos $HOME/Datos
+sudo cp $HOME/Datos/.datoskey /root/.datoskey
+echo "datos UUID=$(sudo blkid -s UUID -o value /dev/${datosDisk}p1) /root/.datoskey luks,discard" | sudo tee -a /etc/crypttab
+echo "/dev/mapper/datos $HOME/Datos xfs defaults 0 0" | sudo tee -a /etc/fstab
+
+## Configuring torrent disk
+echo "Enter data disk password: "
+until sudo cryptsetup open /dev/${torrentDisk}1 encrypteddata; do 
+	echo "Bad password, retrying"
+done
+mkdir $HOME/Torrent
+sudo mount /dev/mapper/encrypteddata $HOME/Torrent
+sudo cp $HOME/Torrent/.keyfile /root/.keyfile
+echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${torrentDisk}1) /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
+echo "/dev/mapper/encrypteddata $HOME/Torrent btrfs defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders
 rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent ~/Sync
 
 ## Linking home folders
-ln -s $HOME/Datos/Descargas $HOME
-ln -s $HOME/Datos/Descargas $HOME/Downloads
-ln -s $HOME/Datos/Documentos $HOME
-ln -s $HOME/Datos/Escritorio $HOME
+ln -s $HOME/Torrent/Descargas $HOME
+ln -s $HOME/Torrent/Descargas $HOME/Downloads
+ln -s $HOME/Torrent/Documentos $HOME
+ln -s $HOME/Torrent/Escritorio $HOME
 ln -s $HOME/Datos/Música $HOME
-ln -s $HOME/Datos/Imágenes $HOME
-ln -s $HOME/Datos/Torrent $HOME
-ln -s $HOME/Datos/Nextcloud $HOME
-ln -s $HOME/Datos/Sync $HOME
+ln -s $HOME/Torrent/Imágenes $HOME
+ln -s $HOME/Torrent/Nextcloud $HOME
+ln -s $HOME/Torrent/Sync $HOME
 
 ## Overriding xdg-user-dirs
-xdg-user-dirs-update --set DESKTOP $HOME/Datos/Escritorio
-xdg-user-dirs-update --set DOCUMENTS $HOME/Datos/Documentos
-xdg-user-dirs-update --set DOWNLOAD $HOME/Datos/Descargas
-xdg-user-dirs-update --set MUSIC $HOME/Datos/Música
-xdg-user-dirs-update --set PICTURES $HOME/Datos/Imágenes
+xdg-user-dirs-update --set DESKTOP $HOME/Torrent/Escritorio
+xdg-user-dirs-update --set DOCUMENTS $HOME/Torrent/Documentos
+xdg-user-dirs-update --set DOWNLOAD $HOME/Torrent/Descargas
+xdg-user-dirs-update --set MUSIC $HOME/Torrent/Música
+xdg-user-dirs-update --set PICTURES $HOME/Torrent/Imágenes
 
 ## Installing vim plugins
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
@@ -140,12 +150,12 @@ fi
 
 ## Configuring flatpak steam
 if [ $(flatpak list | grep Steam | wc -l) = 1 ]; then
-	flatpak override --user --filesystem=$HOME/Datos com.valvesoftware.Steam	
+	flatpak override --user --filesystem=$HOME/Torrent com.valvesoftware.Steam	
 fi
 
 ## Configuring flatpak minigalaxy
 if [ $(flatpak list | grep Minigalaxy | wc -l) = 1 ]; then
-	flatpak override --user --filesystem=$HOME/Datos/GOG\ Games io.github.sharkwouter.Minigalaxy
+	flatpak override --user --filesystem=$HOME/Torrent/GOG\ Games io.github.sharkwouter.Minigalaxy
 fi
 
 ## Configuring flatpak google chrome

@@ -18,7 +18,7 @@ done
 mkdir $HOME/Datos
 sudo mount /dev/mapper/datos $HOME/Datos
 sudo cp $HOME/Datos/.datoskey /root/.datoskey
-echo "datos UUID=$(sudo blkid -s UUID -o value /dev/${datosDisk}p1) /root/.datoskey luks,discard" | sudo tee -a /etc/crypttab
+echo "datos UUID=$(sudo blkid -s UUID -o value /dev/${dataDisk}p1) /root/.datoskey luks,discard" | sudo tee -a /etc/crypttab
 echo "/dev/mapper/datos $HOME/Datos xfs defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Configuring torrent disk

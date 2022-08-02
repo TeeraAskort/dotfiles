@@ -33,7 +33,7 @@ echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${torrentDisk}1) /ro
 echo "/dev/mapper/encrypteddata $HOME/Torrent btrfs defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders
-rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent ~/Sync
+rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Sync
 
 ## Linking home folders
 ln -s $HOME/Torrent/Descargas $HOME

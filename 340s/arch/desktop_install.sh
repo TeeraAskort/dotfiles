@@ -55,7 +55,7 @@ EOF
 
 # Downloading the chaotic-aur mirrorlist
 curl -L "https://aur.chaotic.cx/mirrorlist.txt" > /etc/pacman.d/chaotic-mirrorlist
-pacman -Sy chaotic-mirrorlist
+pacman -Sy --noconfirm chaotic-mirrorlist chaotic-keyring
 
 pacman -Syu --noconfirm
 

@@ -38,6 +38,9 @@ dnf copr enable hyperreal/better_fonts -y
 # Adding openrazer repos
 dnf config-manager --add-repo https://download.opensuse.org/repositories/hardware:razer/Fedora_35/hardware:razer.repo
 
+# Input remapper copr repo
+dnf copr enable sunwire/input-remapper -y
+
 #Install VSCode
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
@@ -52,11 +55,11 @@ dnf groupinstall "C Development Tools and Libraries" -y
 dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv mpv-mpris flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg geary python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite deluge deluge-gtk obs-studio seahorse fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq
+dnf install -y vim lutris steam mpv mpv-mpris flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg geary python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite deluge deluge-gtk obs-studio seahorse fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper
 
 # Enabling services
 user="$SUDO_USER"
-systemctl enable thermald 
+systemctl enable thermald input-remapper
 
 # Adding user to plugdev group
 user="$SUDO_USER"
@@ -94,7 +97,7 @@ echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark com.mojang.Minecraft sh.ppy.osu com.discordapp.Discord com.heroicgameslauncher.hgl org.telegram.desktop
+flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark sh.ppy.osu com.discordapp.Discord com.heroicgameslauncher.hgl org.telegram.desktop
 
 # Installing yt-dlp
 ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl

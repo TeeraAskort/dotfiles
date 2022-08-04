@@ -29,7 +29,7 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 	# Configure LVM
 	pvcreate /dev/mapper/luks
 	vgcreate lvm /dev/mapper/luks
-	lvcreate -L 16G -n swap lvm
+	lvcreate -L 48G -n swap lvm
 	lvcreate -l 100%FREE -n root lvm
 
 	# Format partitions

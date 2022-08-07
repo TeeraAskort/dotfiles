@@ -118,12 +118,12 @@ unzip ~/Documentos/fonts2.zip
 # Installing NPM packages
 if command -v rpm-ostree &> /dev/null; then
 	npm config set prefix '~/.node_packages'
-	npm install -g electron-installer-flatpak @vue/cli
+	# npm install -g electron-installer-flatpak @vue/cli
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]] && command -v lsb_release &> /dev/null && [[ $(lsb_release -is) != "openSUSE" ]]; then
 		npm install -g bash-language-server
 	fi
 else
-	sudo npm install -g electron-installer-flatpak @vue/cli
+	# sudo npm install -g electron-installer-flatpak @vue/cli
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]] && command -v lsb_release &> /dev/null && [[ $(lsb_release -is) != "openSUSE" ]]; then
 		sudo npm install -g bash-language-server
 	fi
@@ -138,6 +138,11 @@ else
 	sudo cp $directory/../common/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
 	sudo udevadm control --reload-rules
 fi
+
+## Configuring docker
+cd $directory/../common
+sudo systemctl restart docker
+sudo docker pull mongo:latest
 
 ## Configuring flatpak steam
 if [ $(flatpak list | grep Steam | wc -l) = 1 ]; then

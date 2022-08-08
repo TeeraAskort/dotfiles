@@ -208,9 +208,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
 	gsettings set org.gnome.desktop.peripherals.keyboard numlock-state true
 	gsettings set org.gnome.desktop.interface clock-show-date true
 	gsettings set org.gnome.desktop.calendar show-weekdate true
@@ -242,9 +239,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "ubuntu:GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
 	gsettings set org.gnome.desktop.peripherals.keyboard numlock-state true
 	gsettings set org.gnome.desktop.interface clock-show-date true
 	gsettings set org.gnome.desktop.calendar show-weekdate true
@@ -272,12 +266,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "zorin:GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
 	gsettings set org.gnome.settings-daemon.plugins.power button-power hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action hibernate
 	gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
-	gsettings set org.gnome.settings-daemon.plugins.power lid-close-battery-action hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
 fi
 
 ## Changing Budgie config
@@ -300,13 +289,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "Budgie:GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-	gsettings set org.gnome.settings-daemon.plugins.power button-power hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action hibernate
 	gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
-	gsettings set org.gnome.settings-daemon.plugins.power lid-close-battery-action hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
@@ -328,13 +311,6 @@ fi
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click true
 	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
-	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-ac-action 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-battery-action 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-type 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-type 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power button-power 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power button-suspend 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power critical-battery-action 'hibernate'
 	gsettings set org.cinnamon.settings-daemon.plugins.power lock-on-suspend true
 	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
 	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
@@ -404,16 +380,10 @@ if [ "$XDG_CURRENT_DESKTOP" == "MATE" ]; then
 	gsettings set org.mate.interface gtk-theme 'Mint-Y-Dark'
 	gsettings set org.mate.interface icon-theme 'Papirus-Dark'
 	gsettings set org.mate.interface monospace-font-name 'Rec Mono Semicasual 11'
-	gsettings set org.mate.power-manager button-power 'hibernate'
 	gsettings set org.mate.power-manager idle-dim-ac true
 	gsettings set org.mate.power-manager idle-dim-battery true
-	gsettings set org.mate.power-manager action-critical-battery 'hibernate'
-	gsettings set org.mate.power-manager action-sleep-type-ac 'hibernate'
-	gsettings set org.mate.power-manager action-sleep-type-battery 'hibernate'
 	gsettings set org.mate.power-manager sleep-computer-ac 1800
 	gsettings set org.mate.power-manager sleep-computer-battery 600
-	gsettings set org.mate.power-manager button-lid-ac 'hibernate'
-	gsettings set org.mate.power-manager button-lid-battery 'hibernate'
 	gsettings set org.mate.peripherals-mouse accel-profile 'flat'
 	gsettings set org.mate.peripherals-touchpad tap-to-click true
 	gsettings set org.mate.peripherals-touchpad tap-button-two-finger 3

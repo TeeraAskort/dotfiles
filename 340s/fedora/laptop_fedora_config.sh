@@ -41,6 +41,9 @@ dnf config-manager --add-repo https://download.opensuse.org/repositories/hardwar
 # Input remapper copr repo
 dnf copr enable sunwire/input-remapper -y
 
+# Adding docker repo
+dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+
 #Install VSCode
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
@@ -55,15 +58,25 @@ dnf groupinstall "C Development Tools and Libraries" -y
 dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv mpv-mpris flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg geary python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite deluge deluge-gtk obs-studio seahorse fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper
+dnf install -y vim lutris steam mpv mpv-mpris flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg geary python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite deluge deluge-gtk obs-studio seahorse fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper docker-ce docker-ce-cli containerd.io docker-compose
 
 # Enabling services
 user="$SUDO_USER"
-systemctl enable thermald input-remapper
+systemctl enable thermald input-remapper docker
+
+# Starting services
+systemctl start docker
 
 # Adding user to plugdev group
 user="$SUDO_USER"
 usermod -aG plugdev $user
+
+# Adding user to docker group
+user="$SUDO_USER"
+usermod -aG docker $user
+
+# Installing mongodb compass
+dnf in -y "https://github.com/mongodb-js/compass/releases/download/v1.32.6/mongodb-compass-1.32.6.x86_64.rpm"
 
 # Installing computer specific packages
 dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver # touchegg
@@ -83,15 +96,6 @@ dnf group upgrade -y --with-optional Multimedia
 
 #Disable wayland
 # sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
-
-# Configuring hibernate
-mkdir -p /etc/dracut.conf.d
-echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/99-resume.conf
-dracut -vf
-echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
-echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
-echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
-echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -132,3 +136,6 @@ EOF
 
 # Adding ssh-askpass env var
 echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment
+
+# Adding kernel parameters
+grubby --update-kernel=ALL --args="mem_sleep_default=s2idle"

@@ -38,6 +38,9 @@ dnf config-manager --add-repo https://download.opensuse.org/repositories/hardwar
 # Input remapper copr repo
 dnf copr enable sunwire/input-remapper -y
 
+# Adding docker repo
+dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+
 #Install VSCode
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
@@ -52,15 +55,25 @@ dnf groupinstall "C Development Tools and Libraries" -y
 dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv mpv-mpris flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg geary python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite deluge deluge-gtk obs-studio seahorse fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper
+dnf install -y vim lutris steam mpv mpv-mpris flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg geary python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg kernel-headers kernel-devel pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite deluge deluge-gtk obs-studio seahorse fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper docker-ce docker-ce-cli containerd.io docker-compose
 
 # Enabling services
 user="$SUDO_USER"
-systemctl enable thermald input-remapper
+systemctl enable thermald input-remapper docker
+
+# Starting services
+systemctl start docker
 
 # Adding user to plugdev group
 user="$SUDO_USER"
 usermod -aG plugdev $user
+
+# Adding user to docker group
+user="$SUDO_USER"
+usermod -aG docker $user
+
+# Installing mongodb compass
+dnf in -y "https://github.com/mongodb-js/compass/releases/download/v1.32.6/mongodb-compass-1.32.6.x86_64.rpm"
 
 # Remove unused packages
 dnf remove -y totem rhythmbox
@@ -94,6 +107,11 @@ echo "vm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf
 # Virtual memory tuning
 echo "vm.dirty_ratio = 3" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "vm.dirty_background_ratio = 2" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Kernel hardening
+echo "kernel.kptr_restrict = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "net.core.bpf_jit_harden=2" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "kernel.kexec_load_disabled = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 # Optimize SSD and HDD performance
 cat > /etc/udev/rules.d/60-sched.rules <<EOF

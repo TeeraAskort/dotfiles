@@ -45,7 +45,7 @@ sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 # Adding Chaotic AUR repo
 pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
 pacman-key --lsign-key FBA220DFC880C036
-pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+# pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
 # Adding home OBS repo
 cat >>/etc/pacman.conf <<EOF
@@ -53,8 +53,8 @@ cat >>/etc/pacman.conf <<EOF
 Include = /etc/pacman.d/chaotic-mirrorlist
 EOF
 
-# Downloading the chaotic-aur mirrorlist
-# curl -L "https://aur.chaotic.cx/mirrorlist.txt" > /etc/pacman.d/chaotic-mirrorlist
+curl -L "https://aur.chaotic.cx/mirrorlist.txt" > /etc/pacman.d/chaotic-mirrorlist
+pacman -Sy --noconfirm chaotic-mirrorlist chaotic-keyring
 
 pacman -Syu --noconfirm
 
@@ -130,7 +130,7 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth chrome-gnome-shell simple-scan power-profiles-daemon gnome-boxes seahorse gnome-text-editor-git libsecret gvfs-google mutter-performance 
+	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth chrome-gnome-shell simple-scan power-profiles-daemon gnome-boxes seahorse gnome-text-editor-git libsecret gvfs-google mutter-performance python-nautilus
 
 	# Enabling gdm
 	systemctl enable gdm 
@@ -246,10 +246,13 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm jdk-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry-qt5 rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin protontricks-git mednaffe mpv mpv-mpris libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git
+pacman -S --noconfirm jdk-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry-qt5 rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin protontricks-git mednaffe mpv mpv-mpris libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git docker-compose docker mongodb-compass
 
 # Enabling services
-systemctl enable thermald apparmor firewalld systemd-oomd.service 
+systemctl enable thermald apparmor firewalld systemd-oomd.service docker
+
+# Adding user to docker group
+usermod -aG docker link
 
 # Configuring zram
 cat >/etc/systemd/zram-generator.conf <<EOF
@@ -294,10 +297,6 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
-
-# Adding hibernate options
-echo "AllowHibernation=yes" | tee -a /etc/systemd/sleep.conf
-echo "HibernateMode=shutdown" | tee -a /etc/systemd/sleep.conf
 
 # Decrease swappiness
 echo "vm.swappiness = 1" | tee -a /etc/sysctl.d/99-sysctl.conf

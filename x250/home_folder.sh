@@ -12,7 +12,9 @@ dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep ST1000LM048-2E7172 | cu
 sudo localectl set-x11-keymap es
 
 ## Configuring data disk
-sudo cryptsetup open /dev/${dataDisk}1 encrypteddata
+until sudo cryptsetup open /dev/${dataDisk}1 encrypteddata; do
+	echo "Bad password, retrying"
+done
 mkdir /home/link/Datos
 sudo mount /dev/mapper/encrypteddata /home/link/Datos
 sudo cp /home/link/Datos/.keyfile /root/.keyfile
@@ -102,7 +104,7 @@ fi
 
 # Copying .zshenv on debian
 if [ $(lsb_release -is | grep "Debian" | wc -l) -eq 1 ]; then
-	cp $directory/zsh/.zshenv ~
+	cp $directory/../zsh/.zshenv ~
 fi
 
 ## Configuring vim/neovim
@@ -127,12 +129,12 @@ unzip ~/Documentos/fonts2.zip
 # Installing NPM packages
 if command -v rpm-ostree &> /dev/null; then
 	npm config set prefix '~/.node_packages'
-	npm install -g electron-installer-flatpak @vue/cli
+	# npm install -g electron-installer-flatpak @vue/cli
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]] && command -v lsb_release &> /dev/null && [[ $(lsb_release -is) != "openSUSE" ]]; then
 		npm install -g bash-language-server
 	fi
 else
-	sudo npm install -g electron-installer-flatpak @vue/cli
+	# sudo npm install -g electron-installer-flatpak @vue/cli
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]] && command -v lsb_release &> /dev/null && [[ $(lsb_release -is) != "openSUSE" ]]; then
 		sudo npm install -g bash-language-server
 	fi
@@ -147,6 +149,11 @@ else
 	sudo cp $directory/../common/99-opentabletdriver.rules /etc/udev/rules.d/99-opentabletdriver.rules
 	sudo udevadm control --reload-rules
 fi
+
+## Configuring docker
+cd $directory/../common
+sudo systemctl restart docker
+sudo docker pull mongo:latest
 
 ## Configuring flatpak steam
 if [ $(flatpak list | grep Steam | wc -l) = 1 ]; then
@@ -369,16 +376,10 @@ if [ "$XDG_CURRENT_DESKTOP" == "MATE" ]; then
 	gsettings set org.mate.interface gtk-theme 'Mint-Y-Dark'
 	gsettings set org.mate.interface icon-theme 'Papirus-Dark'
 	gsettings set org.mate.interface monospace-font-name 'Rec Mono Semicasual 11'
-	gsettings set org.mate.power-manager button-power 'hibernate'
 	gsettings set org.mate.power-manager idle-dim-ac true
 	gsettings set org.mate.power-manager idle-dim-battery true
-	gsettings set org.mate.power-manager action-critical-battery 'hibernate'
-	gsettings set org.mate.power-manager action-sleep-type-ac 'hibernate'
-	gsettings set org.mate.power-manager action-sleep-type-battery 'hibernate'
 	gsettings set org.mate.power-manager sleep-computer-ac 1800
 	gsettings set org.mate.power-manager sleep-computer-battery 600
-	gsettings set org.mate.power-manager button-lid-ac 'hibernate'
-	gsettings set org.mate.power-manager button-lid-battery 'hibernate'
 	gsettings set org.mate.peripherals-mouse accel-profile 'flat'
 	gsettings set org.mate.peripherals-touchpad tap-to-click true
 	gsettings set org.mate.peripherals-touchpad tap-button-two-finger 3

@@ -207,6 +207,19 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface clock-show-date true
 	gsettings set org.gnome.desktop.calendar show-weekdate true
 
+	# Keybinds
+	gsettings set org.gnome.settings-daemon.plugins.media-keys www "['<Super>w']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>e']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys play "['<Super>z']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Super>x']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Super>c']"
+
+	KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['$KEY_PATH/custom0/']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "Terminal"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "gnome-terminal"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding '<Super>t'
+
 	cp -r $directory/../common/gtk-4.0 ~/.config
 
 	if command -v gedit &> /dev/null ; then

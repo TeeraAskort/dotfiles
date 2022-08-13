@@ -49,9 +49,6 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf copr enable rmnscnce/kernel-xanmod -y
 dnf in -y kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers
 
-# Adding VRR support to GNOME
-dnf copr enable kylegospo/gnome-vrr -y
-
 # Upgrade system
 dnf upgrade -y --refresh
 

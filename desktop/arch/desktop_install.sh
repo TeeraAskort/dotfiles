@@ -67,6 +67,9 @@ sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
+# Installing xanmod kernel
+pacman -S --noconfirm linux-xanmod-edge linux-xanmod-edge-headers
+
 # Installing xorg and xapps
 pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb
 
@@ -213,16 +216,16 @@ editor   no
 EOF
 cat >/boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux-zen
+linux   /vmlinuz-linux-xanmod
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-zen.img
+initrd  /initramfs-linux-xanmod.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux-zen
+linux   /vmlinuz-linux-xanmod
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-zen-fallback.img
+initrd  /initramfs-linux-xanmod-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw 
 EOF
 bootctl update

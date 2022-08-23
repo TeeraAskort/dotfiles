@@ -78,7 +78,7 @@ usermod -aG plugdev $user
 # usermod -aG docker $user
 
 # Installing mongodb compass
-dnf in -y "https://github.com/mongodb-js/compass/releases/download/v1.32.6/mongodb-compass-1.32.6.x86_64.rpm"
+# dnf in -y "https://github.com/mongodb-js/compass/releases/download/v1.32.6/mongodb-compass-1.32.6.x86_64.rpm"
 
 # Remove unused packages
 dnf remove -y totem rhythmbox

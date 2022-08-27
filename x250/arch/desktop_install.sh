@@ -53,6 +53,7 @@ cat >>/etc/pacman.conf <<EOF
 Include = /etc/pacman.d/chaotic-mirrorlist
 EOF
 
+# Downloading the chaotic-aur mirrorlist
 curl -L "https://aur.chaotic.cx/mirrorlist.txt" > /etc/pacman.d/chaotic-mirrorlist
 pacman -Sy --noconfirm chaotic-mirrorlist chaotic-keyring
 
@@ -65,6 +66,9 @@ pacman -Syu --noconfirm archlinux-keyring
 sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
+
+# Installing xanmod kernel
+pacman -S --noconfirm linux-xanmod-edge linux-xanmod-edge-headers
 
 # Installing xorg and xapps
 pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb
@@ -130,7 +134,7 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth chrome-gnome-shell simple-scan power-profiles-daemon gnome-boxes seahorse gnome-text-editor-git libsecret gvfs-google mutter-performance python-nautilus
+	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth gnome-browser-connector simple-scan power-profiles-daemon gnome-boxes seahorse gnome-text-editor-git libsecret gvfs-google mutter-performance python-nautilus
 
 	# Enabling gdm
 	systemctl enable gdm 
@@ -142,7 +146,7 @@ elif [[ "$1" == "mate" ]]; then
 	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird gnome-boxes gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueman mint-themes mate-tweak mate-menu simple-scan libsecret
 
 elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
-	pacman -S --noconfirm plasma ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent gnome-keyring plasma-wayland-session kdepim-addons akonadi kmail qt5-imageformats webp-pixbuf-loader ksshaskpass gnome-boxes libsecret xdg-desktop-portal-gtk xdg-desktop-portal-kde xdg-desktop-portal simple-scan
+	pacman -S --noconfirm plasma sddm ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind print-manager zeroconf-ioslave signon-kwallet-extension qbittorrent gnome-keyring plasma-wayland-session kdepim-addons akonadi kmail qt5-imageformats webp-pixbuf-loader ksshaskpass gnome-boxes libsecret xdg-desktop-portal-gtk xdg-desktop-portal-kde xdg-desktop-portal simple-scan
 
 	# Removing unwanted packages
 	pacman -Rnsc --noconfirm oxygen
@@ -213,16 +217,16 @@ editor   no
 EOF
 cat >/boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux-zen
+linux   /vmlinuz-linux-xanmod-edge
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-zen.img
+initrd  /initramfs-linux-xanmod-edge.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux-zen
+linux   /vmlinuz-linux-xanmod-edge
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-zen-fallback.img
+initrd  /initramfs-linux-xanmod-edge-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw
 EOF
 bootctl update
@@ -246,13 +250,13 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm jdk-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry-qt5 rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin protontricks-git mednaffe mpv mpv-mpris libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git docker-compose docker mongodb-compass
+pacman -S --noconfirm jdk-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry-qt5 rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin protontricks-git mednaffe mpv mpv-mpris libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git openrazer-meta
 
 # Enabling services
-systemctl enable thermald apparmor firewalld systemd-oomd.service docker
+systemctl enable thermald apparmor firewalld systemd-oomd.service 
 
 # Adding user to docker group
-usermod -aG docker link
+# usermod -aG docker link
 
 # Configuring zram
 cat >/etc/systemd/zram-generator.conf <<EOF
@@ -270,7 +274,7 @@ pacman -S --noconfirm pam-u2f intel-undervolt
 pacman -S --noconfirm --needed wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin razergenie openrazer-meta # touchegg
+sudo -u aurbuilder yay -S --noconfirm dxvk-bin razergenie # touchegg
 
 # Adding user to plugdev group
 usermod -aG plugdev link

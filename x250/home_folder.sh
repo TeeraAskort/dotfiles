@@ -151,9 +151,9 @@ else
 fi
 
 ## Configuring docker
-cd $directory/../common
-sudo systemctl restart docker
-sudo docker pull mongo:latest
+# cd $directory/../common
+# sudo systemctl restart docker
+# sudo docker pull mongo:latest
 
 ## Configuring flatpak steam
 if [ $(flatpak list | grep Steam | wc -l) = 1 ]; then

@@ -16,21 +16,41 @@ hostnamectl set-hostname link-x250
 #Install RPMfusion
 dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 
-#Better font rendering cpor
-dnf copr enable dawid/better_fonts -y
+#Installing tainted repos
+dnf in -y rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
 
 #Enabling mednaffe repo
 dnf copr enable alderaeney/mednaffe -y
 
-#Enabling lxc repo
-dnf copr enable ganto/lxc4 -y
+# Enabling better_fonts repo
+dnf copr enable hyperreal/better_fonts -y
 
 #Enabling vivaldi repo
 # dnf config-manager --add-repo https://repo.vivaldi.com/archive/vivaldi-fedora.repo
 
+#Adding brave repo
+# dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/x86_64/
+# rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+
+# Adding openrazer repos
+dnf config-manager --add-repo https://download.opensuse.org/repositories/hardware:razer/Fedora_35/hardware:razer.repo
+
+# Input remapper copr repo
+dnf copr enable sunwire/input-remapper -y
+
+# Heroic games launcher repo
+dnf copr enable atim/heroic-games-launcher -y
+
+# Adding docker repo
+# dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+
 #Install VSCode
 rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
+
+# Installing xanmod kernel
+dnf copr enable rmnscnce/kernel-xanmod -y
+dnf in -y kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers
 
 # Upgrade system
 dnf upgrade -y --refresh
@@ -42,13 +62,26 @@ sudo dnf groupinstall "C Development Tools and Libraries" -y
 sudo dnf groupinstall "Development Tools" -y
 
 #Install required packages
-dnf install -y vim lutris steam mpv flatpak zsh zsh-syntax-highlighting papirus-icon-theme transmission-gtk wine winetricks gnome-tweaks dolphin-emu fontconfig-enhanced-defaults fontconfig-font-replacements ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg evolution python-neovim libfido2 clementine chromium-freeworld mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp mpv-mpris protontricks libnsl mod_perl java-11-openjdk-devel lxd lxc ffmpeg rtmpdump aria2 AtomicParsley dkms elfutils-libelf-devel qt5-qtx11extras VirtualBox gtk-murrine-engine gtk2-engines kernel-headers kernel-devel
+dnf install -y vim lutris steam mpv mpv-mpris flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks gnome-tweaks dolphin-emu ffmpegthumbnailer zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code aisleriot thermald gnome-mahjongg geary python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader brasero desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ file-roller yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite deluge deluge-gtk obs-studio seahorse fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper heroic-games-launcher-bin
 
-systemctl enable thermald 
+# Installing docker
+# dnf in -y docker-ce docker-ce-cli containerd.io docker-compose
+# systemctl enable --now docker
 
-# Adding user to vboxusers group
+# Enabling services
 user="$SUDO_USER"
-usermod -aG vboxusers $user 
+systemctl enable thermald input-remapper
+
+# Adding user to plugdev group
+user="$SUDO_USER"
+usermod -aG plugdev $user
+
+# Adding user to docker group
+# user="$SUDO_USER"
+# usermod -aG docker $user
+
+# Installing mongodb compass
+# dnf in -y "https://github.com/mongodb-js/compass/releases/download/v1.32.6/mongodb-compass-1.32.6.x86_64.rpm"
 
 # Installing computer specific packages
 dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver acpid intel-undervolt tlp
@@ -63,11 +96,14 @@ dnf remove -y totem rhythmbox
 dnf groupupdate core -y
 
 #Install multimedia codecs
-dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y --allowerasing
 dnf groupupdate sound-and-video -y
+dnf install -y libdvdcss
+dnf install -y gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel ffmpeg gstreamer-ffmpeg
+dnf install -y lame\* --exclude=lame-devel
+dnf group upgrade -y --with-optional Multimedia
 
 #Disable wayland
-sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
+# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf 
 
 #Intel undervolt configuration
 sed -i "s/undervolt 0 'CPU' 0/undervolt 0 'CPU' -75/g" /etc/intel-undervolt.conf
@@ -76,44 +112,48 @@ sed -i "s/undervolt 2 'CPU Cache' 0/undervolt 2 'CPU Cache' -75/g" /etc/intel-un
 
 systemctl enable intel-undervolt
 
-#Installing qogir theme
-curl -L "https://api.github.com/repos/vinceliuice/Qogir-theme/tarball" > Qogir-gtk.tar.gz
-tar xzvf Qogir-gtk.tar.gz && cd *Qogir-theme*
-./install.sh -l fedora -c dark -w square
-cd .. && rm -r *Qogir*
-git clone https://github.com/vinceliuice/Qogir-kde.git
-cd Qogir-kde
-./install.sh
-cd .. && rm -r Qogir-kde
-
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 #Install flatpak applications
-flatpak install -y flathub com.discordapp.Discord io.lbry.lbry-app com.google.AndroidStudio org.jdownloader.JDownloader org.telegram.desktop org.eclipse.Java com.axosoft.GitKraken com.mojang.Minecraft com.getpostman.Postman io.dbeaver.DBeaverCommunity
+flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark sh.ppy.osu com.discordapp.Discord org.telegram.desktop
 
 # Flatpak overrides
 flatpak override --filesystem=~/.fonts
 
-# Add sysctl config
-# echo "fs.inotify.max_user_watches=1048576" | tee -a /etc/sysctl.d/99-sysctl.conf
+# Installing yt-dlp
+ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
+
+# Setting intel performance options
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
-# Installing xampp
-until curl -L "https://www.apachefriends.org/xampp-files/8.0.10/xampp-linux-x64-8.0.10-0-installer.run" > xampp.run; do
-	echo "Retrying"
-done
-chmod 755 xampp.run
-./xampp.run --unattendedmodeui minimal --mode unattended
-rm xampp.run
+# Decrease swappiness
+echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf
 
-# Setting hostname properly for xampp
-echo "127.0.0.1    $(hostname)" | tee -a /etc/hosts
+# Virtual memory tuning
+echo "vm.dirty_ratio = 3" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.dirty_background_ratio = 2" | tee -a /etc/sysctl.d/99-sysctl.conf
 
-# Installing yt-dlp
-curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
-chmod a+rx /usr/local/bin/yt-dlp
-ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl
+# Kernel hardening
+echo "kernel.kptr_restrict = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "net.core.bpf_jit_harden=2" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "kernel.kexec_load_disabled = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Optimize SSD and HDD performance
+cat > /etc/udev/rules.d/60-sched.rules <<EOF
+#set noop scheduler for non-rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
+
+# set cfq scheduler for rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
+EOF
+
+# Fixing font rendering
+# cp $directory/local.conf /etc/fonts/local.conf
+
+# Adding ssh-askpass env var
+echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment
 
 # Headphone jack workaround
 cp $directory/headphones /usr/local/bin

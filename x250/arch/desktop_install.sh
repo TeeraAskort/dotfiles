@@ -19,6 +19,7 @@ echo KEYMAP=es >/etc/vconsole.conf
 # Change localtime
 ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
 hwclock --systohc
+timedatectl set-ntp true
 
 # Hostname
 echo link-x250 >/etc/hostname

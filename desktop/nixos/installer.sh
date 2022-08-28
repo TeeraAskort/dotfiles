@@ -7,8 +7,8 @@ directory="$(dirname $_script)"
 if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "cinnamon" ]]; then
 
 	rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep MZVLQ512HALU-000H1 | cut -d" " -f1)
-	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep DT01ACA300 | cut -d" " -f1)
-	torrentDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep DT01ABA300 | cut -d" " -f1)
+	dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep SNVS2000G | cut -d" " -f1)
+	torrentDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep DT01ACA300 | cut -d" " -f1)
 
 	# Create partitions
 	parted /dev/$rootDisk -- mklabel gpt
@@ -63,23 +63,37 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 		cp $directory/configuration-cinnamon.nix /mnt/etc/nixos/configuration.nix
 	fi
 
-	# Copy key from secondary drive to root partition
+	# Copy key from data drive to root partition
 	clear 
 	echo "Enter data disk password"
-	until cryptsetup open /dev/${dataDisk}1 datos
+	until cryptsetup open /dev/${dataDisk}p1 datos
 	do
 		echo "Cryptsetup failed opening the secondary drive"
 	done
 	mkdir $directory/datos
 	mount /dev/mapper/datos $directory/datos
-	cp $directory/datos/.keyfile /mnt
+	cp $directory/datos/.datoskey /mnt
+
+	# Copy key from torrent drive to root partition
+	clear 
+	echo "Enter data disk password"
+	until cryptsetup open /dev/${torrentDisk}1 torrent
+	do
+		echo "Cryptsetup failed opening the secondary drive"
+	done
+	mkdir $directory/torrent
+	mount /dev/mapper/torrent $directory/torrent
+	cp $directory/torrent/.keyfile /mnt
 
 	# Put correct UUID on hardware-configuration.nix
 	uuid=$(blkid -o value -s UUID /dev/${rootDisk}p2)
 	sed -i "s/UUIDchangeme/$uuid/g" $directory/hardware-configuration.nix
 
 	# Add data disk UUID to hardware-config
-	sed -i "s/dataDiskChangeme/$(blkid -s UUID -o value /dev/${dataDisk}1)/g" $directory/hardware-configuration.nix
+	sed -i "s/dataDiskChangeme/$(blkid -s UUID -o value /dev/${dataDisk}p1)/g" $directory/hardware-configuration.nix
+
+	# Add torrent disk UUID to hardware-config
+	sed -i "s/torrentDiskChangeme/$(blkid -s UUID -o value /dev/${torrentDisk}1)/g" $directory/hardware-configuration.nix
 
 	# Add boot partition to hardware-config
 	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${rootDisk}p1)/g" $directory/hardware-configuration.nix

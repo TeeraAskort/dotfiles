@@ -15,7 +15,6 @@ ln -s $HOME/Datos/Música $HOME
 ln -s $HOME/Datos/Imágenes $HOME
 ln -s $HOME/Datos/Nextcloud $HOME
 ln -s $HOME/Datos/Sync $HOME
-ln -s $HOME/Datos/Torrent $HOME
 
 ## Downloading Plug for vim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
@@ -42,6 +41,7 @@ git config --global credential.helper store
 
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
 	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
@@ -58,7 +58,32 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-	gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	gsettings set org.gnome.desktop.peripherals.keyboard numlock-state true
+	gsettings set org.gnome.desktop.interface clock-show-date true
+	gsettings set org.gnome.desktop.calendar show-weekdate true
+
+	# Keybinds
+	gsettings set org.gnome.settings-daemon.plugins.media-keys www "['<Super>w']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>e']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys play "['<Super>z']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Super>x']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Super>c']"
+
+	KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['$KEY_PATH/custom0/']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "Terminal"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "gnome-terminal"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding '<Super>t'
+
+	cp -r $directory/../common/gtk-4.0 ~/.config
+
+	if command -v gedit &> /dev/null ; then
+		gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
+	fi
+
+	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
+		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	fi
 fi
 
 # Cinnamon config
@@ -135,9 +160,9 @@ done
 
 ## Installing NPM packages
 npm config set prefix '~/.node_packages'
-npm install -g @ionic/cli
+# npm install -g @ionic/cli
 
 ## Configuring docker
 # cd $directory/../common
 # sudo systemctl restart docker
-docker pull mongo:latest
+# docker pull mongo:latest

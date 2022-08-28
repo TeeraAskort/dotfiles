@@ -57,7 +57,7 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim tdesktop lutris wineWowPackages.staging vscode 
-    celluloid strawberry gnome.file-roller  
+    mpv strawberry gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
     git brasero nicotine-plus dolphinEmu
@@ -71,12 +71,12 @@ in
     python310Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
-    mednafen mednaffe minecraft android-tools
-    firefox gnome.gnome-boxes minigalaxy
-    mongodb-compass yarn nextcloud-client
+    mednafen mednaffe android-tools
+    firefox gnome.gnome-boxes 
+    nextcloud-client heroic osu-lazer
     myAspell mythes gimp steam pcsx2 
-    adwaita-qt docker-compose postman
-    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser gnomeExtensions.hibernate-status-button
+    adwaita-qt razergenie piper solaar
+    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser 
   ];
 
   # Environment variables
@@ -96,6 +96,15 @@ in
     noto-fonts
     recursive
   ];
+
+  # Enable input-remapper service
+  services.input-remapper.enable = true
+
+  # Enable openrazer daemon
+  hardware.openrazer.enable = true;
+
+  # Enable libratbag daemon
+  services.ratbagd.enable = true;
 
   # Enabling thermald
   services.thermald.enable = true;
@@ -128,17 +137,17 @@ in
 
   # Firewall config
   networking.firewall.allowedTCPPorts = [
-	  22
-	  80
-	  443
+    22
+    80
+    443
     22000
   ];
   networking.firewall.allowedUDPPorts = [
-	  22
-	  80
-	  443
-	  22000
-	  21027
+    22
+    80
+    443
+    22000
+    21027
   ];
   networking.firewall.allowedTCPPortRanges = [
     {
@@ -157,7 +166,7 @@ in
   programs.adb.enable = true;
 
   # Enabling docker service
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
 
   # Automatic garbage collection
   nix.gc.automatic = true;
@@ -225,12 +234,6 @@ in
   };
   hardware.pulseaudio.enable = false;
 
-  # Systemd logind config
-  services.logind.lidSwitch = "hibernate";
-  services.logind.lidSwitchDocked = "hibernate";
-  services.logind.lidSwitchExternalPower = "hibernate";
-  services.logind.extraConfig = "IdleAction=hibernate\nIdleActionSec=15min\nHandlePowerKey=hibernate\nHandleSuspendKey=hibernate\nPowerKeyIgnoreInhibited=yes\nSuspendKeyIgnoreInhibited=yes";
-
   # Enabling xwayland
   programs.xwayland.enable = true;
 
@@ -284,7 +287,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "docker" "adbusers" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "adbusers" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

@@ -12,7 +12,7 @@
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" "amdgpu" ];
   boot.extraModulePackages = [ ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxKernel.kernels.linux_xanmod;
   boot.kernel.sysctl = {
     "kernel.unprivileged_userns_clone" = 1;
   };
@@ -37,10 +37,21 @@
     encrypted = {
       blkDev = "/dev/disk/by-uuid/dataDiskChangeme";
       enable = true;
-      keyFile = "/mnt-root/.keyfile";
-      label = "encrypteddata";
+      keyFile = "/mnt-root/.datoskey";
+      label = "datos";
     };
-    device = "/dev/mapper/encrypteddata";
+    device = "/dev/mapper/datos";
+    fsType = "btrfs";
+  };
+
+  fileSystems."/home/link/Torrent" = {
+    encrypted = {
+      blkDev = "/dev/disk/by-uuid/torrentDiskChangeme";
+      enable = true;
+      keyFile = "/mnt-root/.keyfile";
+      label = "torrent";
+    };
+    device = "/dev/mapper/torrent";
     fsType = "btrfs";
   };
 

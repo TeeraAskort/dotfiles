@@ -60,7 +60,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.privacy disable-microphone true
 	gsettings set org.gnome.desktop.privacy remember-recent-files false
 	gsettings set org.gnome.desktop.privacy remove-old-temp-files true
-	gsettings set org.gnome.desktop.privacy remove-old-trash-files true
+	gsettings set org.gnome.desktop.privacy remove-old-trash-files  true
 	gsettings set org.gnome.desktop.privacy old-files-age 3
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
@@ -68,15 +68,31 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power power-button-action hibernate
 	gsettings set org.gnome.desktop.peripherals.keyboard numlock-state true
 	gsettings set org.gnome.desktop.interface clock-show-date true
 	gsettings set org.gnome.desktop.calendar show-weekdate true
 
-	gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	# Keybinds
+	gsettings set org.gnome.settings-daemon.plugins.media-keys www "['<Super>w']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>e']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys play "['<Super>z']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Super>x']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Super>c']"
 
+	KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['$KEY_PATH/custom0/']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "Terminal"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "gnome-terminal"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding '<Super>t'
+
+	cp -r $directory/../common/gtk-4.0 ~/.config
+
+	if command -v gedit &> /dev/null ; then
+		gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
+	fi
+	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
+		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	fi
 fi
 
 # Cinnamon config
@@ -141,7 +157,7 @@ gsettings set org.gtk.gtk4.Settings.FileChooser sort-directories-first true
 
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub org.jdownloader.JDownloader sh.ppy.osu
+flatpak install -y flathub org.jdownloader.JDownloader 
 
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~
@@ -180,9 +196,9 @@ done
 
 ## Installing NPM packages
 npm config set prefix '~/.node_packages'
-npm install -g @ionic/cli
+# npm install -g @ionic/cli
 
 ## Configuring docker
 # cd $directory/../common
 # sudo systemctl restart docker
-docker pull mongo:latest
+# docker pull mongo:latest

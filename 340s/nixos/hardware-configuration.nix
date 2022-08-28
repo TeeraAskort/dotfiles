@@ -12,11 +12,15 @@
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxKernel.kernels.linux_xanmod;
   boot.kernel.sysctl = {
     "kernel.unprivileged_userns_clone" = 1;
     "dev.i915.perf_stream_paranoid" = 0;
   };
+
+  boot.kernelParams = [
+   "mem_sleep_default=s2idle"
+  ];
 
   boot.resumeDevice = "/dev/disk/by-uuid/swapChangeme";
 

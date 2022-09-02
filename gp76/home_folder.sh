@@ -40,7 +40,7 @@ ln -s $HOME/Torrent/Descargas $HOME
 ln -s $HOME/Torrent/Descargas $HOME/Downloads
 ln -s $HOME/Torrent/Documentos $HOME
 ln -s $HOME/Torrent/Escritorio $HOME
-ln -s $HOME/Torrent/Música $HOME
+ln -s $HOME/Datos/Música $HOME
 ln -s $HOME/Torrent/Imágenes $HOME
 ln -s $HOME/Torrent/Nextcloud $HOME
 ln -s $HOME/Torrent/Sync $HOME

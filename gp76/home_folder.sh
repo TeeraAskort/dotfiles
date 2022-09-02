@@ -23,7 +23,7 @@ echo "/dev/mapper/datos $HOME/Datos ext4 defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Configuring torrent disk
 echo "Enter data disk password: "
-until sudo cryptsetup open /dev/${torrentDisk}p1 encrypteddata; do 
+until sudo cryptsetup open /dev/${torrentDisk}p2 encrypteddata; do 
 	echo "Bad password, retrying"
 done
 mkdir $HOME/Torrent

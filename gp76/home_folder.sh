@@ -184,6 +184,20 @@ if command -v firewall-cmd &> /dev/null ; then
 	sudo firewall-cmd --reload
 fi
 
+## Configuring u2f cards
+hostnm=$(hostname)
+
+mkdir -p ~/.config/Yubico
+
+bash $directory/pam_config.sh
+
+echo "Insert FIDO2 card and press a key:"
+read -n 1
+pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" > ~/.config/Yubico/u2f_keys
+echo "Remove FIDO2 car and insert another, then press a key:"
+read -n 1
+pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" -n >> ~/.config/Yubico/u2f_keys
+
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface color-scheme prefer-dark

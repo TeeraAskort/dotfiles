@@ -9,9 +9,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	for part in $(echo "$parts" | cut -d"p" -f2); do
 		parted /dev/nvme0n1 -- rm $part
 	done
-	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
+	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512MiB
 	parted /dev/nvme0n1 -- set 1 boot on
-	parted /dev/nvme0n1 -- mkpart primary 512M 70GiB
+	parted /dev/nvme0n1 -- mkpart primary 512MiB 100GiB
 
 	# Loop until cryptsetup succeeds formatting the partition
 	until cryptsetup luksFormat /dev/nvme0n1p3
@@ -28,7 +28,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	# Configure LVM
 	pvcreate /dev/mapper/luks
 	vgcreate lvm /dev/mapper/luks
-	lvcreate -L 16G -n swap lvm
+	lvcreate -L 32G -n swap lvm
 	lvcreate -l 100%FREE -n root lvm
 
 	# Format partitions

@@ -11,7 +11,7 @@ echo "deltarpm=true" | tee -a /etc/dnf/dnf.conf
 echo "max_parallel_downloads=10" | tee -a /etc/dnf/dnf.conf
 
 #Setting up hostname
-hostnamectl set-hostname link-340s
+hostnamectl set-hostname link-gp76
 
 #Install RPMfusion
 dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y

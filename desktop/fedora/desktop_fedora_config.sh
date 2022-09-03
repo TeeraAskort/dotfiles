@@ -49,8 +49,8 @@ rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
 
 # Installing xanmod kernel
-# dnf copr enable rmnscnce/kernel-xanmod -y
-# dnf in -y kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers
+dnf copr enable rmnscnce/kernel-xanmod -y
+dnf in -y kernel-xanmod-edge kernel-xanmod-edge-devel kernel-xanmod-edge-headers
 
 # Upgrade system
 dnf upgrade -y --refresh

@@ -170,6 +170,11 @@ if [ $(flatpak list | grep Chrome | wc -l) = 1 ]; then
 	flatpak override --user --filesystem=$HOME/.local/share/icons com.google.Chrome
 fi
 
+# Configuring flatpak heroic games launcher
+if [ $(flatpak list | grep heroicgameslauncher | wc -l) = 1 ]; then
+	flatpak override --user --filesystem=$HOME/Torrent/Heroic com.heroicgameslauncher.hgl
+fi
+
 ## Copying ssh key
 mkdir ~/.ssh
 cp ~/Documentos/id_ed25519* ~/.ssh

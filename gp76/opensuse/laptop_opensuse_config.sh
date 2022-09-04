@@ -4,7 +4,7 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
-if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "cinnamon" ]; then
+if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "cinnamon" ] || [ "$1" == "xfce" ]; then
 
 	# Installing repos
 	zypper ar http://download.opensuse.org/repositories/games/openSUSE_Tumbleweed/games.repo
@@ -22,9 +22,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper addrepo https://download.opensuse.org/repositories/X11:xfce/openSUSE_Tumbleweed/X11:xfce.repo
 	fi
 	# zypper ar https://repo.vivaldi.com/archive/vivaldi-suse.repo
-	
+
 	# Adding home OBS repo
 	zypper addrepo https://download.opensuse.org/repositories/home:Alderaeney/openSUSE_Tumbleweed/home:Alderaeney.repo
+
+	# Adding nvidia repo
+	zypper addrepo https://download.nvidia.com/opensuse/tumbleweed NVIDIA
 
 	# Adding VSCode repo
 	rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -56,7 +59,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-bad gstreamer-plugins-libav gstreamer-plugins-ugly libavcodec-full vlc-codecs
 
 	# Installing discord from games:tools repo
-	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change gamemoded protontricks
+	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change protontricks gamemoded
 
 	# Replacing pulseaudio with pipewire
 	zypper in -y --force-resolution pipewire-pulseaudio pipewire-alsa pipewire-aptx pipewire-libjack-0_3 pipewire wireplumber
@@ -65,7 +68,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --from "home:Alderaeney (openSUSE_Tumbleweed)" strawberry input-remapper
 
 	# Installing basic packages
-	zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq
+	zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq 
 
 	# Enabling thermald service
 	user="$SUDO_USER"
@@ -78,15 +81,20 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Starting zram service
 	zramswapon
 
+	# Install nvidia drivers
+	zypper in --auto-agree-with-licenses -y x11-video-nvidiaG06
+
 	# Installing computer specific applications
-	zypper in -y kernel-firmware-amdgpu libdrm_amdgpu1 libdrm_amdgpu1-32bit libdrm_radeon1 libdrm_radeon1-32bit libvulkan_radeon libvulkan_radeon-32bit libvulkan1 libvulkan1-32bit
+	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f
 
 	# Removing unwanted applications
-	zypper rm -y  git-gui vlc vlc-qt vlc-noX
+	zypper rm -y  git-gui vlc vlc-qt vlc-noX tlp tlp-rdw
 
 	# Block vlc from installing
 	zypper addlock vlc-beta
 	zypper addlock vlc
+	zypper addlock tlp
+	zypper addlock tlp-rdw
 	zypper addlock youtube-dl
 	zypper addlock git-gui
 
@@ -119,18 +127,18 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 			sudo cp sddm /etc/pam.d/sddm
 		fi
 		rm sddm
-
+		
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/ssh/ksshaskpass" | tee -a /etc/environment
 
 	elif [ "$1" == "gnome" ]; then
 		# Removing unwanted DE specific applications
-		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
+		zypper rm -y  gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
 
 		# Installing DE specific applications
 		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes mpv mpv-mpris evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse
 
- 		# Adding gnome theming to qt
+		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=adwaita-dark" | tee -a /etc/environment
 
 		# Adding ssh-askpass env var
@@ -210,7 +218,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	fi
 
 	if [ "$1" == "gnome" ] || [ "$1" == "xfce" ]; then
- 		flatpak install -y flathub org.gtk.Gtk3theme.Adwaita-dark
+		flatpak install -y flathub org.gtk.Gtk3theme.Adwaita-dark
 	fi
 
 	if [ "$1" == "cinnamon" ]; then
@@ -219,7 +227,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	# Flatpak overrides
 	user="$SUDO_USER"
- 	sudo -u $user flatpak override --user --filesystem=/home/$user/.fonts
+	sudo -u $user flatpak override --user --filesystem=/home/$user/.fonts
+
+	# Add sysctl config
+	echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
 
 	# Decrease swappiness
 	echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf
@@ -238,6 +249,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
 
+	# Copy prime-run command
+	cp $directory/../dotfiles/prime-run /usr/local/bin
 else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"

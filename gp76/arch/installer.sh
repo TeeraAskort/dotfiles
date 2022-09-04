@@ -46,7 +46,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	pacman -Sy --noconfirm archlinux-keyring
 
 	# Install base system
-	pacstrap /mnt base base-devel linux-firmware efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs
+	pacstrap /mnt base base-devel linux-firmware efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs linux linux-headers
 
 	# Executing partprobe
 	partprobe /dev/nvme0n1

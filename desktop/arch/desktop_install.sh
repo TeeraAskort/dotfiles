@@ -68,9 +68,6 @@ sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
-# Installing xanmod kernel
-pacman -S --noconfirm linux linux-headers
-
 # Installing xorg and xapps
 pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb
 

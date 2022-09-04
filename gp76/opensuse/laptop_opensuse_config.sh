@@ -249,8 +249,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
 
-	echo "PROTON_ENABLE_NVAPI=1" | tee -a /etc/environment
-
 	# Copy prime-run command
 	cp $directory/../dotfiles/prime-run /usr/local/bin
 else

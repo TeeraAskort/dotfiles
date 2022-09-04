@@ -147,8 +147,6 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
 
-echo "PROTON_ENABLE_NVAPI=1" | tee -a /etc/environment
-
 # Fixing font rendering
 # cp $directory/local.conf /etc/fonts/local.conf
 

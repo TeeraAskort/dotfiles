@@ -95,7 +95,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird mpv mpv-mpris filelight ksshaskpass5 gnome-boxes simple-scan
 
 		# Removing unwanted DE specific applications
-		zypper rm -y  konversation kmines ksudoku kreversi
+		zypper rm -y  konversation kmines ksudoku kreversi skanlite
 
 		# Adding GTK_USE_PORTAL
 		echo "GTK_USE_PORTAL=1" | tee -a /etc/environment

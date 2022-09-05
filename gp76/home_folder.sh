@@ -23,13 +23,13 @@ echo "/dev/mapper/datos $HOME/Datos ext4 defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Configuring torrent disk
 echo "Enter data disk password: "
-until sudo cryptsetup open /dev/${torrentDisk}p2 encrypteddata; do 
+until sudo cryptsetup open /dev/${torrentDisk}p5 encrypteddata; do 
 	echo "Bad password, retrying"
 done
 mkdir $HOME/Torrent
 sudo mount /dev/mapper/encrypteddata $HOME/Torrent
 sudo cp $HOME/Torrent/.torrentkey /root/.torrentkey
-echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${torrentDisk}p2) /root/.torrentkey luks,discard" | sudo tee -a /etc/crypttab
+echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${torrentDisk}p5) /root/.torrentkey luks,discard" | sudo tee -a /etc/crypttab
 echo "/dev/mapper/encrypteddata $HOME/Torrent ext4 defaults 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders

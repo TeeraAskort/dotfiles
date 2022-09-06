@@ -87,7 +87,7 @@ usermod -aG plugdev $user
 # dnf in -y "https://github.com/mongodb-js/compass/releases/download/v1.32.6/mongodb-compass-1.32.6.x86_64.rpm"
 
 # Installing computer specific packages
-dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver # touchegg
+dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver touchegg
 
 # Remove unused packages
 dnf remove -y totem rhythmbox
@@ -111,7 +111,7 @@ options nvidia NVreg_DynamicPowerManagement=0x02
 EOF
 
 #Disable wayland
-# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
+sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

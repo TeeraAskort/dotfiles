@@ -428,6 +428,9 @@ EOF
 
 	systemctl disable --now --user gnome-keyring-daemon.socket gnome-keyring-daemon.service
 
+	# Installing nvidia drivers
+	sudo pacman -S --noconfirm nvidia nvidia-utils lib32-nvidia-utils nvidia-settings nvidia-prime switcheroo-control
+
 fi
 
 ## Adding user to audio group

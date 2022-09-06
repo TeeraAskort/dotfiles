@@ -97,7 +97,7 @@ dnf install -y lame\* --exclude=lame-devel
 dnf group upgrade -y --with-optional Multimedia
 
 #Disable wayland
-sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
+# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

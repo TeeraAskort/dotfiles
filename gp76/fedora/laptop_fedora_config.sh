@@ -111,7 +111,7 @@ options nvidia NVreg_DynamicPowerManagement=0x02
 EOF
 
 #Disable wayland
-sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
+# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 #Add flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

@@ -1,0 +1,2 @@
+#!/bin/bash
+PROTON_ENABLE_NVAPI=1 "$@"

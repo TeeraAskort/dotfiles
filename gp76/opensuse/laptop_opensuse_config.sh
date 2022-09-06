@@ -250,6 +250,9 @@ EOF
 
 	# Copy prime-run command
 	cp $directory/../dotfiles/prime-run /usr/local/bin
+
+	# Copying nvapi script
+	cp $directory/../dotfiles/nvapi /usr/bin
 else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"

@@ -155,3 +155,6 @@ echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment
 
 # Copying prime-run
 cp $directory/../dotfiles/prime-run /usr/bin
+
+# Copying nvapi script
+cp $directory/../dotfiles/nvapi /usr/bin

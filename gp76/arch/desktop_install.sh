@@ -77,6 +77,10 @@ pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb
 # Installing drivers
 pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia-open nvidia-utils lib32-nvidia-utils nvidia-settings nvidia-prime switcheroo-control
 
+systemctl enable nvidia-suspend nvidia-hibernate
+
+nvidia-xconfig
+
 # Installing services
 pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
 

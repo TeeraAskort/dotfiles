@@ -79,8 +79,6 @@ pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulka
 
 systemctl enable nvidia-suspend nvidia-hibernate
 
-nvidia-xconfig
-
 # Installing services
 pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
 
@@ -377,6 +375,8 @@ if [[ "$1" == "gnome" ]]; then
 
 	# Adding gnome-keyring to pam
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
+	
+	ln -s /dev/null /etc/udev/rules.d/61-gdm.rules
 
 	# Add keyring unlock on login
 	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' /etc/pam.d/login /etc/pam.d/login | tee $directory/tmp

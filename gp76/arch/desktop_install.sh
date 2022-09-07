@@ -205,7 +205,7 @@ cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermar
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
 sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
-sed -i "s/MODULES=()/MODULES=()/g" /etc/mkinitcpio.conf
+sed -i "s/MODULES=()/MODULES=(nvidia)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
 # Install and configure systemd-boot
@@ -223,14 +223,14 @@ title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux-fallback.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 rw
 EOF
 bootctl update
 

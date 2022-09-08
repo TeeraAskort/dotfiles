@@ -87,7 +87,7 @@ usermod -aG plugdev $user
 # dnf in -y "https://github.com/mongodb-js/compass/releases/download/v1.32.6/mongodb-compass-1.32.6.x86_64.rpm"
 
 # Installing computer specific packages
-dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver touchegg
+dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver # touchegg
 
 # Remove unused packages
 dnf remove -y totem rhythmbox

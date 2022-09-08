@@ -156,6 +156,7 @@ fi
 ## Configuring flatpak steam
 if [ $(flatpak list | grep Steam | wc -l) = 1 ]; then
 	flatpak override --user --filesystem=$HOME/Torrent com.valvesoftware.Steam	
+	flatpak override --user --filesystem=$HOME/Datos com.valvesoftware.Steam
 fi
 
 ## Configuring flatpak minigalaxy

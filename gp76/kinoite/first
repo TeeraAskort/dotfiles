@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Set hostname
+hostnamectl set-hostname link-gp76
+
+# Add rpmfusion repos
+rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+# Add COPR repos
+curl -L "https://download.opensuse.org/repositories/hardware:razer/Fedora_35/hardware:razer.repo" > /etc/yum.repos.d/hardware:razer.repo
+curl -L "https://copr.fedorainfracloud.org/coprs/hyperreal/better_fonts/repo/fedora-36/hyperreal-better_fonts-fedora-36.repo" > /etc/yum.repos.d/better-fonts.repo
+curl -L "https://copr.fedorainfracloud.org/coprs/sunwire/input-remapper/repo/fedora-36/sunwire-input-remapper-fedora-36.repo" > /etc/yum.repos.d/input-remapper.repo
+
+# First package installation
+rpm-ostree install python3-input-remapper vim celluloid zsh zsh-syntax-highlighting papirus-icon-theme zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm thermald python-neovim libfido2 webp-pixbuf-loader java-11-openjdk-devel ffmpeg neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 yt-dlp p7zip razergenie openrazer-meta sqlite fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq lm_sensors
+
+# Removing flatpak applications
+flatpak remove -y 
+
+# Installing flatpak applications
+flatpak install flathub sh.ppy.osu com.google.Chrome com.discordapp.Discord org.telegram.desktop com.visualstudio.code com.valvesoftware.Steam org.DolphinEmu.dolphin-emu net.lutris.Lutris net.pcsx2.PCSX2 org.telegram.desktop org.strawberrymusicplayer.strawberry org.qbittorrent.qBittorrent org.jdownloader.JDownloader org.gnome.Boxes com.nextcloud.desktopclient.nextcloud org.desmume.DeSmuME org.nicotine_plus.Nicotine com.github.AmatCoder.mednaffe com.obsproject.Studio org.gimp.GIMP com.heroicgameslauncher.hgl
+
+# Installing system flatpak applications
+flatpak install flathub 

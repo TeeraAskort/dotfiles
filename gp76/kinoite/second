@@ -5,7 +5,7 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 directory="$(dirname $_script)"
 
 # Install non-free packages
-rpm-ostree install --allow-inactive unrar akmod-nvidia xorg-x11-drv-nvidia-cuda pam-u2f pamu2fcfg libva-intel-hybrid-driver gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav ffmpeg gstreamer-ffmpeg mpv
+rpm-ostree install --allow-inactive unrar akmod-nvidia xorg-x11-drv-nvidia-cuda pam-u2f pamu2fcfg libva-intel-hybrid-driver gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav ffmpeg gstreamer-ffmpeg mpv mpv-mpris
 
 # Add kernel parameters
 rpm-ostree kargs --append=rd.driver.blacklist=nouveau --append=modprobe.blacklist=nouveau --append=nvidia-drm.modeset=1

@@ -5,7 +5,7 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 directory="$(dirname $_script)"
 
 # Install non-free packages
-rpm-ostree install --allow-inactive unrar libva-intel-hybrid-driver gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav ffmpeg gstreamer-ffmpeg mpv
+rpm-ostree install --allow-inactive unrar libva-intel-hybrid-driver gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav ffmpeg gstreamer-ffmpeg celluloid
 
 # Enable services
 systemctl enable thermald input-remapper

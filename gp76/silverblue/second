@@ -1,0 +1,59 @@
+#!/bin/bash
+
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
+# Install non-free packages
+rpm-ostree install --allow-inactive unrar libva-intel-hybrid-driver gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav ffmpeg gstreamer-ffmpeg mpv
+
+# Enable services
+systemctl enable thermald input-remapper
+
+# Adding user to plugdev group
+user="$SUDO_USER"
+usermod -aG plugdev $user
+
+# Add nvidia energy option
+cat > /etc/modprobe.d/nvidia.conf <<EOF
+# Enable DynamicPwerManagement
+# http://download.nvidia.com/XFree86/Linux-x86_64/440.31/README/dynamicpowermanagement.html
+options nvidia NVreg_DynamicPowerManagement=0x02
+EOF
+
+# Linking yt-dlp
+ln -s /usr/bin/yt-dlp /var/usrlocal/bin/youtube-dl
+
+# Setting intel performance options
+echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Decrease swappiness
+echo "vm.swappiness=1" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.vfs_cache_pressure=50" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Virtual memory tuning
+echo "vm.dirty_ratio = 3" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "vm.dirty_background_ratio = 2" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Kernel hardening
+echo "kernel.kptr_restrict = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "net.core.bpf_jit_harden=2" | tee -a /etc/sysctl.d/99-sysctl.conf
+echo "kernel.kexec_load_disabled = 1" | tee -a /etc/sysctl.d/99-sysctl.conf
+
+# Optimize SSD and HDD performance
+cat > /etc/udev/rules.d/60-sched.rules <<EOF
+#set noop scheduler for non-rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="deadline"
+
+# set cfq scheduler for rotating disks
+ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
+EOF
+
+# Copying prime-run
+cp $directory/../dotfiles/prime-run /var/usrlocal/bin
+
+# Copying nvapi script
+cp $directory/../dotfiles/nvapi /var/usrlocal/bin
+
+# Update flatpak 
+flatpak update -y

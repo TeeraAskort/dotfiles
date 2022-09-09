@@ -9,6 +9,10 @@ rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-rele
 # Add COPR repos
 curl -L "https://copr.fedorainfracloud.org/coprs/hyperreal/better_fonts/repo/fedora-36/hyperreal-better_fonts-fedora-36.repo" > /etc/yum.repos.d/better-fonts.repo
 curl -L "https://copr.fedorainfracloud.org/coprs/sunwire/input-remapper/repo/fedora-36/sunwire-input-remapper-fedora-36.repo" > /etc/yum.repos.d/input-remapper.repo
+curl -L "https://copr.fedorainfracloud.org/coprs/kylegospo/gnome-vrr/repo/fedora-36/kylegospo-gnome-vrr-fedora-36.repo" > /etc/yum.repos.d/mutter-vrr.repo
+
+# Updating
+rpm-ostree upgrade
 
 # Add VSCode repo
 rpm --import https://packages.microsoft.com/keys/microsoft.asc

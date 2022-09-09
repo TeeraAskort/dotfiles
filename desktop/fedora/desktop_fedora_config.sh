@@ -41,6 +41,9 @@ dnf copr enable sunwire/input-remapper -y
 # Heroic games launcher repo
 dnf copr enable atim/heroic-games-launcher -y
 
+# Adding mutter-vrr copr repo
+dnf copr enable kylegospo/gnome-vrr -y
+
 # Adding docker repo
 # dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 

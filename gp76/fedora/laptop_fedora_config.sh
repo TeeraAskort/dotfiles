@@ -98,9 +98,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	# Installing computer specific packages
 	dnf in -y pam-u2f pamu2fcfg libva-intel-hybrid-driver # touchegg
 
-	# Remove unused packages
-	dnf remove -y 
-
 	#Update Appstream data
 	dnf groupupdate core -y
 

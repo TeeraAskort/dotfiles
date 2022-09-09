@@ -15,7 +15,7 @@ rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo
 
 # First package installation
-rpm-ostree install python3-input-remapper vim zsh zsh-syntax-highlighting papirus-icon-theme zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-fonts nodejs npm python-neovim webp-pixbuf-loader java-11-openjdk-devel neofetch alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 yt-dlp p7zip fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq lm_sensors strawberry code
+rpm-ostree install python3-input-remapper vim zsh zsh-syntax-highlighting papirus-icon-theme zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-fonts nodejs npm python-neovim webp-pixbuf-loader java-11-openjdk-devel neofetch alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 yt-dlp p7zip fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq lm_sensors strawberry code ksshaskpass
 
 # Install computer specific packages
 rpm-ostree install pam-u2f pamu2fcfg

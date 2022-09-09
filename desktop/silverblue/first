@@ -17,14 +17,8 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 # First package installation
 rpm-ostree install python3-input-remapper vim zsh zsh-syntax-highlighting papirus-icon-theme zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-fonts nodejs npm python-neovim webp-pixbuf-loader java-11-openjdk-devel neofetch alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 yt-dlp p7zip fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq lm_sensors strawberry code
 
-# Install nvidia drivers
-rpm-ostree install akmod-nvidia xorg-x11-drv-nvidia-cuda
-
-# Add kernel parameters
-rpm-ostree kargs --append=rd.driver.blacklist=nouveau --append=modprobe.blacklist=nouveau --append=nvidia-drm.modeset=1
-
 # Install computer specific packages
-rpm-ostree install pam-u2f pamu2fcfg
+# rpm-ostree install pam-u2f pamu2fcfg
 
 # Removing system flatpak applications
 flatpak remove -y org.gnome.Calculator org.gnome.Calendar org.gnome.Characters org.gnome.Contacts org.gnome.Evince org.gnome.Extensions org.gnome.Logs org.gnome.Maps org.gnome.NautilusPreviewer org.gnome.TextEditor  org.gnome.Weather org.gnome.baobab  org.gnome.clocks  org.gnome.eog org.gnome.font-viewer org.fedoraproject.MediaWriter org.gnome.Connections

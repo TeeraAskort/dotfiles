@@ -5,10 +5,7 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 directory="$(dirname $_script)"
 
 # Install non-free packages
-rpm-ostree install --allow-inactive unrar akmod-nvidia xorg-x11-drv-nvidia-cuda libva-intel-hybrid-driver gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav ffmpeg gstreamer-ffmpeg mpv mpv-mpris
-
-# Add kernel parameters
-rpm-ostree kargs --append=rd.driver.blacklist=nouveau --append=modprobe.blacklist=nouveau --append=nvidia-drm.modeset=1
+rpm-ostree install --allow-inactive unrar libva-intel-hybrid-driver gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav ffmpeg gstreamer-ffmpeg celluloid
 
 # Enable services
 systemctl enable thermald input-remapper
@@ -16,13 +13,6 @@ systemctl enable thermald input-remapper
 # Adding user to plugdev group
 user="$SUDO_USER"
 usermod -aG plugdev $user
-
-# Add nvidia energy option
-cat > /etc/modprobe.d/nvidia.conf <<EOF
-# Enable DynamicPwerManagement
-# http://download.nvidia.com/XFree86/Linux-x86_64/440.31/README/dynamicpowermanagement.html
-options nvidia NVreg_DynamicPowerManagement=0x02
-EOF
 
 # Linking yt-dlp
 ln -s /usr/bin/yt-dlp /var/usrlocal/bin/youtube-dl
@@ -52,11 +42,8 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
 
-# Copying prime-run
-cp $directory/../dotfiles/prime-run /var/usrlocal/bin
-
-# Copying nvapi script
-cp $directory/../dotfiles/nvapi /var/usrlocal/bin
+# Adding ssh-askpass env var
+echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment
 
 # Update flatpak 
 flatpak update -y

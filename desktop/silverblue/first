@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set hostname
-hostnamectl set-hostname link-gp76
+hostnamectl set-hostname link-pc
 
 # Add rpmfusion repos
 rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm

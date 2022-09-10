@@ -4,6 +4,11 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
+if !command -v nvidia-smi &> /dev/null ; then
+	bash ./first_boot.sh
+	exit
+fi
+
 if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "cinnamon" ] || [ "$1" == "xfce" ]; then
 
 	# Installing repos
@@ -25,9 +30,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	# Adding home OBS repo
 	zypper addrepo https://download.opensuse.org/repositories/home:Alderaeney/openSUSE_Tumbleweed/home:Alderaeney.repo
-
-	# Adding nvidia repo
-	zypper addrepo https://download.nvidia.com/opensuse/tumbleweed NVIDIA
 
 	# Adding VSCode repo
 	rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -51,9 +53,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	# Updating the system
 	# zypper dist-upgrade --from packman --allow-vendor-change -y
-
-	# Install nvidia drivers
-	zypper in --auto-agree-with-licenses -y x11-video-nvidiaG06
 
 	# Installing wine-staging from wine repo
 	zypper in -y --from "Wine (openSUSE_Tumbleweed)" wine-staging wine-staging-32bit dxvk dxvk-32bit

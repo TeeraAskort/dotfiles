@@ -137,6 +137,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		# Installing DE specific applications
 		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse touchegg
 
+		# Enabling services
+		systemctl enable touchegg
+
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME=adwaita-dark" | tee -a /etc/environment
 

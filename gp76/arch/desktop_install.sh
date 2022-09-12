@@ -77,7 +77,8 @@ pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb
 # Installing drivers
 pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia-open nvidia-utils lib32-nvidia-utils nvidia-settings nvidia-prime switcheroo-control
 
-systemctl enable nvidia-suspend nvidia-hibernate
+# Enabling services
+systemctl enable switcheroo-control # nvidia-suspend nvidia-hibernate
 
 # Installing services
 pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
@@ -137,10 +138,10 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth gnome-browser-connector simple-scan power-profiles-daemon gnome-boxes seahorse gnome-text-editor-git libsecret gvfs-google mutter-performance python-nautilus
+	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth gnome-browser-connector simple-scan power-profiles-daemon gnome-boxes seahorse gnome-text-editor-git libsecret gvfs-google mutter-performance python-nautilus touchegg
 
 	# Enabling gdm
-	systemctl enable gdm 
+	systemctl enable gdm touchegg
 
 	# Removing unwanted packages
 	pacman -Rns --noconfirm gnome-music epiphany totem orca gedit
@@ -205,7 +206,7 @@ cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermar
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
 sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
-sed -i "s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g" /etc/mkinitcpio.conf
+sed -i "s/MODULES=()/MODULES=(i915 vmd)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
 # Install and configure systemd-boot
@@ -271,7 +272,7 @@ mount-point = /var/compressed
 EOF
 
 # Installing computer specific packages
-pacman -S --noconfirm pam-u2f touchegg
+pacman -S --noconfirm pam-u2f 
 
 # Wine dependencies
 pacman -S --noconfirm --needed wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader
@@ -356,10 +357,10 @@ NeedsTargets
 Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /usr/bin/mkinitcpio -P'
 EOF
 
-cat > /etc/modprobe.d/blacklist.conf <<EOF
-install i915 /usr/bin/false
-install intel_agp /usr/bin/false
-EOF
+# cat > /etc/modprobe.d/blacklist.conf <<EOF
+# install i915 /usr/bin/false
+# install intel_agp /usr/bin/false
+# EOF
 
 # Copying nvapi script
 cp $directory/../dotfiles/nvapi /usr/bin
@@ -370,7 +371,7 @@ pacman -Qtdq | pacman -Rns --noconfirm -
 # Adding desktop specific final settings
 if [[ "$1" == "gnome" ]]; then
 	# Disabling wayland
-	# sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
 
 	# Setting firefox env var
 	echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment

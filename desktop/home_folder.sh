@@ -420,8 +420,6 @@ EOF
 
 	systemctl disable --now --user gnome-keyring-daemon.socket gnome-keyring-daemon.service
 
-	flatpak install flathub com.discordapp.Discord
-
 fi
 
 ## Adding user to audio group

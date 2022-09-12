@@ -130,6 +130,56 @@ EOF
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment
 
+		# Fixing nvidia GNOME suspend behavior
+		cat > /usr/local/bin/suspend-gnome-shell.sh <<EOF
+#!/bin/bash
+
+case "$1" in
+    suspend)
+        killall -STOP gnome-shell
+        ;;
+    resume)
+        killall -CONT gnome-shell
+        ;;
+esac
+EOF
+		cat > /etc/systemd/system/gnome-shell-suspend.service <<EOF
+[Unit]
+Description=Suspend gnome-shell
+Before=systemd-suspend.service
+Before=systemd-hibernate.service
+Before=nvidia-suspend.service
+Before=nvidia-hibernate.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/suspend-gnome-shell.sh suspend
+
+[Install]
+WantedBy=systemd-suspend.service
+WantedBy=systemd-hibernate.service
+EOF
+
+		cat > /etc/systemd/system/gnome-shell-resume.service <<EOF
+[Unit]
+Description=Resume gnome-shell
+After=systemd-suspend.service
+After=systemd-hibernate.service
+After=nvidia-resume.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/suspend-gnome-shell.sh resume
+
+[Install]
+WantedBy=systemd-suspend.service
+WantedBy=systemd-hibernate.service
+EOF
+
+		systemctl daemon-reload
+		systemctl enable gnome-shell-suspend
+		systemctl enable gnome-shell-resume
+
 	elif [ "$1" == "kde" ]; then
 		# Uninstalling KDE applications
 		dnf rm -y kolourpaint akregator kmail konversation krfb kmines dragon elisa-player kaddressbook

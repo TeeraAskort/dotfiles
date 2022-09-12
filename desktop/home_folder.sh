@@ -173,7 +173,7 @@ fi
 
 ## Configuring flatpak heroic games launcher
 if [ $(flatpak list | grep heroicgameslauncher | wc -l) = 1 ]; then
-	flatpak override --user --filesystem=$HOME/Torrent/Heroic com.heroicgameslauncher.hgl
+	flatpak override --user --filesystem=$HOME/Datos/Heroic com.heroicgameslauncher.hgl
 fi
 
 ## Configuring lutris flatpak

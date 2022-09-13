@@ -165,6 +165,7 @@ case "$1" in
         ;;
 esac
 EOF
+		chmod +x /usr/local/bin/suspend-gnome-shell.sh
 		cat > /etc/systemd/system/gnome-shell-suspend.service <<EOF
 [Unit]
 Description=Suspend gnome-shell

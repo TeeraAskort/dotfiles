@@ -116,6 +116,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 options nvidia NVreg_DynamicPowerManagement=0x02
 EOF
 
+	# Preserve video memory
+	cat > /etc/modprobe.d/nvidia-power-management.conf <<EOF
+options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
+EOF
+
 	# Desktop specific configs
 	if [ "$1" == "gnome" ]; then
 		# Uninstalling GNOME applications

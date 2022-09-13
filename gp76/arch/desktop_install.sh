@@ -77,6 +77,12 @@ pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb
 # Installing drivers
 pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia-open nvidia-utils lib32-nvidia-utils nvidia-settings nvidia-prime switcheroo-control
 
+# Preserve video memory
+cat > /etc/modprobe.d/nvidia-power-management.conf <<EOF
+options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
+EOF
+mkinitcpio -P
+
 # Enabling services
 systemctl enable switcheroo-control nvidia-suspend nvidia-hibernate nvidia-resume
 

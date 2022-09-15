@@ -15,12 +15,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	#Setting up hostname
 	hostnamectl set-hostname link-pc
 
-	#Install RPMfusion
-	dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
-
-	#Installing tainted repos
-	dnf in -y rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
-
 	#Enabling mednaffe repo
 	dnf copr enable alderaeney/mednaffe -y
 

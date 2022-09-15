@@ -15,12 +15,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	#Setting up hostname
 	hostnamectl set-hostname link-gp76
 
-	#Install RPMfusion
-	dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
-
-	#Installing tainted repos
-	dnf in -y rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
-
 	#Enabling mednaffe repo
 	dnf copr enable alderaeney/mednaffe -y
 
@@ -107,23 +101,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	dnf install -y gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel ffmpeg gstreamer-ffmpeg
 	dnf install -y lame\* --exclude=lame-devel
 	dnf group upgrade -y --with-optional Multimedia
-
-	# Install nvidia drivers
-	dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
-	cat > /etc/modprobe.d/nvidia.conf <<EOF
-# Enable DynamicPwerManagement
-# http://download.nvidia.com/XFree86/Linux-x86_64/440.31/README/dynamicpowermanagement.html
-options nvidia NVreg_DynamicPowerManagement=0x02
-EOF
-
-	# Enable nvidia services
-	systemctl enable nvidia-suspend nvidia-hibernate nvidia-resume
-
-	# Preserve video memory
-	cat > /etc/modprobe.d/nvidia-power-management.conf <<EOF
-options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
-EOF
-	dracut -f
 
 	# Desktop specific configs
 	if [ "$1" == "gnome" ]; then

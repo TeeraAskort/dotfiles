@@ -116,6 +116,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 options nvidia NVreg_DynamicPowerManagement=0x02
 EOF
 
+	# Enable nvidia services
+	systemctl enable nvidia-suspend nvidia-hibernate nvidia-resume
+
 	# Preserve video memory
 	cat > /etc/modprobe.d/nvidia-power-management.conf <<EOF
 options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
@@ -131,7 +134,7 @@ EOF
 		dnf in -y celluloid gnome-tweaks ffmpegthumbnailer aisleriot gnome-mahjongg geary brasero file-roller deluge deluge-gtk seahorse
 
 		#Disable wayland
-		sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
+		# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment

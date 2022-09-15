@@ -124,7 +124,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	#Install flatpak applications
-	flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark sh.ppy.osu com.discordapp.Discord org.telegram.desktop
+	flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark sh.ppy.osu org.telegram.desktop
 
 	# Installing yt-dlp
 	ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl

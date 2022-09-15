@@ -10,7 +10,7 @@ zypper --gpg-auto-import-keys refresh
 zypper in --auto-agree-with-licenses -y x11-video-nvidiaG06
 
 # Enabling services
-systemctl enable nvidia-suspend nvidia-hibernate
+systemctl enable nvidia-suspend nvidia-hibernate nvidia-resume
 
 # Adding nvidia options
 cat > /etc/modprobe.d/nvidia-power-management.conf <<EOF

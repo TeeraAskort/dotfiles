@@ -86,6 +86,17 @@ mkinitcpio -P
 # Enabling services
 systemctl enable switcheroo-control nvidia-suspend nvidia-hibernate nvidia-resume
 
+# Initialize nvidia before xorg
+cat > /etc/udev/rules.d/99-systemd-dri-devices.rules <<EOF
+ACTION=="add", KERNEL=="card*", SUBSYSTEM=="drm", TAG+="systemd"
+EOF
+
+cat > /etc/systemd/system/display-manager.service.d/10-wait-for-dri-devices.conf <<EOF
+[Unit]
+Wants=dev-dri-card0.device
+After=dev-dri-card0.device
+EOF
+
 # Installing services
 pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
 

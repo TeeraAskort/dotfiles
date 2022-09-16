@@ -9,6 +9,9 @@ dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$
 #Installing tainted repos
 dnf in -y rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
 
+# Install plugins
+dnf in -y dnf-plugins-core
+
 # Install nvidia drivers
 dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
 cat > /etc/modprobe.d/nvidia.conf <<EOF

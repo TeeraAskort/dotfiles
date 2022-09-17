@@ -130,6 +130,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/ssh/ksshaskpass" | tee -a /etc/environment
 
+		# Adding xrandr option to sddm
+		echo "xrandr --dpi 96" | tee -a /usr/share/sddm/scripts/Xsetup
+
 	elif [ "$1" == "gnome" ]; then
 		# Removing unwanted DE specific applications
 		zypper rm -y  gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku

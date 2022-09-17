@@ -490,6 +490,9 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	# Copying ksshaskpass
 	echo "SSH_ASKPASS=/usr/bin/ksshaskpass" | tee -a /etc/environment
 
+	# Adding xrandr options to sddm
+	echo "xrandr --dpi 96" | tee -a /usr/share/sddm/scripts/Xsetup
+
 elif [[ "$1" == "cinnamon" ]]; then
 	# Adding ssh-askpass env var
 	echo "SSH_ASKPASS=/usr/lib/seahorse/ssh-askpass" | tee -a /etc/environment

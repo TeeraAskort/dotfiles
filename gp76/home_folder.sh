@@ -254,6 +254,14 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
+
+	# Fix for suspend under wayland
+	sudo cp $directory/dotfiles/suspend-gnome-shell.sh /usr/local/bin/suspend-gnome-shell.sh
+	sudo chmod +x /usr/local/bin/suspend-gnome-shell.sh
+	sudo cp $directory/dotfiles/gnome-shell-suspend.service $directory/dotfiles/gnome-shell-resume.service /etc/systemd/system/
+	sudo systemctl daemon-reload
+	sudo systemctl enable gnome-shell-suspend gnome-shell-resume
+
 fi
 
 # Changing zorin config

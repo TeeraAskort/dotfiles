@@ -442,6 +442,8 @@ EOF
 
 	systemctl disable --now --user gnome-keyring-daemon.socket gnome-keyring-daemon.service
 
+	flatpak update -y
+
 fi
 
 ## Adding user to audio group

@@ -270,13 +270,13 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm jdk-openjdk dolphin-emu telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry-qt5 rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin protontricks-git mednaffe libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git openrazer-meta systemd-boot-pacman-hook alsa-ucm-conf mpv mpv-mpris
+pacman -S --noconfirm jdk-openjdk dolphin-emu telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry-qt5 rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin protontricks-git mednaffe libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git openrazer-meta systemd-boot-pacman-hook alsa-ucm-conf mpv mpv-mpris docker-compose docker mongodb-compass
 
 # Enabling services
-systemctl enable thermald apparmor firewalld systemd-oomd.service 
+systemctl enable thermald apparmor firewalld systemd-oomd.service docker
 
 # Adding user to docker group
-# usermod -aG docker link
+usermod -aG docker link
 
 # Configuring zram
 cat >/etc/systemd/zram-generator.conf <<EOF

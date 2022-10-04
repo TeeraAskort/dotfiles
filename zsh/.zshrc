@@ -145,6 +145,8 @@ source ~/.general_alias
 #        source /etc/profile.d/vte.sh
 # fi
 
+[ -f /opt/anaconda/etc/profile.d/conda.sh ] && source /opt/anaconda/etc/profile.d/conda.sh
+
 export ANDROID_HOME=$HOME/Datos/Android
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 

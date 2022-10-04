@@ -33,7 +33,7 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 	lvcreate -l 100%FREE -n root lvm
 
 	# Format partitions
-	mkfs.xfs -L root /dev/lvm/root
+	mkfs.btrfs -L root /dev/lvm/root
 	mkfs.vfat -F32 /dev/${rootDisk}p1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap

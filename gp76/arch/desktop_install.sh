@@ -270,7 +270,7 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing class applications
-pacman -S --noconfirm teams virtualbox virtualbox-host-modules-arch virtualbox-ext-oracle anaconda
+pacman -S --noconfirm teams virtualbox virtualbox-host-modules-arch virtualbox-ext-oracle anaconda postman-bin
 
 # Installing docker for mongodb
 pacman -S --noconfirm docker-compose docker mongodb-compass

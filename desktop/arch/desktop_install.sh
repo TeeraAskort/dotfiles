@@ -74,7 +74,7 @@ pacman -S --noconfirm core/linux core/linux-headers
 pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb
 
 # Installing drivers
-pacman -S --noconfirm mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa xf86-input-wacom xf86-input-libinput libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau
+pacman -S --noconfirm mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon amdvlk lib32-amdvlk vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa xf86-input-wacom xf86-input-libinput libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau
 
 # Installing services
 pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode
@@ -337,6 +337,9 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue
 # set cfq scheduler for rotating disks
 ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
+
+# Copy RADV switcher
+cp $directory/../dotfiles/useRADV /usr/bin/useRADV
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -

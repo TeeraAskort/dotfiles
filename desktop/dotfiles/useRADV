@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export AMD_VULKAN_ICD=RADV
+exec -a "$0" "$@"

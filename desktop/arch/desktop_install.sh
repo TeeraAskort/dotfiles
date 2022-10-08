@@ -83,15 +83,15 @@ pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode
 systemctl enable NetworkManager haveged
 
 # Installing sound libraries
-# pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
-pacman -S --noconfirm alsa-utils alsa-plugins pulseaudio-alsa pulseaudio-jack pulseaudio-bluetooth
+pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
+# pacman -S --noconfirm alsa-utils alsa-plugins pulseaudio-alsa pulseaudio-jack pulseaudio-bluetooth
 
 # Configuring pulseaudio
 # sed -i "s/load-module module-suspend-on-idle/#load-module module-suspend-on-idle/g" /etc/pulse/default.pa
 
 # Enabling pipewire service
-# sudo -u link systemctl --user enable pipewire.socket
-# sudo -u link systemctl --user enable wireplumber.service
+sudo -u link systemctl --user enable pipewire.socket
+sudo -u link systemctl --user enable wireplumber.service
 
 # Installing filesystem libraries
 pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs cryptsetup f2fs-tools xfsprogs util-linux

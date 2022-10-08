@@ -74,7 +74,7 @@ pacman -S --noconfirm core/linux core/linux-headers
 pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb
 
 # Installing drivers
-pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia nvidia-utils lib32-nvidia-utils nvidia-settings nvidia-prime switcheroo-control
+pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia nvidia-utils lib32-nvidia-utils nvidia-settings nvidia-prime switcheroo-control cuda cuda-tools cudnn
 
 # Preserve video memory
 cat > /etc/modprobe.d/nvidia-power-management.conf <<EOF

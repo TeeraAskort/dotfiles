@@ -182,7 +182,7 @@ fi
 
 if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "el" ]]; then
 	# Install plymotuh
-	pacman -S --noconfirm plymouth-git
+	pacman -S --noconfirm plymouth
 
 	# Enable lightdm or sddm
 	if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then

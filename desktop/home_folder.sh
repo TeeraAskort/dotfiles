@@ -422,6 +422,9 @@ EOF
 
 	flatpak update -y
 
+	# Enabled ntp time
+	sudo timedatectl set-ntp true
+
 fi
 
 ## Adding user to audio group

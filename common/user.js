@@ -142,3 +142,6 @@ user_pref("privacy.trackingprotection.socialtracking.enabled", true);
 user_pref("dom.storage.next_gen", true); // [DEFAULT: true FF92+]
 // user_pref("media.rdd-process.enabled", false);
 user_pref("spellchecker.dictionary_path", "/usr/share/hunspell");
+user_pref("browser.tabs.firefox-view", false);
+user_pref("browser.tabs.tabmanager.enabled", false);
+user_pref("browser.privatebrowsing.enable-new-indicator", false);

@@ -250,9 +250,7 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing class applications
-pacman -S --noconfirm virtualbox virtualbox-host-dkms anaconda postman-bin pycharm-community-edition
-
-sudo -u aurbuilder yay -S --noconfirm virtualbox6-ext-oracle
+pacman -S --noconfirm virtualbox virtualbox-host-dkms virtualbox-ext-oracle anaconda postman-bin pycharm-community-edition
 
 # Installing docker for mongodb
 # pacman -S --noconfirm docker-compose docker mongodb-compass

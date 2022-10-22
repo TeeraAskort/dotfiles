@@ -19,7 +19,7 @@ mkdir $HOME/Datos
 sudo mount /dev/mapper/datos $HOME/Datos
 sudo cp $HOME/Datos/.datoskey /root/.datoskey
 echo "datos UUID=$(sudo blkid -s UUID -o value /dev/${dataDisk}p1) /root/.datoskey luks,discard" | sudo tee -a /etc/crypttab
-echo "/dev/mapper/datos $HOME/Datos ext4 defaults 0 0" | sudo tee -a /etc/fstab
+echo "/dev/mapper/datos $HOME/Datos btrfs defaults,noatime,autodefrag,compress=zstd 0 0" | sudo tee -a /etc/fstab
 
 ## Configuring torrent disk
 echo "Enter data disk password: "
@@ -29,8 +29,8 @@ done
 mkdir $HOME/Torrent
 sudo mount /dev/mapper/encrypteddata $HOME/Torrent
 sudo cp $HOME/Torrent/.torrentkey /root/.torrentkey
-echo "encrypteddata UUID=$(sudo blkid -s UUID -o value /dev/${torrentDisk}p5) /root/.torrentkey luks,discard" | sudo tee -a /etc/crypttab
-echo "/dev/mapper/encrypteddata $HOME/Torrent ext4 defaults 0 0" | sudo tee -a /etc/fstab
+echo "torrent UUID=$(sudo blkid -s UUID -o value /dev/${torrentDisk}p5) /root/.torrentkey luks,discard" | sudo tee -a /etc/crypttab
+echo "/dev/mapper/torrent $HOME/Torrent btrfs defaults,noatime,autodefrag,compress=zstd 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders
 rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Sync
@@ -114,6 +114,9 @@ cp $directory/dotfiles/chromium-flags.conf ~/.config
 ## Configuring mpv
 mkdir -p ~/.config/mpv
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
+
+## Setting X11 cursor size
+cp $directory/../common/.Xresources ~
 
 ## Copy fonts
 mkdir ~/.fonts

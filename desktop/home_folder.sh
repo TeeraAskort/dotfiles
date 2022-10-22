@@ -118,6 +118,9 @@ curl -LO https://gist.githubusercontent.com/igv/a015fc885d5c22e6891820ad89555637
 mv SSimDownscaler.glsl KrigBilateral.glsl ~/.config/mpv/shaders
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
+## Setting X11 cursor size
+cp $directory/../common/.Xresources ~
+
 ## Copy fonts
 mkdir ~/.fonts
 cd ~/.fonts

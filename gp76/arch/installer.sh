@@ -9,9 +9,9 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	for part in $(echo "$parts" | cut -d"p" -f2); do
 		parted /dev/nvme0n1 -- rm $part
 	done
-	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512MiB
+	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 1GiB
 	parted /dev/nvme0n1 -- set 1 boot on
-	parted /dev/nvme0n1 -- mkpart primary 512MiB 100GiB
+	parted /dev/nvme0n1 -- mkpart primary 1GiB 100GiB
 
 	# Loop until cryptsetup succeeds formatting the partition
 	until cryptsetup luksFormat /dev/nvme0n1p2

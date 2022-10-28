@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 # Enabling RPMFusion
 dnf install -y --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm
 dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm
@@ -23,14 +27,14 @@ rm ./chrome.rpm
 # Installing python anaconda
 dnf install libXi libXtst libXrandr libXcursor alsa-lib mesa-libEGL libXcomposite libXScrnSaver libXdamage mesa-libGL -y
 curl -L "https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh" > conda.sh
-./conda.sh -b -p /opt/anaconda
+bash conda.sh -b -p /opt/anaconda
 rm -f conda.sh
 
 # Installing VSCode
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 dnf check-update
-dnf install code
+dnf install -y code
 
 # Installing nodejs
 curl -fsSL https://rpm.nodesource.com/setup_current.x | bash -
@@ -39,7 +43,7 @@ curl -fsSL https://rpm.nodesource.com/setup_current.x | bash -
 yum groupinstall -y 'Development Tools'
 
 # Installing basic packages
-dnf in -y papirus-icon-theme vim zsh flatpak thermald earlyoom zip gimp cryptsetup zram-generator 7zip libfido2 unrar alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 p7zip zstd nextcloud-client sqlite hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools lm_sensors java-17-openjdk-devel
+dnf in -y papirus-icon-theme vim zsh flatpak thermald earlyoom zip gimp cryptsetup zram-generator libfido2 unrar alsa-lib-devel.x86_64 p7zip zstd nextcloud-client sqlite hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en lm_sensors java-17-openjdk-devel nodejs
 
 # Enabling services
 systemctl enable thermald input-remapper

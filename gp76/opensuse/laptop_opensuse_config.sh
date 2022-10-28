@@ -87,13 +87,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f switcheroo-control
 
 	# Removing unwanted applications
-	zypper rm -y  git-gui vlc vlc-qt vlc-noX tlp tlp-rdw
+	zypper rm -y  git-gui vlc vlc-qt vlc-noX
 
 	# Block vlc from installing
 	zypper addlock vlc-beta
 	zypper addlock vlc
-	zypper addlock tlp
-	zypper addlock tlp-rdw
 	zypper addlock youtube-dl
 	zypper addlock git-gui
 
@@ -143,25 +141,25 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	elif [ "$1" == "gnome" ]; then
 		# Removing unwanted DE specific applications
-		zypper rm -y  gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
+		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse touchegg nautilus-extension-nextcloud
+		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse touchegg nautilus-extension-nextcloud
 
 		# Enabling services
 		systemctl enable touchegg
 
 		# Adding gnome theming to qt
-		echo "QT_QPA_PLATFORMTHEME=adwaita-dark" | tee -a /etc/environment
+		echo "QT_QPA_PLATFORMTHEME='gnome'" | tee -a /etc/environment
+
+		# Adding xrandr option to sddm
+		echo "xrandr --dpi 96" | tee -a /usr/share/sddm/scripts/Xsetup
 
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment
 
 		#Disable wayland
 		sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
-
-		# Setting firefox env var
-		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Removing unwanted DE specific applications

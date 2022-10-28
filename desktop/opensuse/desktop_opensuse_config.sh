@@ -56,8 +56,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-bad gstreamer-plugins-libav gstreamer-plugins-ugly libavcodec-full vlc-codecs
 
 	# Installing discord from games:tools repo
-	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change gamemoded protontricks
-
+	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change protontricks gamemoded
 	# Replacing pulseaudio with pipewire
 	zypper in -y --force-resolution pipewire-pulseaudio pipewire-alsa pipewire-aptx pipewire-libjack-0_3 pipewire wireplumber
 
@@ -65,7 +64,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --from "home:Alderaeney (openSUSE_Tumbleweed)" input-remapper
 
 	# Installing basic packages
-	zypper in -y --force-resolution google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 systemd-zram-service 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq strawberry nextcloud-desktop
+	zypper in -y --force-resolution google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 systemd-zram-service 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq strawberry nextcloud-desktop zstd
 
 	# Enabling thermald service
 	user="$SUDO_USER"
@@ -89,6 +88,14 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper addlock vlc
 	zypper addlock youtube-dl
 	zypper addlock git-gui
+
+	# Installing anaconda
+	curl -L "https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh" > conda.sh
+	./conda.sh -b -p /opt/anaconda
+	rm -f conda.sh
+
+	# Installing class tools
+	zypper install -y virtualbox-host-source kernel-devel kernel-default-devel virtualbox
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications
@@ -128,19 +135,19 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse nautilus-extension-nextcloud
+		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse touchegg nautilus-extension-nextcloud
 
- 		# Adding gnome theming to qt
-		echo "QT_QPA_PLATFORMTHEME=adwaita-dark" | tee -a /etc/environment
+		# Adding gnome theming to qt
+		echo "QT_QPA_PLATFORMTHEME='gnome'" | tee -a /etc/environment
+
+		# Adding xrandr option to sddm
+		echo "xrandr --dpi 96" | tee -a /usr/share/sddm/scripts/Xsetup
 
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment
 		
 		#Disable wayland
 		sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
-
-		# Setting firefox env var
-		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Removing unwanted DE specific applications
@@ -208,7 +215,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine sh.ppy.osu com.github.AmatCoder.mednaffe org.DolphinEmu.dolphin-emu com.heroicgameslauncher.hgl
+	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine sh.ppy.osu com.github.AmatCoder.mednaffe org.DolphinEmu.dolphin-emu com.heroicgameslauncher.hgl com.getpostman.Postman com.jetbrains.PyCharm-Community
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ]; then
@@ -216,7 +223,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	fi
 
 	if [ "$1" == "gnome" ] || [ "$1" == "xfce" ]; then
- 		flatpak install -y flathub org.gtk.Gtk3theme.Adwaita-dark
+		flatpak install -y flathub org.gtk.Gtk3theme.Adwaita-dark
 	fi
 
 	if [ "$1" == "cinnamon" ]; then

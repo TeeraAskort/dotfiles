@@ -95,14 +95,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper addlock youtube-dl
 	zypper addlock git-gui
 
-	# Installing anaconda
-	curl -L "https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh" > conda.sh
-	./conda.sh -b -p /opt/anaconda
-	rm -f conda.sh
-
-	# Installing class tools
-	zypper install -y virtualbox-host-source kernel-devel kernel-default-devel virtualbox
-
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications
 		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird mpv mpv-mpris filelight ksshaskpass5 gnome-boxes simple-scan nextcloud-desktop-dolphin

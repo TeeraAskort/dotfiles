@@ -146,7 +146,7 @@ source ~/.general_alias
 # fi
 
 [ -f /opt/anaconda/etc/profile.d/conda.sh ] && source /opt/anaconda/etc/profile.d/conda.sh
-source /opt/anaconda/bin/activate
+[ -f /opt/anaconda/bin/activate ] && source /opt/anaconda/bin/activate
 
 export ANDROID_HOME=$HOME/Datos/Android
 export PATH=$PATH:$ANDROID_HOME/platform-tools

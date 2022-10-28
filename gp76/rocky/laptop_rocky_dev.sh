@@ -17,7 +17,7 @@ dnf -y install tensorrt-libs tensorrt-devel
 wget https://dl.google.com/linux/linux_signing_key.pub
 rpm --import linux_signing_key.pub
 curl -L "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm" > chrome.rpm
-dnf localinstall ./chrome.rpm
+dnf localinstall -y ./chrome.rpm
 rm ./chrome.rpm
 
 # Installing python anaconda

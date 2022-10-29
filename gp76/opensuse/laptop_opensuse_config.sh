@@ -133,10 +133,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	elif [ "$1" == "gnome" ]; then
 		# Removing unwanted DE specific applications
-		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
+		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku xscreensaver xscreensaver-data
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument simple-scan seahorse touchegg nautilus-extension-nextcloud xscreensaver xscreensaver-data
+		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument simple-scan seahorse touchegg nautilus-extension-nextcloud
 
 		# Enabling services
 		systemctl enable touchegg

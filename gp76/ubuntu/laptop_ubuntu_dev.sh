@@ -98,6 +98,12 @@ apt-get install -y ubuntu-restricted-extras
 curl -fsSL https://deb.nodesource.com/setup_current.x | bash - &&\
 apt-get install -y nodejs
 
+## Installing python anaconda
+dnf install libXi libXtst libXrandr libXcursor alsa-lib mesa-libEGL libXcomposite libXScrnSaver libXdamage mesa-libGL -y
+curl -L "https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh" > conda.sh
+bash conda.sh -b -p /opt/anaconda
+rm -f conda.sh
+
 ## Installing heroic games launcher
 bash <(wget -qO- https://raw.githubusercontent.com/Heroic-Games-Launcher/HeroicGamesLauncher/main/rauldipeas.sh)
 

@@ -15,7 +15,7 @@ apt-get install -y build-essential software-properties-common
 ## Installing nvidia drivers
 add-apt-repository ppa:graphics-drivers/ppa -y
 apt update
-apt install -y nvidia-graphics-drivers-520
+apt install -y nvidia-driver-520
 
 # Installing cuda
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb

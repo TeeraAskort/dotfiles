@@ -1,22 +1,5 @@
 #!/usr/bin/env bash
 
-## Adding 32 bit support
-dpkg --add-architecture i386
-apt update
-apt full-upgrade -y
-
-## Changing repository
-sed -i "s/es.archive.ubuntu.com/ftp.udc.es/g" /etc/apt/sources.list
-apt update
-
-## Installing essential build tools and ppa
-apt-get install -y build-essential software-properties-common
-
-## Installing nvidia drivers
-add-apt-repository ppa:graphics-drivers/ppa -y
-apt update
-apt install -y nvidia-driver-520
-
 # Installing cuda
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
 dpkg -i cuda-keyring_1.0-1_all.deb
@@ -25,11 +8,6 @@ apt-get -y install cuda tensorrt-libs tensorrt-dev
 
 ## Installing wine
 apt install -y wine64 wine32 libasound2-plugins:i386 libsdl2-2.0-0:i386 libdbus-1-3:i386 libsqlite3-0:i386
-
-## Installing lutris
-add-apt-repository ppa:lutris-team/lutris -y
-apt update
-apt install -y lutris
 
 ## Installing strawberry
 add-apt-repository ppa:jonaski/strawberry -y
@@ -99,7 +77,6 @@ curl -fsSL https://deb.nodesource.com/setup_current.x | bash - &&\
 apt-get install -y nodejs
 
 ## Installing python anaconda
-apt install -y curl
 curl -L "https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh" > conda.sh
 bash conda.sh -b -p /opt/anaconda
 rm -f conda.sh
@@ -120,7 +97,7 @@ apt install -y intel-microcode pamu2fcfg libpam-u2f
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 ## Installing flatpak applications
-flatpak install -y flathub com.getpostman.Postman org.telegram.desktop org.jdownloader.JDownloader com.obsproject.Studio org.DolphinEmu.dolphin-emu com.jetbrains.PyCharm-Community
+flatpak install -y flathub com.getpostman.Postman org.telegram.desktop org.jdownloader.JDownloader com.obsproject.Studio org.DolphinEmu.dolphin-emu com.jetbrains.PyCharm-Community net.lutris.Lutris
 
 ## Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf

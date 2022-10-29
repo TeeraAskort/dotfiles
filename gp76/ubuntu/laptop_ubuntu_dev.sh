@@ -18,7 +18,7 @@ apt update
 apt install -y nvidia-driver-520
 
 # Installing cuda
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb
 dpkg -i cuda-keyring_1.0-1_all.deb
 apt-get update
 apt-get -y install cuda tensorrt-libs tensorrt-dev

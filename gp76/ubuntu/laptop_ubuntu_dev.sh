@@ -93,6 +93,10 @@ systemctl enable thermald earlyoom
 ## Installing computer specific applications
 apt install -y intel-microcode pamu2fcfg libpam-u2f
 
+## Adding user to plugdev group
+user="$SUDO_USER"
+usermod -aG plugdev $user
+
 ## Configuring flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
@@ -121,7 +125,7 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue
 EOF
 
 ## Installing desktop specific packages
-apt install -y adwaita-qt gedit gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk evince simple-scan xdg-desktop-portal-gtk power-profiles-daemon brasero libopenraw7 libgsf-1-114 libgepub-0.6-0 gthumb file-roller gnome-boxes chrome-gnome-shell gnome-photos gnome-keyring gnome-calculator gnome-tweaks
+apt install -y adwaita-qt gedit gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk evince simple-scan xdg-desktop-portal-gtk power-profiles-daemon brasero libopenraw7 libgsf-1-114 libgepub-0.6-0 gthumb file-roller gnome-boxes chrome-gnome-shell gnome-photos gnome-keyring gnome-calculator gnome-tweaks chrome-gnome-shell
 
 ## Removing desktop specific packages
 # apt remove -y

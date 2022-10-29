@@ -82,8 +82,8 @@ apt update
 apt install -y openrazer-meta
 
 ## Installing razergenie
-echo 'deb http://download.opensuse.org/repositories/hardware:/razer/xUbuntu_22.04/ /' | tee /etc/apt/sources.list.d/hardware:razer.list
-curl -fsSL https://download.opensuse.org/repositories/hardware:razer/xUbuntu_22.04/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/hardware_razer.gpg >/dev/null
+echo 'deb http://download.opensuse.org/repositories/hardware:/razer/xUbuntu_20.04/ /' | sudo tee /etc/apt/sources.list.d/hardware:razer.list
+curl -fsSL https://download.opensuse.org/repositories/hardware:razer/xUbuntu_20.04/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/hardware_razer.gpg > /dev/null
 apt update
 apt install -y razergenie
 
@@ -99,7 +99,7 @@ curl -fsSL https://deb.nodesource.com/setup_current.x | bash - &&\
 apt-get install -y nodejs
 
 ## Installing python anaconda
-dnf install libXi libXtst libXrandr libXcursor alsa-lib mesa-libEGL libXcomposite libXScrnSaver libXdamage mesa-libGL -y
+apt install -y curl
 curl -L "https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh" > conda.sh
 bash conda.sh -b -p /opt/anaconda
 rm -f conda.sh
@@ -108,7 +108,7 @@ rm -f conda.sh
 bash <(wget -qO- https://raw.githubusercontent.com/Heroic-Games-Launcher/HeroicGamesLauncher/main/rauldipeas.sh)
 
 ## Installing required packages
-apt install -y flatpak mpv mpv-mpris zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es hunspell-ca aspell-ca aspell-es mythes-en-us mythes-es mythes-ca hyphen-en-us hyphen-es hyphen-ca zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch yt-dlp thermald earlyoom solaar piper 
+apt install -y flatpak mpv zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es hunspell-ca aspell-ca aspell-es mythes-en-us mythes-es mythes-ca hyphen-en-us hyphen-es hyphen-ca zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch yt-dlp thermald earlyoom solaar piper 
 
 ## Enabling services
 systemctl enable thermald earlyoom

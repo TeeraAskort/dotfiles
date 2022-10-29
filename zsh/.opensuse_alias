@@ -4,6 +4,7 @@ alias zypp="sudo zypper"
 alias zyppi="sudo zypper in"
 alias zyppr="sudo zypper rm"
 alias zyppu="sudo zypper refresh"
+alias gedit="gnome-text-editor"
 function zyppup() {
 	sudo zypper dup -y;
 	sudo flatpak update -y;

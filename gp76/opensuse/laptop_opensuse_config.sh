@@ -147,8 +147,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment
 
+		# Setting firefox env var
+		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
+
 		#Disable wayland
-		sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
+		# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Removing unwanted DE specific applications
@@ -250,6 +253,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# set cfq scheduler for rotating disks
 	ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
+
+	## Fix intel sound card with kernel 6.0.3
+	echo "options snd-intel-dspcfg dsp_driver=1" | tee /etc/modprobe.d/inteldsp.conf
 
 	# Copy prime-run command
 	cp $directory/../dotfiles/prime-run /usr/local/bin

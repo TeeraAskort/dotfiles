@@ -136,10 +136,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku xscreensaver xscreensaver-data gedit
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument simple-scan seahorse nautilus-extension-nextcloud gnome-text-editor
+		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes celluloid evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument simple-scan seahorse nautilus-extension-nextcloud gnome-text-editor touchegg
 
 		# Enabling services
-		# systemctl enable 
+		systemctl enable touchegg
 
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME='gnome'" | tee -a /etc/environment
@@ -151,7 +151,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
 
 		#Disable wayland
-		# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
+		sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Removing unwanted DE specific applications

@@ -207,29 +207,35 @@ sed -i "s/MODULES=()/MODULES=(amdgpu)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
 # Install and configure systemd-boot
-pacman -S --noconfirm --needed efibootmgr
-bootctl install
-mkdir -p /boot/loader/entries
-cat >/boot/loader/loader.conf <<EOF
-default  arch.conf
-console-mode max
-editor   no
-EOF
-cat >/boot/loader/entries/arch.conf <<EOF
-title   Arch Linux
-linux   /vmlinuz-linux
-initrd  /intel-ucode.img
-initrd  /initramfs-linux.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw
-EOF
-cat >/boot/loader/entries/arch-fallback.conf <<EOF
-title   Arch Linux Fallback
-linux   /vmlinuz-linux
-initrd  /intel-ucode.img
-initrd  /initramfs-linux-fallback.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw 
-EOF
-bootctl update
+pacman -S --noconfirm --needed efibootmgr grub os-prober
+
+sed -i "s/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/g" /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2"/' /etc/default/grub
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# bootctl install
+# mkdir -p /boot/loader/entries
+# cat >/boot/loader/loader.conf <<EOF
+# default  arch.conf
+# console-mode max
+# editor   no
+# EOF
+# cat >/boot/loader/entries/arch.conf <<EOF
+# title   Arch Linux
+# linux   /vmlinuz-linux
+# initrd  /intel-ucode.img
+# initrd  /initramfs-linux.img
+# options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw
+# EOF
+# cat >/boot/loader/entries/arch-fallback.conf <<EOF
+# title   Arch Linux Fallback
+# linux   /vmlinuz-linux
+# initrd  /intel-ucode.img
+# initrd  /initramfs-linux-fallback.img
+# options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw 
+# EOF
+# bootctl update
 
 # Installing printing services
 pacman -S --noconfirm cups cups-pdf hplip ghostscript

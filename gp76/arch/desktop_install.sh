@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+bootPart="2825e9a7-39d5-4d02-8c1a-5f37d38fbb1b"
+efiPart="301B-9C7B"
+
 _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
@@ -227,30 +230,39 @@ sed -i "s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g" /e
 mkinitcpio -P
 
 # Install and configure systemd-boot
-pacman -S --noconfirm --needed efibootmgr
-bootctl install
+pacman -S --noconfirm --needed efibootmgr grub os-prober
+
+mount /dev/disk/by-uuid/$bootPart /mnt
+mount /dev/disk/by-uuid/$efiPart /mnt/efi
+
+sed -i "s/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/g" /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off"/' /etc/default/grub
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# bootctl install
 # efibootmgr --create --disk /dev/nvme0n1 --part 1 --loader "\EFI\systemd\systemd-bootx64.efi" --label "Linux Boot Manager"
-mkdir -p /boot/loader/entries
-cat >/boot/loader/loader.conf <<EOF
-default  arch.conf
-console-mode max
-editor   no
-EOF
-cat >/boot/loader/entries/arch.conf <<EOF
-title   Arch Linux
-linux   /vmlinuz-linux
-initrd  /intel-ucode.img
-initrd  /initramfs-linux.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off rw
-EOF
-cat >/boot/loader/entries/arch-fallback.conf <<EOF
-title   Arch Linux Fallback
-linux   /vmlinuz-linux
-initrd  /intel-ucode.img
-initrd  /initramfs-linux-fallback.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off rw
-EOF
-bootctl update
+# mkdir -p /boot/loader/entries
+# cat >/boot/loader/loader.conf <<EOF
+# default  arch.conf
+# console-mode max
+# editor   no
+# EOF
+# cat >/boot/loader/entries/arch.conf <<EOF
+# title   Arch Linux
+# linux   /vmlinuz-linux
+# initrd  /intel-ucode.img
+# initrd  /initramfs-linux.img
+# options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off rw
+# EOF
+# cat >/boot/loader/entries/arch-fallback.conf <<EOF
+# title   Arch Linux Fallback
+# linux   /vmlinuz-linux
+# initrd  /intel-ucode.img
+# initrd  /initramfs-linux-fallback.img
+# options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off rw
+# EOF
+# bootctl update
 
 # Installing printing services
 pacman -S --noconfirm cups cups-pdf hplip ghostscript

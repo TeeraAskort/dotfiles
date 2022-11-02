@@ -8,20 +8,21 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 
 	# Create partitions
 	parted /dev/${rootDisk} -- mklabel gpt
-	parted /dev/${rootDisk} -- mkpart ESP fat32 1M 512M
-	parted /dev/${rootDisk} -- mkpart primary 512M 100%
+	parted /dev/${rootDisk} -- mkpart ESP fat32 1M 512MiB
+	parted /dev/${rootDisk} -- mkpart primary 512MiB 2GiB
+	parted /dev/${rootDisk} -- mkpart primary 2GiB 100%
 	parted /dev/${rootDisk} -- set 1 boot on
 
 	# Loop until cryptsetup succeeds formatting the partition
 	echo "Enter passphrase for root disk"
-	until cryptsetup luksFormat /dev/${rootDisk}p2
+	until cryptsetup luksFormat /dev/${rootDisk}p3
 	do
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the partition
 	echo "Enter passphrase for root disk"
-	until cryptsetup open /dev/${rootDisk}p2 luks
+	until cryptsetup open /dev/${rootDisk}p3 luks
 	do
 		echo "Cryptsetup failed, trying again"
 	done
@@ -34,6 +35,7 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 
 	# Format partitions
 	mkfs.btrfs -L root /dev/lvm/root
+	mkfs.ext2 /dev/${rootDisk}p2
 	mkfs.vfat -F32 /dev/${rootDisk}p1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
@@ -41,7 +43,9 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 	# Mount paritions
 	mount /dev/lvm/root /mnt
 	mkdir /mnt/boot
-	mount /dev/${rootDisk}p1 /mnt/boot
+	mount /dev/${rootDisk}p2 /mnt/boot
+	mkdir /mnt/boot/efi
+	mount /dev/${rootDisk}p1 /mnt/boot/efi
 
 	# Updating keyring
 	pacman -Sy --noconfirm archlinux-keyring

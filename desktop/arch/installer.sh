@@ -9,8 +9,7 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 	# Create partitions
 	parted /dev/${rootDisk} -- mklabel gpt
 	parted /dev/${rootDisk} -- mkpart ESP fat32 1M 512MiB
-	parted /dev/${rootDisk} -- mkpart primary 512MiB 2GiB
-	parted /dev/${rootDisk} -- mkpart primary 2GiB 100%
+	parted /dev/${rootDisk} -- mkpart primary 512MiB 100%
 	parted /dev/${rootDisk} -- set 1 boot on
 
 	# Loop until cryptsetup succeeds formatting the partition
@@ -43,9 +42,7 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 	# Mount paritions
 	mount /dev/lvm/root /mnt
 	mkdir /mnt/boot
-	mount /dev/${rootDisk}p2 /mnt/boot
-	mkdir /mnt/boot/efi
-	mount /dev/${rootDisk}p1 /mnt/boot/efi
+	mount /dev/${rootDisk}p1 /mnt/boot
 
 	# Updating keyring
 	pacman -Sy --noconfirm archlinux-keyring

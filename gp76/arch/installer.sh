@@ -35,7 +35,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	# Format partitions
 	mkfs.btrfs -L root /dev/lvm/root
 	mkfs.vfat -F32 /dev/nvme0n1p1
-	mkfs.ext2 /dev/nvme0n1p2
+	mkfs.ext2 -F /dev/nvme0n1p2
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
 

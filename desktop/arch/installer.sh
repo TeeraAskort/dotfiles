@@ -14,14 +14,14 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 
 	# Loop until cryptsetup succeeds formatting the partition
 	echo "Enter passphrase for root disk"
-	until cryptsetup luksFormat /dev/${rootDisk}p3
+	until cryptsetup luksFormat /dev/${rootDisk}p2
 	do
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the partition
 	echo "Enter passphrase for root disk"
-	until cryptsetup open /dev/${rootDisk}p3 luks
+	until cryptsetup open /dev/${rootDisk}p2 luks
 	do
 		echo "Cryptsetup failed, trying again"
 	done

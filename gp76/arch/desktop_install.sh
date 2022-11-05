@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-bootPart="2825e9a7-39d5-4d02-8c1a-5f37d38fbb1b"
-efiPart="301B-9C7B"
+bootPart="3d781650-2935-4d52-b997-69c59f3ec36b"
+efiPart="3E8F-38A6"
 
 _script="$(readlink -f ${BASH_SOURCE[0]})"
 

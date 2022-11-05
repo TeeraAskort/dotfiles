@@ -123,6 +123,9 @@ export ARCHFLAGS="-arch x86_64"
 ## Ubuntu alias
 # source ~/.ubuntu_alias
 
+## Rocky alias
+# source ~/.rocky_alias
+
 ## General alias
 source ~/.general_alias
 

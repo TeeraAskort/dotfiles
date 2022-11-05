@@ -75,6 +75,7 @@ cp $directory/../zsh/.opensuse_alias ~
 cp $directory/../zsh/.elementary_alias ~
 cp $directory/../zsh/.solus_alias ~
 cp $directory/../zsh/.ubuntu_alias ~
+cp $directory/../zsh/.rocky_alias ~
 if command -v pulseaudio &> /dev/null; then 
 	mkdir -p ~/.config/pulse
 	cp $directory/dotfiles/daemon.conf ~/.config/pulse/

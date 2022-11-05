@@ -34,16 +34,20 @@ rm -f conda.sh
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 dnf check-update
-dnf install -y code
+-dnf install -y code
 
 # Installing nodejs
 curl -fsSL https://rpm.nodesource.com/setup_current.x | bash -
+
+# Install R
+yum config-manager --set-enabled powertools
+yum install R -y
 
 # Installing development tools
 yum groupinstall -y 'Development Tools'
 
 # Installing basic packages
-dnf in -y papirus-icon-theme vim zsh flatpak thermald earlyoom zip gimp cryptsetup zram-generator libfido2 unrar alsa-lib-devel.x86_64 p7zip zstd nextcloud-client sqlite hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en lm_sensors java-17-openjdk-devel nodejs
+dnf in -y papirus-icon-theme vim zsh flatpak thermald earlyoom zip gimp cryptsetup zram-generator libfido2 unrar alsa-lib-devel.x86_64 p7zip zstd nextcloud-client sqlite hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en lm_sensors java-17-openjdk-devel nodejs python39-pip
 
 # Enabling services
 systemctl enable thermald input-remapper

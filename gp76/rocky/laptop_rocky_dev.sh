@@ -9,8 +9,11 @@ dnf install -y --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-l
 dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm
 
 # Enabling nvidia repo
-dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
+dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel8/x86_64/cuda-rhel8.repo
 dnf clean all
+
+# Update OS
+dnf upgrade -y
 
 # Installing nvidia drivers and toolkits
 dnf -y module install nvidia-driver:latest-dkms
@@ -34,7 +37,7 @@ rm -f conda.sh
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
 dnf check-update
--dnf install -y code
+dnf install -y code
 
 # Installing nodejs
 curl -fsSL https://rpm.nodesource.com/setup_current.x | bash -
@@ -71,7 +74,7 @@ dnf install VirtualBox-7.0 -y
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak applications
-flatpak install flathub -y com.getpostman.Postman com.jetbrains.PyCharm-Community org.gtk.Gtk3theme.Adwaita-dark
+flatpak install flathub -y com.getpostman.Postman com.jetbrains.PyCharm-Community org.gtk.Gtk3theme.Adwaita-dark com.valvesoftware.Steam net.lutris.Lutris
 
 # Setting intel performance options
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf

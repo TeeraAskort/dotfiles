@@ -56,7 +56,7 @@ dnf in -y papirus-icon-theme vim zsh flatpak thermald earlyoom zip gimp cryptset
 systemctl enable thermald input-remapper
 
 # Installing computer specific packages
-dnf in -y pam-u2f pamu2fcfg
+# dnf in -y pam-u2f pamu2fcfg
 
 # Installing docker
 dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo

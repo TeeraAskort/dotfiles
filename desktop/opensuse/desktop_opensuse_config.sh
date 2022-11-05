@@ -67,12 +67,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --force-resolution google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 systemd-zram-service 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq strawberry nextcloud-desktop zstd
 
 	# Enabling thermald service
-	user="$SUDO_USER"
 	systemctl enable thermald earlyoom input-remapper
 
 	# Adding user to plugdev group
-	user="$SUDO_USER"
-	usermod -aG plugdev $user
+	usermod -aG plugdev link
 
 	# Starting zram service
 	zramswapon
@@ -162,7 +160,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
 
 		# Adding xprofile to user link
-		user="$SUDO_USER"
+		user="link"
 		sudo -u $user echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/$user/.xprofile
 
 		# Setting cursor size in Xresources
@@ -174,8 +172,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
 
 	# Add user to wheel group
-	user=$SUDO_USER
-	usermod -aG wheel $user
+	usermod -aG wheel link
 
 	# Add sudo rule to use wheel group
 	if [[ ! -e /etc/sudoers.d ]]; then
@@ -184,11 +181,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo "%wheel ALL=(ALL) ALL" | tee -a /etc/sudoers.d/usewheel
 
 	# Use user password for sudo instead of target user password
-	sed -i "s/Defaults targetpw/#Defaults targetpw/g" /etc/sudoers
-	sed -i "s/ALL   ALL=(ALL) ALL/# ALL ALL=(ALL) ALL/g" /etc/sudoers
+	# sed -i "s/Defaults targetpw/#Defaults targetpw/g" /etc/sudoers
+	# sed -i "s/ALL   ALL=(ALL) ALL/# ALL ALL=(ALL) ALL/g" /etc/sudoers
 
 	# Using sudo instead of su for graphical sudo
-	echo "Defaults env_keep += \"DISPLAY XAUTHORITY\"" | tee -a /etc/sudoers.d/env_vars
+	# echo "Defaults env_keep += \"DISPLAY XAUTHORITY\"" | tee -a /etc/sudoers.d/env_vars
 
 	# Configuring policykit
 	sed -i "s/user:0/group:wheel/g" /usr/share/polkit-1/rules.d/50-default.rules

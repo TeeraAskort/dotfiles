@@ -88,7 +88,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/Heroic-Games-Launcher/HeroicG
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
 apt update
-apt install r-base
+apt install -y r-base
 
 ## Installing required packages
 apt install -y flatpak mpv zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es hunspell-ca aspell-ca aspell-es mythes-en-us mythes-es mythes-ca hyphen-en-us hyphen-es hyphen-ca zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch yt-dlp thermald earlyoom solaar piper openjdk-17-jdk

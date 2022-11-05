@@ -74,7 +74,7 @@ dnf install VirtualBox-7.0 -y
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak applications
-flatpak install flathub -y com.getpostman.Postman com.jetbrains.PyCharm-Community org.gtk.Gtk3theme.Adwaita-dark com.valvesoftware.Steam net.lutris.Lutris
+flatpak install flathub -y com.getpostman.Postman com.jetbrains.PyCharm-Community org.gtk.Gtk3theme.Adwaita-dark com.valvesoftware.Steam net.lutris.Lutris org.telegram.desktop
 
 # Setting intel performance options
 echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf

@@ -158,10 +158,10 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth gnome-browser-connector simple-scan gnome-boxes seahorse libsecret gvfs-google python-nautilus gnome-text-editor touchegg 
+	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth gnome-browser-connector simple-scan gnome-boxes seahorse libsecret gvfs-google python-nautilus gnome-text-editor # touchegg 
 	
 	# Enabling gdm
-	systemctl enable gdm touchegg
+	systemctl enable gdm # touchegg
 
 	# Removing unwanted packages
 	pacman -Rns --noconfirm gnome-music epiphany totem orca
@@ -230,39 +230,39 @@ sed -i "s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g" /e
 mkinitcpio -P
 
 # Install and configure systemd-boot
-pacman -S --noconfirm --needed efibootmgr grub os-prober
+pacman -S --noconfirm --needed efibootmgr 
 
-mount /dev/nvme1n1p3 /mnt
-mount /dev/nvme1n1p2 /mnt/efi
+# mount /dev/nvme1n1p3 /mnt
+# mount /dev/nvme1n1p2 /mnt/efi
 
-sed -i "s/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/g" /etc/default/grub
-sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 cryptdevice=\/dev\/disk\/by-uuid\/$(blkid -s UUID -o value /dev/nvme0n1p3):luks:allow-discards root=\/dev\/lvm\/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off\"/g" /etc/default/grub
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
+# sed -i "s/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/g" /etc/default/grub
+# sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 cryptdevice=\/dev\/disk\/by-uuid\/$(blkid -s UUID -o value /dev/nvme0n1p3):luks:allow-discards root=\/dev\/lvm\/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off\"/g" /etc/default/grub
+# grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+# grub-mkconfig -o /boot/grub/grub.cfg
 
-# bootctl install
-# efibootmgr --create --disk /dev/nvme0n1 --part 1 --loader "\EFI\systemd\systemd-bootx64.efi" --label "Linux Boot Manager"
-# mkdir -p /boot/loader/entries
-# cat >/boot/loader/loader.conf <<EOF
-# default  arch.conf
-# console-mode max
-# editor   no
-# EOF
-# cat >/boot/loader/entries/arch.conf <<EOF
-# title   Arch Linux
-# linux   /vmlinuz-linux
-# initrd  /intel-ucode.img
-# initrd  /initramfs-linux.img
-# options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off rw
-# EOF
-# cat >/boot/loader/entries/arch-fallback.conf <<EOF
-# title   Arch Linux Fallback
-# linux   /vmlinuz-linux
-# initrd  /intel-ucode.img
-# initrd  /initramfs-linux-fallback.img
-# options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off rw
-# EOF
-# bootctl update
+bootctl install
+efibootmgr --create --disk /dev/nvme0n1 --part 1 --loader "\EFI\systemd\systemd-bootx64.efi" --label "Linux Boot Manager"
+mkdir -p /boot/loader/entries
+cat >/boot/loader/loader.conf <<EOF
+default  arch.conf
+console-mode max
+editor   no
+EOF
+cat >/boot/loader/entries/arch.conf <<EOF
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /intel-ucode.img
+initrd  /initramfs-linux.img
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off rw
+EOF
+cat >/boot/loader/entries/arch-fallback.conf <<EOF
+title   Arch Linux Fallback
+linux   /vmlinuz-linux
+initrd  /intel-ucode.img
+initrd  /initramfs-linux-fallback.img
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off rw
+EOF
+bootctl update
 
 # Installing printing services
 pacman -S --noconfirm cups cups-pdf hplip ghostscript
@@ -281,6 +281,9 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 
 # Installing gimp
 pacman -S --noconfirm gimp gimp-help-es
+
+# Installing class applications
+pacman -S --noconfirm virtualbox virtualbox-host-dkms virtualbox-ext-oracle anaconda postman-bin pycharm-community-edition r
 
 # Installing required packages
 pacman -S --noconfirm jdk-openjdk dolphin-emu telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin protontricks-git mednaffe libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git openrazer-meta systemd-boot-pacman-hook alsa-ucm-conf mpv mpv-mpris zstd
@@ -404,7 +407,7 @@ pacman -Qtdq | pacman -Rns --noconfirm -
 # Adding desktop specific final settings
 if [[ "$1" == "gnome" ]]; then
 	# Disabling wayland
-	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+	# sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
 
 	# Setting firefox env var
 	echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment

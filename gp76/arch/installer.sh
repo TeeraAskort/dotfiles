@@ -10,9 +10,8 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 		parted /dev/nvme0n1 -- rm $part
 	done
 	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512MiB
-	parted /dev/nvme0n1 -- mkpart primary 512MiB 2GiB
 	parted /dev/nvme0n1 -- set 1 boot on
-	parted /dev/nvme0n1 -- mkpart primary 2GiB 100GiB
+	parted /dev/nvme0n1 -- mkpart primary 512MiB 100GiB
 
 	# Loop until cryptsetup succeeds formatting the partition
 	until cryptsetup luksFormat /dev/nvme0n1p3
@@ -35,16 +34,13 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	# Format partitions
 	mkfs.btrfs -L root /dev/lvm/root
 	mkfs.vfat -F32 /dev/nvme0n1p1
-	mkfs.ext2 -F /dev/nvme0n1p2
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
 
 	# Mount paritions
 	mount /dev/lvm/root /mnt
 	mkdir /mnt/boot
-	mount /dev/nvme0n1p2 /mnt/boot
-	mkdir /mnt/boot/efi
-	mount /dev/nvme0n1p1 /mnt/boot/efi
+	mount /dev/nvme0n1p1 /mnt/boot
 
 	# Updating keyring
 	pacman -Sy --noconfirm archlinux-keyring

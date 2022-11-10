@@ -5,7 +5,7 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 directory="$(dirname $_script)"
 
 torrentDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep Micron_3400_MTFDKBA1T0TFH | cut -d" " -f1)
-dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDS100T3X0C-00SJG0 | cut -d" " -f1)
+dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep "Patriot M.2 P300 2048GB" | cut -d" " -f1)
 
 ## Adjusting keymap
 sudo localectl set-x11-keymap es

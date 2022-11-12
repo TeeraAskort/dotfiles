@@ -193,11 +193,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo "%wheel ALL=(ALL) ALL" | tee -a /etc/sudoers.d/usewheel
 
 	# Use user password for sudo instead of target user password
-	# sed -i "s/Defaults targetpw/#Defaults targetpw/g" /etc/sudoers
-	# sed -i "s/ALL   ALL=(ALL) ALL/# ALL ALL=(ALL) ALL/g" /etc/sudoers
+	sed -i "s/Defaults targetpw/#Defaults targetpw/g" /etc/sudoers
+	sed -i "s/ALL   ALL=(ALL) ALL/# ALL ALL=(ALL) ALL/g" /etc/sudoers
 
 	# Using sudo instead of su for graphical sudo
-	# echo "Defaults env_keep += \"DISPLAY XAUTHORITY\"" | tee -a /etc/sudoers.d/env_vars
+	echo "Defaults env_keep += \"DISPLAY XAUTHORITY\"" | tee -a /etc/sudoers.d/env_vars
 
 	# Configuring policykit
 	sed -i "s/user:0/group:wheel/g" /usr/share/polkit-1/rules.d/50-default.rules

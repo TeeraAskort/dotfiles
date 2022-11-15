@@ -40,9 +40,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	# Heroic games launcher repo
 	dnf copr enable atim/heroic-games-launcher -y
 
-	# Adding mutter-vrr copr repo
-	dnf copr enable kylegospo/gnome-vrr -y
-
 	# Enabling third party repositories
 	dnf install -y fedora-workstation-repositories
 	dnf config-manager --set-enabled google-chrome
@@ -68,7 +65,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	dnf groupinstall "Development Tools" -y
 
 	#Install required packages
-	dnf install -y vim lutris steam flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks dolphin-emu zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code thermald python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite obs-studio fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper heroic-games-launcher-bin lm_sensors
+	dnf install -y vim lutris steam flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks dolphin-emu zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code thermald python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite obs-studio fontconfig-font-replacements fontconfig-enhanced-defaults hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper heroic-games-launcher-bin lm_sensors mpv mpv-mpris zstd
 
 	# Installing docker
 	# dnf in -y docker-ce docker-ce-cli containerd.io docker-compose
@@ -108,7 +105,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 		dnf rm -y totem rhythmbox
 
 		# Installing GNOME applications
-		dnf in -y celluloid gnome-tweaks ffmpegthumbnailer aisleriot gnome-mahjongg geary brasero file-roller deluge deluge-gtk seahorse
+		dnf in -y gnome-tweaks ffmpegthumbnailer aisleriot gnome-mahjongg geary brasero file-roller deluge deluge-gtk seahorse
 
 		#Disable wayland
 		# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
@@ -121,7 +118,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 		dnf rm -y kolourpaint akregator kmail konversation krfb kmines dragon elisa-player kaddressbook
 
 		# Installing KDE applications
-		dnf in -y palapeli ksshaskpass kde-connect simple-scan kio_mtp kio-extras kio-gdrive kate qbittorrent filelight kcm_wacomtablet fuse-sshfs spectacle kcalc kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio kfind kde-print-manager signon-kwallet-extension gnome-boxes xdg-desktop-portal-kde xdg-desktop-portal ffmpegthumbs mpv mpv-mpris
+		dnf in -y palapeli ksshaskpass kde-connect simple-scan kio_mtp kio-extras kio-gdrive kate qbittorrent filelight kcm_wacomtablet fuse-sshfs spectacle kcalc kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio kfind kde-print-manager signon-kwallet-extension gnome-boxes xdg-desktop-portal-kde xdg-desktop-portal ffmpegthumbs 
 
 		# Adding GTK_USE_PORTAL=1 to /etc/environment
 		echo "GTK_USE_PORTAL=1" | tee -a /etc/environment

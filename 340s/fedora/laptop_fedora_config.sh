@@ -161,11 +161,8 @@ EOF
 	# Fixing font rendering
 	# cp $directory/local.conf /etc/fonts/local.conf
 
-	# Copying prime-run
-	cp $directory/../dotfiles/prime-run /usr/bin
-
-	# Copying nvapi script
-	cp $directory/../dotfiles/nvapi /usr/bin
+	# Adding kernel parameters
+	grubby --update-kernel=ALL --args="mem_sleep_default=s2idle"
 
 else
 	echo "gnome -- GNOME config"

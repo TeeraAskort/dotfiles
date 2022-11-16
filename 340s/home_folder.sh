@@ -80,16 +80,16 @@ if command -v pipewire &> /dev/null ; then
 fi
 
 ## Configuring pipewire
-if command -v pipewire &> /dev/null ; then
-	cd $directory/../common/
-	cp -r pipewire ~/.config/
-	systemctl --user restart pipewire.service pipewire-pulse.socket
-
-	if command -v wireplumber &> /dev/null ; then
-		cp -r wireplumber ~/.config
-		systemctl --user restart wireplumber
-	fi
-fi
+#if command -v pipewire &> /dev/null ; then
+#	cd $directory/../common/
+#	cp -r pipewire ~/.config/
+#	systemctl --user restart pipewire.service pipewire-pulse.socket
+#
+#	if command -v wireplumber &> /dev/null ; then
+#		cp -r wireplumber ~/.config
+#		systemctl --user restart wireplumber
+#	fi
+#fi
 
 # Copying .zshenv on debian
 if [ $(lsb_release -is | grep "Debian" | wc -l) -eq 1 ]; then
@@ -108,6 +108,9 @@ cp $directory/dotfiles/chromium-flags.conf ~/.config
 ## Configuring mpv
 mkdir -p ~/.config/mpv
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
+
+## Setting X11 cursor size
+cp $directory/../common/.Xresources ~
 
 ## Copy fonts
 mkdir ~/.fonts
@@ -161,6 +164,34 @@ if [ $(flatpak list | grep Chrome | wc -l) = 1 ]; then
 	flatpak override --user --filesystem=$HOME/.local/share/icons com.google.Chrome
 fi
 
+## Configuring flatpak steam
+if [ $(flatpak list | grep Steam | wc -l) = 1 ]; then
+	flatpak override --user --filesystem=$HOME/Torrent com.valvesoftware.Steam
+	flatpak override --user --filesystem=$HOME/Datos com.valvesoftware.Steam
+fi
+
+## Configuring flatpak minigalaxy
+if [ $(flatpak list | grep Minigalaxy | wc -l) = 1 ]; then
+	flatpak override --user --filesystem=$HOME/Torrent/GOG\ Games io.github.sharkwouter.Minigalaxy
+fi
+
+## Configuring flatpak google chrome
+if [ $(flatpak list | grep Chrome | wc -l) = 1 ]; then
+	mkdir -p $HOME/.local/share/applications $HOME/.local/share/icons
+	flatpak override --user --filesystem=$HOME/.local/share/applications com.google.Chrome
+	flatpak override --user --filesystem=$HOME/.local/share/icons com.google.Chrome
+fi
+
+## Configuring flatpak heroic games launcher
+if [ $(flatpak list | grep heroicgameslauncher | wc -l) = 1 ]; then
+	flatpak override --user --filesystem=$HOME/Torrent/Heroic com.heroicgameslauncher.hgl
+fi
+
+## Configuring lutris flatpak
+if [ $(flatpak list | grep lutris | wc -l) = 1 ]; then
+	flatpak override --user --filesystem=$HOME/Torrent/Games net.lutris.Lutris
+fi
+
 ## Copying ssh key
 mkdir ~/.ssh
 cp ~/Documentos/id_ed25519* ~/.ssh
@@ -191,7 +222,7 @@ pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" -n >> ~/.config/Yubico/u2f_keys
 
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
-	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
 	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
@@ -222,7 +253,12 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
 	gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['$KEY_PATH/custom0/']"
 	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "Terminal"
-	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "gnome-terminal"
+	
+	if command -v kgx &> /dev/null ; then	
+		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "kgx"
+	else
+		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "gnome-terminal"
+	fi
 	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding '<Super>t'
 
 	cp -r $directory/../common/gtk-4.0 ~/.config
@@ -230,9 +266,10 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	if command -v gedit &> /dev/null ; then
 		gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
 	fi
+
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-	fi
+	fi	
 fi
 
 ## Changing ubuntu GNOME theme
@@ -257,6 +294,28 @@ if [[ "$XDG_CURRENT_DESKTOP" == "ubuntu:GNOME" ]]; then
 	gsettings set org.gnome.desktop.calendar show-weekdate true
 	gsettings set org.gnome.desktop.interface enable-hot-corners true
 
+	# Keybinds
+	gsettings set org.gnome.settings-daemon.plugins.media-keys www "['<Super>w']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys home "['<Super>e']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys play "['<Super>z']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Super>x']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Super>c']"
+
+	KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['$KEY_PATH/custom0/']"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "Terminal"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "gnome-terminal"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding '<Super>t'
+
+	cp -r $directory/../common/gtk-4.0 ~/.config
+
+	if command -v gedit &> /dev/null ; then
+		gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
+	fi
+
+	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
+		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+	fi
 fi
 
 # Changing zorin config
@@ -322,8 +381,14 @@ fi
 
 # Cinnamon config
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
-	gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click true
 	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
+	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-ac-action 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-battery-action 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-type 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power button-power 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power button-suspend 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power critical-battery-action 'suspend'
 	gsettings set org.cinnamon.settings-daemon.plugins.power lock-on-suspend true
 	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
 	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
@@ -360,9 +425,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	if [ -e ~/Imágenes/pape.jpg ]; then
 		sudo cp ~/Imágenes/pape.jpg /usr/share/backgrounds
 	fi
-	
-	echo "inode/directory=nemo.desktop" | tee -a ~/.config/mimeapps.list
 
+	echo "inode/directory=nemo.desktop" | tee -a ~/.config/mimeapps.list
 fi
 
 if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then
@@ -407,7 +471,7 @@ if [ "$XDG_CURRENT_DESKTOP" == "MATE" ]; then
 	sudo cp ~/Imágenes/jowens_kauai.jpg /usr/share/backgrounds/
 fi
 
-if [ $(lsb_release -is) == "Arch" ]; then 
+if [ $(lsb_release -is) == "Arch" ]; then
 
 	mkdir ~/.config/autostart
 
@@ -423,6 +487,11 @@ NoDisplay=true
 EOF
 
 	systemctl disable --now --user gnome-keyring-daemon.socket gnome-keyring-daemon.service
+
+	flatpak update -y
+
+	# Enabled ntp time
+	sudo timedatectl set-ntp true
 
 fi
 

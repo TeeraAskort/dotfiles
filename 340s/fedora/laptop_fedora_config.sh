@@ -28,11 +28,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	# dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/x86_64/
 	# rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
 
-	# Adding openrazer repos
-	dnf config-manager --add-repo https://download.opensuse.org/repositories/hardware:razer/Fedora_35/hardware:razer.repo
-
 	# Input remapper copr repo
 	dnf copr enable sunwire/input-remapper -y
+
+	# Adding openrazer repo
+	dnf config-manager --add-repo https://download.opensuse.org/repositories/hardware:razer/Fedora_37/hardware:razer.repo
 
 	# Heroic games launcher repo
 	dnf copr enable atim/heroic-games-launcher -y
@@ -55,14 +55,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	# Upgrade system
 	dnf upgrade -y --refresh
 
-	# Wine dependencies
-	dnf install -y alsa-plugins-pulseaudio.i686 glibc-devel.i686 glibc-devel libgcc.i686 libX11-devel.i686 freetype-devel.i686 libXcursor-devel.i686 libXi-devel.i686 libXext-devel.i686 libXxf86vm-devel.i686 libXrandr-devel.i686 libXinerama-devel.i686 mesa-libGLU-devel.i686 mesa-libOSMesa-devel.i686 libXrender-devel.i686 libpcap-devel.i686 ncurses-devel.i686 libzip-devel.i686 lcms2-devel.i686 zlib-devel.i686 libv4l-devel.i686 libgphoto2-devel.i686 cups-devel.i686 libxml2-devel.i686 openldap-devel.i686 libxslt-devel.i686 gnutls-devel.i686 libpng-devel.i686 flac-libs.i686 json-c.i686 libICE.i686 libSM.i686 libXtst.i686 libasyncns.i686 liberation-narrow-fonts.noarch libieee1284.i686 libogg.i686 libsndfile.i686 libuuid.i686 libva.i686 libvorbis.i686 libwayland-client.i686 libwayland-server.i686 llvm-libs.i686 mesa-dri-drivers.i686 mesa-filesystem.i686 mesa-libEGL.i686 mesa-libgbm.i686 nss-mdns.i686 ocl-icd.i686 pulseaudio-libs.i686 sane-backends-libs.i686 tcp_wrappers-libs.i686 unixODBC.i686 samba-common-tools.x86_64 samba-libs.x86_64 samba-winbind.x86_64 samba-winbind-clients.x86_64 samba-winbind-modules.x86_64 mesa-libGL-devel.i686 fontconfig-devel.i686 libXcomposite-devel.i686 libtiff-devel.i686 openal-soft-devel.i686 mesa-libOpenCL-devel.i686 opencl-utils-devel.i686 alsa-lib-devel.i686 gsm-devel.i686 libjpeg-turbo-devel.i686 pulseaudio-libs-devel.i686 pulseaudio-libs-devel gtk3-devel.i686 libattr-devel.i686 libva-devel.i686 libexif-devel.i686 libexif.i686 glib2-devel.i686 mpg123-devel.i686 mpg123-devel.x86_64 libcom_err-devel.i686 libcom_err-devel.x86_64 libFAudio-devel.i686 libFAudio-devel.x86_64
-
+	# Development tools
 	dnf groupinstall "C Development Tools and Libraries" -y
 	dnf groupinstall "Development Tools" -y
 
 	#Install required packages
-	dnf install -y vim lutris steam flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks dolphin-emu zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code thermald python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite obs-studio hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper heroic-games-launcher-bin lm_sensors mpv mpv-mpris zstd
+	dnf install -y vim lutris steam flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks dolphin-emu zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code thermald python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ yt-dlp p7zip nextcloud-client google-chrome-stable sqlite obs-studio hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper heroic-games-launcher-bin lm_sensors mpv mpv-mpris zstd openrazer-meta
 
 	# Installing docker
 	# dnf in -y docker-ce docker-ce-cli containerd.io docker-compose

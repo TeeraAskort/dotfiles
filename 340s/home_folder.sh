@@ -11,14 +11,14 @@ dataDiskPartUUID="85a85370-e75a-44c5-a67f-61643a631e47"
 sudo localectl set-x11-keymap es
 
 ## Configuring data disk
-until sudo cryptsetup open /dev/disk/by-uuid/${dataDiskUUID} encrypteddata; do
+until sudo cryptsetup open /dev/disk/by-uuid/${dataDiskUUID} datos; do
 	echo "Bad password, retrying"
 done
 mkdir $HOME/Datos
-sudo mount /dev/mapper/encrypteddata $HOME/Datos
-sudo cp /home/link/Datos/.keyfile /root/.keyfile
-echo "encrypteddata UUID=${dataDiskUUID} /root/.keyfile luks,discard" | sudo tee -a /etc/crypttab
-echo "/dev/mapper/encrypteddata /home/link/Datos xfs defaults 0 0" | sudo tee -a /etc/fstab
+sudo mount /dev/mapper/datos $HOME/Datos
+sudo cp /home/link/Datos/.datoskey /root/.datoskey
+echo "encrypteddata UUID=${dataDiskUUID} /root/.datoskey luks,discard" | sudo tee -a /etc/crypttab
+echo "/dev/mapper/datos $HOME/Datos btrfs defaults,noatime,autodefrag,compress=zstd 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders
 rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent ~/Sync

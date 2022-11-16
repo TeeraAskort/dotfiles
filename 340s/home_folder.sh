@@ -17,7 +17,7 @@ done
 mkdir $HOME/Datos
 sudo mount /dev/mapper/datos $HOME/Datos
 sudo cp /home/link/Datos/.datoskey /root/.datoskey
-echo "encrypteddata UUID=${dataDiskUUID} /root/.datoskey luks,discard" | sudo tee -a /etc/crypttab
+echo "datos UUID=${dataDiskUUID} /root/.datoskey luks,discard" | sudo tee -a /etc/crypttab
 echo "/dev/mapper/datos $HOME/Datos btrfs defaults,noatime,autodefrag,compress=zstd 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders

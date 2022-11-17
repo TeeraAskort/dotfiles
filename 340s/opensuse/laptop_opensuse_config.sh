@@ -252,6 +252,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 EOF
 
 	sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 mem_sleep_default=s2idle\"/g" /etc/default/grub	
+	grub-mkconfig -o /boot/grub2/grub.cfg
 
 else
 	echo "Accepted paramenters:"

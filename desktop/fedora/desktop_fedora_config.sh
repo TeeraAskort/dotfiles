@@ -57,7 +57,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	dnf groupinstall "Development Tools" -y
 
 	#Install required packages
-	dnf install -y vim lutris steam flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks dolphin-emu zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code thermald python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite obs-studio hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper heroic-games-launcher-bin lm_sensors mpv mpv-mpris zstd openssl
+	dnf install -y vim lutris steam flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks dolphin-emu zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code thermald python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ yt-dlp p7zip razergenie openrazer-meta nextcloud-client google-chrome-stable sqlite hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper heroic-games-launcher-bin lm_sensors mpv mpv-mpris zstd openssl
 
 	# Installing docker
 	# dnf in -y docker-ce docker-ce-cli containerd.io docker-compose
@@ -120,7 +120,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	#Install flatpak applications
-	flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark sh.ppy.osu org.telegram.desktop
+	flatpak install -y flathub org.jdownloader.JDownloader org.gtk.Gtk3theme.Adwaita-dark sh.ppy.osu org.telegram.desktop com.obsproject.Studio
 
 	# Installing yt-dlp
 	ln -s /usr/bin/yt-dlp /usr/bin/youtube-dl

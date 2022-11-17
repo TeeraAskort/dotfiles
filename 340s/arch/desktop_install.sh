@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
+bootPart="3d781650-2935-4d52-b997-69c59f3ec36b"
+efiPart="3E8F-38A6"
+
 _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
-rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep WDS100T3X0C-00SJG0 | cut -d" " -f1)
+rootDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep Micron_3400_MTFDKBA1T0TFH | cut -d" " -f1)
 
 # Configuring locales
 sed -i "s/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g" /etc/locale.gen
@@ -19,7 +22,6 @@ echo KEYMAP=es >/etc/vconsole.conf
 # Change localtime
 ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
 hwclock --systohc
-timedatectl set-ntp true
 
 # Hostname
 echo link-340s >/etc/hostname
@@ -68,14 +70,14 @@ sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
-# Installing xanmod kernel
-pacman -S --noconfirm linux-xanmod-edge linux-xanmod-edge-headers
+# Installing linux kernel
+pacman -S --noconfirm linux linux-headers
 
 # Installing xorg and xapps
 pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb
 
 # Installing drivers
-pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver
+pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver 
 
 # Installing services
 pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
@@ -85,6 +87,7 @@ systemctl enable NetworkManager haveged bluetooth
 
 # Installing sound libraries
 pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
+# pacman -S --noconfirm alsa-utils alsa-plugins pulseaudio-alsa pulseaudio-jack pulseaudio-bluetooth
 
 # Configuring pulseaudio
 # sed -i "s/load-module module-suspend-on-idle/#load-module module-suspend-on-idle/g" /etc/pulse/default.pa
@@ -128,40 +131,40 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 
 # Installing desktop environment
 if [[ "$1" == "cinnamon" ]]; then
-	pacman -S --noconfirm gnome-text-editor-git cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller nemo-image-converter nemo-share blueman system-config-printer gnome-screenshot gnome-disk-utility gnome-calendar mint-themes evince kdeconnect zenity gnome-boxes seahorse touchegg nemo-seahorse xdg-desktop-portal xdg-desktop-portal-gtk libsecret gvfs-google
+	pacman -S --noconfirm cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller nemo-image-converter nemo-share blueman system-config-printer gnome-screenshot gnome-disk-utility gnome-calendar mint-themes evince kdeconnect zenity gnome-boxes seahorse touchegg nemo-seahorse xdg-desktop-portal xdg-desktop-portal-gtk libsecret gvfs-google gnome-text-editor
 
 	# Enabling services
 	systemctl enable touchegg
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth gnome-browser-connector simple-scan power-profiles-daemon gnome-boxes seahorse gnome-text-editor-git libsecret gvfs-google mutter-performance python-nautilus
-
+	pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth gnome-browser-connector simple-scan gnome-boxes seahorse libsecret gvfs-google python-nautilus gnome-text-editor # touchegg 
+	
 	# Enabling gdm
-	systemctl enable gdm 
+	systemctl enable gdm # touchegg
 
 	# Removing unwanted packages
-	pacman -Rns --noconfirm gnome-music epiphany totem orca gedit
+	pacman -Rns --noconfirm gnome-music epiphany totem orca
 
 elif [[ "$1" == "mate" ]]; then
 	pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird gnome-boxes gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueman mint-themes mate-tweak mate-menu simple-scan libsecret
 
 elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
-	pacman -S --noconfirm plasma sddm ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind print-manager signon-kwallet-extension qbittorrent gnome-keyring plasma-wayland-session kdepim-addons akonadi kmail qt5-imageformats webp-pixbuf-loader ksshaskpass gnome-boxes libsecret xdg-desktop-portal-gtk xdg-desktop-portal-kde xdg-desktop-portal simple-scan
+	pacman -S --noconfirm plasma sddm ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind print-manager signon-kwallet-extension qbittorrent plasma-wayland-session kdepim-addons akonadi kmail qt5-imageformats webp-pixbuf-loader ksshaskpass gnome-boxes xdg-desktop-portal-gtk xdg-desktop-portal-kde xdg-desktop-portal simple-scan gnome-keyring libsecret libgnome-keyring
 
 	# Removing unwanted packages
 	pacman -Rnsc --noconfirm oxygen
 
 elif [[ "$1" == "xfce" ]]; then
 	# Install xfce
-	pacman -S --noconfirm xfce4 xfce4-goodies xcape pavucontrol network-manager-applet gnome-boxes thunderbird playerctl gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueman system-config-printer xarchiver simple-scan libsecret gnome-keyring mint-themes kdeconnect
+	pacman -S --noconfirm xfce4 xfce4-goodies xcape pavucontrol network-manager-applet gnome-boxes thunderbird playerctl gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueman system-config-printer xarchiver simple-scan mint-themes kdeconnect gnome-keyring libsecret libgnome-keyring
 
 	# Remove unwanted applications
 	pacman -Rns --noconfirm parole
 
 elif [[ "$1" == "el" ]]; then
 	# Install enlightenment
-	pacman -S --noconfirm enlightenment terminology ephoto evince network-manager-applet deluge deluge-gtk libappindicator-gtk3 libnotify lightdm ffmpegthumbnailer libgepub libopenraw libgsf webp-pixbuf-loader xarchiver gnome-calculator gparted thunderbird gnome-keyring aisleriot gnome-mahjongg acpid xorg-xwayland packagekit geoip-database gnome-themes-extra gnome-boxes gnome-text-editor-git simple-scan libsecret
+	pacman -S --noconfirm enlightenment terminology ephoto evince network-manager-applet deluge deluge-gtk libappindicator-gtk3 libnotify lightdm ffmpegthumbnailer libgepub libopenraw libgsf webp-pixbuf-loader xarchiver gnome-calculator gparted thunderbird aisleriot gnome-mahjongg acpid xorg-xwayland packagekit geoip-database gnome-themes-extra gnome-boxes simple-scan gnome-keyring libsecret libgnome-keyring gnome-text-editor
 
 	# Enabling services
 	systemctl enable acpid
@@ -182,7 +185,7 @@ fi
 
 if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "el" ]]; then
 	# Install plymotuh
-	pacman -S --noconfirm plymouth-git
+	pacman -S --noconfirm plymouth
 
 	# Enable lightdm or sddm
 	if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
@@ -202,14 +205,23 @@ cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermar
 
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
-sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems resume/g" /etc/mkinitcpio.conf
+sed -i "s/udev autodetect modconf block filesystems/udev plymouth autodetect modconf block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
 sed -i "s/MODULES=()/MODULES=(i915 vmd)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
 # Install and configure systemd-boot
-pacman -S --noconfirm --needed efibootmgr
+pacman -S --noconfirm --needed efibootmgr 
+
+# mount /dev/nvme1n1p3 /mnt
+# mount /dev/nvme1n1p2 /mnt/efi
+
+# sed -i "s/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/g" /etc/default/grub
+# sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 cryptdevice=\/dev\/disk\/by-uuid\/$(blkid -s UUID -o value /dev/nvme0n1p3):luks:allow-discards root=\/dev\/lvm\/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off\"/g" /etc/default/grub
+# grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+# grub-mkconfig -o /boot/grub/grub.cfg
+
 bootctl install
-# efibootmgr --create --disk /dev/nvme0n1 --part 1 --loader "\EFI\systemd\systemd-bootx64.efi" --label "Linux Boot Manager"
+efibootmgr --create --disk /dev/nvme0n1 --part 1 --loader "\EFI\systemd\systemd-bootx64.efi" --label "Linux Boot Manager"
 mkdir -p /boot/loader/entries
 cat >/boot/loader/loader.conf <<EOF
 default  arch.conf
@@ -218,17 +230,17 @@ editor   no
 EOF
 cat >/boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux-xanmod-edge
+linux   /vmlinuz-linux
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-xanmod-edge.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p3):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) mem_sleep_default=s2idle apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw
+initrd  /initramfs-linux.img
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 mem_sleep_default=s2idle rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux-xanmod-edge
+linux   /vmlinuz-linux
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-xanmod-edge-fallback.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p3):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) mem_sleep_default=s2idle apparmor=1 lsm=lockdown,yama,apparmor intel_iommu=igfx_off splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw
+initrd  /initramfs-linux-fallback.img
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/nvme0n1p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 mem_sleep_default=s2idle rw
 EOF
 bootctl update
 
@@ -251,10 +263,10 @@ pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plu
 pacman -S --noconfirm gimp gimp-help-es
 
 # Installing required packages
-pacman -S --noconfirm jdk-openjdk dolphin-emu discord telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld obs-studio neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry-qt5 rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin protontricks-git mednaffe mpv mpv-mpris libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git openrazer-meta systemd-boot-pacman-hook
+pacman -S --noconfirm jdk-openjdk dolphin-emu telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin mednaffe libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git openrazer-meta systemd-boot-pacman-hook alsa-ucm-conf mpv mpv-mpris zstd obs-studio qt6-wayland
 
 # Enabling services
-systemctl enable thermald apparmor firewalld systemd-oomd.service 
+systemctl enable thermald apparmor firewalld systemd-oomd.service # docker
 
 # Adding user to docker group
 # usermod -aG docker link
@@ -269,7 +281,10 @@ mount-point = /var/compressed
 EOF
 
 # Installing computer specific packages
-pacman -S --noconfirm pam-u2f
+pacman -S --noconfirm pam-u2f tlp
+
+# Enabling services
+systemctl enable tlp
 
 # Wine dependencies
 pacman -S --noconfirm --needed wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader
@@ -298,6 +313,9 @@ rm -r /tmp/aurbuilder
 
 # Adding flathub repo
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+# Installing flatpak applications
+# flatpak install -y flathub com.obsproject.Studio
 
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf
@@ -350,6 +368,8 @@ if [[ "$1" == "gnome" ]]; then
 
 	# Adding gnome-keyring to pam
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
+	
+	ln -s /dev/null /etc/udev/rules.d/61-gdm.rules
 
 	# Add keyring unlock on login
 	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' /etc/pam.d/login /etc/pam.d/login | tee $directory/tmp
@@ -388,6 +408,9 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 
 	# Copying ksshaskpass
 	echo "SSH_ASKPASS=/usr/bin/ksshaskpass" | tee -a /etc/environment
+
+	# Adding xrandr options to sddm
+	echo "xrandr --dpi 96" | tee -a /usr/share/sddm/scripts/Xsetup
 
 elif [[ "$1" == "cinnamon" ]]; then
 	# Adding ssh-askpass env var

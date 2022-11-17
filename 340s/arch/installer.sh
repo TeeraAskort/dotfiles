@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dataDiskUUID="c2751a74-8cb3-4692-84f2-7b852089a505"
+dataDiskUUID="7e666dac-4eea-43a4-87b7-155cf8da2907"
 
 # Checking if arguments are passed
 if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "el" ]]; then
@@ -9,18 +9,18 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	for part in $(echo "$parts" | cut -d"p" -f2); do
 		parted /dev/nvme0n1 -- rm $part
 	done
-	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512M
+	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512MiB
 	parted /dev/nvme0n1 -- set 1 boot on
-	parted /dev/nvme0n1 -- mkpart primary 512M 70GiB
+	parted /dev/nvme0n1 -- mkpart primary 512MiB 100GiB
 
 	# Loop until cryptsetup succeeds formatting the partition
-	until cryptsetup luksFormat /dev/nvme0n1p3
+	until cryptsetup luksFormat /dev/nvme0n1p2
 	do 
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the patition
-	until cryptsetup open /dev/nvme0n1p3 luks
+	until cryptsetup open /dev/nvme0n1p2 luks
 	do
 		echo "Cryptsetup failed, trying again"
 	done
@@ -28,11 +28,11 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	# Configure LVM
 	pvcreate /dev/mapper/luks
 	vgcreate lvm /dev/mapper/luks
-	lvcreate -L 16G -n swap lvm
+	lvcreate -L 32G -n swap lvm
 	lvcreate -l 100%FREE -n root lvm
 
 	# Format partitions
-	mkfs.xfs -L root /dev/lvm/root
+	mkfs.btrfs -L root /dev/lvm/root
 	mkfs.vfat -F32 /dev/nvme0n1p1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
@@ -46,7 +46,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	pacman -Sy --noconfirm archlinux-keyring
 
 	# Install base system
-	pacstrap /mnt base base-devel linux-firmware efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs
+	pacstrap /mnt base base-devel linux-firmware sof-firmware efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs 
 
 	# Executing partprobe
 	partprobe /dev/nvme0n1

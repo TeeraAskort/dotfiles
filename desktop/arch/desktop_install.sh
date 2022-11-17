@@ -260,7 +260,7 @@ pacman -S --noconfirm gimp gimp-help-es
 # pacman -S --noconfirm virtualbox virtualbox-host-dkms virtualbox-ext-oracle anaconda postman-bin pycharm-community-edition r
 
 # Installing required packages
-pacman -S --noconfirm jdk-openjdk dolphin-emu telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin mednaffe libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git openrazer-meta systemd-boot-pacman-hook alsa-ucm-conf mpv mpv-mpris 
+pacman -S --noconfirm jdk-openjdk dolphin-emu telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode firefox firefox-i18n-es-es gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld neovim nodejs npm python-pynvim libfido2 yad mednafen google-chrome nicotine+ yt-dlp pcsx2 zram-generator strawberry rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin mednaffe libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git openrazer-meta systemd-boot-pacman-hook alsa-ucm-conf mpv mpv-mpris obs-studio qt6-wayland
 
 # Enabling services
 systemctl enable thermald apparmor firewalld # docker
@@ -306,7 +306,7 @@ rm -r /tmp/aurbuilder
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak applications
-flatpak install -y flathub com.obsproject.Studio
+# flatpak install -y flathub com.obsproject.Studio
 
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf

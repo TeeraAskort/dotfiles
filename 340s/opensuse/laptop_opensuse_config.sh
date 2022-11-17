@@ -4,6 +4,11 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
+if !command -v nvidia-smi &> /dev/null ; then
+	bash ./first_boot.sh
+	exit
+fi
+
 if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "cinnamon" ] || [ "$1" == "xfce" ]; then
 
 	# Installing repos
@@ -23,9 +28,12 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	fi
 	# zypper ar https://repo.vivaldi.com/archive/vivaldi-suse.repo
 
+	# Adding home OBS repo
+	zypper addrepo https://download.opensuse.org/repositories/home:Alderaeney/openSUSE_Tumbleweed/home:Alderaeney.repo
+
 	# Adding VSCode repo
 	rpm --import https://packages.microsoft.com/keys/microsoft.asc
-	sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/zypp/repos.d/vscode.repo'
+	echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | tee /etc/zypp/repos.d/vscode.repo
 
 	# Adding brave repo
 	# rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
@@ -58,40 +66,39 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Replacing pulseaudio with pipewire
 	zypper in -y --force-resolution pipewire-pulseaudio pipewire-alsa pipewire-aptx pipewire-libjack-0_3 pipewire wireplumber
 
+	# Installing home repo packages
+	zypper in -y --from "home:Alderaeney (openSUSE_Tumbleweed)" input-remapper
+
 	# Installing basic packages
-	zypper in -y google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 minigalaxy systemd-zram-service minecraft-launcher 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs strawberry piper solaar zpaq
+	zypper in -y --force-resolution google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp pcsx2 libasound2.x86_64 systemd-zram-service 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq strawberry nextcloud-desktop zstd mpv mpv-mpris
 
 	# Enabling thermald service
-	user="$SUDO_USER"
-	systemctl enable thermald earlyoom 
+	systemctl enable thermald earlyoom input-remapper tlp
 
 	# Adding user to plugdev group
-	user="$SUDO_USER"
-	usermod -aG plugdev $user
+	usermod -aG plugdev link
 
 	# Starting zram service
 	zramswapon
 
 	# Installing computer specific applications
-	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f
+	zypper in -y kernel-firmware-intel libdrm_intel1 libdrm_intel1-32bit libvulkan1 libvulkan1-32bit libvulkan_intel libvulkan_intel-32bit pam_u2f switcheroo-control
 
 	# Removing unwanted applications
-	zypper rm -y  git-gui vlc vlc-qt vlc-noX tlp tlp-rdw
+	zypper rm -y  git-gui vlc vlc-qt vlc-noX
 
 	# Block vlc from installing
 	zypper addlock vlc-beta
 	zypper addlock vlc
-	zypper addlock tlp
-	zypper addlock tlp-rdw
 	zypper addlock youtube-dl
 	zypper addlock git-gui
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications
-		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird mpv mpv-mpris filelight ksshaskpass5 gnome-boxes
+		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird filelight ksshaskpass5 gnome-boxes simple-scan nextcloud-desktop-dolphin
 
 		# Removing unwanted DE specific applications
-		zypper rm -y  konversation kmines ksudoku kreversi
+		zypper rm -y  konversation kmines ksudoku kreversi skanlite
 
 		# Adding GTK_USE_PORTAL
 		echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
@@ -119,31 +126,37 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/ssh/ksshaskpass" | tee -a /etc/environment
 
+		# Adding xrandr option to sddm
+		echo "xrandr --dpi 96" | tee -a /usr/share/sddm/scripts/Xsetup
+
 	elif [ "$1" == "gnome" ]; then
 		# Removing unwanted DE specific applications
-		zypper rm -y  gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku
+		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku xscreensaver xscreensaver-data gedit
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes mpv mpv-mpris evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse
+		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument simple-scan seahorse nautilus-extension-nextcloud gnome-text-editor # touchegg
+
+		# Enabling services
+		# systemctl enable touchegg
 
 		# Adding gnome theming to qt
-		echo "QT_QPA_PLATFORMTHEME=adwaita-dark" | tee -a /etc/environment
-
-		# Adding hibernate paramaters
-		echo "HandleLidSwitch=hibernate" | tee -a /etc/systemd/logind.conf
-		echo "HandleLidSwitchExternalPower=hibernate" | tee -a /etc/systemd/logind.conf
-		echo "IdleAction=hibernate" | tee -a /etc/systemd/logind.conf
-		echo "IdleActionSec=15min" | tee -a /etc/systemd/logind.conf
+		echo "QT_QPA_PLATFORMTHEME='gnome'" | tee -a /etc/environment
 
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment
+
+		# Setting firefox env var
+		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
+
+		#Disable wayland
+		# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Removing unwanted DE specific applications
 		zypper rm -y hexchat celluloid rhythmbox xed
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg transmission-gtk gedit file-roller gvfs gvfs-backends gvfs-backend-samba libgepub-0_6-0 libgsf-1-114 libopenraw1 gnome-sound-recorder nemo-extension-nextcloud nemo-extension-fileroller nemo-extension-preview nemo-extension-share nemo-extension-image-converter books gnome-disk-utility lightdm-slick-greeter brasero geary mpv mpv-mpris
+		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg transmission-gtk gedit file-roller gvfs gvfs-backends gvfs-backend-samba libgepub-0_6-0 libgsf-1-114 libopenraw1 gnome-sound-recorder nemo-extension-nextcloud nemo-extension-fileroller nemo-extension-preview nemo-extension-share nemo-extension-image-converter books gnome-disk-utility lightdm-slick-greeter brasero geary 
 
 		# Adding gnome theming to qt
 		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
@@ -153,13 +166,13 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper rm -y blueman parole pidgin remmina pragha
 
 		# Installing DE specific applications
-		zypper in -y xcape playerctl transmission-gtk gvfs gvfs-backends gvfs-backend-samba gvfs-fuse ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg adwaita-qt5 QGnomePlatform aisleriot libgepub-0_6-0 libgsf-1-114 libopenraw1 brasero pavucontrol xarchiver blueberry evince gnome-keyring-pam gnome-keyring mpv mpv-mpris
+		zypper in -y xcape playerctl transmission-gtk gvfs gvfs-backends gvfs-backend-samba gvfs-fuse ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg adwaita-qt5 QGnomePlatform aisleriot libgepub-0_6-0 libgsf-1-114 libopenraw1 brasero pavucontrol xarchiver blueberry evince gnome-keyring-pam gnome-keyring 
 
 		# Adding gnome theming to qt
 		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
 
 		# Adding xprofile to user link
-		user="$SUDO_USER"
+		user="link"
 		sudo -u $user echo "xcape -e 'Super_L=Control_L|Escape'" | tee -a /home/$user/.xprofile
 
 		# Setting cursor size in Xresources
@@ -171,8 +184,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
 
 	# Add user to wheel group
-	user=$SUDO_USER
-	usermod -aG wheel $user
+	usermod -aG wheel link
 
 	# Add sudo rule to use wheel group
 	if [[ ! -e /etc/sudoers.d ]]; then
@@ -204,7 +216,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine sh.ppy.osu com.discordapp.Discord com.github.AmatCoder.mednaffe org.DolphinEmu.dolphin-emu com.nextcloud.desktopclient.nextcloud
+	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine sh.ppy.osu com.github.AmatCoder.mednaffe org.DolphinEmu.dolphin-emu com.heroicgameslauncher.hgl 
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ]; then
@@ -218,10 +230,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	if [ "$1" == "cinnamon" ]; then
 		flatpak install -y flathub org.gtk.Gtk3theme.Mint-Y-Dark
 	fi
-
-	# Flatpak overrides
-	user="$SUDO_USER"
-	sudo -u $user flatpak override --user --filesystem=/home/$user/.fonts
 
 	# Add sysctl config
 	echo "dev.i915.perf_stream_paranoid=0" | tee -a /etc/sysctl.d/99-sysctl.conf
@@ -243,9 +251,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
 
-	# Adding hibernation support
-	echo "add_dracutmodules+=\" resume \"" | tee -a /etc/dracut.conf.d/resume.conf
-	dracut -f
+	sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 mem_sleep_default=s2idle\"/g" /etc/default/grub	
 
 else
 	echo "Accepted paramenters:"

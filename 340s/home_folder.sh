@@ -412,6 +412,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.nemo.preferences thumbnail-limit 8589934592
 	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	gsettings set org.cinnamon.desktop.wm.preferences resize-with-right-button true
+	gsettings set org.cinnamon.desktop.peripherals.mouse accel-profile 'flat'
+	gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click true
 
 	# Keybindings
 	gsettings set org.cinnamon.desktop.keybindings.media-keys terminal "['<Primary><Alt>t', '<Super>t']"

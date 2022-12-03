@@ -410,7 +410,7 @@ if [[ "$1" == "gnome" ]]; then
 	echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
 
 	# Disabling QT6 wayland backend
-	echo "QT_QPA_PLATFORM=xcb" | tee -a /etc/environment
+	# echo "QT_QPA_PLATFORM=xcb" | tee -a /etc/environment
 	
 	# Adding ssh-askpass env var
 	echo "SSH_ASKPASS=/usr/lib/seahorse/ssh-askpass" | tee -a /etc/environment

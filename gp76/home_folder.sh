@@ -243,6 +243,9 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
 	gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['$KEY_PATH/custom0/']"
 	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "Terminal"
+
+	# Set nautilus as default file manager
+	xdg-mime default org.gnome.Nautilus.desktop inode/directory application/x-gnome-saved-search
 	
 	if command -v kgx &> /dev/null ; then	
 		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "kgx"

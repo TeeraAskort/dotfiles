@@ -169,14 +169,14 @@ elif [[ "$1" == "el" ]]; then
 fi
 
 if [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "el" ]]; then
-	# Installing lightdm-pantheon-greeter
-	pacman -S --noconfirm lightdm-pantheon-greeter
+	# Installing lightdm-slick-greeter
+	pacman -S --noconfirm lightdm-slick-greeter
 
 	# Installing lightdm-settings
-	# pacman -S --noconfirm lightdm-settings
+	pacman -S --noconfirm lightdm-settings
 
 	# Change lightdm theme
-	sed -i "s/^#greeter-session=.*$/greeter-session=io.elementary.greeter/" /etc/lightdm/lightdm.conf
+	sed -i "s/^#greeter-session=.*$/greeter-session=lightdm-slick-greeter/" /etc/lightdm/lightdm.conf
 
 fi
 

@@ -199,7 +199,7 @@ if [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]] || [
 	# pacman -S --noconfirm lightdm-settings
 
 	# Change lightdm theme
-	sed -i "s/^#greeter-session=.*$/greeter-session=lightdm-pantheon-greeter/" /etc/lightdm/lightdm.conf
+	sed -i "s/^#greeter-session=.*$/greeter-session=io.elementary.greeter/" /etc/lightdm/lightdm.conf
 
 fi
 

@@ -100,7 +100,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 		dnf in -y gnome-tweaks ffmpegthumbnailer aisleriot gnome-mahjongg geary brasero file-roller deluge deluge-gtk seahorse
 
 		#Disable wayland
-		# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
+		sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment

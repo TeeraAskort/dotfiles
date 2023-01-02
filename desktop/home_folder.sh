@@ -440,6 +440,27 @@ EOF
 
 fi
 
+if [ $(lsb_release -is) == "Fedora" ]; then
+	mkdir -p ~/.config/fontconfig
+	cp $directory/../common/fonts.conf ~/.config/fontconfig/fonts.conf
+
+	cat >> ~/.Xresources <<EOF
+Xft.autohint: 0
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+EOF
+
+	sudo ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d/  
+	sudo ln -s /usr/share/fontconfig/conf.avail/10-hinting-slight.conf /etc/fonts/conf.d/  
+	sudo ln -s /usr/share/fontconfig/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d/  
+	sudo ln -s /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/  
+
+	fc-cache -f
+	sudo fc-cache -f
+fi
+
 ## Adding user to audio group
 user="$USER"
 sudo usermod -aG audio $user

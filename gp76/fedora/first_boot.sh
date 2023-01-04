@@ -13,7 +13,7 @@ dnf in -y rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
 dnf in -y dnf-plugins-core
 
 # Install nvidia drivers
-dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda
+dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda nvidia-vaapi-driver
 cat > /etc/modprobe.d/nvidia.conf <<EOF
 # Enable DynamicPwerManagement
 # http://download.nvidia.com/XFree86/Linux-x86_64/440.31/README/dynamicpowermanagement.html

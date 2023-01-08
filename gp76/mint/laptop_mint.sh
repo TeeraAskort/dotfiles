@@ -57,9 +57,6 @@ apt-get install -y ubuntu-restricted-extras
 curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - 
 apt-get install -y nodejs
 
-## Installing heroic games launcher
-bash <(wget -qO- https://raw.githubusercontent.com/Heroic-Games-Launcher/HeroicGamesLauncher/main/rauldipeas.sh)
-
 ## Installing required packages
 apt install -y flatpak mpv zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop zram-config gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es hunspell-ca aspell-ca aspell-es mythes-en-us mythes-es mythes-ca hyphen-en-us hyphen-es hyphen-ca zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch yt-dlp thermald earlyoom solaar piper openjdk-17-jdk chromium-browser steam-installer
 
@@ -77,7 +74,7 @@ usermod -aG plugdev $user
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 ## Installing flatpak applications
-flatpak install -y flathub org.telegram.desktop org.jdownloader.JDownloader com.obsproject.Studio org.DolphinEmu.dolphin-emu net.lutris.Lutris
+flatpak install -y flathub org.telegram.desktop org.jdownloader.JDownloader com.obsproject.Studio org.DolphinEmu.dolphin-emu net.lutris.Lutris com.heroicgameslauncher.hgl
 
 ## Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf

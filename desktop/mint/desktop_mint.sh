@@ -6,7 +6,10 @@ if !command -v nvidia-smi &> /dev/null ; then
 fi
 
 ## Installing wine
-apt install -y wine64 wine32 libasound2-plugins:i386 libsdl2-2.0-0:i386 libdbus-1-3:i386 libsqlite3-0:i386
+mkdir -pm755 /etc/apt/keyrings
+wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
+apt install --install-recommends winehq-stable -y
 
 ## Installing strawberry
 add-apt-repository ppa:jonaski/strawberry -y
@@ -17,12 +20,6 @@ apt install -y strawberry
 curl -LO "https://cdn.akamai.steamstatic.com/client/installer/steam.deb"
 apt install -y ./steam.deb
 rm steam.deb
-
-## Installing Google Chrome
-wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
-echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >>/etc/apt/sources.list.d/google-chrome.list
-apt update
-apt install -y google-chrome-stable
 
 ## Installing Nicotine+
 add-apt-repository ppa:nicotine-team/stable -y
@@ -68,7 +65,7 @@ apt-get install -y nodejs
 bash <(wget -qO- https://raw.githubusercontent.com/Heroic-Games-Launcher/HeroicGamesLauncher/main/rauldipeas.sh)
 
 ## Installing required packages
-apt install -y flatpak mpv zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es hunspell-ca aspell-ca aspell-es mythes-en-us mythes-es mythes-ca hyphen-en-us hyphen-es hyphen-ca zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch yt-dlp thermald earlyoom solaar piper openjdk-17-jdk
+apt install -y flatpak mpv zsh zsh-autosuggestions zsh-syntax-highlighting fonts-noto-cjk fonts-noto-color-emoji gamemode gparted vim neovim python3-neovim libfido2-1 mednafen mednaffe nextcloud-desktop pcsx2 zram-config gimp cups printer-driver-cups-pdf hplip libreoffice hunspell-en-us hunspell-es hunspell-ca aspell-ca aspell-es mythes-en-us mythes-es mythes-ca hyphen-en-us hyphen-es hyphen-ca zip unzip unrar p7zip lzop pigz pbzip2 bash-completion cryptsetup ntfs-3g neofetch yt-dlp thermald earlyoom solaar piper openjdk-17-jdk chromium-browser
 
 ## Enabling services
 systemctl enable thermald earlyoom
@@ -108,13 +105,10 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue
 EOF
 
 ## Installing desktop specific packages
-apt install -y adwaita-qt gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk simple-scan xdg-desktop-portal-gtk brasero libopenraw7 libgsf-1-114 libgepub-0.6-0 gnome-boxes gnome-keyring 
+apt install -y adwaita-qt gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk xdg-desktop-portal-gtk brasero libopenraw7 libgsf-1-114 libgepub-0.6-0 gnome-boxes gnome-keyring 
 
 ## Removing desktop specific packages
-# apt remove -y
-
-# Disabling wayland
-sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+apt remove -y hexchat drawing rhythmbox thunderbird transmission-gtk
 
 # Adding gnome theming to qt
 echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment

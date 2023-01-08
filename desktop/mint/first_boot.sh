@@ -9,6 +9,6 @@ apt full-upgrade -y
 apt-get install -y build-essential software-properties-common curl
 
 ## Installing updated mesa
-add-apt-repository ppa:kisak/kisak-mesa -y
+add-apt-repository ppa:kisak/turtle -y
 apt update
 apt full-upgrade -y

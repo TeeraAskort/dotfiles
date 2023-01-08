@@ -8,7 +8,9 @@ torrentDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep DT01ACA300 | cut -d"
 dataDisk=$(lsblk -io KNAME,TYPE,MODEL | grep disk | grep SNVS2000G | cut -d" " -f1)
 
 ## Adjusting keymap
-sudo localectl set-x11-keymap es
+if [ $(lsb_release -is) != "Linuxmint" ]; then
+	sudo localectl set-x11-keymap es
+fi
 
 ## Configuring torrent disk
 echo "Enter data disk password: "

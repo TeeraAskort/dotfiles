@@ -49,7 +49,7 @@ add-apt-repository multiverse -y
 apt-get install -y ubuntu-restricted-extras
 
 ## Installing nodejs
-curl -fsSL https://deb.nodesource.com/setup_lts.x |  bash - &&\
+curl -fsSL https://deb.nodesource.com/setup_lts.x |  bash - 
 apt-get install -y nodejs
 
 ## Installing heroic games launcher

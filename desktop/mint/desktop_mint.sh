@@ -101,7 +101,7 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue
 EOF
 
 ## Installing desktop specific packages
-apt install -y adwaita-qt gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk xdg-desktop-portal-gtk brasero libopenraw7 libgsf-1-114 libgepub-0.6-0 gnome-boxes gnome-keyring 
+apt install -y adwaita-qt gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk xdg-desktop-portal-gtk brasero libopenraw7 libgsf-1-114 libgepub-0.6-0 gnome-boxes gnome-keyring tilix
 
 ## Removing desktop specific packages
 apt remove -y hexchat drawing rhythmbox thunderbird transmission-gtk celluloid

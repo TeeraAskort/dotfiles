@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-if !command -v nvidia-smi &> /dev/null ; then
-	bash ./first_boot.sh
-	exit
-fi
-
 ## Installing wine
 mkdir -pm755 /etc/apt/keyrings
 wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key

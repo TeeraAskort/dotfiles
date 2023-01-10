@@ -5,6 +5,10 @@ if !command -v nvidia-smi &> /dev/null ; then
 	exit
 fi
 
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
 ## Installing wine
 mkdir -pm755 /etc/apt/keyrings
 wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
@@ -108,3 +112,6 @@ echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
 
 ## Removing unused packages
 apt autoremove -y
+
+## Copying nvidia scripts
+cp $directory/../dotfiles/nvapi /usr/bin

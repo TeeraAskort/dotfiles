@@ -12,3 +12,9 @@ apt-get install -y build-essential software-properties-common curl
 add-apt-repository ppa:graphics-drivers/ppa -y
 apt update
 apt install -y nvidia-driver-525
+
+## Installing xanmod kernel
+echo 'deb http://deb.xanmod.org releases main' | tee /etc/apt/sources.list.d/xanmod-kernel.list
+wget -qO - https://dl.xanmod.org/gpg.key | apt-key --keyring /etc/apt/trusted.gpg.d/xanmod-kernel.gpg add -
+apt update
+apt install -y linux-xanmod-x64v3

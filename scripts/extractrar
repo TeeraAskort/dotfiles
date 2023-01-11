@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+
+directory="$(dirname $_script)"
+
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+
+cd $1
+
+for file in $(ls $1); do
+	if [ -d $file ]; then
+		bash $directory/extractrar $1/$file
+	else
+		if [[ "$file" == *"part"* ]]; then
+			if [[ "$file" == *"part1"* ]]; then
+				unrar x $file
+			fi
+		else
+			unrar x $file
+		fi
+	fi
+done
+
+IFS=$SAVEIFS

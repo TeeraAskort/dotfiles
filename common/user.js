@@ -7,7 +7,7 @@ user_pref("browser.newtabpage.activity-stream.showSponsored", false);
 user_pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 user_pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", false);
 user_pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSites", false);
-user_pref("privacy.resistFingerprinting", true);
+// user_pref("privacy.resistFingerprinting", true);
 user_pref("privacy.trackingprotection.fingerprinting.enabled", true);
 user_pref("privacy.trackingprotection.cryptomining.enabled", true);
 user_pref("privacy.firstparty.isolate", true);
@@ -64,7 +64,7 @@ user_pref("geo.provider.network.url", "https://location.services.mozilla.com/v1/
 user_pref("geo.provider.use_gpsd", false); // [LINUX]
 user_pref("browser.region.network.url", ""); // [FF78+]
 user_pref("browser.region.update.enabled", false); // [[FF79+]
-user_pref("intl.accept_languages", "en-US, en");
+user_pref("intl.accept_languages", "en-US, es-ES, en");
 user_pref("javascript.use_us_english_locale", true); // [HIDDEN PREF]
 user_pref("app.update.auto", false);
 user_pref("app.update.background.scheduling.enabled", false);

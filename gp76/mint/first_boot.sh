@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+## Changing default repos
+sed -i "s/packages.linuxmint.com/ftp.cixug.es\/mint\/packages/g" /etc/apt/sources.list.d/official-package-repositories.list
+sed -i "s/archive.ubuntu.com\/ubuntu/ftp.caliu.cat\/pub\/distribucions\/ubuntu\/archive/g" /etc/apt/sources.list.d/official-package-repositories.list
+apt update
+
 ## Adding 32 bit support
 dpkg --add-architecture i386
 apt update

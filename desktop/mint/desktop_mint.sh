@@ -69,7 +69,7 @@ usermod -aG plugdev $user
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 ## Installing flatpak applications
-flatpak install -y flathub org.telegram.desktop org.jdownloader.JDownloader com.obsproject.Studio org.DolphinEmu.dolphin-emu net.lutris.Lutris com.heroicgameslauncher.hgl
+flatpak install -y flathub org.telegram.desktop org.jdownloader.JDownloader com.obsproject.Studio org.DolphinEmu.dolphin-emu net.lutris.Lutris com.heroicgameslauncher.hgl sh.ppy.osu
 
 ## Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf

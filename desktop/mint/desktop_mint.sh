@@ -1,4 +1,4 @@
-!/usr/bin/env bash
+#!/usr/bin/env bash
 
 ## Installing wine
 mkdir -pm755 /etc/apt/keyrings

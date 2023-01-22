@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ## Changing default repos
-sed -i "s/packages.linuxmint.com/ftp.cixug.es\/mint\/packages/g" /etc/apt/sources.list.d/official-package-repositories.list
+sed -i "s/packages.linuxmint.com/mirror.airenetworks.es\/linuxmint\/packages/g" /etc/apt/sources.list.d/official-package-repositories.list
 sed -i "s/archive.ubuntu.com\/ubuntu/ftp.caliu.cat\/pub\/distribucions\/ubuntu\/archive/g" /etc/apt/sources.list.d/official-package-repositories.list
 apt update
 

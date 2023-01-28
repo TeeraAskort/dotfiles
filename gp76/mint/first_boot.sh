@@ -13,10 +13,17 @@ apt full-upgrade -y
 ## Installing essential build tools and ppa
 apt-get install -y build-essential software-properties-common curl
 
-## Installing nvidia drivers
-add-apt-repository ppa:graphics-drivers/ppa -y
+## Installing nvidia drivers graphics drivers ppa
+# add-apt-repository ppa:graphics-drivers/ppa -y
+# apt update
+# apt install -y nvidia-driver-525
+
+## Install nvidia drivers NVIDIA CUDA repo
+apt install dirmngr ca-certificates software-properties-common apt-transport-https dkms curl -y
+curl -fSsL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/3bf863cc.pub | gpg --dearmor | tee /usr/share/keyrings/nvidia-drivers.gpg > /dev/null 2>&1
+echo 'deb [signed-by=/usr/share/keyrings/nvidia-drivers.gpg] https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/ /' | tee /etc/apt/sources.list.d/nvidia-drivers.list
 apt update
-apt install -y nvidia-driver-525
+apt install nvidia-driver-525 cuda -y
 
 ## Installing xanmod kernel
 echo 'deb http://deb.xanmod.org releases main' | tee /etc/apt/sources.list.d/xanmod-kernel.list

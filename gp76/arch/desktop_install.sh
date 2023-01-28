@@ -54,9 +54,6 @@ pacman-key --lsign-key FBA220DFC880C036
 cat >>/etc/pacman.conf <<EOF
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
-
-[kde-unstable]
-Include = /etc/pacman.d/mirrorlist
 EOF
 
 # Downloading the chaotic-aur mirrorlist

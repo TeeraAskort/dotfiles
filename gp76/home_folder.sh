@@ -184,6 +184,10 @@ if [ $(flatpak list | grep lutris | wc -l) = 1 ]; then
 	flatpak override --user --filesystem=$HOME/Torrent/Games net.lutris.Lutris
 fi
 
+## Configuring Nextcloud
+mkdir -p ~/.config/Nextcloud
+cp ~/Documentos/nextcloud.cfg ~/.config/Nextcloud/nextcloud.cfg
+
 ## Copying ssh key
 mkdir ~/.ssh
 cp ~/Documentos/id_ed25519* ~/.ssh

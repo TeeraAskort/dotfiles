@@ -41,7 +41,7 @@
       label = "datos";
     };
     device = "/dev/mapper/datos";
-    fsType = "btrfs";
+    fsType = "xfs";
   };
 
   fileSystems."/home/link/Torrent" = {

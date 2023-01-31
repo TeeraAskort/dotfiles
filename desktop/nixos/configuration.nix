@@ -58,7 +58,7 @@ in
     wget vim tdesktop lutris wineWowPackages.staging vscode 
     mpv strawberry gnome.file-roller
     papirus-icon-theme transmission-gtk
-    gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks discord 
+    gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks 
     git brasero nicotine-plus dolphinEmu
     zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify yt-dlp

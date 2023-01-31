@@ -62,7 +62,7 @@
       blkDev = "/dev/disk/by-uuid/e3839618-a2ea-4043-9359-9906c76eee0e";
       enable = true;
       keyFile = "/mnt-root/.torrentkey";
-      label = "datos";
+      label = "torrent";
     };
     device = "/dev/mapper/torrent";
     fsType = "btrfs";

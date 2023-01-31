@@ -107,6 +107,8 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	# Install nixos
 	nixos-install
 
+	efibootmgr -c -d /dev/nvme1n1 -p 1 -L NixOS-boot -l '\EFI\NixOS-boot\grubx64.efi'
+
 else
 	echo "Available options: "
 	echo "gnome - To install the gnome desktop"

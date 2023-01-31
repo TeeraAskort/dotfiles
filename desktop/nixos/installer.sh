@@ -76,7 +76,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 
 	# Copy key from torrent drive to root partition
 	clear 
-	echo "Enter data disk password"
+	echo "Enter torrent disk password"
 	until cryptsetup open /dev/${torrentDisk}1 torrent
 	do
 		echo "Cryptsetup failed opening the secondary drive"

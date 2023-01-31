@@ -248,7 +248,7 @@ in
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
-        wayland = true;
+        wayland = false;
         enable = true;
       };
     };

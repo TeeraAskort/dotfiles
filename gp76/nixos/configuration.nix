@@ -101,6 +101,9 @@ in
   # Enable libratbag daemon
   services.ratbagd.enable = true;
 
+  # Enable touchegg service
+  services.touchegg.enable = true;
+
   # Enabling thermald
   services.thermald.enable = true;
 
@@ -228,7 +231,7 @@ in
   hardware.pulseaudio.enable = false;
 
   # Enabling xwayland
-  programs.xwayland.enable = true;
+  # programs.xwayland.enable = true;
 
   # Xserver configuration
   services.xserver = {
@@ -250,7 +253,7 @@ in
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
-        wayland = true;
+        wayland = false;
         enable = true;
       };
     };

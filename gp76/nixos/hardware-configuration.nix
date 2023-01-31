@@ -32,7 +32,7 @@
 
   fileSystems."/" =
     { device = "/dev/mapper/lvm-root";
-      fsType = "xfs";
+      fsType = "btrfs";
     };
 
   fileSystems."/boot" =

@@ -98,7 +98,7 @@ in
   ];
 
   # Enable input-remapper service
-  services.input-remapper.enable = true
+  services.input-remapper.enable = true;
  
   # Enable openrazer daemon
   hardware.openrazer.enable = true;

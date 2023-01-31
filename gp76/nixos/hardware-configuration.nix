@@ -12,7 +12,7 @@
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.kernelPackages = pkgs.linuxKernel.kernels.linux_xanmod;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
   boot.kernel.sysctl = {
     "kernel.unprivileged_userns_clone" = 1;
     "dev.i915.perf_stream_paranoid" = 0;
@@ -78,5 +78,5 @@
     [ { device = "/dev/disk/by-uuid/swapChangeme"; }
     ];
 
-  nix.maxJobs = lib.mkDefault 8;
+  nix.settings.max-jobs = lib.mkDefault 14;
 }

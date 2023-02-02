@@ -92,6 +92,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
+
+	env WEBKIT_FORCE_SANDBOX=0 gnome-control-center online-accounts &
 fi
 
 # Cinnamon config

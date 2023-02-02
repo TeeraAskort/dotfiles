@@ -110,6 +110,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 		sudo systemctl daemon-reload
 		sudo systemctl enable gnome-shell-suspend gnome-shell-resume
 	fi
+
+	env WEBKIT_FORCE_SANDBOX=0 gnome-control-center online-accounts &
 fi
 
 # Cinnamon config

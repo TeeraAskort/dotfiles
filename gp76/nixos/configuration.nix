@@ -209,8 +209,6 @@ in
   hardware.nvidia = {
     powerManagement.enable = true;
     modesetting.enable = true;
-    nvidiaPersistenced = true;
-    powerManagement.enable = true;
   };
 
   # Enable CUPS to print documents.

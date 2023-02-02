@@ -7,14 +7,15 @@ directory="$(dirname $_script)"
 ## Configuring home folders
 sudo rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Sync
 
-ln -s $HOME/Datos/Descargas $HOME
-ln -s $HOME/Datos/Descargas $HOME/Downloads
-ln -s $HOME/Datos/Documentos $HOME
-ln -s $HOME/Datos/Escritorio $HOME
+## Linking home folders
+ln -s $HOME/Torrent/Descargas $HOME
+ln -s $HOME/Torrent/Descargas $HOME/Downloads
+ln -s $HOME/Torrent/Documentos $HOME
+ln -s $HOME/Torrent/Escritorio $HOME
 ln -s $HOME/Datos/Música $HOME
-ln -s $HOME/Datos/Imágenes $HOME
-ln -s $HOME/Datos/Nextcloud $HOME
-ln -s $HOME/Datos/Sync $HOME
+ln -s $HOME/Torrent/Imágenes $HOME
+ln -s $HOME/Torrent/Nextcloud $HOME
+ln -s $HOME/Torrent/Sync $HOME
 
 ## Downloading Plug for vim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \

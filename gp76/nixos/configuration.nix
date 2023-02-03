@@ -234,7 +234,7 @@ in
   hardware.pulseaudio.enable = false;
 
   # Enabling xwayland
-  # programs.xwayland.enable = true;
+  programs.xwayland.enable = true;
 
   # Xserver configuration
   services.xserver = {

@@ -260,14 +260,21 @@ in
     };
   };
 
-  # Exclude x11 packages
-  services.xserver.excludePackages = [ pkgs.xterm ];
+  # Gnome services
+  services.gnome = {
+    gnome-online-accounts.enable = true;
+    gnome-browser-connector.enable = true;
+  };
   
   # Excluded gnome3 packages
   environment.gnome.excludePackages = 
     [ pkgs.epiphany pkgs.gnome.gnome-music
       pkgs.gnome.gnome-software pkgs.gnome.totem
     ];
+
+  # Exclude x11 packages
+  services.xserver.excludePackages = [ pkgs.xterm ];
+
 
   # Enable power-profiles-daemon
   services.power-profiles-daemon.enable = true;

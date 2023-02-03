@@ -268,6 +268,12 @@ in
     };
   };
 
+  # Gnome services
+  services.gnome = {
+    gnome-online-accounts.enable = true;
+    gnome-browser-connector.enable = true;
+  };
+
   # Excluded gnome3 packages
   environment.gnome.excludePackages = 
     [ pkgs.epiphany pkgs.gnome.gnome-music

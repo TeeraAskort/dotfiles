@@ -100,7 +100,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 
 	gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	
-	env WEBKIT_DISABLE_COMPOSITING_MODE=1 gnome-control-center online-accounts
+	env WEBKIT_DISABLE_COMPOSITING_MODE=1 gnome-control-center online-accounts &
 fi
 
 # Cinnamon config

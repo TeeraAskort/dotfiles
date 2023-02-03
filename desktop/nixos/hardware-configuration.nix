@@ -17,6 +17,10 @@
     "kernel.unprivileged_userns_clone" = 1;
   };
 
+  boot.kernelParams = [
+    "mem_sleep_default=deep"
+  ];
+
   boot.initrd.luks.devices."luks" = {
     device = "/dev/disk/by-uuid/UUIDchangeme";
     allowDiscards = true;

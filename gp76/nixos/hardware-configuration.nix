@@ -19,7 +19,7 @@
   };
 
   boot.kernelParams = [
-    "nvidia_drm.modeset=1"
+    "mem_sleep_default=deep"
   ];
 
   boot.resumeDevice = "/dev/disk/by-uuid/swapChangeme";

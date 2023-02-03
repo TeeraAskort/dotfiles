@@ -59,7 +59,7 @@ in
     zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify yt-dlp
     google-chrome ffmpegthumbnailer 
-    obs-studio libfido2 pfetch
+    obs-studio libfido2 pfetch killall
     gtk-engine-murrine lm_sensors
     parallel libreoffice-fresh
     ffmpeg-full nodejs nodePackages.npm
@@ -67,7 +67,7 @@ in
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
     mednafen mednaffe android-tools
-    firefox gnome.gnome-boxes 
+    firefox gnome.gnome-boxes appimage-run
     nextcloud-client heroic osu-lazer
     myAspell mythes gimp steam pcsx2 
     adwaita-qt razergenie piper solaar
@@ -256,7 +256,7 @@ in
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
-        wayland = false;
+        wayland = true;
         enable = true;
       };
     };
@@ -272,6 +272,54 @@ in
   services.gnome = {
     gnome-online-accounts.enable = true;
     gnome-browser-connector.enable = true;
+  };
+
+  systemd.services = {
+    suspend-gnome-shell = {
+      enable = true;
+      path = [
+        pkgs.killall
+      ];
+      description = "Nvidia suspend fix";
+      before = [
+        "systemd-suspend.service"
+        "systemd-hibernate.service"
+        "nvidia-suspend.service"
+        "nvidia-hibernate.service"
+      ];
+      wantedBy = [
+        "systemd-suspend.service"
+        "systemd-hibernate.service"
+      ];
+      serviceConfig = {
+        Type = "oneshot";
+      };
+      script = "#!/usr/bin/env bash
+        killall -STOP .gnome-shell-wr
+      ";
+    };
+    resume-gnome-shell = {
+      enable = true;
+      path = [
+        pkgs.killall
+      ];
+      description = "Nvidia suspend fix";
+      after = [
+        "systemd-suspend.service"
+        "systemd-hibernate.service"
+        "nvidia-resume.service"
+      ];
+      wantedBy = [
+        "systemd-suspend.service"
+        "systemd-hibernate.service"
+      ];
+      serviceConfig = {
+        Type = "oneshot";
+      };
+      script = "#!/usr/bin/env bash
+        killall -CONT .gnome-shell-wr
+      ";
+    };
   };
 
   # Excluded gnome3 packages

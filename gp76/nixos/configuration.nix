@@ -13,6 +13,10 @@ let
     es
     en
   ]);
+  nvapi = pkgs.writeShellScriptBin "nvapi" ''
+    export PROTON_ENABLE_NVAPI=1 
+    exec -a "$0" "$@"
+  '';
 in
 {
   imports =
@@ -72,6 +76,7 @@ in
     myAspell mythes gimp steam pcsx2 
     adwaita-qt razergenie piper solaar
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso 
+    nvapi
   ];
 
   # Environment variables

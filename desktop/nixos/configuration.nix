@@ -75,7 +75,7 @@ in
     nextcloud-client heroic osu-lazer
     myAspell mythes gimp steam pcsx2 
     adwaita-qt razergenie piper solaar
-    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.sound-output-device-chooser
+    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso 
     useRADV 
   ];
 

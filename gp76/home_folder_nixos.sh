@@ -31,17 +31,6 @@ cp $directory/dotfiles/chromium-flags.conf ~/.config
 mkdir -p ~/.config/mpv/
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
-## Configuring pipewire
-if command -v pipewire &>/dev/null; then
-	cd $directory/../common/
-	cp -r pipewire ~/.config/
-	systemctl --user restart pipewire.service pipewire-pulse.socket
-	if command -v wireplumber &>/dev/null; then
-		cp -r wireplumber ~/.config/
-		systemctl --user restart wireplumber
-	fi
-fi
-
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@gmail.com"

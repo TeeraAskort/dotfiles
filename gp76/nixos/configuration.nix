@@ -239,7 +239,7 @@ in
   hardware.pulseaudio.enable = false;
 
   # Enabling xwayland
-  programs.xwayland.enable = true;
+  # programs.xwayland.enable = true;
 
   # Xserver configuration
   services.xserver = {
@@ -261,7 +261,7 @@ in
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
-        wayland = true;
+        wayland = false;
         enable = true;
       };
     };
@@ -279,53 +279,53 @@ in
     gnome-browser-connector.enable = true;
   };
 
-  systemd.services = {
-    suspend-gnome-shell = {
-      enable = true;
-      path = [
-        pkgs.killall
-      ];
-      description = "Nvidia suspend fix";
-      before = [
-        "systemd-suspend.service"
-        "systemd-hibernate.service"
-        "nvidia-suspend.service"
-        "nvidia-hibernate.service"
-      ];
-      wantedBy = [
-        "systemd-suspend.service"
-        "systemd-hibernate.service"
-      ];
-      serviceConfig = {
-        Type = "oneshot";
-      };
-      script = "#!/usr/bin/env bash
-        killall -STOP .gnome-shell-wr
-      ";
-    };
-    resume-gnome-shell = {
-      enable = true;
-      path = [
-        pkgs.killall
-      ];
-      description = "Nvidia suspend fix";
-      after = [
-        "systemd-suspend.service"
-        "systemd-hibernate.service"
-        "nvidia-resume.service"
-      ];
-      wantedBy = [
-        "systemd-suspend.service"
-        "systemd-hibernate.service"
-      ];
-      serviceConfig = {
-        Type = "oneshot";
-      };
-      script = "#!/usr/bin/env bash
-        killall -CONT .gnome-shell-wr
-      ";
-    };
-  };
+  # systemd.services = {
+  #   suspend-gnome-shell = {
+  #     enable = true;
+  #     path = [
+  #       pkgs.killall
+  #     ];
+  #     description = "Nvidia suspend fix";
+  #     before = [
+  #       "systemd-suspend.service"
+  #       "systemd-hibernate.service"
+  #       "nvidia-suspend.service"
+  #       "nvidia-hibernate.service"
+  #     ];
+  #     wantedBy = [
+  #       "systemd-suspend.service"
+  #       "systemd-hibernate.service"
+  #     ];
+  #     serviceConfig = {
+  #       Type = "oneshot";
+  #     };
+  #     script = "#!/usr/bin/env bash
+  #       killall -STOP .gnome-shell-wr
+  #     ";
+  #   };
+  #   resume-gnome-shell = {
+  #     enable = true;
+  #     path = [
+  #       pkgs.killall
+  #     ];
+  #     description = "Nvidia suspend fix";
+  #     after = [
+  #       "systemd-suspend.service"
+  #       "systemd-hibernate.service"
+  #       "nvidia-resume.service"
+  #     ];
+  #     wantedBy = [
+  #       "systemd-suspend.service"
+  #       "systemd-hibernate.service"
+  #     ];
+  #     serviceConfig = {
+  #       Type = "oneshot";
+  #     };
+  #     script = "#!/usr/bin/env bash
+  #       killall -CONT .gnome-shell-wr
+  #     ";
+  #   };
+  # };
 
   # Excluded gnome3 packages
   environment.gnome.excludePackages = 

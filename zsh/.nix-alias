@@ -1,4 +1,8 @@
 alias gedit="gnome-text-editor"
 alias autoremove="sudo nix-env --delete-generations old; sudo nix-store --gc"
-alias update="sudo nixos-rebuild boot --upgrade"
 alias vim="nvim"
+
+function nixup() {
+	sudo nixos-rebuild boot --upgrade
+	flatpak upgrade -y
+}

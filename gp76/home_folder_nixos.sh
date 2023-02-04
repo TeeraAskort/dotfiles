@@ -31,6 +31,10 @@ cp $directory/dotfiles/chromium-flags.conf ~/.config
 mkdir -p ~/.config/mpv/
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
+## Configuring Nextcloud
+mkdir -p ~/.config/Nextcloud
+cp ~/Documentos/nextcloud.cfg ~/.config/Nextcloud/nextcloud.cfg
+
 ## Configuring git
 git config --global user.name "Alderaeney"
 git config --global user.email "alderaeney@gmail.com"

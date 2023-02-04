@@ -27,6 +27,10 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 ## Copying chromium config
 cp $directory/dotfiles/chromium-flags.conf ~/.config
 
+## Configuring Nextcloud
+mkdir -p ~/.config/Nextcloud
+cp ~/Documentos/nextcloud.cfg ~/.config/Nextcloud/nextcloud.cfg
+
 ## Configuring mpv
 mkdir -p ~/.config/mpv/shaders/
 curl -LO https://gist.githubusercontent.com/igv/36508af3ffc84410fe39761d6969be10/raw/ac09db2c0664150863e85d5a4f9f0106b6443a12/SSimDownscaler.glsl

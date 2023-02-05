@@ -13,10 +13,6 @@ let
     es
     en
   ]);
-  useRADV = pkgs.writeShellScriptBin "useRADV" ''
-    export AMD_VULKAN_ICD=RADV
-    exec -a "$0" "$@"
-  '';
 in
 {
   imports =
@@ -76,7 +72,6 @@ in
     myAspell mythes gimp steam pcsx2 
     adwaita-qt razergenie piper solaar
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso 
-    useRADV 
   ];
 
   # Environment variables
@@ -194,12 +189,8 @@ in
     driSupport32Bit = true;
     driSupport = true;
     extraPackages = with pkgs; [
-      amdvlk
       rocm-opencl-icd
       rocm-opencl-runtime
-    ];
-    extraPackages32 = with pkgs; [
-      driversi686Linux.amdvlk
     ];
   };
 

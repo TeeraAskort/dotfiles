@@ -295,6 +295,7 @@ in
   };
 
   home-manager.users.link = {
+    home.stateVersion = "22.11";
     services.nextcloud-client = {
       enable = true;
       startInBackground = true;

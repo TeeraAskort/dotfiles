@@ -17,6 +17,10 @@ let
     export PROTON_ENABLE_NVAPI=1 
     exec -a "$0" "$@"
   '';
+  hitman-run = pkgs.writeShellScriptBin "hitman-run" ''
+    VKD3D_CONFIG=dxr11 VKD3D_FEATURE_LEVEL=12_1 PROTON_HIDE_NVIDIA_GPU=0 PROTON_ENABLE_NVAPI=1
+    exec -a "$0" "$@"
+  '';
 in
 {
   imports =
@@ -76,7 +80,7 @@ in
     myAspell mythes gimp steam pcsx2 
     adwaita-qt razergenie piper solaar
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.x11-gestures
-    nvapi
+    nvapi hitman-run
   ];
 
   # Environment variables

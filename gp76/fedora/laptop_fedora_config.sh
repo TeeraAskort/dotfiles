@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 _script="$(readlink -f ${BASH_SOURCE[0]})"
 
@@ -167,6 +167,9 @@ EOF
 
 	# Copying nvapi script
 	cp $directory/../dotfiles/nvapi /usr/bin
+
+	# Copying hitman-run script
+	cp $directory/../dotfiles/hitman-run /usr/bin
 
 else
 	echo "gnome -- GNOME config"

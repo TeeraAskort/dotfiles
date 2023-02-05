@@ -115,3 +115,5 @@ apt autoremove -y
 
 ## Copying nvidia scripts
 cp $directory/../dotfiles/nvapi /usr/bin
+
+cp $directory/../dotfiles/hitman-run /usr/bin

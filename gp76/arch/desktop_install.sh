@@ -398,6 +398,9 @@ EOF
 # Copying nvapi script
 cp $directory/../dotfiles/nvapi /usr/bin
 
+# Copying hitman-run script
+cp $directory/../dotfiles/hitman-run /usr/bin
+
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -
 

@@ -101,6 +101,15 @@ in
     recursive
   ];
 
+  # MPV overlay
+  nixpkgs.overlays = [
+    (self: super: {
+      mpv = super.mpv.override {
+        scripts = [ self.mpvScripts.mpris ];
+      };
+    })
+  ];
+
   # Enable input-remapper service
   services.input-remapper.enable = true;
 

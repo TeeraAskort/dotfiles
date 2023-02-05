@@ -13,11 +13,13 @@ let
     es
     en
   ]);
+  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/master.tar.gz";
 in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      (import "${home-manager}/nixos")
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -68,7 +70,7 @@ in
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
     mednafen mednaffe android-tools
     firefox gnome.gnome-boxes appimage-run
-    nextcloud-client heroic osu-lazer
+    heroic osu-lazer
     myAspell mythes gimp steam pcsx2 
     adwaita-qt razergenie piper solaar
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso 
@@ -290,6 +292,13 @@ in
     isNormalUser = true;
     extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "adbusers" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
+  };
+
+  home-manager.users.link = {
+    services.nextcloud-client = {
+      enable = true;
+      startInBackground = true;
+    };
   };
 
   # This value determines the NixOS release from which the default

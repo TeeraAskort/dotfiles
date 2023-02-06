@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 let
   blockedHosts = pkgs.fetchurl {
@@ -13,10 +13,6 @@ let
     es
     en
   ]);
-  useRADV = pkgs.writeShellScriptBin "useRADV" ''
-    export AMD_VULKAN_ICD=RADV
-    exec -a "$0" "$@"
-  '';
 in
 {
   imports =
@@ -56,26 +52,26 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim tdesktop lutris wineWowPackages.staging vscode 
-    celluloid strawberry gnome.file-roller gnome-text-editor
-    papirus-icon-theme transmission-gtk xdg-user-dirs
-    gnome.aisleriot gnome.gnome-mahjongg discord 
+    mpv strawberry gnome.file-roller
+    papirus-icon-theme transmission-gtk
+    gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks 
     git brasero nicotine-plus dolphinEmu
     zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify yt-dlp
     google-chrome ffmpegthumbnailer 
-    obs-studio libfido2 pfetch
+    obs-studio libfido2 pfetch minecraft
     gtk-engine-murrine lm_sensors
-    parallel libreoffice-fresh tilix
+    parallel libreoffice-fresh
     ffmpeg-full nodejs nodePackages.npm
     python310Packages.pynvim neovim cmake python39Full gcc gnumake
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
-    mednafen mednaffe minecraft android-tools
-    firefox gnome.gnome-boxes minigalaxy
-    mongodb-compass yarn nextcloud-client
+    mednafen mednaffe android-tools
+    firefox gnome.gnome-boxes appimage-run
+    nextcloud-client heroic osu-lazer
     myAspell mythes gimp steam pcsx2 
-    adwaita-qt docker-compose postman
-    useRADV
+    adwaita-qt razergenie piper solaar
+    cinnamon.mint-themes
   ];
 
   # Environment variables
@@ -84,11 +80,8 @@ in
     QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
-  # Using seahorse for ssh-askpass
-  programs.seahorse.enable = true;
-
   # QT5 Style
-  qt5.style = lib.mkForce "adwaita-dark";
+  qt5.style = "adwaita-dark";
 
   # Font configuration
   fonts.fonts = with pkgs; [
@@ -99,8 +92,23 @@ in
     recursive
   ];
 
-  # Enable kdeconnect
-  programs.kdeconnect.enable = true;
+  # MPV overlay
+  nixpkgs.overlays = [
+    (self: super: {
+      mpv = super.mpv.override {
+        scripts = [ self.mpvScripts.mpris ];
+      };
+    })
+  ];
+
+  # Enable input-remapper service
+  services.input-remapper.enable = true;
+ 
+  # Enable openrazer daemon
+  hardware.openrazer.enable = true;
+ 
+  # Enable libratbag daemon
+  services.ratbagd.enable = true;
 
   # Enabling thermald
   services.thermald.enable = true;
@@ -162,7 +170,7 @@ in
   programs.adb.enable = true;
 
   # Enabling docker service
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
 
   # Automatic garbage collection
   nix.gc.automatic = true;
@@ -190,12 +198,8 @@ in
     driSupport32Bit = true;
     driSupport = true;
     extraPackages = with pkgs; [
-      amdvlk
       rocm-opencl-icd
       rocm-opencl-runtime
-    ];
-    extraPackages32 = with pkgs; [
-      driversi686Linux.amdvlk
     ];
   };
 
@@ -222,7 +226,7 @@ in
   hardware.pulseaudio.enable = false;
 
   # Enabling xwayland
-  programs.xwayland.enable = true;
+  # programs.xwayland.enable = true;
 
   # Xserver configuration
   services.xserver = {
@@ -241,26 +245,31 @@ in
     # AMDGPU drivers
     videoDrivers = [ "amdgpu" ];
 
-    # cinnamon desktop configuration
+    # Gnome3 desktop configuration
     displayManager = {
+      defaultSession = "cinnamon";
       lightdm = {
         enable = true;
-        greeters.pantheon.enable = true;
+	greeters.slick = {
+          enable = true;
+	  draw-user-backgrounds = true;
+	  theme.name = "Mint-Y-Dark";
+	  iconTheme.name = "Papirus-Dark";
+	};
       };
     };
     desktopManager = {
       cinnamon = {
         enable = true;
-        sessionPath = [ pkgs.gtk4 ];
       };
     };
   };
 
-  # Exclude xserver packages
+  # Exclude x11 packages
   services.xserver.excludePackages = [ pkgs.xterm ];
 
-  # Disable cinnamon packages
-  environment.cinnamon.excludePackages = [ pkgs.xplayer pkgs.cinnamon.xreader pkgs.cinnamon.pix pkgs.hexchat  ];
+  # Cinnamon apps
+  services.cinnamon.apps.enable = true;
 
   # Enable power-profiles-daemon
   services.power-profiles-daemon.enable = true;
@@ -274,7 +283,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "docker" "adbusers" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "adbusers" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 
@@ -284,7 +293,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "22.11"; # Did you read the comment?
 
 }
 

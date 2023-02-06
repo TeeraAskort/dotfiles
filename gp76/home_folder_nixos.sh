@@ -98,16 +98,14 @@ fi
 
 # Cinnamon config
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
-	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-	gsettings set org.cinnamon.settings-daemon.peripherals.touchpad tap-to-click true
 	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
-	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-ac-action 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-battery-action 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-type 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-type 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power button-power 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power button-suspend 'hibernate'
-	gsettings set org.cinnamon.settings-daemon.plugins.power critical-battery-action 'hibernate'
+	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-ac-action 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power lid-close-battery-action 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-type 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power button-power 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power button-suspend 'suspend'
+	gsettings set org.cinnamon.settings-daemon.plugins.power critical-battery-action 'suspend'
 	gsettings set org.cinnamon.settings-daemon.plugins.power lock-on-suspend true
 	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
 	gsettings set org.cinnamon.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
@@ -129,7 +127,10 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon.desktop.interface clock-show-date true
 	gsettings set org.nemo.icon-view default-zoom-level 'small'
 	gsettings set org.nemo.preferences thumbnail-limit 8589934592
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	gsettings set org.cinnamon.desktop.wm.preferences resize-with-right-button true
+	gsettings set org.cinnamon.desktop.peripherals.mouse accel-profile 'flat'
+	gsettings set org.cinnamon.desktop.peripherals.touchpad tap-to-click true
 
 	# Keybindings
 	gsettings set org.cinnamon.desktop.keybindings.media-keys terminal "['<Primary><Alt>t', '<Super>t']"
@@ -140,8 +141,11 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon.desktop.keybindings looking-glass-keybinding "[]"
 	gsettings set org.cinnamon.desktop.keybindings.media-keys screensaver "['<Super>l', 'XF86ScreenSaver']"
 
-	echo "inode/directory=nemo.desktop" | tee -a ~/.config/mimeapps.list
+	if [ -e ~/Imágenes/pape.jpg ]; then
+		sudo cp ~/Imágenes/pape.jpg /usr/share/backgrounds
+	fi
 
+	echo "inode/directory=nemo.desktop" | tee -a ~/.config/mimeapps.list
 fi
 
 if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]]; then

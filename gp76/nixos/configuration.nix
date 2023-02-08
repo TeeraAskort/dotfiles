@@ -67,7 +67,7 @@ in
     zip p7zip unzip unrar gnome.gnome-calendar 
     steam-run systembus-notify yt-dlp
     google-chrome ffmpegthumbnailer 
-    obs-studio libfido2 pfetch minecraft killall
+    obs-studio libfido2 pfetch desmume killall
     gtk-engine-murrine lm_sensors
     parallel libreoffice-fresh
     ffmpeg-full nodejs nodePackages.npm

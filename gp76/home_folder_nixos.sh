@@ -162,7 +162,7 @@ gsettings set org.gtk.gtk4.Settings.FileChooser sort-directories-first true
 
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub org.jdownloader.JDownloader 
+flatpak install -y flathub org.jdownloader.JDownloader com.mojang.Minecraft
 
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~

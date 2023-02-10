@@ -86,7 +86,7 @@ in
   };
 
   # QT5 Style
-  qt5.style = "adwaita-dark";
+  qt.style = "adwaita-dark";
 
   # Font configuration
   fonts.fonts = with pkgs; [
@@ -223,28 +223,25 @@ in
   };
 
   # Enable sound.
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+  # security.rtkit.enable = true;
+  # services.pipewire = {
+    # enable = true;
+    # alsa.enable = true;
+    # alsa.support32Bit = true;
+    # pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    jack.enable = true;
-
-    package = pkgs.pipewire.overrideAttrs(old: {
-    patches = old.patches ++ [(pkgs.fetchpatch {
-        url = "https://gitlab.freedesktop.org/pipewire/pipewire/-/commit/f62c40c205f84d70d41fef3f3d361b0e4651a50e.patch";
-        revert = true;
-        hash = "sha256-T8OZv9AYFTwDN0JwFHaddsum1YibCpxyxGuhx+Ogg6g=";
-      })];
-    });
+    # jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
+  # };
+  hardware.pulseaudio = {
+    enable = true;
+    support32Bit = true;
   };
-  hardware.pulseaudio.enable = false;
+  nixpkgs.config.pulseaudio = true;
+  hardware.bluetooth.enable = true;
 
   # Enabling xwayland
   # programs.xwayland.enable = true;

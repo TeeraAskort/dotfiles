@@ -17,6 +17,12 @@ ln -s $HOME/Torrent/Imágenes $HOME
 ln -s $HOME/Torrent/Nextcloud $HOME
 ln -s $HOME/Torrent/Sync $HOME
 
+if command -v pulseaudio &> /dev/null; then 
+	mkdir -p ~/.config/pulse
+	cp $directory/dotfiles/daemon.conf ~/.config/pulse/
+	pulseaudio -k
+fi
+
 ## Downloading Plug for vim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

@@ -79,7 +79,7 @@ in
     nextcloud-client heroic osu-lazer
     myAspell mythes gimp steam pcsx2 
     adwaita-qt razergenie piper solaar
-    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.x11-gestures
+    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso # gnomeExtensions.x11-gestures
     nvapi hitman-run
   ];
 

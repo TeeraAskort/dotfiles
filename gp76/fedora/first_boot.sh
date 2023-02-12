@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Kernel bug workaround
+echo "exclude=pipewire pipewire-utils pipewire-libs pipewire-pulseaudio pipewire-gstreamer pipewire-alsa" | tee -a /etc/dnf/dnf.conf
+
 # Update fedora
 dnf up -y ; rpm --rebuilddb ; dnf up -y
 

@@ -75,11 +75,11 @@ in
     gst_all_1.gstreamer gst_all_1.gst-vaapi gst_all_1.gst-libav 
     gst_all_1.gst-plugins-bad gst_all_1.gst-plugins-ugly gst_all_1.gst-plugins-good gst_all_1.gst-plugins-base 
     mednafen mednaffe android-tools
-    firefox-wayland gnome.gnome-boxes appimage-run
+    firefox gnome.gnome-boxes appimage-run
     nextcloud-client heroic osu-lazer
     myAspell mythes gimp steam pcsx2 
     adwaita-qt razergenie piper solaar
-    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso # gnomeExtensions.x11-gestures
+    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.x11-gestures
     nvapi hitman-run
   ];
 
@@ -87,7 +87,7 @@ in
   environment.sessionVariables = {
     GST_PLUGIN_PATH = "/nix/var/nix/profiles/system/sw/lib/gstreamer-1.0";
     QT_STYLE_OVERRIDE = "adwaita-dark";
-    NIXOS_OZONE_WL = "1";
+    # NIXOS_OZONE_WL = "1";
   };
 
   # QT5 Style
@@ -258,7 +258,7 @@ in
   hardware.bluetooth.enable = true;
 
   # Enabling xwayland
-  programs.xwayland.enable = true;
+  # programs.xwayland.enable = true;
 
   # Xserver configuration
   services.xserver = {
@@ -280,7 +280,7 @@ in
     # Gnome3 desktop configuration
     displayManager = {
       gdm = {
-        wayland = true;
+        wayland = false;
         enable = true;
       };
     };

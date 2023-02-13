@@ -16,8 +16,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper addrepo https://download.opensuse.org/repositories/hardware/15.4/hardware.repo
 	zypper ar -cfp 90 'https://ftp.fau.de/packman/suse/openSUSE_Leap_$releasever/' packman
 	zypper addrepo https://download.opensuse.org/repositories/games:tools/15.4/games:tools.repo
-	zypper addrepo https://download.opensuse.org/repositories/mozilla/15.4/mozilla.repo
 	zypper addrepo https://download.opensuse.org/repositories/hardware:razer/openSUSE_Leap_15.4/hardware:razer.repo
+	zypper addrepo https://download.opensuse.org/repositories/graphics/15.4/graphics.repo
 	if [ "$1" == "xfce" ]; then
 		zypper addrepo https://download.opensuse.org/repositories/X11:xfce/15.4/X11:xfce.repo
 	fi
@@ -41,22 +41,19 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# zypper dist-upgrade --from packman --allow-vendor-change -y
 
 	# Installing wine-staging from wine repo
-	zypper in -y --from "Wine (openSUSE_Tumbleweed)" wine-staging wine-staging-32bit dxvk dxvk-32bit
+	zypper in -y --from "Wine (15.4)" wine-staging wine-staging-32bit
 
 	# Installing codecs
 	zypper in -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-bad gstreamer-plugins-libav gstreamer-plugins-ugly libavcodec-full vlc-codecs gstreamer-plugins-bad-codecs gstreamer-plugins-ugly-codecs gstreamer-plugins-good gstreamer-plugins-good-extra
 
 	# Installing discord from games:tools repo
-	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change protontricks gamemoded
-
-	# Replacing pulseaudio with pipewire
-	zypper in -y --force-resolution pipewire-pulseaudio pipewire-alsa pipewire-aptx pipewire-libjack-0_3 pipewire wireplumber
+	zypper in -y --from 'Tools for Gamers (15.4)' --allow-vendor-change protontricks gamemoded
 
 	# Installing basic packages
 	zypper in -y --force-resolution steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp libasound2.x86_64 systemd-zram-service 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq strawberry nextcloud-desktop zstd mpv mpv-mpris nicotine-plus chromium
 
 	# Enabling thermald service
-	systemctl enable thermald earlyoom input-remapper
+	systemctl enable thermald earlyoom
 
 	# Adding user to plugdev group
 	usermod -aG plugdev link
@@ -111,19 +108,19 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	elif [ "$1" == "gnome" ]; then
 		# Removing unwanted DE specific applications
-		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku xscreensaver xscreensaver-data gedit
+		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku xscreensaver xscreensaver-data
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse touchegg nautilus-extension-nextcloud gnome-text-editor
+		zypper in -y adwaita-qt5 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument simple-scan seahorse nautilus-extension-nextcloud
 
 		# Adding gnome theming to qt
-		echo "QT_QPA_PLATFORMTHEME='gnome'" | tee -a /etc/environment
+		echo "QT_QPA_PLATFORMTHEME=adwaita-dark" | tee -a /etc/environment
 
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment
 
 		# Setting firefox env var
-		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
+		# echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
 		
 		#Disable wayland
 		sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
@@ -156,9 +153,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		sudo -u $user echo "Xcursor.size: 16" | tee -a /home/$user/.Xresources
 
 	fi
-
-	# Installing firefox from mozilla repo
-	zypper dup --from "Mozilla based projects (openSUSE_Tumbleweed)" --allow-vendor-change -y
 
 	# Add user to wheel group
 	usermod -aG wheel link

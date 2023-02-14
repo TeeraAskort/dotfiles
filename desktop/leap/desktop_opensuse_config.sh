@@ -28,8 +28,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | tee /etc/zypp/repos.d/vscode.repo
 	
 	# Adding brave repo
-	# rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-	# zypper addrepo https://brave-browser-rpm-release.s3.brave.com/x86_64/ brave-browser
+	rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
+	zypper addrepo https://brave-browser-rpm-release.s3.brave.com/x86_64/ brave-browser
 
 	# Refreshing the repos
 	zypper --gpg-auto-import-keys refresh
@@ -53,7 +53,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper addlock android-tools-bash-completion
 
 	# Installing basic packages
-	zypper in -y --force-resolution steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python3-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp libasound2.x86_64 systemd-zram-service p7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfatprogs f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq strawberry nextcloud-desktop zstd mpv mpv-mpris nicotine-plus chromium nextcloud-desktop
+	zypper in -y --force-resolution steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python3-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp libasound2.x86_64 systemd-zram-service p7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfatprogs f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq strawberry nextcloud-desktop zstd mpv mpv-mpris nicotine-plus chromium nextcloud-desktop brave-browser
 
 	# Enabling thermald service
 	systemctl enable thermald earlyoom

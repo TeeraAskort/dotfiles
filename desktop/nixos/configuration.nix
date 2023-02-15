@@ -266,7 +266,7 @@ in
     desktopManager = {
       gnome = {
         enable = true;
-	sessionPath = [ pkgs.gtk4 ];
+	sessionPath = [ pkgs.gtk4 pkgs.gnome.nautilus ];
       };
     };
   };

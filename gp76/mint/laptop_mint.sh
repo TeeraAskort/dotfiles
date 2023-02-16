@@ -50,6 +50,12 @@ curl -fsSL https://download.opensuse.org/repositories/hardware:razer/xUbuntu_20.
 apt update
 apt install -y razergenie
 
+## Install vivaldi browser
+wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | gpg --dearmor | dd of=/usr/share/keyrings/vivaldi-browser.gpg
+echo "deb [signed-by=/usr/share/keyrings/vivaldi-browser.gpg arch=$(dpkg --print-architecture)] https://repo.vivaldi.com/archive/deb/ stable main" | dd of=/etc/apt/sources.list.d/vivaldi-archive.list
+apt update 
+apt install vivaldi-stable
+
 ## Pre accepting licenses
 echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
 
@@ -105,7 +111,7 @@ EOF
 apt install -y adwaita-qt gvfs-backends aisleriot gnome-mahjongg ffmpegthumbnailer evolution deluge deluge-gtk xdg-desktop-portal-gtk brasero libopenraw7 libgsf-1-114 libgepub-0.6-0 gnome-boxes gnome-keyring tilix
 
 ## Removing desktop specific packages
-apt remove -y hexchat drawing rhythmbox thunderbird transmission-gtk celluloid
+apt remove -y hexchat drawing rhythmbox thunderbird transmission-gtk celluloid firefox
 
 # Adding gnome theming to qt
 echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment

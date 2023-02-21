@@ -97,7 +97,7 @@ in
   };
 
   # QT5 Style
-  qt5.style = "adwaita-dark";
+  qt.style = "adwaita-dark";
 
   # Font configuration
   fonts.fonts = with pkgs; [

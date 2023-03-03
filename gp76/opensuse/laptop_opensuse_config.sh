@@ -137,7 +137,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument simple-scan seahorse nautilus-extension-nextcloud gnome-text-editor # touchegg
 
 		# Enabling services
-		systemctl enable touchegg
+		# systemctl enable touchegg
 
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME='gnome'" | tee -a /etc/environment

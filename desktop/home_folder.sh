@@ -120,6 +120,12 @@ curl -LO https://gist.githubusercontent.com/igv/a015fc885d5c22e6891820ad89555637
 mv SSimDownscaler.glsl KrigBilateral.glsl ~/.config/mpv/shaders
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
 
+# Setting up anime4k
+git clone https://github.com/bloc97/Anime4K.git
+cp Anime4K/glsl/Deblur/* Anime4K/glsl/Denoise/* Anime4K/glsl/Restore/* Anime4K/glsl/Upscale/* Anime4K/glsl/Upscale+Denoise/* ~/.config/mpv/shaders/.
+cp $directory/../common/input.conf ~/.config/mpv
+sudo rm -r Anime4K
+
 ## Setting X11 cursor size
 cp $directory/../common/.Xresources ~
 

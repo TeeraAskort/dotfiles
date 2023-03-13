@@ -382,6 +382,8 @@ fi
 if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then
 	sudo cp ~/Imágenes/pape.jpg /usr/share/wallpapers/
 
+	echo performance | sudo tee tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+
 	if command -v flatpak &> /dev/null; then
 		flatpak override --user --filesystem=xdg-config/gtk-3.0:ro
 	fi

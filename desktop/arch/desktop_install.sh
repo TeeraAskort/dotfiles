@@ -68,7 +68,7 @@ sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
 pacman -Syu --noconfirm
 
 # Installing linux kernel
-pacman -S --noconfirm linux-xanmod linux-xanmod-headers
+pacman -S --noconfirm linux linux-headers
 
 # Installing xorg and xapps
 pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb
@@ -224,16 +224,16 @@ editor   no
 EOF
 cat >/boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux-xanmod
+linux   /vmlinuz-linux
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-xanmod.img
+initrd  /initramfs-linux.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux-xanmod
+linux   /vmlinuz-linux
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-xanmod-fallback.img
+initrd  /initramfs-linux-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 rw 
 EOF
 bootctl update
@@ -281,7 +281,7 @@ EOF
 pacman -S --noconfirm --needed wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin razergenie
+sudo -u aurbuilder yay -S --noconfirm dxvk-bin 
 
 # Adding user to plugdev group
 usermod -aG plugdev link
@@ -306,7 +306,7 @@ rm -r /tmp/aurbuilder
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak applications
-# flatpak install -y flathub com.obsproject.Studio
+flatpak install -y flathub xyz.z3ntu.razergenie # com.obsproject.Studio
 
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf

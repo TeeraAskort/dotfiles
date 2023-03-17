@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+!/usr/bin/env bash
 
 _script="$(readlink -f ${BASH_SOURCE[0]})"
 
@@ -244,6 +244,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.peripherals.keyboard numlock-state true
 	gsettings set org.gnome.desktop.interface clock-show-date true
 	gsettings set org.gnome.desktop.calendar show-weekdate true
+	gsettings set org.gnome.shell.app-switcher current-workspace-only false
 
 	# Keybinds
 	gsettings set org.gnome.settings-daemon.plugins.media-keys www "['<Super>w']"
@@ -251,6 +252,10 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.media-keys play "['<Super>z']"
 	gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Super>x']"
 	gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Super>c']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>Tab']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-windows-backward "['<Shift><Alt>Tab']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-applications "['<Super>Tab']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "['<Shift><Super>Tab']"
 
 	KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
 	gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['$KEY_PATH/custom0/']"

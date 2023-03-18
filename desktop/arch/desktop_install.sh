@@ -453,10 +453,7 @@ EOF
 cp $directory/../dotfiles/useRADV /usr/bin/useRADV
 
 # Cleaning orphans
-until pacman -Qtdq | until pacman -Rns --noconfirm -
-do
-	echo "Retrying"
-done
+pacman -Qtdq | pacman -Rns --noconfirm -
 
 # Adding desktop specific final settings
 if [[ "$1" == "gnome" ]]; then

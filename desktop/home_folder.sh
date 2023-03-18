@@ -47,6 +47,13 @@ ln -s $HOME/Torrent/Imágenes $HOME
 ln -s $HOME/Torrent/Nextcloud $HOME
 ln -s $HOME/Torrent/Sync $HOME
 
+## Overriding xdg-user-dirs
+xdg-user-dirs-update --set DESKTOP $HOME/Torrent/Escritorio
+xdg-user-dirs-update --set DOCUMENTS $HOME/Torrent/Documentos
+xdg-user-dirs-update --set DOWNLOAD $HOME/Torrent/Descargas
+xdg-user-dirs-update --set MUSIC $HOME/Torrent/Música
+xdg-user-dirs-update --set PICTURES $HOME/Torrent/Imágenes
+
 ## Installing vim plugins
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -63,6 +70,13 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/cu
 cp $directory/../zsh/.zshrc ~
 cp $directory/../zsh/.general_alias ~
 cp $directory/../zsh/.arch_alias ~
+cp $directory/../zsh/.debian_alias ~
+cp $directory/../zsh/.fedora_alias ~
+cp $directory/../zsh/.silverblue_alias ~
+cp $directory/../zsh/.opensuse_alias ~
+cp $directory/../zsh/.elementary_alias ~
+cp $directory/../zsh/.solus_alias ~
+cp $directory/../zsh/.ubuntu_alias ~
 if command -v pulseaudio &> /dev/null; then 
 	mkdir -p ~/.config/pulse
 	cp $directory/dotfiles/daemon.conf ~/.config/pulse/
@@ -79,16 +93,16 @@ if command -v pipewire &> /dev/null ; then
 fi
 
 ## Configuring pipewire
-# if command -v pipewire &> /dev/null ; then
-#	cd $directory/../common/
-#	cp -r pipewire ~/.config/
-#	systemctl --user restart pipewire.service pipewire-pulse.socket
-#
+if command -v pipewire &> /dev/null ; then
+	cd $directory/../common/
+	cp -r pipewire ~/.config/
+	systemctl --user restart pipewire.service pipewire-pulse.socket
+
 #	if command -v wireplumber &> /dev/null ; then
 #		cp -r wireplumber ~/.config
 #		systemctl --user restart wireplumber
 #	fi
-# fi
+fi
 
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~

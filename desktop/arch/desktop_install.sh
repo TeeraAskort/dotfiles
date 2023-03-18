@@ -191,6 +191,9 @@ elif [[ "$1" == "gnome" ]]; then
 
 	# Removing unwanted packages
 	until pacman -Rns --noconfirm gnome-music epiphany totem orca 
+	do
+		echo "Retrying"
+	done
 
 elif [[ "$1" == "mate" ]]; then
 	until pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird gnome-boxes gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueman mint-themes mate-tweak mate-menu simple-scan gnome-keyring libsecret libgnome-keyring strawberry 
@@ -206,6 +209,9 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 
 	# Removing unwanted packages
 	until pacman -Rnsc --noconfirm oxygen
+	do
+		echo "Retrying"
+	done
 
 elif [[ "$1" == "xfce" ]]; then
 	# Install xfce
@@ -216,6 +222,9 @@ elif [[ "$1" == "xfce" ]]; then
 
 	# Remove unwanted applications
 	until pacman -Rns --noconfirm parole
+	do
+		echo "Retrying"
+	done
 
 elif [[ "$1" == "el" ]]; then
 	# Install enlightenment

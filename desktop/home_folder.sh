@@ -193,8 +193,8 @@ if [ $(flatpak list | grep lutris | wc -l) = 1 ]; then
 fi
 
 ## Configuring Nextcloud
-# mkdir -p ~/.config/Nextcloud
-# cp ~/Documentos/nextcloud.cfg ~/.config/Nextcloud/nextcloud.cfg
+mkdir -p ~/.config/Nextcloud
+cp ~/Documentos/nextcloud.cfg ~/.config/Nextcloud/nextcloud.cfg
 
 ## Copying ssh key
 mkdir ~/.ssh

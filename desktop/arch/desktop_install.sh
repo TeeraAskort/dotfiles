@@ -96,7 +96,7 @@ do
 done
 
 # Installing drivers
-until pacman -S --noconfirm mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa xf86-input-wacom xf86-input-libinput libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau amdvlk lib32-amdvlk
+until pacman -S --noconfirm mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa xf86-input-wacom xf86-input-libinput libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau 
 do
 	echo "Retrying"
 done
@@ -384,7 +384,7 @@ do
 done
 
 # Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin amd-vulkan-prefixes
+sudo -u aurbuilder yay -S --noconfirm dxvk-bin 
 
 # Adding user to plugdev group
 usermod -aG plugdev link

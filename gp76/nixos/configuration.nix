@@ -80,12 +80,7 @@ in
     myAspell mythes gimp steam pcsx2 
     adwaita-qt razergenie piper solaar
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.x11-gestures
-    (vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine = true;
-    })
-    vivaldi-ffmpeg-codecs
-    vivaldi-widevine
+    firefox
     nvapi hitman-run
   ];
 
@@ -256,15 +251,18 @@ in
     jack.enable = true;
 
     config.pipewire = {
-    "context.properties" = {
-      "default.clock.rate"          = 192000
-      "default.clock.allowed-rates" = [ 44100 48000 88200 96000 192000 ]
+      "context.properties" = {
+        "default.clock.rate"          = 192000;
+        "default.clock.allowed-rates" = [ 44100 48000 88200 96000 192000 ];
+      };
     };
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+  
+  hardware.pulseaudio.enable = false;
 
   # Enabling xwayland
   # programs.xwayland.enable = true;

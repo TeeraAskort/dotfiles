@@ -189,7 +189,10 @@ in
   programs.adb.enable = true;
 
   # Enabling docker service
-  # virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    storageDriver = "btrfs";
+  };
 
   # Automatic garbage collection
   nix.gc.automatic = true;
@@ -373,7 +376,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "adbusers" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "adbusers" "docker" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 

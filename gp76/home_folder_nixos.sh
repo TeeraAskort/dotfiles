@@ -173,7 +173,7 @@ gsettings set org.gtk.gtk4.Settings.FileChooser sort-directories-first true
 
 ## Installing flatpak applications
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y flathub org.jdownloader.JDownloader com.mojang.Minecraft
+flatpak install -y flathub org.jdownloader.JDownloader com.mojang.Minecraft com.mongodb.Compass com.google.AndroidStudio
 
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~
@@ -212,7 +212,7 @@ done
 
 ## Installing NPM packages
 npm config set prefix '~/.node_packages'
-# npm install -g @ionic/cli
+npm install -g @ionic/cli
 
 ## Configuring docker
 # cd $directory/../common

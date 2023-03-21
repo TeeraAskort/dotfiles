@@ -12,22 +12,22 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	dataDiskUUID="e3839618-a2ea-4043-9359-9906c76eee0e"
 
 	# Create partitions
-	parts=$(blkid | grep nvme0n1 | grep -v -e "$dataDiskUUID" | cut -d":" -f1)
+	parts=$(blkid | grep $torrentDisk | grep -v -e "$dataDiskUUID" | cut -d":" -f1)
 	for part in $(echo "$parts" | cut -d"p" -f2); do
-		parted /dev/nvme0n1 -- rm $part
+		parted /dev/$torrentDisk -- rm $part
 	done
-	parted /dev/nvme0n1 -- mkpart ESP fat32 1M 512MiB
-	parted /dev/nvme0n1 -- set 1 boot on
-	parted /dev/nvme0n1 -- mkpart primary 512MiB 100GiB
+	parted /dev/$torrentDisk -- mkpart ESP fat32 1M 512MiB
+	parted /dev/$torrentDisk -- set 1 boot on
+	parted /dev/$torrentDisk -- mkpart primary 512MiB 100GiB
 
 	# Loop until cryptsetup succeeds formatting the partition
-	until cryptsetup luksFormat /dev/nvme0n1p2
+	until cryptsetup luksFormat /dev/$torrentDiskp2
 	do 
 		echo "Cryptsetup failed, trying again"
 	done
 
 	# Loop until cryptsetup succeeds opening the patition
-	until cryptsetup open /dev/nvme0n1p2 luks
+	until cryptsetup open /dev/$torrentDiskp2 luks
 	do
 		echo "Cryptsetup failed, trying again"
 	done
@@ -40,14 +40,14 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 
 	# Format partitions
 	mkfs.btrfs -L root /dev/lvm/root
-	mkfs.vfat -F32 /dev/nvme0n1p1
+	mkfs.vfat -F32 /dev/$torrentDiskp1
 	mkswap /dev/lvm/swap
 	swapon /dev/lvm/swap
 
 	# Mount paritions
 	mount /dev/lvm/root /mnt
 	mkdir /mnt/boot
-	mount /dev/nvme0n1p1 /mnt/boot
+	mount /dev/$torrentDiskp1 /mnt/boot
 
 	# Generate configs
 	nixos-generate-config --root /mnt
@@ -89,11 +89,11 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	cp $directory/torrent/.torrentkey /mnt
 
 	# Put correct UUID on hardware-configuration.nix
-	uuid=$(blkid -o value -s UUID /dev/nvme0n1p2)
+	uuid=$(blkid -o value -s UUID /dev/$torrentDiskp2)
 	sed -i "s/UUIDchangeme/$uuid/g" $directory/hardware-configuration.nix
 
 	# Add boot partition to hardware-config
-	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/nvme0n1p1)/g" $directory/hardware-configuration.nix
+	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/$torrentDiskp1)/g" $directory/hardware-configuration.nix
 
 	# Add swap partition to hardware-config
 	sed -i "s/swapChangeme/$(blkid -s UUID -o value /dev/lvm/swap)/g" $directory/hardware-configuration.nix

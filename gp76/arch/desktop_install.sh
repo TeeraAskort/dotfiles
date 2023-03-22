@@ -422,7 +422,7 @@ rm -r /tmp/aurbuilder
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Installing flatpak applications
-flatpak install -y flathub xyz.z3ntu.razergenie com.mongodb.Compass org.ryujinx.Ryujinx org.yuzu_emu.yuzu # com.obsproject.Studio
+flatpak install -y flathub xyz.z3ntu.razergenie com.mongodb.Compass # com.obsproject.Studio
 
 # Putting this option for the chrome-sandbox bullshit
 echo "kernel.unprivileged_userns_clone=1" | tee -a /etc/sysctl.d/99-sysctl.conf

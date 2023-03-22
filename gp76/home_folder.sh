@@ -290,6 +290,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 		sudo systemctl enable gnome-shell-suspend gnome-shell-resume
 	fi
 
+	env WEBKIT_DISABLE_COMPOSITING_MODE=1 gnome-control-center online-accounts &
+
 fi
 
 ## Changing ubuntu GNOME theme

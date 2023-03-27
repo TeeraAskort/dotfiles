@@ -48,9 +48,9 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 	pacman -Sy --noconfirm archlinux-keyring
 
 	# Change mirrorlist
-	# curl -L "https://archlinux.org/mirrorlist/?country=FR&country=LU&country=NL&country=ES&protocol=http&protocol=https&ip_version=4&ip_version=6&use_mirror_status=on" > /etc/pacman.d/mirrorlist
-	# sed -i "s/#Server/Server/g" /etc/pacman.d/mirrorlist
-	# pacman -Sy
+	curl -L "https://archlinux.org/mirrorlist/?country=FR&country=LU&country=NL&country=ES&protocol=http&protocol=https&ip_version=4&ip_version=6&use_mirror_status=on" > /etc/pacman.d/mirrorlist
+	sed -i "s/#Server/Server/g" /etc/pacman.d/mirrorlist
+	pacman -Sy
 
 	# Install base system
 	pacstrap /mnt base base-devel linux-firmware lvm2 efibootmgr btrfs-progs vim git xfsprogs 

@@ -278,14 +278,14 @@ if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[
 fi
 
 # Setting default plymouth theme
-plymouth-set-default-theme -R BGRT
+plymouth-set-default-theme -R bgrt
 
 # Copying arch logo for the plymouth theme
 cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
 
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
-sed -i "s/udev autodetect modconf kms keyboard keymap consolefont block filesystems/udev plymouth autodetect modconf kms keyboard keymap consolefont block plymouth-encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
+sed -i "s/udev autodetect modconf kms keyboard keymap consolefont block filesystems/udev plymouth autodetect modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
 sed -i "s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 

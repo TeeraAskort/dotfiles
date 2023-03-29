@@ -52,7 +52,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	# pacman -Sy
 
 	# Install base system
-	pacstrap /mnt base base-devel linux-firmware sof-firmware efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs aria2
+	pacstrap /mnt base base-devel linux-firmware sof-firmware efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs # aria2
 
 	# Executing partprobe
 	partprobe /dev/${torrentDisk}

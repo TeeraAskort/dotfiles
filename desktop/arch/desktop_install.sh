@@ -64,6 +64,8 @@ do
 	echo "Retrying"
 done
 
+mv /etc/pacman.d/chaotic-mirrorlist.pacnew /etc/pacman.d/chaotic-mirrorlist
+
 until pacman -Syu --noconfirm
 do
 	echo "Retrying"

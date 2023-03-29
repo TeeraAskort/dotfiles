@@ -275,10 +275,10 @@ if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[
 	# Enable lightdm or sddm
 	if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 		# Enable sddm
-		systemctl enable sddm-plymouth
+		systemctl enable sddm
 	else
 		# Enable lightdm
-		systemctl enable lightdm-plymouth
+		systemctl enable lightdm
 	fi
 fi
 

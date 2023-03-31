@@ -195,13 +195,13 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 
 # Installing desktop environment
 if [[ "$1" == "cinnamon" ]]; then
-	until pacman -S --noconfirm cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller nemo-image-converter nemo-share blueman system-config-printer gnome-screenshot gnome-disk-utility gnome-calendar mint-themes evince kdeconnect zenity gnome-boxes seahorse touchegg nemo-seahorse xdg-desktop-portal xdg-desktop-portal-gtk libsecret gvfs-google gnome-text-editor python-pyxdg strawberry 
+	until pacman -S --noconfirm cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller nemo-image-converter nemo-share blueman system-config-printer gnome-screenshot gnome-disk-utility gnome-calendar mint-themes evince kdeconnect zenity gnome-boxes seahorse nemo-seahorse xdg-desktop-portal xdg-desktop-portal-gtk libsecret gvfs-google gnome-text-editor python-pyxdg strawberry 
 	do
 		echo "Retrying"
 	done
 
 	# Enabling services
-	systemctl enable touchegg
+	# systemctl enable 
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
@@ -318,14 +318,14 @@ title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux-fallback.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep modprobe.blacklist=nouveau ibt=off rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep rw
 EOF
 bootctl update
 

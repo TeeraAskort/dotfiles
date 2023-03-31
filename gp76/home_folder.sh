@@ -460,6 +460,8 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 
 	echo "inode/directory=nemo.desktop" | tee -a ~/.config/mimeapps.list
 
+	env WEBKIT_DISABLE_COMPOSITING_MODE=1 cinnamon-settings online-accounts &
+
 fi
 
 if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then

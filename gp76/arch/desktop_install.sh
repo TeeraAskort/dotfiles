@@ -488,7 +488,7 @@ install intel_agp /usr/bin/false
 EOF
 
 # Copying libinput config
-cp $directory/../common/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.conf
+cp $directory/../../common/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.conf
 
 # Copying nvapi script
 cp $directory/../dotfiles/nvapi /usr/bin

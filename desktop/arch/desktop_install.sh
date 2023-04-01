@@ -455,7 +455,7 @@ ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue
 EOF
 
 # Copying libinput config
-cp $directory/../common/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.conf
+cp $directory/../../common/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.conf
 
 # Cleaning orphans
 pacman -Qtdq | pacman -Rns --noconfirm -

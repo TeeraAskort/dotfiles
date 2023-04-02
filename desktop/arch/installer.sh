@@ -50,6 +50,8 @@ if [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ "$1" == "gnome" ]] || [[ 
 	# Change mirrorlist
 	curl -L "https://archlinux.org/mirrorlist/?country=FR&country=LU&country=NL&country=ES&protocol=http&protocol=https&ip_version=4&ip_version=6&use_mirror_status=on" > /etc/pacman.d/mirrorlist
 	sed -i "s/#Server/Server/g" /etc/pacman.d/mirrorlist
+	cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+	rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup /etc/pacman.d/mirrorlist
 	pacman -Sy
 
 	# Install base system

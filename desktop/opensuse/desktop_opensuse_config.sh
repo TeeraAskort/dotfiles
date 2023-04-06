@@ -65,13 +65,18 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --from "home:Alderaeney (openSUSE_Tumbleweed)" input-remapper
 
 	# Installing basic packages
-	zypper in -y --force-resolution chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp libasound2.x86_64 systemd-zram-service 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq strawberry nextcloud-desktop zstd mpv mpv-mpris
+	zypper in -y --force-resolution chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp libasound2.x86_64 systemd-zram-service 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq strawberry nextcloud-desktop zstd mpv mpv-mpris docker docker-compose docker-compose-switch
 
 	# Enabling thermald service
-	systemctl enable thermald earlyoom input-remapper
+	systemctl enable thermald earlyoom input-remapper docker
 
 	# Adding user to plugdev group
-	usermod -aG plugdev link
+	user=$SUDO_USER
+	usermod -aG plugdev $user
+
+	# Adding user to docker group
+	user=$SUDO_USER
+	usermod -G docker -a $user
 
 	# Starting zram service
 	zramswapon
@@ -138,7 +143,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
 		
 		#Disable wayland
-		# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
+		sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Removing unwanted DE specific applications
@@ -205,7 +210,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine sh.ppy.osu com.github.AmatCoder.mednaffe org.DolphinEmu.dolphin-emu com.heroicgameslauncher.hgl net.pcsx2.PCSX2
+	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine sh.ppy.osu com.github.AmatCoder.mednaffe org.DolphinEmu.dolphin-emu com.heroicgameslauncher.hgl net.pcsx2.PCSX2 com.mongodb.Compass
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ]; then

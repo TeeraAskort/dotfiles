@@ -138,7 +138,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
 		
 		#Disable wayland
-		sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
+		# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Removing unwanted DE specific applications

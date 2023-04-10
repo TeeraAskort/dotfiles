@@ -8,9 +8,11 @@ dataDiskUUID="7e666dac-4eea-43a4-87b7-155cf8da2907"
 dataDiskPartUUID="85a85370-e75a-44c5-a67f-61643a631e47"
 
 ## Adjusting keymap
-sudo localectl set-x11-keymap es
+if [ $(lsb_release -is) != "Linuxmint" ]; then
+	sudo localectl set-x11-keymap es
+fi
 
-## Configuring data disk
+## Configuring torrent disk
 until sudo cryptsetup open /dev/disk/by-uuid/${dataDiskUUID} datos; do
 	echo "Bad password, retrying"
 done
@@ -21,7 +23,7 @@ echo "datos UUID=${dataDiskUUID} /root/.datoskey luks,discard" | sudo tee -a /et
 echo "/dev/mapper/datos $HOME/Datos btrfs defaults,noatime,autodefrag,compress=zstd 0 0" | sudo tee -a /etc/fstab
 
 ## Removing home folders
-rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Torrent ~/Sync
+rm -r ~/Descargas ~/Documentos ~/Escritorio ~/Música ~/Imágenes ~/Downloads ~/Sync
 
 ## Linking home folders
 ln -s /home/link/Datos/Descargas $HOME
@@ -35,15 +37,15 @@ ln -s /home/link/Datos/Nextcloud $HOME
 ln -s /home/link/Datos/Sync $HOME
 
 ## Overriding xdg-user-dirs
-xdg-user-dirs-update --set DESKTOP $HOME/Datos/Escritorio
-xdg-user-dirs-update --set DOCUMENTS $HOME/Datos/Documentos
-xdg-user-dirs-update --set DOWNLOAD $HOME/Datos/Descargas
-xdg-user-dirs-update --set MUSIC $HOME/Datos/Música
-xdg-user-dirs-update --set PICTURES $HOME/Datos/Imágenes
+xdg-user-dirs-update --set DESKTOP $HOME/Torrent/Escritorio
+xdg-user-dirs-update --set DOCUMENTS $HOME/Torrent/Documentos
+xdg-user-dirs-update --set DOWNLOAD $HOME/Torrent/Descargas
+xdg-user-dirs-update --set MUSIC $HOME/Torrent/Música
+xdg-user-dirs-update --set PICTURES $HOME/Torrent/Imágenes
 
 ## Installing vim plugins
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -64,7 +66,8 @@ cp $directory/../zsh/.opensuse_alias ~
 cp $directory/../zsh/.elementary_alias ~
 cp $directory/../zsh/.solus_alias ~
 cp $directory/../zsh/.ubuntu_alias ~
-if command -v pulseaudio &> /dev/null ; then
+cp $directory/../zsh/.rocky_alias ~
+if command -v pulseaudio &> /dev/null; then 
 	mkdir -p ~/.config/pulse
 	cp $directory/dotfiles/daemon.conf ~/.config/pulse/
 	pulseaudio -k
@@ -74,26 +77,21 @@ fi
 if command -v pipewire &> /dev/null ; then
 	systemctl --user enable --now pipewire.socket
 	systemctl --user enable --now pipewire-pulse.{service,socket}
-	if command -v wireplumber &> /dev/null ; then 
+	if command -v wireplumber &> /dev/null ; then
 		systemctl --user enable --now wireplumber.service
 	fi
 fi
 
 ## Configuring pipewire
-#if command -v pipewire &> /dev/null ; then
-#	cd $directory/../common/
-#	cp -r pipewire ~/.config/
-#	systemctl --user restart pipewire.service pipewire-pulse.socket
-#
+if command -v pipewire &> /dev/null ; then
+	cd $directory/../common/
+	cp -r pipewire ~/.config/
+	systemctl --user restart pipewire.service pipewire-pulse.socket
+
 #	if command -v wireplumber &> /dev/null ; then
 #		cp -r wireplumber ~/.config
 #		systemctl --user restart wireplumber
 #	fi
-#fi
-
-# Copying .zshenv on debian
-if [ $(lsb_release -is | grep "Debian" | wc -l) -eq 1 ]; then
-	cp $directory/../zsh/.zshenv ~
 fi
 
 ## Configuring vim/neovim
@@ -106,8 +104,14 @@ nvim +PlugInstall +q +q
 cp $directory/dotfiles/chromium-flags.conf ~/.config
 
 ## Configuring mpv
-mkdir -p ~/.config/mpv
+mkdir -p ~/.config/mpv/shaders
 cp $directory/dotfiles/mpv.conf ~/.config/mpv/
+
+# Setting up anime4k
+git clone https://github.com/bloc97/Anime4K.git
+cp Anime4K/glsl/Deblur/* Anime4K/glsl/Denoise/* Anime4K/glsl/Restore/* Anime4K/glsl/Upscale/* Anime4K/glsl/Upscale+Denoise/* ~/.config/mpv/shaders/.
+cp $directory/../common/input.conf ~/.config/mpv
+sudo rm -r Anime4K
 
 ## Setting X11 cursor size
 cp $directory/../common/.Xresources ~
@@ -121,12 +125,12 @@ unzip ~/Documentos/fonts2.zip
 # Installing NPM packages
 if command -v rpm-ostree &> /dev/null; then
 	npm config set prefix '~/.node_packages'
-	# npm install -g electron-installer-flatpak @vue/cli
+	# npm i -g @ionic/cli
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]] && command -v lsb_release &> /dev/null && [[ $(lsb_release -is) != "openSUSE" ]]; then
 		npm install -g bash-language-server
 	fi
 else
-	# sudo npm install -g electron-installer-flatpak @vue/cli
+	# sudo npm i -g @ionic/cli
 	if [[ "$XDG_CURRENT_DESKTOP" == "KDE" ]] && command -v lsb_release &> /dev/null && [[ $(lsb_release -is) != "openSUSE" ]]; then
 		sudo npm install -g bash-language-server
 	fi
@@ -149,24 +153,6 @@ fi
 
 ## Configuring flatpak steam
 if [ $(flatpak list | grep Steam | wc -l) = 1 ]; then
-	flatpak override --user --filesystem=$HOME/Datos com.valvesoftware.Steam	
-fi
-
-## Configuring flatpak minigalaxy
-if [ $(flatpak list | grep Minigalaxy | wc -l) = 1 ]; then
-	flatpak override --user --filesystem=$HOME/Datos/GOG\ Games io.github.sharkwouter.Minigalaxy
-fi
-
-## Configuring flatpak google chrome
-if [ $(flatpak list | grep Chrome | wc -l) = 1 ]; then
-	mkdir -p $HOME/.local/share/applications $HOME/.local/share/icons
-	flatpak override --user --filesystem=$HOME/.local/share/applications com.google.Chrome
-	flatpak override --user --filesystem=$HOME/.local/share/icons com.google.Chrome
-fi
-
-## Configuring flatpak steam
-if [ $(flatpak list | grep Steam | wc -l) = 1 ]; then
-	flatpak override --user --filesystem=$HOME/Torrent com.valvesoftware.Steam
 	flatpak override --user --filesystem=$HOME/Datos com.valvesoftware.Steam
 fi
 
@@ -184,13 +170,17 @@ fi
 
 ## Configuring flatpak heroic games launcher
 if [ $(flatpak list | grep heroicgameslauncher | wc -l) = 1 ]; then
-	flatpak override --user --filesystem=$HOME/Torrent/Heroic com.heroicgameslauncher.hgl
+	flatpak override --user --filesystem=$HOME/Datos/Heroic com.heroicgameslauncher.hgl
 fi
 
 ## Configuring lutris flatpak
 if [ $(flatpak list | grep lutris | wc -l) = 1 ]; then
-	flatpak override --user --filesystem=$HOME/Torrent/Games net.lutris.Lutris
+	flatpak override --user --filesystem=$HOME/Datos/Games net.lutris.Lutris
 fi
+
+## Configuring Nextcloud
+mkdir -p ~/.config/Nextcloud
+cp ~/Documentos/nextcloud.cfg ~/.config/Nextcloud/nextcloud.cfg
 
 ## Copying ssh key
 mkdir ~/.ssh
@@ -206,23 +196,9 @@ if command -v firewall-cmd &> /dev/null ; then
 	sudo firewall-cmd --reload
 fi
 
-## Configuring u2f cards
-hostnm=$(hostname)
-
-mkdir -p ~/.config/Yubico
-
-bash $directory/pam_config.sh
-
-echo "Insert FIDO2 card and press a key:"
-read -n 1
-pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" > ~/.config/Yubico/u2f_keys
-echo "Remove FIDO2 car and insert another, then press a key:"
-read -n 1
-pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" -n >> ~/.config/Yubico/u2f_keys
-
 ## Changing GNOME theme
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
-gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
 	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
@@ -242,6 +218,7 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	gsettings set org.gnome.desktop.peripherals.keyboard numlock-state true
 	gsettings set org.gnome.desktop.interface clock-show-date true
 	gsettings set org.gnome.desktop.calendar show-weekdate true
+	gsettings set org.gnome.shell.app-switcher current-workspace-only false
 
 	# Keybinds
 	gsettings set org.gnome.settings-daemon.plugins.media-keys www "['<Super>w']"
@@ -249,14 +226,18 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	gsettings set org.gnome.settings-daemon.plugins.media-keys play "['<Super>z']"
 	gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Super>x']"
 	gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Super>c']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>Tab']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-windows-backward "['<Shift><Alt>Tab']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-applications "['<Super>Tab']"
+	gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward "['<Shift><Super>Tab']"
 
 	KEY_PATH="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
 	gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['$KEY_PATH/custom0/']"
 	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "Terminal"
-	
+
 	# Set nautilus as default file manager
 	xdg-mime default org.gnome.Nautilus.desktop inode/directory application/x-gnome-saved-search
-
+	
 	if command -v kgx &> /dev/null ; then	
 		gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "kgx"
 	else
@@ -272,7 +253,19 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
-	fi	
+	fi
+
+	if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+		# Fix for suspend under wayland
+		sudo cp $directory/dotfiles/suspend-gnome-shell.sh /usr/local/bin/suspend-gnome-shell.sh
+		sudo chmod +x /usr/local/bin/suspend-gnome-shell.sh
+		sudo cp $directory/dotfiles/gnome-shell-suspend.service $directory/dotfiles/gnome-shell-resume.service /etc/systemd/system/
+		sudo systemctl daemon-reload
+		sudo systemctl enable gnome-shell-suspend gnome-shell-resume
+	fi
+
+	env WEBKIT_DISABLE_COMPOSITING_MODE=1 gnome-control-center online-accounts &
+
 fi
 
 ## Changing ubuntu GNOME theme
@@ -319,6 +312,14 @@ if [[ "$XDG_CURRENT_DESKTOP" == "ubuntu:GNOME" ]]; then
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
+
+	# Fix for suspend under wayland
+	sudo cp $directory/dotfiles/suspend-gnome-shell.sh /usr/local/bin/suspend-gnome-shell.sh
+	sudo chmod +x /usr/local/bin/suspend-gnome-shell.sh
+	sudo cp $directory/dotfiles/gnome-shell-suspend.service $directory/dotfiles/gnome-shell-resume.service /etc/systemd/system/
+	sudo systemctl daemon-reload
+	sudo systemctl enable gnome-shell-suspend gnome-shell-resume
+
 fi
 
 # Changing zorin config
@@ -337,11 +338,10 @@ if [[ "$XDG_CURRENT_DESKTOP" == "zorin:GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
 	gsettings set org.gnome.nautilus.icon-view default-zoom-level 'small'
+	gsettings set org.gnome.desktop.peripherals.trackball accel-profile 'flat'
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-	gsettings set org.gnome.settings-daemon.plugins.power button-power hibernate
-	gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
 fi
 
 ## Changing Budgie config
@@ -361,17 +361,14 @@ if [[ "$XDG_CURRENT_DESKTOP" == "Budgie:GNOME" ]]; then
 	gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
 	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
 	gsettings set org.gnome.nautilus.icon-view default-zoom-level 'small'
+	gsettings set org.gnome.desktop.peripherals.trackball accel-profile 'flat'
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 	gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3700
 	gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
-	gsettings set org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor true
 	if [ -e /usr/share/icons/Papirus-Dark/ ]; then
 		gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
 	fi
 fi
-
-gsettings set org.gtk.Settings.FileChooser sort-directories-first true
-gsettings set org.gtk.gtk4.Settings.FileChooser sort-directories-first true
 
 # XFCE config
 if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
@@ -380,7 +377,11 @@ if [[ "$XDG_CURRENT_DESKTOP" == "XFCE" ]]; then
 	if [ -e ~/Imágenes/pape.jpg ]; then
 		sudo cp ~/Imágenes/pape.jpg /usr/share/backgrounds
 	fi
+
 fi
+
+gsettings set org.gtk.gtk4.Settings.FileChooser sort-directories-first true
+gsettings set org.gtk.Settings.FileChooser sort-directories-first true
 
 # Cinnamon config
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
@@ -432,6 +433,9 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	fi
 
 	echo "inode/directory=nemo.desktop" | tee -a ~/.config/mimeapps.list
+
+	env WEBKIT_DISABLE_COMPOSITING_MODE=1 cinnamon-settings online-accounts &
+
 fi
 
 if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then
@@ -440,7 +444,7 @@ if [ "$XDG_CURRENT_DESKTOP" == "KDE" ]; then
 	if command -v flatpak &> /dev/null; then
 		flatpak override --user --filesystem=xdg-config/gtk-3.0:ro
 	fi
-fi 
+fi
 
 if [ "$XDG_CURRENT_DESKTOP" == "Enlightenment" ]; then
 	cp $directory/../common/applications/* ~/.e/e/applications/startup
@@ -452,7 +456,7 @@ EOF
 
 	sudo mkdir /usr/share/backgrounds
 	sudo cp ~/Imágenes/jowens_kauai.jpg /usr/share/backgrounds/
-	
+
 	gsettings set org.gnome.gedit.preferences.editor scheme 'oblivion'
 
 fi
@@ -462,10 +466,16 @@ if [ "$XDG_CURRENT_DESKTOP" == "MATE" ]; then
 	gsettings set org.mate.interface gtk-theme 'Mint-Y-Dark'
 	gsettings set org.mate.interface icon-theme 'Papirus-Dark'
 	gsettings set org.mate.interface monospace-font-name 'Rec Mono Semicasual 11'
+	gsettings set org.mate.power-manager button-power 'hibernate'
 	gsettings set org.mate.power-manager idle-dim-ac true
 	gsettings set org.mate.power-manager idle-dim-battery true
+	gsettings set org.mate.power-manager action-critical-battery 'hibernate'
+	gsettings set org.mate.power-manager action-sleep-type-ac 'hibernate'
+	gsettings set org.mate.power-manager action-sleep-type-battery 'hibernate'
 	gsettings set org.mate.power-manager sleep-computer-ac 1800
 	gsettings set org.mate.power-manager sleep-computer-battery 600
+	gsettings set org.mate.power-manager button-lid-ac 'hibernate'
+	gsettings set org.mate.power-manager button-lid-battery 'hibernate'
 	gsettings set org.mate.peripherals-mouse accel-profile 'flat'
 	gsettings set org.mate.peripherals-touchpad tap-to-click true
 	gsettings set org.mate.peripherals-touchpad tap-button-two-finger 3
@@ -474,9 +484,10 @@ if [ "$XDG_CURRENT_DESKTOP" == "MATE" ]; then
 	gsettings set org.mate.peripherals-keyboard-xkb.general duplicate-leds true
 
 	sudo cp ~/Imágenes/jowens_kauai.jpg /usr/share/backgrounds/
+
 fi
 
-if [ $(lsb_release -is) == "Arch" ]; then
+if [ $(lsb_release -is) == "Arch" ]; then 
 
 	mkdir ~/.config/autostart
 
@@ -500,6 +511,27 @@ EOF
 
 fi
 
+if [ $(lsb_release -is) == "Fedora" ]; then
+	mkdir -p ~/.config/fontconfig
+	cp $directory/../common/fonts.conf ~/.config/fontconfig/fonts.conf
+
+	cat >> ~/.Xresources <<EOF
+Xft.autohint: 0
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+EOF
+
+	sudo ln -s /usr/share/fontconfig/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d/  
+	sudo ln -s /usr/share/fontconfig/conf.avail/10-hinting-slight.conf /etc/fonts/conf.d/  
+	sudo ln -s /usr/share/fontconfig/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d/  
+	sudo ln -s /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d/  
+
+	fc-cache -f
+	sudo fc-cache -f
+fi
+
 ## Adding user to audio group
 user="$USER"
 sudo usermod -aG audio $user
@@ -511,8 +543,7 @@ git config --global init.defaultBranch master
 git config --global credential.helper store
 
 ## Changing user shell
-if ! command -v chsh &> /dev/null
-then
+if ! command -v chsh &>/dev/null; then
 	sudo lchsh link
 else
 	if [ -e /usr/bin/zsh ]; then 

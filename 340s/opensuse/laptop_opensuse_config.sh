@@ -4,11 +4,6 @@ _script="$(readlink -f ${BASH_SOURCE[0]})"
 
 directory="$(dirname $_script)"
 
-if !command -v nvidia-smi &> /dev/null ; then
-	bash ./first_boot.sh
-	exit
-fi
-
 if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "cinnamon" ] || [ "$1" == "xfce" ]; then
 
 	# Installing repos
@@ -40,10 +35,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# zypper addrepo https://brave-browser-rpm-release.s3.brave.com/x86_64/ brave-browser
 
 	# Adding Google Chrome repo
-	wget https://dl.google.com/linux/linux_signing_key.pub
-	rpm --import linux_signing_key.pub
-	rm linux_signing_key.pub
-	zypper ar http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
+	# wget https://dl.google.com/linux/linux_signing_key.pub
+	# rpm --import linux_signing_key.pub
+	# rm linux_signing_key.pub
+	# zypper ar http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome
 
 	# Refreshing the repos
 	zypper --gpg-auto-import-keys refresh
@@ -58,7 +53,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --from "Wine (openSUSE_Tumbleweed)" wine-staging wine-staging-32bit dxvk dxvk-32bit
 
 	# Installing codecs
-	zypper in -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-bad gstreamer-plugins-libav gstreamer-plugins-ugly libavcodec-full vlc-codecs
+	zypper in -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-bad gstreamer-plugins-libav gstreamer-plugins-ugly libavcodec-full vlc-codecs gstreamer-plugins-bad-codecs gstreamer-plugins-ugly-codecs gstreamer-plugins-good gstreamer-plugins-good-extra
 
 	# Installing discord from games:tools repo
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change protontricks gamemoded
@@ -70,13 +65,18 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --from "home:Alderaeney (openSUSE_Tumbleweed)" input-remapper
 
 	# Installing basic packages
-	zypper in -y --force-resolution google-chrome-stable steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp libasound2.x86_64 systemd-zram-service 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq strawberry nextcloud-desktop zstd mpv mpv-mpris
+	zypper in -y --force-resolution chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp libasound2.x86_64 systemd-zram-service 7zip openrazer-meta razergenie aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs piper solaar zpaq strawberry nextcloud-desktop zstd mpv mpv-mpris # docker docker-compose docker-compose-switch
 
 	# Enabling thermald service
-	systemctl enable thermald earlyoom input-remapper tlp
+	systemctl enable thermald earlyoom input-remapper # docker
 
 	# Adding user to plugdev group
-	usermod -aG plugdev link
+	user=$SUDO_USER
+	usermod -aG plugdev $user
+
+	# Adding user to docker group
+	# user=$SUDO_USER
+	# usermod -G docker -a $user
 
 	# Starting zram service
 	zramswapon
@@ -134,10 +134,10 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku xscreensaver xscreensaver-data gedit
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument simple-scan seahorse nautilus-extension-nextcloud gnome-text-editor # touchegg
+		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument simple-scan seahorse nautilus-extension-nextcloud gnome-text-editor touchegg
 
 		# Enabling services
-		# systemctl enable touchegg
+		systemctl enable touchegg
 
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME='gnome'" | tee -a /etc/environment
@@ -149,7 +149,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
 
 		#Disable wayland
-		# sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
+		sed -i "s/#WaylandEnable=false/WaylandEnable=false/" /etc/gdm/custom.conf
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Removing unwanted DE specific applications
@@ -216,7 +216,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	# Installing flatpak apps
-	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine sh.ppy.osu com.github.AmatCoder.mednaffe org.DolphinEmu.dolphin-emu com.heroicgameslauncher.hgl net.pcsx2.PCSX2
+	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine sh.ppy.osu com.github.AmatCoder.mednaffe org.DolphinEmu.dolphin-emu com.heroicgameslauncher.hgl net.pcsx2.PCSX2 # com.mongodb.Compass
 
 	# Installing flatpak themes
 	if [ "$1" == "kde" ]; then
@@ -250,9 +250,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# set cfq scheduler for rotating disks
 	ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="cfq"
 EOF
-
-	sed -i "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\1 mem_sleep_default=s2idle\"/g" /etc/default/grub	
-	grub-mkconfig -o /boot/grub2/grub.cfg
 
 else
 	echo "Accepted paramenters:"

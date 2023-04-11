@@ -46,14 +46,6 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	# Updating keyring
 	pacman -Sy --noconfirm archlinux-keyring
 
-	# Change mirrorlist
-	pacman -Sy --noconfirm pacman-contrib
-	curl -L "https://archlinux.org/mirrorlist/?country=FR&country=LU&country=NL&country=ES&protocol=http&protocol=https&ip_version=4&ip_version=6&use_mirror_status=on" > /etc/pacman.d/mirrorlist
-	sed -i "s/#Server/Server/g" /etc/pacman.d/mirrorlist
-	cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-	rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup /etc/pacman.d/mirrorlist
-	pacman -Sy
-
 	# Install base system
 	pacstrap /mnt base base-devel linux-firmware sof-firmware efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs # aria2
 

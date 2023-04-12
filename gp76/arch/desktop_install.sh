@@ -293,9 +293,6 @@ fi
 # Setting default plymouth theme
 plymouth-set-default-theme -R bgrt
 
-# Copying arch logo for the plymouth theme
-cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
-
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
 sed -i "s/udev autodetect modconf kms keyboard keymap consolefont block filesystems/udev plymouth autodetect modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf

@@ -289,9 +289,6 @@ fi
 # Setting default plymouth theme
 plymouth-set-default-theme -R bgrt
 
-# Copying arch logo for the plymouth theme
-cp /usr/share/plymouth/arch-logo.png /usr/share/plymouth/themes/spinner/watermark.png
-
 # Configuring mkinitcpio
 until pacman -S --noconfirm --needed lvm2
 do

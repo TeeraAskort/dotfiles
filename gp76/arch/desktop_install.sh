@@ -103,7 +103,7 @@ do
 done
 
 # Installing drivers
-until pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia nvidia-utils lib32-nvidia-utils nvidia-settings nvidia-prime switcheroo-control cuda cuda-tools cudnn
+until pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia nvidia-utils lib32-nvidia-utils nvidia-settings nvidia-prime switcheroo-control 
 do
 	echo "Retrying"
 done

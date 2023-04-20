@@ -60,7 +60,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	dnf groupinstall "Development Tools" -y
 
 	#Install required packages
-	dnf install -y vim lutris steam flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks dolphin-emu zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code thermald python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ yt-dlp p7zip razergenie openrazer-meta nextcloud-client chromium-freeworld sqlite hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper heroic-games-launcher-bin lm_sensors mpv mpv-mpris zstd openssl fontconfig-font-replacements fontconfig-enhanced-defaults
+	dnf install -y --allowerasing vim lutris steam flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks dolphin-emu zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code thermald python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ yt-dlp p7zip razergenie openrazer-meta nextcloud-client chromium sqlite hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper heroic-games-launcher-bin lm_sensors mpv mpv-mpris zstd openssl fontconfig-font-replacements fontconfig-enhanced-defaults
 
 	# Installing computer specific packages
 	dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld
@@ -91,11 +91,8 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	dnf groupupdate core -y
 
 	#Install multimedia codecs
+	dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y
 	dnf groupupdate sound-and-video -y
-	dnf install -y libdvdcss
-	dnf install -y gstreamer1-plugins-{bad-\*,good-\*,ugly-\*,base} gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel ffmpeg gstreamer-ffmpeg
-	dnf install -y lame\* --exclude=lame-devel
-	dnf group upgrade -y --with-optional Multimedia
 
 	# Desktop specific configs
 	if [ "$1" == "gnome" ]; then

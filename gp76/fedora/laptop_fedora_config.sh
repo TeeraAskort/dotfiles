@@ -165,6 +165,9 @@ EOF
 	# Fixing font rendering
 	# cp $directory/local.conf /etc/fonts/local.conf
 
+	# Disabling S0 sleep
+	grubby --update-kernel=ALL --args="mem_sleep_default=deep"
+
 	# Copying prime-run
 	cp $directory/../dotfiles/prime-run /usr/bin
 

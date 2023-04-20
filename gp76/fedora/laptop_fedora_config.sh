@@ -42,7 +42,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 
 	# Enabling third party repositories
 	dnf install -y fedora-workstation-repositories
-	dnf config-manager --set-enabled google-chrome
+	# dnf config-manager --set-enabled google-chrome
 
 	# Adding docker repo
 	# dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
@@ -117,7 +117,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	elif [ "$1" == "kde" ]; then
 		# Uninstalling KDE applications
 		dnf rm -y kolourpaint akregator kmail konversation krfb kmines dragon elisa-player kaddressbook
-
+ol
 		# Installing KDE applications
 		dnf in -y palapeli ksshaskpass kde-connect simple-scan kio_mtp kio-extras kio-gdrive kate qbittorrent filelight kcm_wacomtablet fuse-sshfs spectacle kcalc kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio kfind kde-print-manager signon-kwallet-extension gnome-boxes xdg-desktop-portal-kde xdg-desktop-portal ffmpegthumbs 
 

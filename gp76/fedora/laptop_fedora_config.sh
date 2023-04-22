@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 _script="$(readlink -f ${BASH_SOURCE[0]})"
 

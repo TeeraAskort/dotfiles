@@ -94,7 +94,7 @@ if command -v pipewire &> /dev/null ; then
 fi
 
 ## Configuring pipewire
-if command -v pipewire &> /dev/null ; then
+# if command -v pipewire &> /dev/null ; then
 #	cd $directory/../common/
 #	cp -r pipewire ~/.config/
 #	systemctl --user restart pipewire.service pipewire-pulse.socket
@@ -103,7 +103,7 @@ if command -v pipewire &> /dev/null ; then
 #		cp -r wireplumber ~/.config
 #		systemctl --user restart wireplumber
 #	fi
-fi
+# fi
 
 ## Configuring vim/neovim
 cp $directory/dotfiles/.vimrc ~

@@ -30,6 +30,6 @@ EOF
 dracut -f
 
 # Disable wayland
-if [ -e "/usr/bin/gnome-session" ]; then 
-	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
-fi
+# if [ -e "/usr/bin/gnome-session" ]; then 
+#	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+# fi

@@ -205,13 +205,13 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	until pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth gnome-browser-connector simple-scan gnome-boxes seahorse libsecret gvfs-google python-nautilus gnome-text-editor python-pyxdg touchegg
+	until pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-packagekit-plugin gdm-plymouth gnome-browser-connector simple-scan gnome-boxes seahorse libsecret gvfs-google python-nautilus gnome-text-editor python-pyxdg # touchegg
 	do
 		echo "Retrying"
 	done
 	
 	# Enabling gdm
-	systemctl enable gdm touchegg
+	systemctl enable gdm # touchegg
 
 	# Removing unwanted packages
 	pacman -Rns --noconfirm gnome-music epiphany totem orca
@@ -502,7 +502,7 @@ pacman -Qtdq | pacman -Rns --noconfirm -
 # Adding desktop specific final settings
 if [[ "$1" == "gnome" ]]; then
 	# Disabling wayland
-	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+	# sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
 
 	# Setting firefox env var
 	echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment

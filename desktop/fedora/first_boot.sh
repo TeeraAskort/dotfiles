@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "fastestmirror=1" | tee -a /etc/dnf/dnf.conf
+
 # Update fedora
 dnf up -y ; rpm --rebuilddb ; dnf up -y
 

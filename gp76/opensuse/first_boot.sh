@@ -18,7 +18,7 @@ options nvidia NVreg_PreserveVideoMemoryAllocations=1
 EOF
 
 ## Disabling sleep2idle
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 mem_sleep_default=deep"/' /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 mem_sleep_default=deep nvidia.prime=offload"/' /etc/default/grub
 update-bootloader --refresh
 
 echo "Nvidia drivers installed, reboot the computer"

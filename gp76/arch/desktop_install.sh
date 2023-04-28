@@ -103,7 +103,7 @@ do
 done
 
 # Installing drivers
-until pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia nvidia-utils lib32-nvidia-utils nvidia-settings nvidia-prime switcheroo-control 
+until pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia nvidia-utils lib32-nvidia-utils nvidia-settings switcheroo-control 
 do
 	echo "Retrying"
 done
@@ -489,6 +489,9 @@ cp $directory/../../common/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.con
 
 # Copying keyboard config
 cp $directory/../../common/00-keyboard.conf /etc/X11/xorg.conf.d/00-keyboard.conf
+
+# Copying prime-run command
+cp $directory/../dotfiles/prime-run /usr/bin
 
 # Copying nvapi script
 cp $directory/../dotfiles/nvapi /usr/bin

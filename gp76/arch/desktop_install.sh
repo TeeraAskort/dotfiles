@@ -548,6 +548,9 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 	# Adding GTK_USE_PORTAL=1 to /etc/environment
 	echo "GTK_USE_PORTAL=1" | tee -a /etc/environment
 
+	# Adding firefox x11 config
+	echo "MOZ_USE_XINPUT1=1" | tee -a /etc/environment
+	
 	# Adding gnome-keyring to pam
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 

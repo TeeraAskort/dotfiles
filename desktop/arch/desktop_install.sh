@@ -16,6 +16,7 @@ export LANG=es_ES.UTF-8
 
 # Virtual console keymap
 echo KEYMAP=es >/etc/vconsole.conf
+echo FONT=cybercafe >/etc/vconsole.conf
 
 # Change localtime
 ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
@@ -102,6 +103,12 @@ done
 
 # Installing drivers
 until pacman -S --noconfirm mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa xf86-input-wacom xf86-input-libinput libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau 
+do
+	echo "Retrying"
+done
+
+# Remove mkinitcpio missing firmware
+until pacman -S --noconfirm ast-firmware upd72020x-fw aic94xx-firmware linux-firmware-qlogic wd719x-firmware
 do
 	echo "Retrying"
 done
@@ -463,7 +470,7 @@ pacman -Qtdq | pacman -Rns --noconfirm -
 # Adding desktop specific final settings
 if [[ "$1" == "gnome" ]]; then
 	# Disabling wayland
-	# sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
 
 	# Setting firefox env var
 	echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment

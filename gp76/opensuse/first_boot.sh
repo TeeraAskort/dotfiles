@@ -10,7 +10,7 @@ zypper --gpg-auto-import-keys refresh
 zypper in --auto-agree-with-licenses -y x11-video-nvidiaG06
 
 # Enabling services
-systemctl enable nvidia-suspend nvidia-hibernate nvidia-resume
+systemctl enable nvidia-suspend nvidia-hibernate 
 
 # Adding nvidia options
 cat > /etc/modprobe.d/nvidia-power-management.conf <<EOF
@@ -18,7 +18,7 @@ options nvidia NVreg_PreserveVideoMemoryAllocations=1
 EOF
 
 ## Disabling sleep2idle
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 mem_sleep_default=deep nvidia.prime=offload"/' /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 mem_sleep_default=deep "/' /etc/default/grub
 update-bootloader --refresh
 
 echo "Nvidia drivers installed, reboot the computer"

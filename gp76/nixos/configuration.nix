@@ -249,12 +249,6 @@ in
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     jack.enable = true;
-
-    config.pipewire = {
-      "context.properties" = {
-        "default.clock.rate"          = 192000;
-        "default.clock.allowed-rates" = [ 44100 48000 88200 96000 192000 ];
-      };
     };
 
     # use the example session manager (no others are packaged yet so this is enabled by default,

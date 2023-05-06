@@ -20,6 +20,7 @@
 
   boot.kernelParams = [
     "mem_sleep_default=deep"
+    "module_blacklist=i915"
   ];
 
   boot.resumeDevice = "/dev/disk/by-uuid/swapChangeme";
@@ -42,7 +43,7 @@
 
   fileSystems."/home/link/Datos" = {
     encrypted = {
-      blkDev = "/dev/disk/by-uuid/9de46ad5-1c2f-4ace-83d0-20a82773500d";
+      blkDev = "/dev/disk/by-uuid/5e6d074b-663c-45b0-b1dc-6bb121ba9fb1";
       enable = true;
       keyFile = "/mnt-root/.datoskey";
       label = "datos";

@@ -5,8 +5,14 @@ user_pref("media.ffmpeg.vaapi-drm-display.enabled", true);
 user_pref("media.ffmpeg.vaapi.enabled", true);
 user_pref("browser.newtabpage.activity-stream.showSponsored", false);
 user_pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
-user_pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored", false);
-user_pref("services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSites", false);
+user_pref(
+  "services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsored",
+  false
+);
+user_pref(
+  "services.sync.prefs.sync.browser.newtabpage.activity-stream.showSponsoredTopSites",
+  false
+);
 user_pref("privacy.resistFingerprinting", true);
 user_pref("privacy.trackingprotection.fingerprinting.enabled", true);
 user_pref("privacy.trackingprotection.cryptomining.enabled", true);
@@ -57,10 +63,16 @@ user_pref("browser.newtab.preload", false);
 user_pref("browser.newtabpage.activity-stream.feeds.telemetry", false);
 user_pref("browser.newtabpage.activity-stream.telemetry", false);
 user_pref("browser.newtabpage.activity-stream.showSponsored", false);
-user_pref("browser.newtabpage.activity-stream.feeds.discoverystreamfeed", false); // [FF66+]
+user_pref(
+  "browser.newtabpage.activity-stream.feeds.discoverystreamfeed",
+  false
+); // [FF66+]
 user_pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false); // [FF83+]
 user_pref("browser.newtabpage.activity-stream.default.sites", "");
-user_pref("geo.provider.network.url", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
+user_pref(
+  "geo.provider.network.url",
+  "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%"
+);
 user_pref("geo.provider.use_gpsd", false); // [LINUX]
 user_pref("browser.region.network.url", ""); // [FF78+]
 user_pref("browser.region.update.enabled", false); // [[FF79+]
@@ -145,3 +157,4 @@ user_pref("spellchecker.dictionary_path", "/usr/share/hunspell");
 user_pref("browser.tabs.firefox-view", false);
 user_pref("browser.tabs.tabmanager.enabled", false);
 user_pref("browser.privatebrowsing.enable-new-indicator", false);
+user_pref("general.platform.override", "Win32");

@@ -61,85 +61,75 @@ Include = /etc/pacman.d/chaotic-mirrorlist
 EOF
 
 # Downloading the chaotic-aur mirrorlist
-until curl -L "https://aur.chaotic.cx/mirrorlist.txt" > /etc/pacman.d/chaotic-mirrorlist
-do
+until curl -L "https://aur.chaotic.cx/mirrorlist.txt" >/etc/pacman.d/chaotic-mirrorlist; do
 	echo "Retrying"
 done
-until pacman -Sy --noconfirm chaotic-mirrorlist chaotic-keyring
-do
+until pacman -Sy --noconfirm chaotic-mirrorlist chaotic-keyring; do
 	echo "Retrying"
 done
 
 mv /etc/pacman.d/chaotic-mirrorlist.pacnew /etc/pacman.d/chaotic-mirrorlist
 
-until pacman -Syu --noconfirm
-do
+until pacman -Syu --noconfirm; do
 	echo "Retrying"
 done
 
 # Updating keyring
-until pacman -Syu --noconfirm archlinux-keyring
-do
+until pacman -Syu --noconfirm archlinux-keyring; do
 	echo "Retrying"
 done
 
 # Enabling multilib repo
 sed -i '/\[multilib\]/s/^#//g' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s/^#//g}' /etc/pacman.conf
-until pacman -Syu --noconfirm
-do
+until pacman -Syu --noconfirm; do
 	echo "Retrying"
 done
 
 # Installing linux kernel
-until pacman -S --noconfirm linux linux-headers
-do
+until pacman -S --noconfirm linux linux-headers; do
 	echo "Retrying"
 done
 
 # Installing xorg and xapps
-until pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb
-do
+until pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb; do
 	echo "Retrying"
 done
 
 # Installing drivers
-until pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia nvidia-utils lib32-nvidia-utils nvidia-settings switcheroo-control 
-do
+until pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia nvidia-utils lib32-nvidia-utils nvidia-settings switcheroo-control; do
 	echo "Retrying"
 done
 
 # Preserve video memory
-cat > /etc/modprobe.d/nvidia-power-management.conf <<EOF
+cat >/etc/modprobe.d/nvidia-power-management.conf <<EOF
 options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
 EOF
 mkinitcpio -P
 
 # Enabling services
-systemctl enable switcheroo-control nvidia-suspend nvidia-hibernate 
+systemctl enable switcheroo-control nvidia-suspend nvidia-hibernate
 
 # Initialize nvidia before xorg
-cat > /etc/udev/rules.d/99-systemd-dri-devices.rules <<EOF
+cat >/etc/udev/rules.d/99-systemd-dri-devices.rules <<EOF
 ACTION=="add", KERNEL=="card*", SUBSYSTEM=="drm", TAG+="systemd"
 EOF
 
 mkdir /etc/systemd/system/display-manager.service.d
 
-cat > /etc/systemd/system/display-manager.service.d/10-wait-for-dri-devices.conf <<EOF
+cat >/etc/systemd/system/display-manager.service.d/10-wait-for-dri-devices.conf <<EOF
 [Unit]
 Wants=dev-dri-card0.device
 After=dev-dri-card0.device
 EOF
 
 # Remove mkinitcpio missing firmware
-until pacman -S --noconfirm ast-firmware upd72020x-fw aic94xx-firmware linux-firmware-qlogic wd719x-firmware
-do
+until pacman -S --noconfirm ast-firmware upd72020x-fw aic94xx-firmware linux-firmware-qlogic wd719x-firmware; do
 	echo "Retrying"
 done
 
 # Installing services
-until pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs
-do
+until pacman -S --noconfirm networkmanager openssh xdg-user-dirs haveged intel-ucode bluez bluez-libs; do
 	echo "Retrying"
 done
 
@@ -147,8 +137,7 @@ done
 systemctl enable NetworkManager haveged bluetooth
 
 # Installing sound libraries
-until pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
-do
+until pacman -S --noconfirm alsa-utils alsa-plugins pipewire lib32-pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber; do
 	echo "Retrying"
 done
 # pacman -S --noconfirm alsa-utils alsa-plugins pulseaudio-alsa pulseaudio-jack pulseaudio-bluetooth
@@ -161,8 +150,7 @@ sudo -u link systemctl --user enable pipewire.socket
 sudo -u link systemctl --user enable wireplumber.service
 
 # Installing filesystem libraries
-until pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs cryptsetup f2fs-tools xfsprogs util-linux
-do
+until pacman -S --noconfirm dosfstools ntfs-3g btrfs-progs exfatprogs gptfdisk fuse2 fuse3 fuseiso sshfs cryptsetup f2fs-tools xfsprogs util-linux; do
 	echo "Retrying"
 done
 
@@ -170,14 +158,12 @@ done
 systemctl enable fstrim.timer
 
 # Installing compresion tools
-until pacman -S --noconfirm zip unzip unrar p7zip lzop pigz pbzip2
-do
+until pacman -S --noconfirm zip unzip unrar p7zip lzop pigz pbzip2; do
 	echo "Retrying"
 done
 
 # Installing generic tools
-until pacman -S --noconfirm vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils vi
-do
+until pacman -S --noconfirm vim nano pacman-contrib base-devel bash-completion usbutils lsof man net-tools inetutils vi; do
 	echo "Retrying"
 done
 
@@ -204,21 +190,19 @@ sed -i "s/#RUSTFLAGS=\"-C opt-level=2\"/RUSTFLAGS=\"-C opt-level=2 -C target-cpu
 
 # Installing desktop environment
 if [[ "$1" == "cinnamon" ]]; then
-	until pacman -S --noconfirm cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller nemo-image-converter nemo-share blueman system-config-printer gnome-screenshot gnome-disk-utility gnome-calendar mint-themes evince kdeconnect zenity gnome-boxes seahorse nemo-seahorse xdg-desktop-portal xdg-desktop-portal-gtk libsecret gvfs-google gnome-text-editor python-pyxdg 
-	do
+	until pacman -S --noconfirm cinnamon eog gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted brasero gnome-sound-recorder file-roller tilix gnome-terminal gnome-system-monitor gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw cinnamon-translations nemo-fileroller nemo-image-converter nemo-share blueman system-config-printer gnome-screenshot gnome-disk-utility gnome-calendar mint-themes evince kdeconnect zenity gnome-boxes seahorse nemo-seahorse xdg-desktop-portal xdg-desktop-portal-gtk libsecret gvfs-google gnome-text-editor python-pyxdg; do
 		echo "Retrying"
 	done
 
 	# Enabling services
-	# systemctl enable 
+	# systemctl enable
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	until pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gdm-plymouth gnome-browser-connector simple-scan gnome-boxes seahorse libsecret gvfs-google python-nautilus gnome-text-editor python-pyxdg touchegg
-	do
+	until pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gdm-plymouth gnome-browser-connector simple-scan gnome-boxes seahorse libsecret gvfs-google python-nautilus gnome-text-editor python-pyxdg touchegg; do
 		echo "Retrying"
 	done
-	
+
 	# Enabling gdm
 	systemctl enable gdm touchegg
 
@@ -226,14 +210,12 @@ elif [[ "$1" == "gnome" ]]; then
 	pacman -Rns --noconfirm gnome-music epiphany totem orca
 
 elif [[ "$1" == "mate" ]]; then
-	until pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird gnome-boxes gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueman mint-themes mate-tweak mate-menu simple-scan libsecret 
-	do
+	until pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird gnome-boxes gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueman mint-themes mate-tweak mate-menu simple-scan libsecret; do
 		echo "Retrying"
 	done
 
 elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
-	until pacman -S --noconfirm plasma sddm ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind print-manager signon-kwallet-extension qbittorrent plasma-wayland-session kdepim-addons akonadi kmail qt5-imageformats webp-pixbuf-loader ksshaskpass gnome-boxes xdg-desktop-portal-gtk xdg-desktop-portal-kde xdg-desktop-portal simple-scan gnome-keyring libsecret libgnome-keyring 
-	do
+	until pacman -S --noconfirm plasma sddm ark dolphin dolphin-plugins gwenview ffmpegthumbs filelight kdeconnect sshfs kdialog kio-extras kio-gdrive kmahjongg palapeli kpat okular kcm-wacomtablet konsole spectacle kcalc kate kdegraphics-thumbnailers kcron ksystemlog kgpg kcharselect kdenetwork-filesharing audiocd-kio packagekit-qt5 gtk-engine-murrine kwallet-pam kwalletmanager kfind print-manager signon-kwallet-extension qbittorrent plasma-wayland-session kdepim-addons akonadi kmail qt5-imageformats webp-pixbuf-loader ksshaskpass gnome-boxes xdg-desktop-portal-gtk xdg-desktop-portal-kde xdg-desktop-portal simple-scan gnome-keyring libsecret libgnome-keyring; do
 		echo "Retrying"
 	done
 
@@ -242,8 +224,7 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 
 elif [[ "$1" == "xfce" ]]; then
 	# Install xfce
-	until pacman -S --noconfirm xfce4 xfce4-goodies xcape pavucontrol network-manager-applet gnome-boxes thunderbird playerctl gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueman system-config-printer xarchiver simple-scan mint-themes kdeconnect gnome-keyring libsecret libgnome-keyring 
-	do
+	until pacman -S --noconfirm xfce4 xfce4-goodies xcape pavucontrol network-manager-applet gnome-boxes thunderbird playerctl gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gnome-calculator gparted evince tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueman system-config-printer xarchiver simple-scan mint-themes kdeconnect gnome-keyring libsecret libgnome-keyring; do
 		echo "Retrying"
 	done
 
@@ -261,8 +242,7 @@ fi
 
 if [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "el" ]]; then
 	# Installing lightdm-slick-greeter
-	until pacman -S --noconfirm lightdm-slick-greeter
-	do
+	until pacman -S --noconfirm lightdm-slick-greeter; do
 		echo "Retrying"
 	done
 
@@ -276,8 +256,7 @@ fi
 
 if [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == cinnamon ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]] || [[ "$1" == "el" ]]; then
 	# Install plymotuh
-	until pacman -S --noconfirm plymouth
-	do
+	until pacman -S --noconfirm plymouth; do
 		echo "Retrying"
 	done
 
@@ -301,7 +280,7 @@ sed -i "s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g" /e
 mkinitcpio -P
 
 # Install and configure systemd-boot
-pacman -S --noconfirm --needed efibootmgr 
+pacman -S --noconfirm --needed efibootmgr
 
 # mount /dev/nvme1n1p3 /mnt
 # mount /dev/nvme1n1p2 /mnt/efi
@@ -336,8 +315,7 @@ EOF
 bootctl update
 
 # Installing printing services
-until pacman -S --noconfirm cups cups-pdf hplip ghostscript
-do
+until pacman -S --noconfirm cups cups-pdf hplip ghostscript; do
 	echo "Retrying"
 done
 
@@ -345,32 +323,27 @@ done
 systemctl enable cups
 
 # Installing office utilities
-until pacman -S --noconfirm libreoffice-fresh libreoffice-fresh-es hunspell-en_US hunspell-es_es mythes-en mythes-es hyphen-en hyphen-es aspell aspell-es aspell-en aspell-ca 
-do
+until pacman -S --noconfirm libreoffice-fresh libreoffice-fresh-es hunspell-en_US hunspell-es_es mythes-en mythes-es hyphen-en hyphen-es aspell aspell-es aspell-en aspell-ca; do
 	echo "Retrying"
 done
 
 # Installing catalonian dictionary
-until sudo -u aurbuilder yay -S --noconfirm hunspell-ca mythes-ca hyphen-ca
-do
+until sudo -u aurbuilder yay -S --noconfirm hunspell-ca mythes-ca hyphen-ca; do
 	echo "Retrying"
 done
 
 # Installing multimedia codecs
-until pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst-libav
-do
+until pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst-libav; do
 	echo "Retrying"
 done
 
 # Installing gimp
-until pacman -S --noconfirm gimp gimp-help-es
-do
+until pacman -S --noconfirm gimp gimp-help-es; do
 	echo "Retrying"
 done
 
 # Installing required packages
-until pacman -S --noconfirm jdk-openjdk dolphin-emu telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld neovim nodejs npm python-pynvim libfido2 yad mednafen chromium nicotine+ yt-dlp zram-generator rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin mednaffe libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git openrazer-meta alsa-ucm-conf mpv mpv-mpris zstd obs-studio qt6-wayland firefox firefox-i18n-es-es strawberry-qt5 # android-studio docker docker-compose
-do
+until pacman -S --noconfirm jdk-openjdk dolphin-emu telegram-desktop flatpak wine-staging winetricks wine-gecko wine-mono lutris zsh zsh-autosuggestions zsh-syntax-highlighting noto-fonts-cjk papirus-icon-theme steam thermald apparmor gamemode lib32-gamemode gparted noto-fonts gsfonts sdl_ttf ttf-bitstream-vera ttf-dejavu ttf-liberation xorg-fonts-type1 ttf-hack lib32-gnutls lib32-libldap lib32-libgpg-error lib32-sqlite lib32-libpulse firewalld neovim nodejs npm python-pynvim libfido2 yad mednafen chromium nicotine+ yt-dlp zram-generator rebuild-detector nextcloud-client jdownloader2 visual-studio-code-bin pfetch-git heroic-games-launcher-bin mednaffe libva-vdpau-driver libvdpau-va-gl python-notify2 python-psutil osu-lazer android-tools piper solaar zpaq input-remapper-git openrazer-meta alsa-ucm-conf mpv mpv-mpris zstd obs-studio qt6-wayland firefox firefox-i18n-es-es pragha; do # android-studio docker docker-compose
 	echo "Retrying"
 done
 
@@ -390,8 +363,7 @@ mount-point = /var/compressed
 EOF
 
 # Installing computer specific packages
-until pacman -S --noconfirm pam-u2f tlp
-do
+until pacman -S --noconfirm pam-u2f tlp; do
 	echo "Retrying"
 done
 
@@ -399,8 +371,7 @@ done
 systemctl enable tlp
 
 # Wine dependencies
-until pacman -S --noconfirm --needed wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader
-do
+until pacman -S --noconfirm --needed wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader; do
 	echo "Retrying"
 done
 
@@ -412,8 +383,7 @@ usermod -aG plugdev link
 
 # Installing GTK styling
 if [[ "$2" == "gtk" ]] || [[ "$1" == "el" ]]; then
-	until pacman -S --noconfirm adwaita-qt5 adwaita-qt6
-	do
+	until pacman -S --noconfirm adwaita-qt5 adwaita-qt6; do
 		echo "Retrying"
 	done
 
@@ -472,7 +442,7 @@ sed -i "s/#AutoEnable=false/AutoEnable=true/g" /etc/bluetooth/main.conf
 
 # Adding nvidia pacman hook
 mkdir -p /etc/pacman.d/hooks
-cat > /etc/pacman.d/hooks/nvidia.hook <<EOF
+cat >/etc/pacman.d/hooks/nvidia.hook <<EOF
 [Trigger]
 Operation=Install
 Operation=Upgrade
@@ -488,7 +458,7 @@ When=PostTransaction
 Exec=/usr/bin/mkinitcpio -P
 EOF
 
-cat > /etc/modprobe.d/blacklist.conf <<EOF
+cat >/etc/modprobe.d/blacklist.conf <<EOF
 install i915 /usr/bin/false
 install intel_agp /usr/bin/false
 EOF
@@ -521,13 +491,13 @@ if [[ "$1" == "gnome" ]]; then
 
 	# Disabling QT6 wayland backend
 	# echo "QT_QPA_PLATFORM=xcb" | tee -a /etc/environment
-	
+
 	# Adding ssh-askpass env var
 	echo "SSH_ASKPASS=/usr/lib/seahorse/ssh-askpass" | tee -a /etc/environment
 
 	# Adding gnome-keyring to pam
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
-	
+
 	ln -s /dev/null /etc/udev/rules.d/61-gdm.rules
 
 	# Add keyring unlock on login
@@ -559,7 +529,7 @@ elif [[ "$1" == "kde" ]] || [[ "$1" == "plasma" ]]; then
 
 	# Adding firefox x11 config
 	echo "MOZ_USE_XINPUT1=1" | tee -a /etc/environment
-	
+
 	# Adding gnome-keyring to pam
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
 
@@ -580,7 +550,7 @@ elif [[ "$1" == "cinnamon" ]]; then
 
 	# Adding gnome-keyring to pam
 	echo "password optional pam_gnome_keyring.so" | tee -a /etc/pam.d/passwd
-	
+
 	# Add keyring unlock on login
 	awk 'FNR==NR{ if (/auth/) p=NR; next} 1; FNR==p{ print "auth       optional     pam_gnome_keyring.so" }' /etc/pam.d/login /etc/pam.d/login | tee $directory/tmp
 	echo "session    optional     pam_gnome_keyring.so auto_start" | tee -a $directory/tmp

@@ -123,6 +123,8 @@ cat > /etc/udev/rules.d/99-systemd-dri-devices.rules <<EOF
 ACTION=="add", KERNEL=="card*", SUBSYSTEM=="drm", TAG+="systemd"
 EOF
 
+mkdir /etc/systemd/system/display-manager.service.d
+
 cat > /etc/systemd/system/display-manager.service.d/10-wait-for-dri-devices.conf <<EOF
 [Unit]
 Wants=dev-dri-card0.device

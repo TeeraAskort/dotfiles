@@ -108,7 +108,7 @@ EOF
 mkinitcpio -P
 
 # Enabling services
-systemctl enable switcheroo-control # nvidia-suspend nvidia-hibernate
+systemctl enable switcheroo-control nvidia-suspend nvidia-hibernate
 
 # Initialize nvidia before xorg
 # cat >/etc/udev/rules.d/99-systemd-dri-devices.rules <<EOF

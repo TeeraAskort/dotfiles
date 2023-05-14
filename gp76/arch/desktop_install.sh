@@ -111,17 +111,17 @@ mkinitcpio -P
 systemctl enable switcheroo-control nvidia-suspend nvidia-hibernate
 
 # Initialize nvidia before xorg
-# cat >/etc/udev/rules.d/99-systemd-dri-devices.rules <<EOF
-# ACTION=="add", KERNEL=="card*", SUBSYSTEM=="drm", TAG+="systemd"
-# EOF
+cat >/etc/udev/rules.d/99-systemd-dri-devices.rules <<EOF
+ACTION=="add", KERNEL=="card*", SUBSYSTEM=="drm", TAG+="systemd"
+EOF
 
-# mkdir /etc/systemd/system/display-manager.service.d
+mkdir /etc/systemd/system/display-manager.service.d
 
-# cat >/etc/systemd/system/display-manager.service.d/10-wait-for-dri-devices.conf <<EOF
-# [Unit]
-# Wants=dev-dri-card0.device
-# After=dev-dri-card0.device
-# EOF
+cat >/etc/systemd/system/display-manager.service.d/10-wait-for-dri-devices.conf <<EOF
+[Unit]
+Wants=dev-dri-card0.device
+After=dev-dri-card0.device
+EOF
 
 # Remove mkinitcpio missing firmware
 until pacman -S --noconfirm ast-firmware upd72020x-fw aic94xx-firmware linux-firmware-qlogic wd719x-firmware; do
@@ -199,13 +199,13 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	until pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gdm-plymouth gnome-browser-connector simple-scan gnome-boxes seahorse libsecret gvfs-google python-nautilus gnome-text-editor python-pyxdg pragha # touchegg
+	until pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gdm-plymouth gnome-browser-connector simple-scan gnome-boxes seahorse libsecret gvfs-google python-nautilus gnome-text-editor python-pyxdg pragha touchegg
 	do
 		echo "Retrying"
 	done
 
 	# Enabling gdm
-	systemctl enable gdm # touchegg
+	systemctl enable gdm touchegg
 
 	# Removing unwanted packages
 	pacman -Rns --noconfirm gnome-music epiphany totem orca
@@ -305,14 +305,14 @@ title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep acpi_osi=! acpi_osi="Windows 2015" rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep module_blacklist=i915 acpi_osi=! acpi_osi="Windows 2015" rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux-fallback.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep acpi_osi=! acpi_osi="Windows 2015" rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep module_blacklist=i915 acpi_osi=! acpi_osi="Windows 2015" rw
 EOF
 bootctl update
 
@@ -460,10 +460,10 @@ When=PostTransaction
 Exec=/usr/bin/mkinitcpio -P
 EOF
 
-# cat >/etc/modprobe.d/blacklist.conf <<EOF
-# install i915 /usr/bin/false
-# install intel_agp /usr/bin/false
-# EOF
+cat >/etc/modprobe.d/blacklist.conf <<EOF
+install i915 /usr/bin/false
+install intel_agp /usr/bin/false
+EOF
 
 # Copying libinput config
 cp $directory/../../common/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.conf

@@ -103,7 +103,7 @@ done
 
 # Preserve video memory
 cat >/etc/modprobe.d/nvidia-power-management.conf <<EOF
-options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp NVreg_DynamicPowerManagement=0x02
+options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp 
 EOF
 mkinitcpio -P
 

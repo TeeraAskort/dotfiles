@@ -127,6 +127,7 @@ cd ~/.fonts
 unzip ~/Documentos/fonts.zip
 unzip ~/Documentos/fonts2.zip
 unzip ~/Documentos/fonts3.zip
+fc-cache -f -v
 
 # Installing NPM packages
 if command -v rpm-ostree &> /dev/null; then

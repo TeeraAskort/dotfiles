@@ -126,6 +126,7 @@ mkdir ~/.fonts
 cd ~/.fonts
 unzip ~/Documentos/fonts.zip
 unzip ~/Documentos/fonts2.zip
+unzip ~/Documentos/fonts3.zip
 
 # Installing NPM packages
 if command -v rpm-ostree &> /dev/null; then
@@ -220,7 +221,7 @@ pamu2fcfg -o pam://"$hostnm" -i pam://"$hostnm" -n >> ~/.config/Yubico/u2f_keys
 if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
-	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
+	gsettings set org.gnome.desktop.interface monospace-font-name 'MesloLGS NF 11'
 	gsettings set org.gnome.desktop.peripherals.mouse accel-profile "flat"
 	gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'
 	gsettings set org.gnome.desktop.privacy disable-camera true

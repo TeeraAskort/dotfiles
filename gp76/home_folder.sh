@@ -428,7 +428,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
 	gsettings set org.cinnamon.desktop.interface icon-theme 'Papirus-Dark'
 	gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
-	gsettings set org.gnome.desktop.interface monospace-font-name "Rec Mono Semicasual Regular 11"
+	gsettings set org.gnome.desktop.interface monospace-font-name 'MesloLGS NF 11'
 	gsettings set org.cinnamon hotcorner-layout "['scale:true:150', 'scale:false:0', 'scale:false:0', 'desktop:false:0']"
 	gsettings set org.cinnamon panels-height "['1:26']"
 	gsettings set org.cinnamon.muffin tile-maximize true

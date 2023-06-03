@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [[ -n "$1" ]] && [[ -n "$2" ]] && [[ -n "$3" ]]; then
+    cd "$3"
+    parallel ffmpeg -i {} -qscale:a 0 {.}.$1 ::: ./*.$2
+else
+    echo "USAGE:"
+    echo "bash music_converter [type to convert to] [type to convert from] [path to folder]"
+fi

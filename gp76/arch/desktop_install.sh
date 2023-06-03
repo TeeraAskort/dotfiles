@@ -276,8 +276,8 @@ plymouth-set-default-theme -R bgrt
 
 # Configuring mkinitcpio
 pacman -S --noconfirm --needed lvm2
-sed -i "s/udev autodetect modconf kms keyboard keymap consolefont block filesystems/udev plymouth autodetect modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
-sed -i "s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g" /etc/mkinitcpio.conf
+sed -i "s/udev autodetect modconf kms keyboard keymap consolefont block filesystems/udev plymouth autodetect modconf keyboard keymap consolefont block encrypt lvm2 filesystems/g" /etc/mkinitcpio.conf
+# sed -i "s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/g" /etc/mkinitcpio.conf
 # sed -i "s/MODULES=()/MODULES=(i915 vmd)/g" /etc/mkinitcpio.conf
 mkinitcpio -P
 
@@ -443,6 +443,9 @@ EOF
 sed -i "s/#AutoEnable=false/AutoEnable=true/g" /etc/bluetooth/main.conf
 sed -i "s/#Experimental/Experimental/g" /etc/bluetooth/main.conf
 sed -i "s/#KernelExperimental/KernelExperimental/g" /etc/bluetooth/main.conf
+
+# Blacklist nvidiafb module
+echo "blacklist nvidiafb" | tee /etc/modprobe.d/blacklist-nvidiafb.conf
 
 # Adding nvidia pacman hook
 mkdir -p /etc/pacman.d/hooks

@@ -177,7 +177,7 @@ if [[ "$1" == "cinnamon" ]]; then
 
 elif [[ "$1" == "gnome" ]]; then
 	# Install GNOME
-	until pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gdm-plymouth gnome-browser-connector simple-scan power-profiles-daemon gnome-boxes seahorse gvfs-google python-nautilus gnome-keyring libsecret libgnome-keyring gnome-text-editor python-pyxdg pragha; do
+	until pacman -S --noconfirm extra/gnome gnome-tweaks gnome-nettool gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine geary deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw brasero gnome-themes-extra xdg-desktop-portal xdg-desktop-portal-gnome gdm-plymouth gnome-browser-connector simple-scan power-profiles-daemon gnome-boxes seahorse gvfs-google python-nautilus gnome-keyring libsecret libgnome-keyring gnome-text-editor python-pyxdg pragha file-roller; do
 		echo "Retrying"
 	done
 

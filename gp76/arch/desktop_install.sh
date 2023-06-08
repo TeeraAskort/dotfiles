@@ -208,7 +208,7 @@ elif [[ "$1" == "gnome" ]]; then
 	systemctl enable gdm touchegg
 
 	# Removing unwanted packages
-	pacman -Rns --noconfirm gnome-music epiphany totem orca
+	pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-tour
 
 elif [[ "$1" == "mate" ]]; then
 	until pacman -S --noconfirm mate mate-extra mate-media network-manager-applet mate-power-manager system-config-printer thunderbird gnome-boxes gvfs gvfs-google gvfs-mtp gvfs-nfs gvfs-smb lightdm gparted brasero tilix gnome-mahjongg aisleriot ffmpegthumbnailer gtk-engine-murrine deluge deluge-gtk libappindicator-gtk3 libnotify webp-pixbuf-loader libgepub libgsf libopenraw blueman mint-themes mate-tweak mate-menu simple-scan libsecret pragha; do

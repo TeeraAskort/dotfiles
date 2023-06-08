@@ -185,7 +185,7 @@ elif [[ "$1" == "gnome" ]]; then
 	systemctl enable gdm
 
 	# Removing unwanted packages
-	until pacman -Rns --noconfirm gnome-music epiphany totem orca; do
+	until pacman -Rns --noconfirm gnome-music epiphany totem orca gnome-tour; do
 		echo "Retrying"
 	done
 

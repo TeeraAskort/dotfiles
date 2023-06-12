@@ -47,7 +47,7 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	pacman -Sy --noconfirm archlinux-keyring
 
 	# Rank mirrors
-	pacman -S pacman-contrib
+	pacman -S --noconfirm pacman-contrib
 
 	curl -L "https://archlinux.org/mirrorlist/?country=BE&country=FR&country=DE&country=LU&country=NL&country=PT&country=ES&protocol=http&protocol=https&ip_version=4&ip_version=6" > /etc/pacman.d/mirrorlist
 	cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup

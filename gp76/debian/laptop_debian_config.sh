@@ -6,13 +6,6 @@ directory="$(dirname $_script)"
 
 if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "xfce" ] || [ "$1" == "cinnamon" ]; then
 	user=$SUDO_USER
-	
-	# Adding non-free repos
-	sed -i "s/non-free-firmware/non-free-firmware contrib non-free/g" /etc/apt/sources.list
-
-	# Adding 32bit support
-	dpkg --add-architecture i386
-	apt update
 
 	# Installing curl
 	apt install -y curl wget software-properties-common pkg-config
@@ -24,9 +17,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo "deb https://fasttrack.debian.net/debian-fasttrack/ bookworm-fasttrack main contrib" | tee -a /etc/apt/sources.list
 	echo "deb https://fasttrack.debian.net/debian-fasttrack/ bookworm-backports-staging main contrib" | tee -a /etc/apt/sources.list
 	apt update
-
-	# Installing drivers
-	apt install -y firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all mesa-va-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
 
 	# Installing wine
 	wget -nc https://dl.winehq.org/wine-builds/winehq.key
@@ -66,6 +56,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	# Enabling services
 	systemctl enable thermald
+
+	# Installing computer specific applications
+	apt install -y pamu2fcfg libpam-u2f
 
 	if [ "$1" == "gnome" ]; then
 		# Installing required packages

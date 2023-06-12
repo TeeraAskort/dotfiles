@@ -46,15 +46,6 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	# Updating keyring
 	pacman -Sy --noconfirm archlinux-keyring
 
-	# Rank mirrors
-	pacman -S --noconfirm pacman-contrib
-
-	curl -L "https://archlinux.org/mirrorlist/?country=BE&country=FR&country=DE&country=LU&country=NL&country=PT&country=ES&protocol=http&protocol=https&ip_version=4&ip_version=6" > /etc/pacman.d/mirrorlist
-	cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-	sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
-	rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
-	pacman -Sy
-	
 	# Install base system
 	pacstrap /mnt base base-devel linux-firmware sof-firmware efibootmgr btrfs-progs vim git cryptsetup lvm2 xfsprogs # aria2
 
@@ -67,9 +58,6 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	# Change location, clone the git repo and execute the installation script
 	cd /mnt
 	git clone https://SariaAskort@bitbucket.org/SariaAskort/dotfiles.git
-
-	# Copy mirrorlist
-	cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 
 	if [[ "$1" == "gnome" ]] || [[ "$1" == "cinnamon" ]] || [[ "$1" == "mate" ]] || [[ "$1" == "xfce" ]]; then
 		arch-chroot /mnt bash /dotfiles/gp76/arch/desktop_install.sh "$1" "gtk" 

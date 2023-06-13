@@ -69,7 +69,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	if [ "$1" == "gnome" ]; then
 		# Installing required packages
-		apt install ffmpegthumbnailer tilix transmission-gtk evolution aisleriot gnome-mahjongg 
+		apt install ffmpegthumbnailer transmission-gtk evolution aisleriot gnome-mahjongg 
 
 		# Remove unwanted applications
 		apt remove -y four-in-a-row five-or-more gnome-2048 gnome-chess gnome-klotski hitori gnome-tetravex gnome-taquin gnome-robots gnome-music zutty totem rhythmbox lightsoff tali swell-foop gnome-sudoku gnome-taquin tali gnome-mines quadrapassel gnome-nibbles iagno gnome-shell-extensions gnome-initial-setup im-config synaptic yelp debian-reference-common

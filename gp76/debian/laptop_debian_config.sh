@@ -67,6 +67,15 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		# Remove unwanted applications
 		apt remove -y four-in-a-row five-or-more gnome-2048 gnome-chess gnome-klotski hitori gnome-tetravex gnome-taquin gnome-robots gnome-music zutty totem rhythmbox lightsoff tali swell-foop gnome-sudoku gnome-taquin tali gnome-mines quadrapassel gnome-nibbles iagno gnome-shell-extensions gnome-initial-setup im-config synaptic yelp debian-reference-common
 
+		# Disabling wayland
+		sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+
+		# Setting firefox env var
+		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
+
+		# Adding ssh-askpass env var
+		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment	
+
 	elif [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing required packages
 		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird thunderbird-l10n-es-es gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect plasma-browser-integration xdg-desktop-portal-kde ffmpegthumbs kde-config-tablet dolphin-plugins k3b kio-audiocd libreoffice-qt5 libreoffice-kf5 xdg-desktop-portal qemu-system libvirt-daemon-system virt-manager 
@@ -161,6 +170,9 @@ EOF
 
  	# Removing uneeded packages
  	apt autoremove --purge -y
+
+	# Clear cache
+	apt clean
 
 else
 	echo "Accepted paramenters:"

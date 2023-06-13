@@ -52,7 +52,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt-get install -y nodejs
 
 	# Installing required applications
-	apt install -y build-essential vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom gstreamer1.0-vaapi desmume openjdk-17-jdk zip unzip wget yt-dlp pcsx2 cryptsetup nextcloud-desktop p7zip neofetch zstd zram-tools mpv-mpris
+	apt install -y build-essential vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom gstreamer1.0-vaapi desmume openjdk-17-jdk zip unzip wget yt-dlp pcsx2 cryptsetup nextcloud-desktop p7zip neofetch zstd zram-tools mpv-mpris strawberry
 
 	# Enabling services
 	systemctl enable thermald
@@ -62,14 +62,14 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	if [ "$1" == "gnome" ]; then
 		# Installing required packages
-		apt install ffmpegthumbnailer tilix transmission-gtk evolution aisleriot gnome-mahjongg pragha
+		apt install ffmpegthumbnailer tilix transmission-gtk evolution aisleriot gnome-mahjongg 
 
 		# Remove unwanted applications
 		apt remove -y four-in-a-row five-or-more gnome-2048 gnome-chess gnome-klotski hitori gnome-tetravex gnome-taquin gnome-robots gnome-music zutty totem rhythmbox lightsoff tali swell-foop gnome-sudoku gnome-taquin tali gnome-mines quadrapassel gnome-nibbles iagno gnome-shell-extensions gnome-initial-setup im-config synaptic yelp debian-reference-common
 
 	elif [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing required packages
-		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird thunderbird-l10n-es-es gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect plasma-browser-integration xdg-desktop-portal-kde ffmpegthumbs kde-config-tablet dolphin-plugins k3b kio-audiocd libreoffice-qt5 libreoffice-kf5 xdg-desktop-portal qemu-system libvirt-daemon-system virt-manager strawberry
+		apt install -y qbittorrent palapeli kmahjongg kpat thunderbird thunderbird-l10n-es-es gnome-keyring libpam-gnome-keyring libpam-kwallet5 sddm-theme-breeze kdeconnect plasma-browser-integration xdg-desktop-portal-kde ffmpegthumbs kde-config-tablet dolphin-plugins k3b kio-audiocd libreoffice-qt5 libreoffice-kf5 xdg-desktop-portal qemu-system libvirt-daemon-system virt-manager 
 
 		# Adding user to libvirt group
 		user="$SUDO_USER"
@@ -104,11 +104,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	elif [ "$1" == "xfce" ]; then
 		# Installing required packages
-		apt install -y tilix gvfs gvfs-backends thunderbird ffmpegthumbnailer tumbler tumbler-plugins-extra transmission-gtk pragha
+		apt install -y tilix gvfs gvfs-backends thunderbird ffmpegthumbnailer tumbler tumbler-plugins-extra transmission-gtk 
 
 	elif [ "$1" == "cinnamon" ]; then
 		# Installing required packages
-		apt install -y tilix gvfs gvfs-backends materia-gtk-theme materia-kde qt5-style-kvantum transmission-gtk aisleriot gnome-mahjongg ffmpegthumbnailer lightdm-settings slick-greeter xdg-desktop-portal-gtk libpam-gnome-keyring libgepub-0.6-0 libgsf-1-114 libwebp6 libopenraw7 geary pragha
+		apt install -y tilix gvfs gvfs-backends materia-gtk-theme materia-kde qt5-style-kvantum transmission-gtk aisleriot gnome-mahjongg ffmpegthumbnailer lightdm-settings slick-greeter xdg-desktop-portal-gtk libpam-gnome-keyring libgepub-0.6-0 libgsf-1-114 libwebp6 libopenraw7 geary 
 
 		# Removing unwanted applications
 		apt remove -y gnome-2048 gnome-taquin tali gnome-robots gnome-tetravex quadrapassel four-in-a-row five-or-more lightsoff gnome-chess hoichess gnome-klotski swell-foop gnome-mines gnome-nibbles iagno gnome-sudoku inkscape hexchat remmina pidgin rhythmbox sound-juicer totem vlc hitori termit shotwell synaptic thunderbird

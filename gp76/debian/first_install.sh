@@ -51,3 +51,6 @@ cp $directory/../dotfiles/nvapi /usr/bin
 
 # Copying hitman-run script
 cp $directory/../dotfiles/hitman-run /usr/bin
+
+# Clear cache
+apt clean

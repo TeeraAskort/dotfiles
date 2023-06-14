@@ -6,6 +6,13 @@ directory="$(dirname $_script)"
 
 if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" == "xfce" ] || [ "$1" == "cinnamon" ]; then
 	user=$SUDO_USER
+	
+	# Adding non-free repos
+	sed -i "s/non-free-firmware/non-free-firmware contrib non-free/g" /etc/apt/sources.list
+
+	# Adding 32bit support
+	dpkg --add-architecture i386
+	apt update
 
 	# Installing curl
 	apt install -y curl wget software-properties-common pkg-config
@@ -17,6 +24,9 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	echo "deb https://fasttrack.debian.net/debian-fasttrack/ bookworm-fasttrack main contrib" | tee -a /etc/apt/sources.list
 	echo "deb https://fasttrack.debian.net/debian-fasttrack/ bookworm-backports-staging main contrib" | tee -a /etc/apt/sources.list
 	apt update
+
+	# Installing drivers
+	apt install -y libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386 firmware-linux-nonfree firmware-misc-nonfree intel-microcode iucode-tool intel-media-va-driver-non-free mesa-va-drivers
 
 	# Installing wine
 	wget -nc https://dl.winehq.org/wine-builds/winehq.key
@@ -57,9 +67,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Enabling services
 	systemctl enable thermald
 
-	# Installing computer specific applications
-	apt install -y pamu2fcfg libpam-u2f
-
 	# Set plymouth theme
 	plymouth-set-default-theme -R spinner
 
@@ -69,7 +76,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 		# Remove unwanted applications
 		apt remove -y four-in-a-row five-or-more gnome-2048 gnome-chess gnome-klotski hitori gnome-tetravex gnome-taquin gnome-robots gnome-music zutty totem rhythmbox lightsoff tali swell-foop gnome-sudoku gnome-taquin tali gnome-mines quadrapassel gnome-nibbles iagno gnome-shell-extensions gnome-initial-setup im-config synaptic yelp debian-reference-common
-
+		
 		# Disabling wayland
 		sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
 
@@ -77,7 +84,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
 
 		# Adding ssh-askpass env var
-		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment	
+		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment
 
 	elif [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing required packages
@@ -130,7 +137,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	fi
 
 	# Updating grub
-	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 nvidia-drm.modeset=1 splash"/' /etc/default/grub
+	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 intel_idle.max_cstate=1 splash"/' /etc/default/grub
 	sed -i 's/#GRUB_GFXMODE=640x480/GRUB_GFXMODE=1920x1080x32/g' /etc/default/grub
 	update-grub
 
@@ -176,7 +183,6 @@ EOF
 
 	# Clear cache
 	apt clean
-
 else
 	echo "Accepted paramenters:"
 	echo "kde or plasma - to configure the plasma desktop"

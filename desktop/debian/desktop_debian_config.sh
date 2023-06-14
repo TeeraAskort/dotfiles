@@ -62,10 +62,13 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt-get install -y nodejs
 
 	# Installing required applications
-	apt install -y build-essential vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom gstreamer1.0-vaapi desmume openjdk-17-jdk zip unzip wget yt-dlp pcsx2 cryptsetup nextcloud-desktop p7zip neofetch zstd zram-tools mpv-mpris strawberry steam-installer
+	apt install -y build-essential vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom gstreamer1.0-vaapi desmume openjdk-17-jdk zip unzip wget yt-dlp pcsx2 cryptsetup nextcloud-desktop p7zip neofetch zstd zram-tools mpv-mpris strawberry steam-installer plymouth plymouth-themes firmware-linux
 
 	# Enabling services
 	systemctl enable thermald
+
+	# Set plymouth theme
+	plymouth-set-default-theme -R spinner
 
 	if [ "$1" == "gnome" ]; then
 		# Installing required packages

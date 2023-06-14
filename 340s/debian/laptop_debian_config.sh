@@ -77,9 +77,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		# Remove unwanted applications
 		apt remove -y four-in-a-row five-or-more gnome-2048 gnome-chess gnome-klotski hitori gnome-tetravex gnome-taquin gnome-robots gnome-music zutty totem rhythmbox lightsoff tali swell-foop gnome-sudoku gnome-taquin tali gnome-mines quadrapassel gnome-nibbles iagno gnome-shell-extensions gnome-initial-setup im-config synaptic yelp debian-reference-common
 		
-		# Disabling wayland
-		sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
-
 		# Setting firefox env var
 		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
 

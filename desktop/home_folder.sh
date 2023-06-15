@@ -476,6 +476,10 @@ EOF
 	sudo fc-cache -f
 fi
 
+if [[ $(lsb_release -is) = 'Debian' ]]; then
+	systemctl disable --now --user gnome-keyring-daemon.socket gnome-keyring-daemon.service
+fi
+
 ## Adding user to audio group
 user="$USER"
 sudo usermod -aG audio $user

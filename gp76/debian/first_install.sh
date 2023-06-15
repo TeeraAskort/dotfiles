@@ -48,6 +48,14 @@ install i915 /usr/bin/false
 install intel_agp /usr/bin/false
 EOF
 
+# Copy and enable services
+cp /usr/share/doc/xserver-xorg-video-nvidia/examples/system/nvidia-suspend.service /etc/systemd/system
+cp /usr/share/doc/xserver-xorg-video-nvidia/examples/system/nvidia-hibernate.service /etc/systemd/system
+cp /usr/share/doc/xserver-xorg-video-nvidia/examples/nvidia-sleep.sh /usr/bin
+cp /usr/share/doc/xserver-xorg-video-nvidia/examples/system-sleep/nvidia /lib/systemd/system-sleep
+
+systemctl enable nvidia-suspend nvidia-hibernate
+
 # Copying prime-run command
 cp $directory/../dotfiles/prime-run /usr/bin
 

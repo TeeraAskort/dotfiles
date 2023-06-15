@@ -62,13 +62,16 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	if [ "$1" == "gnome" ]; then
 		# Installing required packages
-		apt install -y ffmpegthumbnailer transmission-gtk evolution aisleriot gnome-mahjongg 
+		apt install -y ffmpegthumbnailer transmission-gtk evolution aisleriot gnome-mahjongg adwaita-qt adwaita-qt6
 
 		# Remove unwanted applications
 		apt remove -y four-in-a-row five-or-more gnome-2048 gnome-chess gnome-klotski hitori gnome-tetravex gnome-taquin gnome-robots gnome-music zutty totem rhythmbox lightsoff tali swell-foop gnome-sudoku gnome-taquin tali gnome-mines quadrapassel gnome-nibbles iagno gnome-shell-extensions gnome-initial-setup im-config synaptic yelp debian-reference-common
 
 		# Setting firefox env var
 		echo "MOZ_ENABLE_WAYLAND=1" | tee -a /etc/environment
+
+		# Setting qt theme
+		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
 
 		# Adding ssh-askpass env var
 		echo "SSH_ASKPASS=/usr/libexec/seahorse/ssh-askpass" | tee -a /etc/environment	

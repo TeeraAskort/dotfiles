@@ -15,7 +15,7 @@ apt update
 apt install -y linux-headers-amd64
 
 # Install nvidia drivers
-apt install -y nvidia-driver nvidia-driver-libs:i386 firmware-misc-nonfree nvidia-cuda-dev nvidia-cuda-toolkit libnvoptix1
+apt install -y nvidia-driver xserver-xorg-video-nvidia nvidia-driver-libs:i386 firmware-misc-nonfree nvidia-cuda-dev nvidia-cuda-toolkit libnvoptix1
 
 # Updating grub
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 nvidia_drm.modeset=1 modprobe.blacklist=nouveau mem_sleep_default=deep module_blacklist=i915 acpi_osi=! acpi_osi=\\"Windows 2015\\" splash"/' /etc/default/grub

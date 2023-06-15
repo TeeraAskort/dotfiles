@@ -284,7 +284,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" ]]; then
 		sudo cp $directory/dotfiles/gnome-shell-suspend.service $directory/dotfiles/gnome-shell-resume.service /etc/systemd/system/
 		sudo systemctl daemon-reload
 		sudo systemctl enable gnome-shell-suspend gnome-shell-resume
-	elif [[ $([[ $(lsb_release -cs) != 'bookworm' ]]) ]]; then
+	elif [[ $([[ $(lsb_release -is) != 'Debian' ]]) ]]; then
 		env WEBKIT_DISABLE_COMPOSITING_MODE=1 gnome-control-center online-accounts &
 	fi
 

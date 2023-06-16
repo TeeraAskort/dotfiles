@@ -66,4 +66,4 @@ cp $directory/../dotfiles/nvapi /usr/bin
 cp $directory/../dotfiles/hitman-run /usr/bin
 
 # Clear cache
-apt clean
+apt autoclean

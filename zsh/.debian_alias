@@ -9,4 +9,5 @@ function aptup() {
 	sudo apt update;
 	sudo apt full-upgrade -y;
 	flatpak update -y;
+	sudo apt autoclean;
 }

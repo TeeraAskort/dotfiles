@@ -52,7 +52,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	apt-get install -y nodejs
 
 	# Installing required applications
-	apt install -y build-essential vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom gstreamer1.0-vaapi desmume openjdk-17-jdk zip unzip wget yt-dlp pcsx2 cryptsetup nextcloud-desktop p7zip neofetch zstd zram-tools mpv-mpris strawberry steam-installer firmware-linux
+	apt install -y build-essential vim nano fonts-noto fonts-noto-cjk fonts-noto-mono mednafen mednaffe neovim python3-neovim gimp flatpak papirus-icon-theme zsh zsh-autosuggestions zsh-syntax-highlighting thermald mpv chromium libreoffice firmware-linux libfido2-1 gamemode hyphen-en-us mythes-en-us btrfs-progs gparted ntfs-3g f2fs-tools unrar hplip printer-driver-cups-pdf earlyoom gstreamer1.0-vaapi desmume openjdk-17-jdk zip unzip wget yt-dlp pcsx2 cryptsetup nextcloud-desktop p7zip neofetch zstd zram-tools mpv-mpris strawberry steam-installer firmware-linux telegram-desktop dolphin-emu
 
 	# Enabling services
 	systemctl enable thermald
@@ -130,7 +130,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 	#Install flatpak applications
-	flatpak install -y flathub org.jdownloader.JDownloader org.telegram.desktop org.nicotine_plus.Nicotine com.obsproject.Studio org.DolphinEmu.dolphin-emu sh.ppy.osu com.heroicgameslauncher.hgl 
+	flatpak install -y flathub org.jdownloader.JDownloader org.nicotine_plus.Nicotine com.obsproject.Studio sh.ppy.osu com.heroicgameslauncher.hgl 
 
 	# Installing kde themes
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then 
@@ -167,7 +167,7 @@ EOF
  	apt autoremove --purge -y
 
 	# Clear cache
-	apt clean
+	apt autoclean
 
 else
 	echo "Accepted paramenters:"

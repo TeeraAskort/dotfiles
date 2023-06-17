@@ -109,7 +109,7 @@ EOF
 mkinitcpio -P
 
 # Enabling services
-systemctl enable switcheroo-control nvidia-suspend nvidia-hibernate
+systemctl enable switcheroo-control nvidia-suspend nvidia-hibernate nvidia-resume
 
 # Initialize nvidia before xorg
 cat >/etc/udev/rules.d/99-systemd-dri-devices.rules <<EOF
@@ -306,14 +306,14 @@ title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep module_blacklist=i915 acpi_osi=! acpi_osi="Windows 2015" rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep module_blacklist=i915 acpi_osi=! acpi_osi="Windows 2015" libata.noacpi=1 rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
 linux   /vmlinuz-linux
 initrd  /intel-ucode.img
 initrd  /initramfs-linux-fallback.img
-options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep module_blacklist=i915 acpi_osi=! acpi_osi="Windows 2015" rw
+options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 modprobe.blacklist=nouveau mem_sleep_default=deep module_blacklist=i915 acpi_osi=! acpi_osi="Windows 2015" libata.noacpi=1 rw
 EOF
 bootctl update
 
@@ -442,8 +442,8 @@ EOF
 
 # Auto enable bluetooth on startup
 sed -i "s/#AutoEnable=false/AutoEnable=true/g" /etc/bluetooth/main.conf
-sed -i "s/#Experimental/Experimental/g" /etc/bluetooth/main.conf
-sed -i "s/#KernelExperimental/KernelExperimental/g" /etc/bluetooth/main.conf
+sed -i "s/#Experimental = false/Experimental = true/g" /etc/bluetooth/main.conf
+sed -i "s/#KernelExperimental = false/KernelExperimental = true/g" /etc/bluetooth/main.conf
 
 # Blacklist nvidiafb module
 echo "blacklist nvidiafb" | tee /etc/modprobe.d/blacklist-nvidiafb.conf

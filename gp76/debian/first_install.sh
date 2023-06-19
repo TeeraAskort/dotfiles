@@ -46,6 +46,9 @@ echo "blacklist nvidiafb" | tee /etc/modprobe.d/blacklist-nvidiafb.conf
 cat >/etc/modprobe.d/blacklist.conf <<EOF
 install i915 /usr/bin/false
 install intel_agp /usr/bin/false
+install viafb /usr/bin/false
+install radeon /usr/bin/false
+install amdgpu /usr/bin/false
 EOF
 
 # Copy and enable services

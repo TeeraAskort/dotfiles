@@ -70,7 +70,7 @@ in
     gnome.gnome-boxes appimage-run
     nextcloud-client heroic osu-lazer
     myAspell mythes gimp steam pcsx2 
-    adwaita-qt razergenie piper solaar
+    adwaita-qt 
     gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso 
     firefox
   ];
@@ -102,15 +102,6 @@ in
       };
     })
   ];
-
-  # Enable input-remapper service
-  services.input-remapper.enable = true;
- 
-  # Enable openrazer daemon
-  hardware.openrazer.enable = true;
- 
-  # Enable libratbag daemon
-  services.ratbagd.enable = true;
 
   # Enabling thermald
   services.thermald.enable = true;
@@ -170,9 +161,6 @@ in
 
   # Enable adb service
   programs.adb.enable = true;
-
-  # Enabling docker service
-  virtualisation.docker.enable = true;
 
   # Automatic garbage collection
   nix.gc.automatic = true;
@@ -287,7 +275,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.link  = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "adbusers" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "audio" "networkmanager" "video" "libvirt" "adbusers" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
   };
 
@@ -297,7 +285,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 }
 

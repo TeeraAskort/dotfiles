@@ -190,14 +190,6 @@ in
   security.apparmor.enable = true;
   services.dbus.apparmor = "enabled";
 
-  # PAM FIDO2 support
-  security.pam.u2f.enable = true;
-  security.pam.services = {
-    gdm.u2fAuth = true;
-    sudo.u2fAuth = true;
-    su.u2fAuth = true;
-  };
-
   # Haveged daemon
   services.haveged.enable = true;
 

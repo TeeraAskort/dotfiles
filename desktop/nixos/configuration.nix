@@ -71,7 +71,7 @@ in
     nextcloud-client heroic osu-lazer
     myAspell mythes gimp steam pcsx2 
     adwaita-qt 
-    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso 
+    gnomeExtensions.gsconnect gnomeExtensions.appindicator gnomeExtensions.espresso gnomeExtensions.lock-keys
     firefox
   ];
 
@@ -93,6 +93,11 @@ in
     noto-fonts
     recursive
   ];
+
+  programs.firefox = {
+    enable = true;
+    languagePacks = [ "es-ES" ];
+  };
 
   # MPV overlay
   nixpkgs.overlays = [

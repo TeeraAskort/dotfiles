@@ -339,6 +339,7 @@ in
   environment.gnome.excludePackages = 
     [ pkgs.epiphany pkgs.gnome.gnome-music
       pkgs.gnome.gnome-software pkgs.gnome.totem
+      pkgs.gnome-tour
     ];
 
   # Exclude x11 packages

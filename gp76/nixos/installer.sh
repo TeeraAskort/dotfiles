@@ -89,11 +89,11 @@ if [[ "$1" == "gnome" ]] || [[ "$1" == "plasma" ]] || [[ "$1" == "kde" ]] || [[ 
 	cp $directory/torrent/.torrentkey /mnt
 
 	# Put correct UUID on hardware-configuration.nix
-	uuid=$(blkid -o value -s UUID /dev/$torrentDiskp2)
+	uuid=$(blkid -o value -s UUID /dev/${torrentDisk}p2)
 	sed -i "s/UUIDchangeme/$uuid/g" $directory/hardware-configuration.nix
 
 	# Add boot partition to hardware-config
-	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/$torrentDiskp1)/g" $directory/hardware-configuration.nix
+	sed -i "s/bootChangeme/$(blkid -s UUID -o value /dev/${torrentDisk}p1)/g" $directory/hardware-configuration.nix
 
 	# Add swap partition to hardware-config
 	sed -i "s/swapChangeme/$(blkid -s UUID -o value /dev/lvm/swap)/g" $directory/hardware-configuration.nix

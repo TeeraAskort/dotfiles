@@ -60,7 +60,7 @@ in
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget vim tdesktop lutris wineWowPackages.staging vscode 
-    mpv strawberry gnome.file-roller  
+    mpv pragha gnome.file-roller  
     papirus-icon-theme transmission-gtk
     gnome.aisleriot gnome.gnome-mahjongg gnome.gnome-tweaks 
     git brasero nicotine-plus dolphinEmu

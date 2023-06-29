@@ -330,11 +330,6 @@ until pacman -S --noconfirm libreoffice-fresh libreoffice-fresh-es hunspell-en_U
 	echo "Retrying"
 done
 
-# Installing catalonian dictionary
-until sudo -u aurbuilder yay -S --noconfirm hunspell-ca mythes-ca hyphen-ca; do
-	echo "Retrying"
-done
-
 # Installing multimedia codecs
 until pacman -S --noconfirm gst-plugins-base gst-plugins-good gst-plugins-ugly gst-plugins-bad gst-libav; do
 	echo "Retrying"

@@ -373,9 +373,6 @@ until pacman -S --noconfirm --needed wine-staging giflib lib32-giflib libpng lib
 	echo "Retrying"
 done
 
-# Installing AUR packages
-sudo -u aurbuilder yay -S --noconfirm dxvk-bin # touchegg
-
 # Adding user to plugdev group
 usermod -aG plugdev link
 

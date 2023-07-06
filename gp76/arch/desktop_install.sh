@@ -88,7 +88,7 @@ until pacman -Syu --noconfirm; do
 done
 
 # Installing linux kernel
-until pacman -S --noconfirm linux linux-headers; do
+until pacman -S --noconfirm linux-zen linux-zen-headers; do
 	echo "Retrying"
 done
 
@@ -98,7 +98,7 @@ until pacman -S --noconfirm xorg-server xorg-apps xorg-xrdb; do
 done
 
 # Installing drivers
-until pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia nvidia-utils lib32-nvidia-utils nvidia-settings switcheroo-control; do
+until pacman -S --noconfirm vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa vulkan-intel lib32-vulkan-intel xf86-input-wacom xf86-input-libinput libva-intel-driver intel-media-driver nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings switcheroo-control; do
 	echo "Retrying"
 done
 
@@ -303,16 +303,16 @@ editor   no
 EOF
 cat >/boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
-linux   /vmlinuz-linux
+linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
-initrd  /initramfs-linux.img
+initrd  /initramfs-linux-zen.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 mem_sleep_default=deep modprobe.blacklist=nouveau nouveau.blacklist=1 module_blacklist=i915 acpi_osi=! acpi_osi="Windows 2015" libata.noacpi=1 rw
 EOF
 cat >/boot/loader/entries/arch-fallback.conf <<EOF
 title   Arch Linux Fallback
-linux   /vmlinuz-linux
+linux   /vmlinuz-linux-zen
 initrd  /intel-ucode.img
-initrd  /initramfs-linux-fallback.img
+initrd  /initramfs-linux-zen-fallback.img
 options cryptdevice=/dev/disk/by-uuid/$(blkid -s UUID -o value /dev/${rootDisk}p2):luks:allow-discards root=/dev/lvm/root resume=UUID=$(blkid -s UUID -o value /dev/lvm/swap) apparmor=1 lsm=lockdown,yama,apparmor splash rd.udev.log_priority=3 vt.global_cursor_default=0 kernel.yama.ptrace_scope=2 nvidia_drm.modeset=1 rcutree.rcu_idle_gp_delay=1 mem_sleep_default=deep modprobe.blacklist=nouveau nouveau.blacklist=1 module_blacklist=i915 acpi_osi=! acpi_osi="Windows 2015" libata.noacpi=1 rw
 EOF
 bootctl update
@@ -448,7 +448,7 @@ Operation=Install
 Operation=Upgrade
 Operation=Remove
 Type=Package
-Target=nvidia
+Target=nvidia-dkms
 # Change the linux part above and in the Exec line if a different kernel is used
 
 [Action]

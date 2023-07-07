@@ -158,3 +158,4 @@ user_pref("browser.tabs.firefox-view", false);
 user_pref("browser.tabs.tabmanager.enabled", false);
 user_pref("browser.privatebrowsing.enable-new-indicator", false);
 user_pref("general.platform.override", "Win32");
+user_pref("extensions.quarantinedDomains.enabled", false);

@@ -51,7 +51,7 @@ ln -s $HOME/Torrent/Sync $HOME
 xdg-user-dirs-update --set DESKTOP $HOME/Torrent/Escritorio
 xdg-user-dirs-update --set DOCUMENTS $HOME/Torrent/Documentos
 xdg-user-dirs-update --set DOWNLOAD $HOME/Torrent/Descargas
-xdg-user-dirs-update --set MUSIC $HOME/Torrent/Música
+xdg-user-dirs-update --set MUSIC $HOME/Datos/Música
 xdg-user-dirs-update --set PICTURES $HOME/Torrent/Imágenes
 
 ## Installing vim plugins

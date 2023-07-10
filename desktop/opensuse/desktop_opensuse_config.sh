@@ -55,7 +55,6 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	# Installing codecs
 	zypper in -y --from packman --allow-vendor-change ffmpeg gstreamer-plugins-bad gstreamer-plugins-libav gstreamer-plugins-ugly libavcodec-full vlc-codecs gstreamer-plugins-bad-codecs gstreamer-plugins-ugly-codecs gstreamer-plugins-good gstreamer-plugins-good-extra
 
-
 	# Installing discord from games:tools repo
 	zypper in -y --from 'Tools for Gamers (openSUSE_Tumbleweed)' --allow-vendor-change protontricks gamemoded
 	
@@ -63,7 +62,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 	zypper in -y --force-resolution pipewire-pulseaudio pipewire-alsa pipewire-aptx pipewire-libjack-0_3 pipewire wireplumber
 
 	# Installing basic packages
-	zypper in -y --force-resolution chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp libasound2.x86_64 systemd-zram-service 7zip aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs zpaq strawberry nextcloud-desktop zstd mpv mpv-mpris # docker docker-compose docker-compose-switch
+	zypper in -y --force-resolution chromium steam lutris papirus-icon-theme vim zsh zsh-syntax-highlighting zsh-autosuggestions flatpak thermald nodejs npm python39-neovim neovim noto-sans-cjk-fonts noto-coloremoji-fonts code earlyoom desmume zip gimp flatpak-zsh-completion zsh-completions neofetch cryptsetup yt-dlp libasound2.x86_64 systemd-zram-service 7zip aspell-ca aspell-es aspell-en libmythes-1_2-0 myspell-ca_ES_valencia myspell-es_ES myspell-en_US obs-studio android-tools btrfsprogs exfat-utils f2fs-tools ntfs-3g gparted xfsprogs zpaq nextcloud-desktop zstd mpv mpv-mpris # docker docker-compose docker-compose-switch
 
 	# Enabling thermald service
 	systemctl enable thermald earlyoom # docker
@@ -89,7 +88,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 
 	if [ "$1" == "kde" ] || [ "$1" == "plasma" ]; then
 		# Installing DE specific applications
-		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird filelight ksshaskpass5 gnome-boxes simple-scan nextcloud-desktop-dolphin
+		zypper in -y qbittorrent kdeconnect-kde palapeli gnome-keyring pam_kwallet gnome-keyring-pam k3b kio_audiocd MozillaThunderbird filelight ksshaskpass5 gnome-boxes simple-scan nextcloud-desktop-dolphin strawberry
 
 		# Removing unwanted DE specific applications
 		zypper rm -y  konversation kmines ksudoku kreversi skanlite
@@ -125,7 +124,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper rm -y gnome-music totem lightsoff quadrapassel gnome-chess gnome-mines polari pidgin iagno swell-foop gnome-sudoku xscreensaver xscreensaver-data gedit
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse touchegg nautilus-extension-nextcloud gnome-text-editor
+		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform-qt5 QGnomePlatform-qt6 aisleriot ffmpegthumbnailer webp-pixbuf-loader gnome-boxes evince-plugin-comicsdocument evince-plugin-djvudocument evince-plugin-dvidocument evince-plugin-pdfdocument evince-plugin-psdocument evince-plugin-tiffdocument evince-plugin-xpsdocument power-profiles-daemon simple-scan seahorse touchegg nautilus-extension-nextcloud gnome-text-editor pragha
 
 		# Adding gnome theming to qt
 		echo "QT_QPA_PLATFORMTHEME='gnome'" | tee -a /etc/environment
@@ -144,7 +143,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper rm -y hexchat rhythmbox xed
 
 		# Installing DE specific applications
-		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg transmission-gtk gedit file-roller gvfs gvfs-backends gvfs-backend-samba libgepub-0_6-0 libgsf-1-114 libopenraw1 gnome-sound-recorder nemo-extension-nextcloud nemo-extension-fileroller nemo-extension-preview nemo-extension-share nemo-extension-image-converter books gnome-disk-utility lightdm-slick-greeter brasero geary 
+		zypper in -y adwaita-qt5 adwaita-qt6 QGnomePlatform aisleriot ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg transmission-gtk gedit file-roller gvfs gvfs-backends gvfs-backend-samba libgepub-0_6-0 libgsf-1-114 libopenraw1 gnome-sound-recorder nemo-extension-nextcloud nemo-extension-fileroller nemo-extension-preview nemo-extension-share nemo-extension-image-converter books gnome-disk-utility lightdm-slick-greeter brasero geary pragha
 
 		# Adding gnome theming to qt
 		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment
@@ -154,7 +153,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ] || [ "$1" == "plasma" ] || [ "$1" ==
 		zypper rm -y blueman parole pidgin remmina pragha
 
 		# Installing DE specific applications
-		zypper in -y xcape playerctl transmission-gtk gvfs gvfs-backends gvfs-backend-samba gvfs-fuse ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg adwaita-qt5 QGnomePlatform aisleriot libgepub-0_6-0 libgsf-1-114 libopenraw1 brasero pavucontrol xarchiver blueberry evince gnome-keyring-pam gnome-keyring 
+		zypper in -y xcape playerctl transmission-gtk gvfs gvfs-backends gvfs-backend-samba gvfs-fuse ffmpegthumbnailer webp-pixbuf-loader tilix gnome-mahjongg adwaita-qt5 QGnomePlatform aisleriot libgepub-0_6-0 libgsf-1-114 libopenraw1 brasero pavucontrol xarchiver blueberry evince gnome-keyring-pam gnome-keyring pragha
 
 		# Adding gnome theming to qt
 		echo "QT_STYLE_OVERRIDE=adwaita-dark" | tee -a /etc/environment

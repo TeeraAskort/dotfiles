@@ -30,6 +30,19 @@ Wants=dev-dri-card0.device
 After=dev-dri-card0.device
 EOF
 
+# Initialize nvidia before xorg
+cat >/etc/udev/rules.d/99-systemd-dri-devices.rules <<EOF
+ACTION=="add", KERNEL=="card*", SUBSYSTEM=="drm", TAG+="systemd"
+EOF
+
+mkdir /etc/systemd/system/display-manager.service.d
+
+cat >/etc/systemd/system/display-manager.service.d/10-wait-for-dri-devices.conf <<EOF
+[Unit]
+Wants=dev-dri-card0.device
+After=dev-dri-card0.device
+EOF
+
 # Blacklist nvidiafb module
 echo "blacklist nvidiafb" | tee /etc/modprobe.d/blacklist-nvidiafb.conf
 
@@ -45,7 +58,7 @@ install amdgpu /usr/bin/false
 EOF
 
 ## Disabling sleep2idle
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 module_blacklist=i915 acpi_osi=! acpi_osi=\\"Windows 2015\\" mem_sleep_default=deep "/' /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 module_blacklist=i915 acpi_osi=! acpi_osi=\\"Windows 2015\\" mem_sleep_default=deep modprobe.blacklist=nouveau nouveau.blacklist=1 libata.noacpi=1"/' /etc/default/grub
 update-bootloader --refresh
 
 echo "Nvidia drivers installed, reboot the computer"

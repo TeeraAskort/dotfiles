@@ -45,7 +45,7 @@ install amdgpu /usr/bin/false
 EOF
 
 ## Disabling sleep2idle
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 module_blacklist=i915 acpi_osi=! acpi_osi=\\"Windows 2015\\" libata.noacpi=1 mem_sleep_default=deep "/' /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 module_blacklist=i915 acpi_osi=! acpi_osi=\\"Windows 2015\\" mem_sleep_default=deep "/' /etc/default/grub
 update-bootloader --refresh
 
 echo "Nvidia drivers installed, reboot the computer"

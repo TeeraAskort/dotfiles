@@ -60,7 +60,7 @@ sed -i "s/#KernelExperimental = false/KernelExperimental = true/g" /etc/bluetoot
 # Set kernel parameters
 grubby --args="module_blacklist=i915" --update-kernel=ALL
 grubby --args="acpi_osi=!" --update-kernel=ALL
-grubby --args='acpi_osi="Windows 2015"' --update-kernel=ALL
+grubby --args='acpi_osi=\\"Windows 2015\\"' --update-kernel=ALL
 grubby --args="mem_sleep_default=deep" --update-kernel=ALL
 grubby --args="modprobe.blacklist=nouveau" --update-kernel=ALL
 grubby --args="nouveau.blacklist=1" --update-kernel=ALL

@@ -58,13 +58,7 @@ sed -i "s/#Experimental = false/Experimental = true/g" /etc/bluetooth/main.conf
 sed -i "s/#KernelExperimental = false/KernelExperimental = true/g" /etc/bluetooth/main.conf
 
 # Set kernel parameters
-grubby --args="module_blacklist=i915" --update-kernel=ALL
-grubby --args="acpi_osi=!" --update-kernel=ALL
-grubby --args='acpi_osi=\\"Windows 2015\\"' --update-kernel=ALL
-grubby --args="mem_sleep_default=deep" --update-kernel=ALL
-grubby --args="modprobe.blacklist=nouveau" --update-kernel=ALL
-grubby --args="nouveau.blacklist=1" --update-kernel=ALL
-grubby --args="libata.noacpi=1" --update-kernel=ALL
+grubby --args="module_blacklist=i915 acpi_osi=! acpi_osi='Windows 2015' mem_sleep_default=deep nouveau.blacklist=1 libata.noacpi=1" --update-kernel=ALL
 
 # Disable wayland
 if [ -e "/usr/bin/gnome-session" ]; then 

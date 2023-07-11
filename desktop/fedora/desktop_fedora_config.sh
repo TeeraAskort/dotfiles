@@ -32,7 +32,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	dnf config-manager --add-repo https://download.opensuse.org/repositories/hardware:razer/Fedora_37/hardware:razer.repo
 
 	# Input remapper copr repo
-	dnf copr enable sunwire/input-remapper -y
+	# dnf copr enable sunwire/input-remapper -y
 
 	# Heroic games launcher repo
 	dnf copr enable atim/heroic-games-launcher -y
@@ -60,7 +60,7 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 	dnf groupinstall "Development Tools" -y
 
 	#Install required packages
-	dnf install -y --allowerasing vim lutris steam flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks dolphin-emu zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code thermald python-neovim libfido2 strawberry mednafen mednaffe webp-pixbuf-loader desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ yt-dlp p7zip razergenie openrazer-meta nextcloud-client chromium sqlite hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools piper redhat-lsb-core solaar zpaq python3-input-remapper heroic-games-launcher-bin lm_sensors mpv mpv-mpris zstd openssl fontconfig-font-replacements fontconfig-enhanced-defaults
+	dnf install -y --allowerasing vim lutris steam flatpak zsh zsh-syntax-highlighting papirus-icon-theme wine winetricks dolphin-emu zsh-autosuggestions google-noto-cjk-fonts google-noto-emoji-color-fonts google-noto-emoji-fonts nodejs npm code thermald python-neovim libfido2 pragha mednafen mednaffe webp-pixbuf-loader desmume unrar gimp protontricks java-11-openjdk-devel ffmpeg pcsx2 neofetch unzip zip cryptsetup alsa-plugins-pulseaudio.x86_64 alsa-lib-devel.x86_64 nicotine+ yt-dlp p7zip nextcloud-client chromium sqlite hunspell-ca hunspell-es-ES mythes-ca mythes-es mythes-en hyphen-es hyphen-ca hyphen-en aspell-ca aspell-es aspell-en android-tools redhat-lsb-core zpaq heroic-games-launcher-bin lm_sensors mpv mpv-mpris zstd openssl fontconfig-font-replacements fontconfig-enhanced-defaults
 
 	# Installing computer specific packages
 	dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld
@@ -74,11 +74,11 @@ if [ "$1" == "gnome" ] || [ "$1" == "kde" ]; then
 
 	# Enabling services
 	user="$SUDO_USER"
-	systemctl enable thermald input-remapper 
+	systemctl enable thermald 
 
 	# Adding user to plugdev group
-	user="$SUDO_USER"
-	usermod -aG plugdev $user
+	# user="$SUDO_USER"
+	# usermod -aG plugdev $user
 
 	# Adding user to docker group
 	# user="$SUDO_USER"

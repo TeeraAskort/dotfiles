@@ -15,6 +15,6 @@ dnf in -y rpmfusion-free-release-tainted rpmfusion-nonfree-release-tainted
 dnf in -y dnf-plugins-core
 
 # Disable wayland
-# if [ -e "/usr/bin/gnome-session" ]; then 
-#	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
-# fi
+if [ -e "/usr/bin/gnome-session" ]; then 
+	sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
+fi

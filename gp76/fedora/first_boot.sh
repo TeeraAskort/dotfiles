@@ -16,11 +16,7 @@ dnf in -y dnf-plugins-core
 
 # Install nvidia drivers
 dnf install -y akmod-nvidia xorg-x11-drv-nvidia-cuda nvidia-vaapi-driver
-cat > /etc/modprobe.d/nvidia.conf <<EOF
-# Enable DynamicPwerManagement
-# http://download.nvidia.com/XFree86/Linux-x86_64/440.31/README/dynamicpowermanagement.html
-options nvidia NVreg_DynamicPowerManagement=0x02
-EOF
+
 
 cat > /lib/udev/rules.d/80-nvidia-pm.rules <<EOF
 # Enable runtime PM for NVIDIA VGA/3D controller devices on driver bind
@@ -40,6 +36,35 @@ cat > /etc/modprobe.d/nvidia-power-management.conf <<EOF
 options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
 EOF
 dracut -f
+
+# Initialize nvidia before xorg
+cat >/etc/udev/rules.d/99-systemd-dri-devices.rules <<EOF
+ACTION=="add", KERNEL=="card*", SUBSYSTEM=="drm", TAG+="systemd"
+EOF
+
+mkdir /etc/systemd/system/display-manager.service.d
+
+cat >/etc/systemd/system/display-manager.service.d/10-wait-for-dri-devices.conf <<EOF
+[Unit]
+Wants=dev-dri-card0.device
+After=dev-dri-card0.device
+EOF
+
+# Blacklist nvidiafb module
+echo "blacklist nvidiafb" | tee /etc/modprobe.d/blacklist-nvidiafb.conf
+
+# Set bluetooth settings
+sed -i "s/#Experimental = false/Experimental = true/g" /etc/bluetooth/main.conf
+sed -i "s/#KernelExperimental = false/KernelExperimental = true/g" /etc/bluetooth/main.conf
+
+# Set kernel parameters
+grubby --args="module_blacklist=i915" --update-kernel=ALL
+grubby --args="acpi_osi=!" --update-kernel=ALL
+grubby --args='acpi_osi="Windows 2015"' --update-kernel=ALL
+grubby --args="mem_sleep_default=deep" --update-kernel=ALL
+grubby --args="modprobe.blacklist=nouveau" --update-kernel=ALL
+grubby --args="nouveau.blacklist=1" --update-kernel=ALL
+grubby --args="libata.noacpi=1" --update-kernel=ALL
 
 # Disable wayland
 if [ -e "/usr/bin/gnome-session" ]; then 

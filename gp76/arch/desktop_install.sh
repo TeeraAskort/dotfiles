@@ -56,10 +56,10 @@ pacman-key --lsign-key 3056513887B78AEB
 pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
 # Adding home OBS repo
-# cat >>/etc/pacman.conf <<EOF
-# [chaotic-aur]
-# Include = /etc/pacman.d/chaotic-mirrorlist
-# EOF
+cat >>/etc/pacman.conf <<EOF
+[chaotic-aur]
+Include = /etc/pacman.d/chaotic-mirrorlist
+EOF
 
 # Downloading the chaotic-aur mirrorlist
 # until curl -L "https://aur.chaotic.cx/mirrorlist.txt" >/etc/pacman.d/chaotic-mirrorlist; do

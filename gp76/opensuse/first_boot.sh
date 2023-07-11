@@ -46,6 +46,6 @@ EOF
 
 ## Disabling sleep2idle
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="\(.*\)"/GRUB_CMDLINE_LINUX_DEFAULT="\1 module_blacklist=i915 acpi_osi=! acpi_osi=\\"Windows 2015\\" mem_sleep_default=deep modprobe.blacklist=nouveau nouveau.blacklist=1 libata.noacpi=1"/' /etc/default/grub
-update-bootloader --refresh
+grub2-mkconfig -o /boot/grub2/grub.cfg
 
 echo "Nvidia drivers installed, reboot the computer"

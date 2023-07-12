@@ -7,7 +7,7 @@ zypper addrepo https://download.nvidia.com/opensuse/tumbleweed NVIDIA
 zypper --gpg-auto-import-keys refresh
 
 # Install nvidia drivers
-zypper in --auto-agree-with-licenses -y x11-video-nvidiaG06
+zypper in --auto-agree-with-licenses -y nvidia-video-G06 nvidia-video-G06-32bit nvidia-gl-G06 nvidia-gl-G06-32bit nvidia-compute-G06 nvidia-compute-G06-32bit nvidia-compute-utils-G06 
 
 # Enabling services
 systemctl enable nvidia-suspend nvidia-hibernate nvidia-resume
